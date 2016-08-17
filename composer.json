@@ -1,0 +1,26 @@
+{
+    "name": "risingsun/framework",
+    "description": "An east oriented web framework for PHP.",
+    "type": "project",
+    "license": "BSD-2-Clause",
+    "authors": [
+        {
+            "name": "Frédéric Hardy",
+            "email": "frederic.hardy@mageekbox.net"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require-dev": {
+        "atoum/atoum": "@dev"
+    },
+    "autoload": {
+        "psr-4": {
+            "estvoyage\\risingsun\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "estvoyage\\risingsun\\tests\\units\\": "tests/units"
+        }
+    }
+}
