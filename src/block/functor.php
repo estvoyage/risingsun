@@ -3,12 +3,14 @@
 namespace estvoyage\risingsun\block;
 
 use
-	estvoyage\risingsun\block
+	estvoyage\risingsun\block,
+	estvoyage\risingsun\iterator
 ;
 
 class functor
 	implements
-		block
+		block,
+		iterator\payload
 {
 	private
 		$callable
@@ -24,5 +26,10 @@ class functor
 		call_user_func_array($this->callable, $arguments);
 
 		return $this;
+	}
+
+	function currentValueOfIteratorIs(iterator $iterator, $value)
+	{
+		$this->blockArgumentsAre($iterator, $value);
 	}
 }

@@ -14,6 +14,7 @@ class functor extends units\test
 	{
 		$this->testedClass
 			->implements('estvoyage\risingsun\block')
+			->implements('estvoyage\risingsun\iterator\payload')
 		;
 	}
 
