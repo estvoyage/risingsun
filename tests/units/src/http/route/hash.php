@@ -23,31 +23,31 @@ class hash extends units\test
 	{
 		$this
 			->given(
-				$routeIterator = new mockOfHttp\route\iterator,
+				$routeAggregator = new mockOfHttp\route\aggregator,
 				$route = new mockOfHttp\route
 			)
 			->if(
-				$this->newTestedInstance($routeIterator, $route)
+				$this->newTestedInstance($routeAggregator, $route)
 			)
 			->then
-				->mock($routeIterator)
-					->receive('recipientOfRouteIteratorWithRouteIs')
+				->mock($routeAggregator)
+					->receive('recipientOfRouteAggregatorWithRouteIs')
 						->withIdenticalArguments($route, $this->testedInstance)
 							->once
 
 			->given(
-				$routeIterator = new mockOfHttp\route\iterator,
+				$routeAggregator = new mockOfHttp\route\aggregator,
 				$hashKey = new risingsun\hash\key(uniqid())
 			)
 			->if(
 				$this->calling($route)->recipientOfHashKeyIs = function($hashKeyRecipient) use ($hashKey) {
 					$hashKeyRecipient->hashKeyIs($hashKey);
 				},
-				$this->newTestedInstance($routeIterator, $route)
+				$this->newTestedInstance($routeAggregator, $route)
 			)
 			->then
-				->mock($routeIterator)
-					->receive('recipientOfRouteIteratorWithRouteIs')
+				->mock($routeAggregator)
+					->receive('recipientOfRouteAggregatorWithRouteIs')
 						->never
 		;
 	}
@@ -56,17 +56,17 @@ class hash extends units\test
 	{
 		$this
 			->given(
-				$routeIterator = new mockOfHttp\route\iterator,
+				$routeAggregator = new mockOfHttp\route\aggregator,
 				$controller = new mockOfHttp\route\controller,
 				$request = new mockOfHttp\request
 			)
 			->if(
-				$this->newTestedInstance($routeIterator)
+				$this->newTestedInstance($routeAggregator)
 			)
 			->then
 				->object($this->testedInstance->httpRouteControllerHasRequest($controller, $request))
-					->isEqualTo($this->newTestedInstance($routeIterator))
-				->mock($routeIterator)
+					->isEqualTo($this->newTestedInstance($routeAggregator))
+				->mock($routeAggregator)
 					->receive('httpRouteControllerHasRequest')
 						->withIdenticalArguments($controller, $request)
 							->once
@@ -90,11 +90,11 @@ class hash extends units\test
 				$this->calling($request)->recipientOfHashKeyIs = function($hashKeyRecipient) use ($hashKey) {
 					$hashKeyRecipient->hashKeyIs($hashKey);
 				},
-				$this->newTestedInstance($routeIterator, $route)
+				$this->newTestedInstance($routeAggregator, $route)
 			)
 			->then
 				->object($this->testedInstance->httpRouteControllerHasRequest($controller, $request))
-					->isEqualTo($this->newTestedInstance($routeIterator, $route))
+					->isEqualTo($this->newTestedInstance($routeAggregator, $route))
 				->mock($controller)
 					->receive('httpResponseIs')
 						->withIdenticalArguments($response)
@@ -106,15 +106,15 @@ class hash extends units\test
 	{
 		$this
 			->given(
-				$routeIterator = new mockOfHttp\route\iterator,
+				$routeAggregator = new mockOfHttp\route\aggregator,
 				$recipient = new mockOfHash\key\recipient
 			)
 			->if(
-				$this->newTestedInstance($routeIterator)
+				$this->newTestedInstance($routeAggregator)
 			)
 			->then
 				->object($this->testedInstance->recipientOfHashKeyIs($recipient))
-					->isEqualTo($this->newTestedInstance($routeIterator))
+					->isEqualTo($this->newTestedInstance($routeAggregator))
 		;
 	}
 
@@ -125,28 +125,28 @@ class hash extends units\test
 				$key = new risingsun\hash\key(uniqid())
 			)
 			->if(
-				$this->newTestedInstance(new mockOfHttp\route\iterator)
+				$this->newTestedInstance(new mockOfHttp\route\aggregator)
 			)
 			->then
 				->object($this->testedInstance->hashKeyIs($key))
-					->isEqualTo($this->newTestedInstance(new mockOfHttp\route\iterator))
+					->isEqualTo($this->newTestedInstance(new mockOfHttp\route\aggregator))
 		;
 	}
 
-	function testHttpRouteIteratorIs()
+	function testHttpRouteAggregatorIs()
 	{
 		$this
 			->given(
-				$iterator = new mockOfHttp\route\iterator,
-				$otherIterator = new mockOfHttp\route\iterator,
-				$otherIterator->id = uniqid()
+				$aggregator = new mockOfHttp\route\aggregator,
+				$otherAggregator = new mockOfHttp\route\aggregator,
+				$otherAggregator->id = uniqid()
 			)
 			->if(
-				$this->newTestedInstance($iterator)
+				$this->newTestedInstance($aggregator)
 			)
 			->then
-				->object($this->testedInstance->httpRouteIteratorIs($otherIterator))
-					->isEqualTo($this->newTestedInstance($iterator))
+				->object($this->testedInstance->httpRouteAggregatorIs($otherAggregator))
+					->isEqualTo($this->newTestedInstance($aggregator))
 		;
 	}
 }

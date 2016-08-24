@@ -9,24 +9,24 @@ use
 class hash
 	implements
 		http\route,
-		http\route\iterator\recipient,
+		http\route\aggregator\recipient,
 		risingsun\hash\key\recipient
 {
 	private
 		$routes,
-		$routeIterator,
+		$routeAggregator,
 		$hashKeyHandler,
 		$noHashKeyHandler,
-		$routeIteratorHandler,
+		$routeAggregatorHandler,
 		$routeNotIndexedHandler
 	;
 
-	function __construct(http\route\iterator $routeIterator, http\route... $routes)
+	function __construct(http\route\aggregator $routeAggregator, http\route... $routes)
 	{
-		$this->routeIterator = $routeIterator;
+		$this->routeAggregator = $routeAggregator;
 
 		(new risingsun\iterator(... $routes))
-			->iteratorPayloadIs(new block\functor(function($iterator, $route) {
+			->iteratorPayloadIs(new block\functor(function($aggregator, $route) {
 						$this->hashKeyHandler = new block\functor(function($key) use ($route) {
 								$this->routes[(string) $key] = $route;
 
@@ -36,12 +36,12 @@ class hash
 						);
 
 						$this->noHashKeyHandler = new block\functor(function() use ($route) {
-								$this->routeIterator->recipientOfRouteIteratorWithRouteIs($route, $this);
+								$this->routeAggregator->recipientOfRouteAggregatorWithRouteIs($route, $this);
 							}
 						);
 
-						$this->routeIteratorHandler = new block\functor(function($iterator) {
-								$this->routeIterator = $iterator;
+						$this->routeAggregatorHandler = new block\functor(function($aggregator) {
+								$this->routeAggregator = $aggregator;
 							}
 						);
 
@@ -56,7 +56,7 @@ class hash
 		$this->hashKeyHandler
 			= $this->noHashKeyHandler
 				= $this->routeNotIndexedHandler
-					= $this->routeIteratorHandler
+					= $this->routeAggregatorHandler
 						= new risingsun\blackhole
 		;
 	}
@@ -78,7 +78,7 @@ class hash
 		);
 
 		$_this->routeNotIndexedHandler = new block\functor(function() use ($_this, $controller, $request) {
-				$_this->routeIterator->httpRouteControllerHasRequest($controller, $request);
+				$_this->routeAggregator->httpRouteControllerHasRequest($controller, $request);
 			}
 		);
 
@@ -101,9 +101,9 @@ class hash
 		return $this;
 	}
 
-	function httpRouteIteratorIs(http\route\iterator $iterator)
+	function httpRouteAggregatorIs(http\route\aggregator $aggregator)
 	{
-		$this->routeIteratorHandler->blockArgumentsAre($iterator);
+		$this->routeAggregatorHandler->blockArgumentsAre($aggregator);
 
 		return $this;
 	}
