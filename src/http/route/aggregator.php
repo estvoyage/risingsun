@@ -7,5 +7,4 @@ use
 interface aggregator extends http\route
 {
 	function recipientOfRouteAggregatorWithRouteIs(http\route $route, http\route\aggregator\recipient $recipient);
-
 }

@@ -4,7 +4,8 @@ use
 	estvoyage\risingsun,
 	estvoyage\risingsun\hash,
 	estvoyage\risingsun\http,
-	estvoyage\risingsun\block
+	estvoyage\risingsun\block,
+	estvoyage\risingsun\oboolean
 ;
 
 class fifo
@@ -15,25 +16,19 @@ class fifo
 	private
 		$routes,
 		$iterator,
-		$responseHandler
+		$controller
 	;
 
 	function __construct(http\route... $routes)
 	{
 		$this->routes = new risingsun\iterator(... $routes);
-		$this->responseHandler = new risingsun\blackhole;
 	}
 
 	function httpRouteControllerHasRequest(http\route\controller $controller, http\request $request)
 	{
 		$_this = clone $this;
 
-		$_this->responseHandler = new block\functor(function($response) use ($_this, $controller) {
-				$_this->iterator->nextIteratorValuesAreUseless();
-
-				$controller->httpResponseIs($response);
-			}
-		);
+		$_this->controller = $controller;
 
 		$_this->routes
 			->iteratorPayloadIs(
@@ -50,14 +45,26 @@ class fifo
 		return $this;
 	}
 
-	function recipientOfHashKeyIs(hash\key\recipient $recipient)
+	function recipientOfHashKeyIs(http\route\hash\key\recipient $recipient)
 	{
 		return $this;
 	}
 
 	function httpResponseIs(http\response $response)
 	{
-		$this->responseHandler->blockArgumentsAre($response);
+		oboolean::isNotNull($this->controller, $this->iterator)
+			->ifTrue(
+				new block\functor(
+					function() use ($response) {
+						$this->iterator->nextIteratorValuesAreUseless();
+
+						$this->controller->httpResponseIs($response);
+
+						$this->controller = null;
+					}
+				)
+			)
+		;
 
 		return $this;
 	}

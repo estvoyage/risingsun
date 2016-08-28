@@ -15,7 +15,6 @@ class hash extends units\test
 	{
 		$this->testedClass
 			->implements('estvoyage\risingsun\http\route')
-			->implements('estvoyage\risingsun\hash\key\recipient')
 		;
 	}
 
@@ -41,7 +40,7 @@ class hash extends units\test
 			)
 			->if(
 				$this->calling($route)->recipientOfHashKeyIs = function($hashKeyRecipient) use ($hashKey) {
-					$hashKeyRecipient->hashKeyIs($hashKey);
+					$hashKeyRecipient->httpRouteHasKey($hashKey);
 				},
 				$this->newTestedInstance($routeAggregator, $route)
 			)
@@ -85,10 +84,10 @@ class hash extends units\test
 
 				$hashKey = new risingsun\hash\key(uniqid()),
 				$this->calling($route)->recipientOfHashKeyIs = function($hashKeyRecipient) use ($hashKey) {
-					$hashKeyRecipient->hashKeyIs($hashKey);
+					$hashKeyRecipient->httpRouteHasKey($hashKey);
 				},
 				$this->calling($request)->recipientOfHashKeyIs = function($hashKeyRecipient) use ($hashKey) {
-					$hashKeyRecipient->hashKeyIs($hashKey);
+					$hashKeyRecipient->httpRequestHasKey($hashKey);
 				},
 				$this->newTestedInstance($routeAggregator, $route)
 			)
@@ -107,7 +106,7 @@ class hash extends units\test
 		$this
 			->given(
 				$routeAggregator = new mockOfHttp\route\aggregator,
-				$recipient = new mockOfHash\key\recipient
+				$recipient = new mockOfHttp\route\hash\key\recipient
 			)
 			->if(
 				$this->newTestedInstance($routeAggregator)
@@ -115,21 +114,6 @@ class hash extends units\test
 			->then
 				->object($this->testedInstance->recipientOfHashKeyIs($recipient))
 					->isEqualTo($this->newTestedInstance($routeAggregator))
-		;
-	}
-
-	function testHashKeyIs()
-	{
-		$this
-			->given(
-				$key = new risingsun\hash\key(uniqid())
-			)
-			->if(
-				$this->newTestedInstance(new mockOfHttp\route\aggregator)
-			)
-			->then
-				->object($this->testedInstance->hashKeyIs($key))
-					->isEqualTo($this->newTestedInstance(new mockOfHttp\route\aggregator))
 		;
 	}
 

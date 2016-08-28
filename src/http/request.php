@@ -6,5 +6,5 @@ use
 
 interface request
 {
-	function recipientOfHashKeyIs(hash\key\recipient $recipient);
+	function recipientOfHashKeyIs(request\hash\key\recipient $recipient);
 }

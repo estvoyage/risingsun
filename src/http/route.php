@@ -7,5 +7,5 @@ use
 interface route
 {
 	function httpRouteControllerHasRequest(route\controller $controller, request $request);
-	function recipientOfHashKeyIs(hash\key\recipient $recipient);
+	function recipientOfHashKeyIs(route\hash\key\recipient $recipient);
 }

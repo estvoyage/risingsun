@@ -71,7 +71,7 @@ class fifo extends units\test
 	{
 		$this
 			->given(
-				$recipient = new mockOfHash\key\recipient
+				$recipient = new mockOfHttp\route\hash\key\recipient
 			)
 			->if(
 				$this->newTestedInstance

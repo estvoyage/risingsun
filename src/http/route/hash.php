@@ -3,108 +3,159 @@
 use
 	estvoyage\risingsun,
 	estvoyage\risingsun\http,
-	estvoyage\risingsun\block
+	estvoyage\risingsun\block,
+	estvoyage\risingsun\oboolean
 ;
 
 class hash
 	implements
 		http\route,
+		http\route\hash\key\recipient,
 		http\route\aggregator\recipient,
-		risingsun\hash\key\recipient
+		http\request\hash\key\recipient,
+		risingsun\hash\recipient,
+		risingsun\hash\value\recipient
 {
 	private
-		$routes,
+		$routeHash,
 		$routeAggregator,
-		$hashKeyHandler,
-		$noHashKeyHandler,
-		$routeAggregatorHandler,
-		$routeNotIndexedHandler
+		$route,
+		$controller,
+		$request
 	;
 
 	function __construct(http\route\aggregator $routeAggregator, http\route... $routes)
 	{
+		$this->routeHash = new risingsun\hash\map;
 		$this->routeAggregator = $routeAggregator;
 
 		(new risingsun\iterator(... $routes))
-			->iteratorPayloadIs(new block\functor(function($aggregator, $route) {
-						$this->hashKeyHandler = new block\functor(function($key) use ($route) {
-								$this->routes[(string) $key] = $route;
+			->iteratorPayloadIs(
+				new block\functor(
+					function($aggregator, $route) {
+						$this->route = $route;
 
-								$this->noHashKeyHandler = new risingsun\blackhole;
+						$this->route->recipientOfHashKeyIs($this);
 
-							}
-						);
-
-						$this->noHashKeyHandler = new block\functor(function() use ($route) {
-								$this->routeAggregator->recipientOfRouteAggregatorWithRouteIs($route, $this);
-							}
-						);
-
-						$this->routeAggregatorHandler = new block\functor(function($aggregator) {
-								$this->routeAggregator = $aggregator;
-							}
-						);
-
-						$route->recipientOfHashKeyIs($this);
-
-						$this->noHashKeyHandler->blockArgumentsAre();
+						oboolean::isNotNull($this->route)
+							->ifTrue(
+								new block\functor(
+									function() {
+										$this->routeAggregator->recipientOfRouteAggregatorWithRouteIs($this->route, $this);
+									}
+								)
+							)
+						;
 					}
 				)
 			)
 		;
 
-		$this->hashKeyHandler
-			= $this->noHashKeyHandler
-				= $this->routeNotIndexedHandler
-					= $this->routeAggregatorHandler
-						= new risingsun\blackhole
-		;
+		$this->routeShouldBeNull();
 	}
 
 	function httpRouteControllerHasRequest(http\route\controller $controller, http\request $request)
 	{
 		$_this = clone $this;
 
-		$_this->hashKeyHandler = new block\functor(function($key) use ($_this, $controller, $request) {
-				$key = (string) $key;
-
-				if (isset($_this->routes[$key]))
-				{
-					$_this->routeNotIndexedHandler = new risingsun\blackhole;
-
-					$_this->routes[$key]->httpRouteControllerHasRequest($controller, $request);
-				}
-			}
-		);
-
-		$_this->routeNotIndexedHandler = new block\functor(function() use ($_this, $controller, $request) {
-				$_this->routeAggregator->httpRouteControllerHasRequest($controller, $request);
-			}
-		);
+		$_this->controller = $controller;
+		$_this->request = $request;
 
 		$request->recipientOfHashKeyIs($_this);
 
-		$_this->routeNotIndexedHandler->blockArgumentsAre();
+		oboolean::isNotNull($_this->controller, $_this->request)
+			->ifTrue(
+				new block\functor(
+					function() use ($_this) {
+						$_this->routeAggregator->httpRouteControllerHasRequest($_this->controller, $_this->request);
+					}
+				)
+			)
+		;
 
 		return $this;
 	}
 
-	function recipientOfHashKeyIs(risingsun\hash\key\recipient $recipient)
+	function recipientOfHashKeyIs(http\route\hash\key\recipient $recipient)
 	{
 		return $this;
 	}
 
-	function hashKeyIs(risingsun\hash\key $key)
+	function httpRouteHasKey(risingsun\hash\key $key)
 	{
-		$this->hashKeyHandler->blockArgumentsAre($key);
+		oboolean::isNotNull($this->route)
+			->ifTrue(
+				new block\functor(
+					function() use ($key) {
+						$this->routeHash->recipientOfHashWithValueIs(new risingsun\hash\value\withKey($this->route, $key), $this);
 
-		return $this;
+						$this->routeShouldBeNull();
+					}
+				)
+			)
+		;
+	}
+
+	function httpRequestHasKey(risingsun\hash\key $key)
+	{
+		oboolean::isNotNull($this->request)
+			->ifTrue(
+				new block\functor(
+					function() use ($key) {
+						$this->routeHash->recipientOfHashValueAtKeyIs($key, $this);
+					}
+				)
+			)
+		;
 	}
 
 	function httpRouteAggregatorIs(http\route\aggregator $aggregator)
 	{
-		$this->routeAggregatorHandler->blockArgumentsAre($aggregator);
+		oboolean::isNotNull($this->route)
+			->ifTrue(
+				new block\functor(
+					function() use ($aggregator) {
+						$this->routeAggregator = $aggregator;
+					}
+				)
+			)
+		;
 
 		return $this;
+	}
+
+	function hashIs(risingsun\hash $hash)
+	{
+		oboolean::isNotNull($this->route)
+			->ifTrue(
+				new block\functor(
+					function() use ($hash) {
+						$this->routeHash = $hash;
+					}
+				)
+			)
+		;
+
+		return $this;
+	}
+
+	function hashHasValue($value)
+	{
+		oboolean::isNotNull($this->controller, $this->request)
+			->ifTrue(
+				new block\functor(
+					function() use ($value) {
+						$value->httpRouteControllerHasRequest($this->controller, $this->request);
+					}
+				)
+			)
+		;
+
+		return $this;
+	}
+
+	private function routeShouldBeNull()
+	{
+		$this->route = null;
 	}
 }
