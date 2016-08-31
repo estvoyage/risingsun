@@ -9,7 +9,7 @@ use
 
 class iterator extends units\test
 {
-	function testLoopBodyIs()
+	function testIteratorPayloadIs()
 	{
 		$this
 			->given(
@@ -21,6 +21,9 @@ class iterator extends units\test
 			->then
 				->object($this->testedInstance->iteratorPayloadIs($payload))
 					->isEqualTo($this->newTestedInstance)
+				->mock($payload)
+					->receive('currentValueOfIteratorIs')
+						->never
 
 			->given(
 				$value = uniqid(),

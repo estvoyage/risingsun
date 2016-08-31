@@ -10,22 +10,19 @@ class iterator
 	private
 		$values,
 		$break,
-		$breakHandler
+		$run
 	;
 
 	function __construct(... $values)
 	{
 		$this->values = $values;
-		$this->breakHandler = new risingsun\blackhole;
+		$this->run = new oboolean\false;
 	}
 
 	function iteratorPayloadIs(iterator\payload $payload)
 	{
 		$_this = clone $this;
-		$_this->breakHandler = new block\functor(function() use ($_this) {
-				$_this->break = true;
-			}
-		);
+		$_this->run = new oboolean\true;
 
 		foreach ($_this->values as $value)
 		{
@@ -42,7 +39,15 @@ class iterator
 
 	function nextIteratorValuesAreUseless()
 	{
-		$this->breakHandler->blockArgumentsAre();
+		$this->run
+			->ifTrue(
+				new block\functor(
+					function() {
+						$this->break = true;
+					}
+				)
+			)
+		;
 
 		return $this;
 	}
