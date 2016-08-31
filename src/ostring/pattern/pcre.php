@@ -4,7 +4,8 @@ use
 	estvoyage\risingsun
 ;
 
-class pcre extends risingsun\ostring implements risingsun\ostring\pattern
+class pcre extends risingsun\ostring
+	implements risingsun\ostring\pattern
 {
 	private
 		$names,
