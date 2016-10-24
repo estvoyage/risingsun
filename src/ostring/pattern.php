@@ -6,6 +6,7 @@ use
 
 interface pattern
 {
-	function stringHasController(risingsun\ostring $string, pattern\controller $controller);
-	function recipientOfStringPatternDataIs(pattern\data\recipient $recipient);
+	function recipientOfHashWithPatternDataFromStringIs(risingsun\hash $hash, risingsun\ostring $string, pattern\data\recipient $recipient);
+	function ifIsPatternOfString(risingsun\ostring $ostring, risingsun\block $block);
+	function ifIsNotPatternOfString(risingsun\ostring $ostring, risingsun\block $block);
 }

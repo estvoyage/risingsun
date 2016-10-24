@@ -35,7 +35,7 @@ class hash
 					function($aggregator, $route) {
 						$this->route = $route;
 
-						$this->route->recipientOfHashKeyIs($this);
+						$this->route->recipientOfHttpRouteHashKeyIs($this);
 
 						oboolean::isNotNull($this->route)
 							->ifTrue(
@@ -61,7 +61,7 @@ class hash
 		$_this->controller = $controller;
 		$_this->request = $request;
 
-		$request->recipientOfHashKeyIs($_this);
+		$request->recipientOfHttpRequestHashKeyIs($_this);
 
 		oboolean::isNotNull($_this->controller, $_this->request)
 			->ifTrue(
@@ -76,7 +76,7 @@ class hash
 		return $this;
 	}
 
-	function recipientOfHashKeyIs(http\route\hash\key\recipient $recipient)
+	function recipientOfHttpRouteHashKeyIs(http\route\hash\key\recipient $recipient)
 	{
 		return $this;
 	}

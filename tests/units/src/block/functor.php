@@ -5,7 +5,8 @@ namespace estvoyage\risingsun\tests\units\block;
 require __DIR__ . '/../../runner.php';
 
 use
-	estvoyage\risingsun\tests\units
+	estvoyage\risingsun\tests\units,
+	estvoyage\risingsun
 ;
 
 class functor extends units\test
@@ -14,6 +15,7 @@ class functor extends units\test
 	{
 		$this->testedClass
 			->implements('estvoyage\risingsun\block')
+			->implements('estvoyage\risingsun\error\manager')
 			->implements('estvoyage\risingsun\iterator\payload')
 		;
 	}
@@ -43,6 +45,43 @@ class functor extends units\test
 					->isEqualTo($this->newTestedInstance($callable))
 				->array($arguments)
 					->isIdenticalTo([ $argument1, $argument2, $argument3 ])
+		;
+	}
+
+	function testCurrentValueOfIteratorIs()
+	{
+		$this
+			->given(
+				$callable = function() use (& $arguments) { $arguments = func_get_args(); },
+				$iterator = new risingsun\iterator,
+				$value = uniqid()
+			)
+			->if(
+				$this->newTestedInstance($callable)
+			)
+			->then
+				->object($this->testedInstance->currentValueOfIteratorIs($iterator, $value))
+					->isEqualTo($this->newTestedInstance($callable))
+				->array($arguments)
+					->isIdenticalTo([ $iterator, $value ])
+		;
+	}
+
+	function testErrorIs()
+	{
+		$this
+			->given(
+				$callable = function() use (& $arguments) { $arguments = func_get_args(); },
+				$error = new risingsun\error(uniqid())
+			)
+			->if(
+				$this->newTestedInstance($callable)
+			)
+			->then
+				->object($this->testedInstance->errorIs($error))
+					->isEqualTo($this->newTestedInstance($callable))
+				->array($arguments)
+					->isIdenticalTo([ $error ])
 		;
 	}
 }

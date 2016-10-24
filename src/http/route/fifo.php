@@ -45,7 +45,7 @@ class fifo
 		return $this;
 	}
 
-	function recipientOfHashKeyIs(http\route\hash\key\recipient $recipient)
+	function recipientOfHttpRouteHashKeyIs(http\route\hash\key\recipient $recipient)
 	{
 		return $this;
 	}

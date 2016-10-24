@@ -6,5 +6,6 @@ use
 
 interface request
 {
-	function recipientOfHashKeyIs(request\hash\key\recipient $recipient);
+	function recipientOfHttpRequestUrlPathIs(request\url\path\recipient $recipient);
+	function recipientOfHttpRequestHashKeyIs(request\hash\key\recipient $recipient);
 }

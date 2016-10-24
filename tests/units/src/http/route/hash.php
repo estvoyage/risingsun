@@ -39,7 +39,7 @@ class hash extends units\test
 				$hashKey = new risingsun\hash\key(uniqid())
 			)
 			->if(
-				$this->calling($route)->recipientOfHashKeyIs = function($hashKeyRecipient) use ($hashKey) {
+				$this->calling($route)->recipientOfHttpRouteHashKeyIs = function($hashKeyRecipient) use ($hashKey) {
 					$hashKeyRecipient->httpRouteHasKey($hashKey);
 				},
 				$this->newTestedInstance($routeAggregator, $route)
@@ -83,10 +83,10 @@ class hash extends units\test
 				},
 
 				$hashKey = new risingsun\hash\key(uniqid()),
-				$this->calling($route)->recipientOfHashKeyIs = function($hashKeyRecipient) use ($hashKey) {
+				$this->calling($route)->recipientOfHttpRouteHashKeyIs = function($hashKeyRecipient) use ($hashKey) {
 					$hashKeyRecipient->httpRouteHasKey($hashKey);
 				},
-				$this->calling($request)->recipientOfHashKeyIs = function($hashKeyRecipient) use ($hashKey) {
+				$this->calling($request)->recipientOfHttpRequestHashKeyIs = function($hashKeyRecipient) use ($hashKey) {
 					$hashKeyRecipient->httpRequestHasKey($hashKey);
 				},
 				$this->newTestedInstance($routeAggregator, $route)
@@ -112,7 +112,7 @@ class hash extends units\test
 				$this->newTestedInstance($routeAggregator)
 			)
 			->then
-				->object($this->testedInstance->recipientOfHashKeyIs($recipient))
+				->object($this->testedInstance->recipientOfHttpRouteHashKeyIs($recipient))
 					->isEqualTo($this->newTestedInstance($routeAggregator))
 		;
 	}

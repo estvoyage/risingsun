@@ -77,7 +77,7 @@ class fifo extends units\test
 				$this->newTestedInstance
 			)
 			->then
-				->object($this->testedInstance->recipientOfHashKeyIs($recipient))
+				->object($this->testedInstance->recipientOfHttpRouteHashKeyIs($recipient))
 					->isEqualTo($this->newTestedInstance)
 		;
 	}

@@ -7,4 +7,5 @@ use
 interface controller
 {
 	function stringMatchPattern(match $match, risingsun\ostring\pattern $pattern);
+	function stringContainsPatternData(match $match, risingsun\hash $hash);
 }

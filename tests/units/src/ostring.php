@@ -5,6 +5,7 @@ require __DIR__ . '/../runner.php';
 use
 	estvoyage\risingsun\tests\units,
 	estvoyage\risingsun,
+	mock\estvoyage\risingsun\block as mockOfBlock,
 	mock\estvoyage\risingsun\ostring as mockOfOstring
 ;
 
@@ -39,28 +40,41 @@ class ostring extends units\test
 	{
 		$this
 			->given(
-				$emptyCallable = function() use (& $isEmpty) { $isEmpty = true; },
-				$notEmptyCallable = function() use (& $isNotEmpty) { $isNotEmpty = true; },
-				$isEmpty = false
+				$blockIfEmpty = new mockOfBlock,
+				$blockIfNotEmpty = new mockOfBlock
 			)
 			->if(
 				$this->newTestedInstance
 			)
 			->then
-				->object($this->testedInstance->ifIsEmptyString($emptyCallable))->isTestedInstance
-				->boolean($isEmpty)->isTrue
+				->object($this->testedInstance->ifIsEmptyString($blockIfEmpty))
+					->isEqualTo($this->newTestedInstance)
+				->mock($blockIfEmpty)
+					->receive('blockArgumentsAre')
+						->withArguments()
+							->once
 
-			->given(
-				$this->newTestedInstance(uniqid()),
-				$isEmpty = false,
-				$isNotEmpty = false
-			)
 			->if(
-				$this->testedInstance->ifIsEmptyString($emptyCallable, $notEmptyCallable)
+				$this->newTestedInstance($value = uniqid())
 			)
 			->then
-				->boolean($isEmpty)->isFalse
-				->boolean($isNotEmpty)->isTrue
+				->object($this->testedInstance->ifIsEmptyString($blockIfEmpty))
+					->isEqualTo($this->newTestedInstance($value))
+				->mock($blockIfEmpty)
+					->receive('blockArgumentsAre')
+						->withArguments()
+							->once
+
+				->object($this->testedInstance->ifIsEmptyString($blockIfEmpty, $blockIfNotEmpty))
+					->isEqualTo($this->newTestedInstance($value))
+				->mock($blockIfEmpty)
+					->receive('blockArgumentsAre')
+						->withArguments()
+							->once
+				->mock($blockIfNotEmpty)
+					->receive('blockArgumentsAre')
+						->withArguments()
+							->once
 		;
 	}
 
@@ -68,28 +82,41 @@ class ostring extends units\test
 	{
 		$this
 			->given(
-				$notEmptyCallable = function() use (& $isNotEmpty) { $isNotEmpty = true; },
-				$emptyCallable = function() use (& $isEmpty) { $isEmpty = true; },
-				$isNotEmpty = false
+				$blockIfNotEmpty = new mockOfBlock,
+				$blockIfEmpty = new mockOfBlock
 			)
 			->if(
-				$this->newTestedInstance(uniqid())
+				$this->newTestedInstance($value = uniqid())
 			)
 			->then
-				->object($this->testedInstance->ifIsNotEmptyString($notEmptyCallable))->isTestedInstance
-				->boolean($isNotEmpty)->isTrue
+				->object($this->testedInstance->ifIsNotEmptyString($blockIfNotEmpty))
+					->isEqualTo($this->newTestedInstance($value))
+				->mock($blockIfNotEmpty)
+					->receive('blockArgumentsAre')
+						->withArguments()
+							->once
 
-			->given(
-				$this->newTestedInstance,
-				$isNotEmpty = false,
-				$isEmpty = false
-			)
 			->if(
-				$this->testedInstance->ifIsNotEmptyString($notEmptyCallable, $emptyCallable)
+				$this->newTestedInstance
 			)
 			->then
-				->boolean($isNotEmpty)->isFalse
-				->boolean($isEmpty)->isTrue
+				->object($this->testedInstance->ifIsNotEmptyString($blockIfNotEmpty))
+					->isEqualTo($this->newTestedInstance)
+				->mock($blockIfNotEmpty)
+					->receive('blockArgumentsAre')
+						->withArguments()
+							->once
+
+				->object($this->testedInstance->ifIsNotEmptyString($blockIfNotEmpty, $blockIfEmpty))
+					->isEqualTo($this->newTestedInstance)
+				->mock($blockIfNotEmpty)
+					->receive('blockArgumentsAre')
+						->withArguments()
+							->once
+				->mock($blockIfEmpty)
+					->receive('blockArgumentsAre')
+						->withArguments()
+							->once
 		;
 	}
 
@@ -97,39 +124,38 @@ class ostring extends units\test
 	{
 		$this
 			->given(
-				$equalCallable = function() use (& $isEqual) { $isEqual = true; },
-				$notEqualCallable = function() use (& $isNotEqual) { $isNotEqual = true; },
-				$string = $this->newTestedInstance(uniqid())
+				$blockIfEqual = new mockOfBlock,
+				$blockIfNotEqual = new mockOfBlock
 			)
 
-			->assert('Empty string is equal to empty string')
 			->if(
-				$emptyString = $this->newTestedInstance,
-				$isEqual = false
+				$this->newTestedInstance
 			)
 			->then
-				->object($this->newTestedInstance->ifEqualToString($emptyString, $equalCallable))->isTestedInstance
-				->boolean($isEqual)->isTrue
+				->object($this->testedInstance->ifEqualToString($this->testedInstance, $blockIfEqual))
+					->isEqualTo($this->newTestedInstance)
+				->mock($blockIfEqual)
+					->receive('blockArgumentsAre')
+						->withArguments()
+							->once
 
-			->assert('Not equal callable should be called if string are not equals')
-			->if(
-				$isEqual = false,
-				$isNotEqual = false,
-				$string->ifEqualToString($this->newTestedInstance(uniqid()), $equalCallable, $notEqualCallable)
-			)
-			->then
-				->boolean($isEqual)->isFalse
-				->boolean($isNotEqual)->isTrue
+				->object($this->testedInstance->ifEqualToString($this->newTestedInstance(uniqid()), $blockIfEqual))
+					->isEqualTo($this->newTestedInstance)
+				->mock($blockIfEqual)
+					->receive('blockArgumentsAre')
+						->withArguments()
+							->once
 
-			->assert('Equal callable should be called if string are equals')
-			->if(
-				$isEqual = false,
-				$isNotEqual = false,
-				$string->ifEqualToString(clone $string, $equalCallable)
-			)
-			->then
-				->boolean($isEqual)->isTrue
-				->boolean($isNotEqual)->isFalse
+				->object($this->testedInstance->ifEqualToString($this->newTestedInstance(uniqid()), $blockIfEqual, $blockIfNotEqual))
+					->isEqualTo($this->newTestedInstance)
+				->mock($blockIfEqual)
+					->receive('blockArgumentsAre')
+						->withArguments()
+							->once
+				->mock($blockIfNotEqual)
+					->receive('blockArgumentsAre')
+						->withArguments()
+							->once
 		;
 	}
 
@@ -137,37 +163,37 @@ class ostring extends units\test
 	{
 		$this
 			->given(
-				$equalCallable = function() use (& $isEqual) { $isEqual = true; },
-				$notEqualCallable = function() use (& $isNotEqual) { $isNotEqual = true; },
-				$string = $this->newTestedInstance(uniqid())
+				$blockIfEqual = new mockOfBlock,
+				$blockIfNotEqual = new mockOfBlock
 			)
 
-			->assert('Empty string is equal to empty string')
 			->if(
-				$emptyString = $this->newTestedInstance,
-				$isNotEqual = false
+				$this->newTestedInstance
 			)
 			->then
-				->object($this->newTestedInstance->ifNotEqualToString($emptyString, $notEqualCallable))->isTestedInstance
-				->boolean($isNotEqual)->isFalse
+				->object($this->testedInstance->ifNotEqualToString($this->testedInstance, $blockIfNotEqual))
+					->isEqualTo($this->newTestedInstance)
+				->mock($blockIfNotEqual)
+					->receive('blockArgumentsAre')
+						->never
 
-			->assert('Not equal callable should be called if string are not equals')
-			->if(
-				$isNotEqual = false,
-				$string->ifNotEqualToString($this->newTestedInstance(uniqid()), $notEqualCallable)
-			)
-			->then
-				->boolean($isNotEqual)->isTrue
+				->object($this->testedInstance->ifNotEqualToString($this->testedInstance, $blockIfNotEqual, $blockIfEqual))
+					->isEqualTo($this->newTestedInstance)
+				->mock($blockIfNotEqual)
+					->receive('blockArgumentsAre')
+						->never
+				->mock($blockIfEqual)
+					->receive('blockArgumentsAre')
+						->once
 
-			->assert('Equal callable should be called if string are equals')
-			->if(
-				$isEqual = false,
-				$isNotEqual = false,
-				$string->ifNotEqualToString(clone $string, $notEqualCallable, $equalCallable)
-			)
-			->then
-				->boolean($isEqual)->isTrue
-				->boolean($isNotEqual)->isFalse
+				->object($this->testedInstance->ifNotEqualToString($this->newTestedInstance(uniqid()), $blockIfNotEqual, $blockIfEqual))
+					->isEqualTo($this->newTestedInstance)
+				->mock($blockIfNotEqual)
+					->receive('blockArgumentsAre')
+						->once
+				->mock($blockIfEqual)
+					->receive('blockArgumentsAre')
+						->once
 		;
 	}
 
@@ -175,84 +201,112 @@ class ostring extends units\test
 	{
 		$this
 			->given(
-				$isStartOfStringCallable = function() use (& $isStartOfString) { $isStartOfString = true; },
-				$isNotStartOfStringCallable = function() use (& $isNotStartOfString) { $isNotStartOfString = true; }
+				$isStartOfStringBlock = new mockOfBlock,
+				$isNotStartOfStringBlock = new mockOfBlock
 			)
 			->assert('Emtpy string can not be the start of an empty string')
 			->if(
-				$emptyString = $this->newTestedInstance,
-				$isStartOfString = false,
-				$isNotStartOfString = false
+				$emptyString = $this->newTestedInstance
 			)
 			->then
-				->object($this->newTestedInstance->ifIsStartOfString($emptyString, $isStartOfStringCallable, $isNotStartOfStringCallable))->isTestedInstance
-				->boolean($isStartOfString)->isFalse
-				->boolean($isNotStartOfString)->isTrue
+				->object($this->newTestedInstance->ifIsStartOfString($emptyString, $isStartOfStringBlock, $isNotStartOfStringBlock))->isTestedInstance
+				->mock($isStartOfStringBlock)
+					->receive('blockArgumentsAre')
+						->withArguments()
+							->never
+				->mock($isNotStartOfStringBlock)
+					->receive('blockArgumentsAre')
+						->withArguments()
+							->once
 
 			->assert('Emtpy string can not be the start of a string')
 			->if(
 				$string = $this->newTestedInstance(uniqid()),
-				$isStartOfString = false,
-				$isNotStartOfString = false,
-				$this->newTestedInstance->ifIsStartOfString($string, $isStartOfStringCallable, $isNotStartOfStringCallable)
+				$this->newTestedInstance->ifIsStartOfString($string, $isStartOfStringBlock, $isNotStartOfStringBlock)
 			)
 			->then
-				->boolean($isStartOfString)->isFalse
-				->boolean($isNotStartOfString)->isTrue
+				->mock($isStartOfStringBlock)
+					->receive('blockArgumentsAre')
+						->withArguments()
+							->never
+				->mock($isNotStartOfStringBlock)
+					->receive('blockArgumentsAre')
+						->withArguments()
+							->once
 
 			->assert('String can not be the start of an empty string')
 			->if(
-				$isStartOfString = false,
-				$isNotStartOfString = false,
-				$this->newTestedInstance(uniqid())->ifIsStartOfString($emptyString, $isStartOfStringCallable, $isNotStartOfStringCallable)
+				$this->newTestedInstance(uniqid())->ifIsStartOfString($emptyString, $isStartOfStringBlock, $isNotStartOfStringBlock)
 			)
 			->then
-				->boolean($isStartOfString)->isFalse
-				->boolean($isNotStartOfString)->isTrue
+				->mock($isStartOfStringBlock)
+					->receive('blockArgumentsAre')
+						->withArguments()
+							->never
+				->mock($isNotStartOfStringBlock)
+					->receive('blockArgumentsAre')
+						->withArguments()
+							->once
 
 			->assert('"foo" is start of "foo"')
 			->if(
 				$foo = $this->newTestedInstance('foo'),
-				$isStartOfString = false,
-				$isNotStartOfString = false,
-				$foo->ifIsStartOfString($foo, $isStartOfStringCallable, $isNotStartOfStringCallable)
+				$foo->ifIsStartOfString($foo, $isStartOfStringBlock, $isNotStartOfStringBlock)
 			)
 			->then
-				->boolean($isStartOfString)->isTrue
-				->boolean($isNotStartOfString)->isFalse
+				->mock($isStartOfStringBlock)
+					->receive('blockArgumentsAre')
+						->withArguments()
+							->once
+				->mock($isNotStartOfStringBlock)
+					->receive('blockArgumentsAre')
+						->withArguments()
+							->never
 
 			->assert('"foo" is start of "foobar"')
 			->if(
 				$foobar = $this->newTestedInstance('foobar'),
-				$isStartOfString = false,
-				$isNotStartOfString = false,
-				$this->newTestedInstance('foo')->ifIsStartOfString($foobar, $isStartOfStringCallable, $isNotStartOfStringCallable)
+				$this->newTestedInstance('foo')->ifIsStartOfString($foobar, $isStartOfStringBlock, $isNotStartOfStringBlock)
 			)
 			->then
-				->boolean($isStartOfString)->isTrue
-				->boolean($isNotStartOfString)->isFalse
+				->mock($isStartOfStringBlock)
+					->receive('blockArgumentsAre')
+						->withArguments()
+							->once
+				->mock($isNotStartOfStringBlock)
+					->receive('blockArgumentsAre')
+						->withArguments()
+							->never
 
 			->assert('"foobar" is not the start of "foo"')
 			->if(
 				$foo = $this->newTestedInstance('foo'),
-				$isStartOfString = false,
-				$isNotStartOfString = false,
-				$this->newTestedInstance('foobar')->ifIsStartOfString($foo, $isStartOfStringCallable, $isNotStartOfStringCallable)
+				$this->newTestedInstance('foobar')->ifIsStartOfString($foo, $isStartOfStringBlock, $isNotStartOfStringBlock)
 			)
 			->then
-				->boolean($isStartOfString)->isFalse
-				->boolean($isNotStartOfString)->isTrue
+				->mock($isStartOfStringBlock)
+					->receive('blockArgumentsAre')
+						->withArguments()
+							->never
+				->mock($isNotStartOfStringBlock)
+					->receive('blockArgumentsAre')
+						->withArguments()
+							->once
 
 			->assert('"Foo" is not the start of "foo"')
 			->if(
 				$Foo = $this->newTestedInstance('Foo'),
-				$isStartOfString = false,
-				$isNotStartOfString = false,
-				$this->newTestedInstance('foo')->ifIsStartOfString($Foo, $isStartOfStringCallable, $isNotStartOfStringCallable)
+				$this->newTestedInstance('foo')->ifIsStartOfString($Foo, $isStartOfStringBlock, $isNotStartOfStringBlock)
 			)
 			->then
-				->boolean($isStartOfString)->isFalse
-				->boolean($isNotStartOfString)->isTrue
+				->mock($isStartOfStringBlock)
+					->receive('blockArgumentsAre')
+						->withArguments()
+							->never
+				->mock($isNotStartOfStringBlock)
+					->receive('blockArgumentsAre')
+						->withArguments()
+							->once
 		;
 	}
 
@@ -260,85 +314,113 @@ class ostring extends units\test
 	{
 		$this
 			->given(
-				$startWithStringCallable = function() use (& $startWithString) { $startWithString = true; },
-				$notStartWithStringCallable = function() use (& $notStartWithString) { $notStartWithString = true; }
+				$startWithStringBlock = new mockOfBlock,
+				$notStartWithStringBlock = new mockOfBlock
 			)
 
 			->assert('Emtpy string can not start an empty string')
 			->if(
-				$emptyString = $this->newTestedInstance,
-				$startWithString = false,
-				$notStartWithString = false
+				$emptyString = $this->newTestedInstance
 			)
 			->then
-				->object($this->newTestedInstance->ifStartWithString($emptyString, $startWithStringCallable, $notStartWithStringCallable))->isTestedInstance
-				->boolean($startWithString)->isFalse
-				->boolean($notStartWithString)->isTrue
+				->object($this->newTestedInstance->ifStartWithString($emptyString, $startWithStringBlock, $notStartWithStringBlock))->isTestedInstance
+				->mock($startWithStringBlock)
+					->receive('blockArgumentsAre')
+						->withArguments()
+							->never
+				->mock($notStartWithStringBlock)
+					->receive('blockArgumentsAre')
+						->withArguments()
+							->once
 
 			->assert('Emtpy string can not start a string')
 			->if(
 				$string = $this->newTestedInstance(uniqid()),
-				$startWithString = false,
-				$notStartWithString = false,
-				$this->newTestedInstance->ifStartWithString($string, $startWithStringCallable, $notStartWithStringCallable)
+				$this->newTestedInstance->ifStartWithString($string, $startWithStringBlock, $notStartWithStringBlock)
 			)
 			->then
-				->boolean($startWithString)->isFalse
-				->boolean($notStartWithString)->isTrue
+				->mock($startWithStringBlock)
+					->receive('blockArgumentsAre')
+						->withArguments()
+							->never
+				->mock($notStartWithStringBlock)
+					->receive('blockArgumentsAre')
+						->withArguments()
+							->once
 
 			->assert('String can not start an empty string')
 			->if(
-				$startWithString = false,
-				$notStartWithString = false,
-				$this->newTestedInstance(uniqid())->ifStartWithString($emptyString, $startWithStringCallable, $notStartWithStringCallable)
+				$this->newTestedInstance(uniqid())->ifStartWithString($emptyString, $startWithStringBlock, $notStartWithStringBlock)
 			)
 			->then
-				->boolean($startWithString)->isFalse
-				->boolean($notStartWithString)->isTrue
+				->mock($startWithStringBlock)
+					->receive('blockArgumentsAre')
+						->withArguments()
+							->never
+				->mock($notStartWithStringBlock)
+					->receive('blockArgumentsAre')
+						->withArguments()
+							->once
 
 			->assert('"foo" start "foo"')
 			->if(
 				$foo = $this->newTestedInstance('foo'),
-				$startWithString = false,
-				$notStartWithString = false,
-				$foo->ifStartWithString($foo, $startWithStringCallable, $notStartWithStringCallable)
+				$foo->ifStartWithString($foo, $startWithStringBlock, $notStartWithStringBlock)
 			)
 			->then
-				->boolean($startWithString)->isTrue
-				->boolean($notStartWithString)->isFalse
+				->mock($startWithStringBlock)
+					->receive('blockArgumentsAre')
+						->withArguments()
+							->once
+				->mock($notStartWithStringBlock)
+					->receive('blockArgumentsAre')
+						->withArguments()
+							->never
 
 			->assert('"foo" start "foobar"')
 			->if(
 				$foo = $this->newTestedInstance('foo'),
-				$startWithString = false,
-				$notStartWithString = false,
-				$this->newTestedInstance('foobar')->ifStartWithString($foo, $startWithStringCallable, $notStartWithStringCallable)
+				$this->newTestedInstance('foobar')->ifStartWithString($foo, $startWithStringBlock, $notStartWithStringBlock)
 			)
 			->then
-				->boolean($startWithString)->isTrue
-				->boolean($notStartWithString)->isFalse
+				->mock($startWithStringBlock)
+					->receive('blockArgumentsAre')
+						->withArguments()
+							->once
+				->mock($notStartWithStringBlock)
+					->receive('blockArgumentsAre')
+						->withArguments()
+							->never
 
 			->assert('"foobar" not start "foo"')
 			->if(
 				$foobar = $this->newTestedInstance('foobar'),
-				$startWithString = false,
-				$notStartWithString = false,
-				$this->newTestedInstance('foo')->ifStartWithString($foobar, $startWithStringCallable, $notStartWithStringCallable)
+				$this->newTestedInstance('foo')->ifStartWithString($foobar, $startWithStringBlock, $notStartWithStringBlock)
 			)
 			->then
-				->boolean($startWithString)->isFalse
-				->boolean($notStartWithString)->isTrue
+				->mock($startWithStringBlock)
+					->receive('blockArgumentsAre')
+						->withArguments()
+							->never
+				->mock($notStartWithStringBlock)
+					->receive('blockArgumentsAre')
+						->withArguments()
+							->once
 
 			->assert('"Foobar" not start "foo"')
 			->if(
 				$Foobar = $this->newTestedInstance('Foobar'),
-				$startWithString = false,
-				$notStartWithString = false,
-				$this->newTestedInstance('foo')->ifStartWithString($Foobar, $startWithStringCallable, $notStartWithStringCallable)
+				$this->newTestedInstance('foo')->ifStartWithString($Foobar, $startWithStringBlock, $notStartWithStringBlock)
 			)
 			->then
-				->boolean($startWithString)->isFalse
-				->boolean($notStartWithString)->isTrue
+				->mock($startWithStringBlock)
+					->receive('blockArgumentsAre')
+						->withArguments()
+							->never
+				->mock($notStartWithStringBlock)
+					->receive('blockArgumentsAre')
+						->withArguments()
+							->once
 		;
 	}
 
@@ -346,69 +428,87 @@ class ostring extends units\test
 	{
 		$this
 			->given(
-				$isIntegerCallable = function() use (& $isInteger) { $isInteger = true; },
-				$isNotIntegerCallable = function() use (& $isNotInteger) { $isNotInteger = true; }
+				$isIntegerBlock = new mockOfBlock,
+				$isNotIntegerBlock = new mockOfBlock
 			)
 
 			->assert('Emtpy string is not an integer')
 			->if(
-				$isInteger = false,
-				$isNotInteger = false
+				$this->newTestedInstance
 			)
 			->then
-				->object($this->newTestedInstance->ifIsInteger($isIntegerCallable, $isNotIntegerCallable))->isTestedInstance
-				->boolean($isInteger)->isFalse
-				->boolean($isNotInteger)->isTrue
+				->object($this->testedInstance->ifIsInteger($isIntegerBlock, $isNotIntegerBlock))->isTestedInstance
+				->mock($isIntegerBlock)
+					->receive('blockArgumentsAre')
+						->never
+				->mock($isNotIntegerBlock)
+					->receive('blockArgumentsAre')
+						->once
 
 			->assert('"foo" is not an integer')
 			->if(
-				$isInteger = false,
-				$isNotInteger = false
+				$this->newTestedInstance('foo')
 			)
 			->then
-				->object($this->newTestedInstance('foo')->ifIsInteger($isIntegerCallable, $isNotIntegerCallable))->isTestedInstance
-				->boolean($isInteger)->isFalse
-				->boolean($isNotInteger)->isTrue
+				->object($this->testedInstance->ifIsInteger($isIntegerBlock, $isNotIntegerBlock))->isTestedInstance
+				->mock($isIntegerBlock)
+					->receive('blockArgumentsAre')
+						->never
+				->mock($isNotIntegerBlock)
+					->receive('blockArgumentsAre')
+						->once
 
 			->assert('"0" is an integer')
 			->if(
-				$isInteger = false,
-				$isNotInteger = false
+				$this->newTestedInstance('0')
 			)
 			->then
-				->object($this->newTestedInstance('0')->ifIsInteger($isIntegerCallable, $isNotIntegerCallable))->isTestedInstance
-				->boolean($isInteger)->isTrue
-				->boolean($isNotInteger)->isFalse
+				->object($this->testedInstance->ifIsInteger($isIntegerBlock, $isNotIntegerBlock))->isTestedInstance
+				->mock($isIntegerBlock)
+					->receive('blockArgumentsAre')
+						->once
+				->mock($isNotIntegerBlock)
+					->receive('blockArgumentsAre')
+						->never
 
 			->assert('Any integer is an integer')
 			->if(
-				$isInteger = false,
-				$isNotInteger = false
+				$this->newTestedInstance((string) rand(- PHP_INT_MAX, PHP_INT_MAX))
 			)
 			->then
-				->object($this->newTestedInstance((string) rand(- PHP_INT_MAX, PHP_INT_MAX))->ifIsInteger($isIntegerCallable, $isNotIntegerCallable))->isTestedInstance
-				->boolean($isInteger)->isTrue
-				->boolean($isNotInteger)->isFalse
+				->object($this->testedInstance->ifIsInteger($isIntegerBlock, $isNotIntegerBlock))->isTestedInstance
+				->mock($isIntegerBlock)
+					->receive('blockArgumentsAre')
+						->once
+				->mock($isNotIntegerBlock)
+					->receive('blockArgumentsAre')
+						->never
 
 			->assert('PI is not an integer')
 			->if(
-				$isInteger = false,
-				$isNotInteger = false
+				$this->newTestedInstance((string) M_PI)
 			)
 			->then
-				->object($this->newTestedInstance((string) M_PI)->ifIsInteger($isIntegerCallable, $isNotIntegerCallable))->isTestedInstance
-				->boolean($isInteger)->isFalse
-				->boolean($isNotInteger)->isTrue
+				->object($this->testedInstance->ifIsInteger($isIntegerBlock, $isNotIntegerBlock))->isTestedInstance
+				->mock($isIntegerBlock)
+					->receive('blockArgumentsAre')
+						->never
+				->mock($isNotIntegerBlock)
+					->receive('blockArgumentsAre')
+						->once
 
 			->assert('Any string is not an integer')
 			->if(
-				$isInteger = false,
-				$isNotInteger = false
+				$this->newTestedInstance('x' . uniqid())
 			)
 			->then
-				->object($this->newTestedInstance('x' . uniqid())->ifIsInteger($isIntegerCallable, $isNotIntegerCallable))->isTestedInstance
-				->boolean($isInteger)->isFalse
-				->boolean($isNotInteger)->isTrue
+				->object($this->testedInstance->ifIsInteger($isIntegerBlock, $isNotIntegerBlock))->isTestedInstance
+				->mock($isIntegerBlock)
+					->receive('blockArgumentsAre')
+						->never
+				->mock($isNotIntegerBlock)
+					->receive('blockArgumentsAre')
+						->once
 		;
 	}
 
@@ -416,79 +516,99 @@ class ostring extends units\test
 	{
 		$this
 			->given(
-				$isNotNumericCallable = function() use (& $isNotNumeric) { $isNotNumeric = true; },
-				$isNumericCallable = function() use (& $isNumeric) { $isNumeric = true; }
+				$blockIfIsNotNumeric = new mockOfBlock,
+				$blockIfIsNumeric = new mockOfBlock
 			)
 
-			->assert('Emtpy string is not numeric')
 			->if(
-				$isNotNumeric = false,
-				$isNumeric = false
+				$this->newTestedInstance
 			)
 			->then
-				->object($this->newTestedInstance->ifIsNotNumeric($isNotNumericCallable, $isNumericCallable))->isTestedInstance
-				->boolean($isNotNumeric)->isTrue
-				->boolean($isNumeric)->isFalse
+				->object($this->testedInstance->ifIsNotNumeric($blockIfIsNotNumeric, $blockIfIsNumeric))
+					->isEqualTo($this->newTestedInstance)
+				->mock($blockIfIsNotNumeric)
+					->receive('blockArgumentsAre')
+						->withArguments()
+							->once
+				->mock($blockIfIsNumeric)
+					->receive('blockArgumentsAre')
+						->withArguments()
+							->never
 
-			->assert('"foo" is not numeric')
 			->if(
-				$isNotNumeric = false,
-				$isNumeric = false
+				$this->newTestedInstance('foo')
 			)
 			->then
-				->object($this->newTestedInstance('foo')->ifIsNotNumeric($isNotNumericCallable, $isNumericCallable))->isTestedInstance
-				->boolean($isNotNumeric)->isTrue
-				->boolean($isNumeric)->isFalse
+				->object($this->testedInstance->ifIsNotNumeric($blockIfIsNotNumeric, $blockIfIsNumeric))
+					->isEqualTo($this->newTestedInstance('foo'))
+				->mock($blockIfIsNotNumeric)
+					->receive('blockArgumentsAre')
+						->withArguments()
+							->twice
+				->mock($blockIfIsNumeric)
+					->receive('blockArgumentsAre')
+						->withArguments()
+							->never
 
-			->assert('"0" is a numeric')
 			->if(
-				$isNotNumeric = false,
-				$isNotInteger = false
+				$this->newTestedInstance('0')
 			)
 			->then
-				->object($this->newTestedInstance('0')->ifIsNotNumeric($isNotNumericCallable, $isNumericCallable))->isTestedInstance
-				->boolean($isNotNumeric)->isFalse
-				->boolean($isNumeric)->isTrue
+				->object($this->testedInstance->ifIsNotNumeric($blockIfIsNotNumeric, $blockIfIsNumeric))
+					->isEqualTo($this->newTestedInstance('0'))
+				->mock($blockIfIsNotNumeric)
+					->receive('blockArgumentsAre')
+						->withArguments()
+							->twice
+				->mock($blockIfIsNumeric)
+					->receive('blockArgumentsAre')
+						->withArguments()
+							->once
 
-			->assert('Any integer is numeric')
 			->if(
-				$isNotNumeric = false,
-				$isNumeric = false
+				$this->newTestedInstance($value = (string) rand(- PHP_INT_MAX, PHP_INT_MAX))
 			)
 			->then
-				->object($this->newTestedInstance((string) rand(- PHP_INT_MAX, PHP_INT_MAX))->ifIsNotNumeric($isNotNumericCallable, $isNumericCallable))->isTestedInstance
-				->boolean($isNotNumeric)->isFalse
-				->boolean($isNumeric)->isTrue
+				->object($this->testedInstance->ifIsNotNumeric($blockIfIsNotNumeric, $blockIfIsNumeric))
+					->isEqualTo($this->newTestedInstance($value))
+				->mock($blockIfIsNotNumeric)
+					->receive('blockArgumentsAre')
+						->withArguments()
+							->twice
+				->mock($blockIfIsNumeric)
+					->receive('blockArgumentsAre')
+						->withArguments()
+							->twice
 
-			->assert('PI is numeric')
 			->if(
-				$isNotNumeric = false,
-				$isNumeric = false
+				$this->newTestedInstance($value = rand(- PHP_INT_MAX, PHP_INT_MAX) . 'x')
 			)
 			->then
-				->object($this->newTestedInstance((string) M_PI)->ifIsNotNumeric($isNotNumericCallable, $isNumericCallable))->isTestedInstance
-				->boolean($isNotNumeric)->isFalse
-				->boolean($isNumeric)->isTrue
+				->object($this->testedInstance->ifIsNotNumeric($blockIfIsNotNumeric, $blockIfIsNumeric))
+					->isEqualTo($this->newTestedInstance($value))
+				->mock($blockIfIsNotNumeric)
+					->receive('blockArgumentsAre')
+						->withArguments()
+							->thrice
+				->mock($blockIfIsNumeric)
+					->receive('blockArgumentsAre')
+						->withArguments()
+							->twice
 
-			->assert('A string which begin with a number and followed by letter is not numeric')
 			->if(
-				$isNotNumeric = false,
-				$isNumeric = false
+				$this->newTestedInstance($value = 'x' . rand(- PHP_INT_MAX, PHP_INT_MAX))
 			)
 			->then
-				->object($this->newTestedInstance(rand(1, PHP_INT_MAX) . 'x')->ifIsNotNumeric($isNotNumericCallable, $isNumericCallable))->isTestedInstance
-				->boolean($isNotNumeric)->isTrue
-				->boolean($isNumeric)->isFalse
-
-			->assert('Any string is not numeric')
-			->if(
-				$isNotNumeric = false,
-				$isNumeric = false
-			)
-			->then
-				->object($this->newTestedInstance('x' . uniqid())->ifIsNotNumeric($isNotNumericCallable, $isNumericCallable))->isTestedInstance
-				->boolean($isNotNumeric)->isTrue
-				->boolean($isNumeric)->isFalse
+				->object($this->testedInstance->ifIsNotNumeric($blockIfIsNotNumeric, $blockIfIsNumeric))
+					->isEqualTo($this->newTestedInstance($value))
+				->mock($blockIfIsNotNumeric)
+					->receive('blockArgumentsAre')
+						->withArguments()
+							->{4}
+				->mock($blockIfIsNumeric)
+					->receive('blockArgumentsAre')
+						->withArguments()
+							->twice
 		;
 	}
 

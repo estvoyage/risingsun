@@ -1,10 +1,10 @@
 <?php namespace estvoyage\risingsun\ostring\pattern\data;
 
 use
-	estvoyage\risingsun\ostring\pattern
+	estvoyage\risingsun
 ;
 
 interface recipient
 {
-	function stringPatternDataHasName(pattern\data $data, pattern\data\name $name);
+	function hashContainsPatternDataFromString(risingsun\hash $hash, risingsun\ostring $string);
 }

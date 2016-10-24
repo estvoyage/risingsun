@@ -5,7 +5,8 @@ require __DIR__ . '/../../runner.php';
 use
 	estvoyage\risingsun\tests\units,
 	estvoyage\risingsun,
-	estvoyage\risingsun\http
+	estvoyage\risingsun\http,
+	mock\estvoyage\risingsun\block as mockOfBlock
 ;
 
 class method extends units\test
@@ -14,21 +15,25 @@ class method extends units\test
 	{
 		$this
 			->given(
-				$boolean = false,
-				$callable = function() use (& $boolean) { $boolean = true; },
+				$block = new mockOfBlock,
 				$value = new risingsun\ostring\notEmpty(uniqid())
 			)
 			->if(
 				$this->newTestedInstance($value)
 			)
 			->then
-				->object($this->testedInstance->ifIsEqualToHttpMethod(new http\method(new risingsun\ostring\notEmpty(uniqid())), $callable))
+				->object($this->testedInstance->ifIsEqualToHttpMethod(new http\method(new risingsun\ostring\notEmpty(uniqid())), $block))
 					->isEqualTo($this->newTestedInstance($value))
-				->boolean($boolean)->isFalse
+				->mock($block)
+					->receive('blockArgumentsAre')
+						->never
 
-				->object($this->testedInstance->ifIsEqualToHttpMethod($this->testedInstance, $callable))
+				->object($this->testedInstance->ifIsEqualToHttpMethod($this->testedInstance, $block))
 					->isEqualTo($this->newTestedInstance($value))
-				->boolean($boolean)->isTrue
+				->mock($block)
+					->receive('blockArgumentsAre')
+						->withArguments()
+							->once
 		;
 	}
 }

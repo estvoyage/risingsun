@@ -21,44 +21,44 @@ class ostring
 		return self::valueForStringIs(clone $this, $value);
 	}
 
-	function ifEqualToString(self $string, callable $equal, callable $notEqual = null)
+	function ifEqualToString(self $string, block $equal, block $notEqual = null)
 	{
 		return $this->ifTrue($this->value == (string) $string, $equal, $notEqual);
 	}
 
-	function ifNotEqualToString(self $string, callable $notEqual, callable $equal = null)
+	function ifNotEqualToString(self $string, block $notEqual, block $equal = null)
 	{
-		return $this->ifEqualToString($string, $equal ?: function() {}, $notEqual);
+		return $this->ifEqualToString($string, $equal ?: new block\blackhole, $notEqual);
 	}
 
-	function ifIsEmptyString(callable $empty, callable $notEmpty = null)
+	function ifIsEmptyString(block $empty, block $notEmpty = null)
 	{
 		return $this->ifEqualToString(new self, $empty, $notEmpty);
 	}
 
-	function ifIsNotEmptyString(callable $notEmpty, callable $empty = null)
+	function ifIsNotEmptyString(block $notEmpty, block $empty = null)
 	{
 		return $this->ifNotEqualToString(new self, $notEmpty, $empty);
 	}
 
-	function ifIsStartOfString(self $string, callable $isStart, callable $isNotStart = null)
+	function ifIsStartOfString(self $string, block $isStart, block $isNotStart = null)
 	{
 		$string->ifStartWithString($this, $isStart, $isNotStart);
 
 		return $this;
 	}
 
-	function ifStartWithString(self $string, callable $startWithString, callable $notStartWithString = null)
+	function ifStartWithString(self $string, block $startWithString, block $notStartWithString = null)
 	{
 		return $this->ifTrue($this != '' && $string != '' && strpos((string) $this, (string) $string) === 0, $startWithString, $notStartWithString);
 	}
 
-	function ifIsInteger(callable $isInteger, callable $isNotInteger = null)
+	function ifIsInteger(block $isInteger, block $isNotInteger = null)
 	{
 		return $this->ifTrue(is_numeric($this->value) && (int) $this->value == $this->value, $isInteger, $isNotInteger);
 	}
 
-	function ifIsNotNumeric(callable $isNotNumeric, callable $isNumeric = null)
+	function ifIsNotNumeric(block $isNotNumeric, block $isNumeric = null)
 	{
 		return $this->ifTrue(! is_numeric($this->value), $isNotNumeric, $isNumeric);
 	}
@@ -82,11 +82,16 @@ class ostring
 		return $string;
 	}
 
-	private function ifTrue($boolean, callable $true, callable $false = null)
+	private function ifTrue($boolean, block $true, block $false = null)
 	{
-		$boolean ? $true() : call_user_func($false ?: function() {});
+		self::selectBlockAccordingTo($boolean, $true, $false)->blockArgumentsAre();
 
 		return $this;
+	}
+
+	private static function selectBlockAccordingTo($boolean, block $true, block $false = null)
+	{
+		return ($boolean ? $true : $false ?: new blackhole);
 	}
 
 	private static function valueForStringIs(self $string, $value)

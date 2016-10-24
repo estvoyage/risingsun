@@ -4,20 +4,16 @@ use
 	estvoyage\risingsun
 ;
 
-class method
+class method extends risingsun\ostring\notEmpty
 {
-	private
-		$value
-	;
-
 	function __construct(risingsun\ostring\notEmpty $value)
 	{
-		$this->value = $value;
+		parent::__construct($value);
 	}
 
-	function ifIsEqualToHttpMethod(self $method, callable $callable)
+	function ifIsEqualToHttpMethod(self $method, risingsun\block $block)
 	{
-		$method->value->ifEqualToString($this->value, $callable);
+		$method->ifEqualToString($this, $block);
 
 		return $this;
 	}
