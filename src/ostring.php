@@ -8,7 +8,10 @@ class ostring
 
 	function __construct($value = '')
 	{
-		self::valueForStringIs($this, $value);
+		oboolean::isString($value)
+			->ifTrue(new block\functor(function() use ($value) { $this->value = (string) $value; }))
+			->ifFalse(new block\functor(function() { throw new \domainException('Value must be a string'); }))
+		;
 	}
 
 	function __toString()
@@ -16,29 +19,24 @@ class ostring
 		return $this->value;
 	}
 
-	function valueIs($value)
+	function ifIsEqualToString(self $string, block $equal, block $notEqual = null)
 	{
-		return self::valueForStringIs(clone $this, $value);
+		return $this->ifTrue(oboolean::isEqual($this->value, $string->value), $equal, $notEqual);
 	}
 
-	function ifEqualToString(self $string, block $equal, block $notEqual = null)
+	function ifIsNotEqualToString(self $string, block $notEqual, block $equal = null)
 	{
-		return $this->ifTrue($this->value == (string) $string, $equal, $notEqual);
-	}
-
-	function ifNotEqualToString(self $string, block $notEqual, block $equal = null)
-	{
-		return $this->ifEqualToString($string, $equal ?: new block\blackhole, $notEqual);
+		return $this->ifIsEqualToString($string, $equal ?: new block\blackhole, $notEqual);
 	}
 
 	function ifIsEmptyString(block $empty, block $notEmpty = null)
 	{
-		return $this->ifEqualToString(new self, $empty, $notEmpty);
+		return $this->ifIsEqualToString(new self, $empty, $notEmpty);
 	}
 
 	function ifIsNotEmptyString(block $notEmpty, block $empty = null)
 	{
-		return $this->ifNotEqualToString(new self, $notEmpty, $empty);
+		return $this->ifIsNotEqualToString(new self, $notEmpty, $empty);
 	}
 
 	function ifIsStartOfString(self $string, block $isStart, block $isNotStart = null)
@@ -50,17 +48,27 @@ class ostring
 
 	function ifStartWithString(self $string, block $startWithString, block $notStartWithString = null)
 	{
-		return $this->ifTrue($this != '' && $string != '' && strpos((string) $this, (string) $string) === 0, $startWithString, $notStartWithString);
+		return $this
+			->ifTrue(
+				oboolean::isNotEmptyString($this->value, $string->value),
+				new block\functor(
+					function() use ($string, $startWithString, $notStartWithString) {
+						$this->ifTrue(oboolean::isZero(strpos($this->value, $string->value)), $startWithString, $notStartWithString);
+					}
+				),
+				$notStartWithString
+			)
+		;
 	}
 
 	function ifIsInteger(block $isInteger, block $isNotInteger = null)
 	{
-		return $this->ifTrue(is_numeric($this->value) && (int) $this->value == $this->value, $isInteger, $isNotInteger);
+		return $this->ifTrue(oboolean::IsInteger($this->value), $isInteger, $isNotInteger);
 	}
 
 	function ifIsNotNumeric(block $isNotNumeric, block $isNumeric = null)
 	{
-		return $this->ifTrue(! is_numeric($this->value), $isNotNumeric, $isNumeric);
+		return $this->ifTrue(oboolean::isNotNumeric($this->value), $isNotNumeric, $isNumeric);
 	}
 
 	function recipientOfStringLengthIs(ostring\length\recipient $recipient)
@@ -70,47 +78,13 @@ class ostring
 		return $this;
 	}
 
-	function ostringOffsetIs(ostring\offset $offset)
+	private function ifTrue(oboolean $boolean, block $true, block $false = null)
 	{
-		$string = clone $this;
-
-		for ($i = $offset->value; $i > 0; $i--)
-		{
-			$string->value++;
-		}
-
-		return $string;
-	}
-
-	private function ifTrue($boolean, block $true, block $false = null)
-	{
-		self::selectBlockAccordingTo($boolean, $true, $false)->blockArgumentsAre();
+		$boolean
+			->ifTrue($true)
+			->ifFalse($false ?: new block\blackhole)
+		;
 
 		return $this;
-	}
-
-	private static function selectBlockAccordingTo($boolean, block $true, block $false = null)
-	{
-		return ($boolean ? $true : $false ?: new blackhole);
-	}
-
-	private static function valueForStringIs(self $string, $value)
-	{
-		switch (true)
-		{
-			case is_string($value):
-				break;
-
-			case is_object($value) && method_exists($value, '__toString'):
-				$value = (string) $value;
-				break;
-
-			default:
-				throw new \domainException('Value should be a string');
-		}
-
-		$string->value = $value;
-
-		return $string;
 	}
 }

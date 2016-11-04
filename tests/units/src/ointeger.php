@@ -3,7 +3,9 @@
 require __DIR__ . '/../runner.php';
 
 use
-	estvoyage\risingsun\tests\units
+	estvoyage\risingsun,
+	estvoyage\risingsun\tests\units,
+	mock\estvoyage\risingsun\block as mockOfBlock
 ;
 
 class ointeger extends units\test
@@ -35,7 +37,7 @@ class ointeger extends units\test
 	function testWithInvalidValue($value)
 	{
 		$this
-			->exception(function() use ($value) { $this->newTestedInstance($value); })
+			->exception(function() use ($value) { new risingsun\ointeger($value); })
 				->isInstanceOf('domainException')
 				->hasMessage('Value should be an integer')
 		;
@@ -45,31 +47,46 @@ class ointeger extends units\test
 	{
 		$this
 			->given(
-				$integer = $this->newTestedInstance,
-				$isLessThan = function() use (& $less) { $less = true; }
+				$isLessThanBlock = new mockOfBlock
 			)
 			->if(
-				$this->newTestedInstance,
-				$less = false
+				$this->newTestedInstance
 			)
 			->then
-				->object($this->testedInstance->ifIsLessThan($integer, $isLessThan))->isTestedInstance
-				->boolean($less)->isFalse
+				->object($this->testedInstance->ifIsLessThan($this->newTestedInstance, $isLessThanBlock))
+					->isEqualTo($this->newTestedInstance)
+				->mock($isLessThanBlock)
+					->receive('blockArgumentsAre')
+						->withArguments()
+							->never
 
 			->if(
-				$this->newTestedInstance(-1)->ifIsLessThan($integer, $isLessThan)
+				$this->newTestedInstance(-1)
 			)
-			->then
-				->boolean($less)->isTrue
+				->object($this->testedInstance->ifIsLessThan($this->newTestedInstance, $isLessThanBlock))
+					->isEqualTo($this->newTestedInstance(-1))
+				->mock($isLessThanBlock)
+					->receive('blockArgumentsAre')
+						->withArguments()
+							->once
 
 			->given(
-				$isNotLessThan = function() use (& $notLess) { $notLess = true; }
+				$isNotLessThanBlock = new mockOfBlock
 			)
 			->if(
-				$this->newTestedInstance->ifIsLessThan($integer, $isLessThan, $isNotLessThan)
+				$this->newTestedInstance
 			)
 			->then
-				->boolean($notLess)->isTrue
+				->object($this->testedInstance->ifIsLessThan($this->newTestedInstance(-1), $isLessThanBlock, $isNotLessThanBlock))
+					->isEqualTo($this->newTestedInstance)
+				->mock($isLessThanBlock)
+					->receive('blockArgumentsAre')
+						->withArguments()
+							->once
+				->mock($isNotLessThanBlock)
+					->receive('blockArgumentsAre')
+						->withArguments()
+							->once
 		;
 	}
 
@@ -77,34 +94,44 @@ class ointeger extends units\test
 	{
 		$this
 			->given(
-				$integer = $this->newTestedInstance,
-				$isEqualTo = function() use (& $equal) { $equal = true; },
-				$equal = false
+				$isEqualToBlock = new mockOfBlock
 			)
 			->if(
 				$this->newTestedInstance
 			)
 			->then
-				->object($this->testedInstance->ifIsEqualTo($this->testedInstance, $isEqualTo))->isTestedInstance
-				->boolean($equal)->isTrue
+				->object($this->testedInstance->ifIsEqualTo($this->testedInstance, $isEqualToBlock))->isTestedInstance
+				->mock($isEqualToBlock)
+					->receive('blockArgumentsAre')
+						->withArguments()
+							->once
 
-			->given(
-				$equal = false
-			)
 			->if(
-				$this->newTestedInstance(-1)->ifIsEqualTo($this->newTestedInstance, $isEqualTo)
+				$this->newTestedInstance(-1)
 			)
 			->then
-				->boolean($equal)->isFalse
+				->object($this->testedInstance->ifIsEqualTo($this->newTestedInstance, $isEqualToBlock))
+				->mock($isEqualToBlock)
+					->receive('blockArgumentsAre')
+						->withArguments()
+							->once
 
 			->given(
-				$isNotEqualTo = function() use (& $notEqual) { $notEqual = true; }
+				$isNotEqualToBlock = new mockOfBlock
 			)
 			->if(
-				$this->newTestedInstance(-1)->ifIsEqualTo($this->newTestedInstance, $isEqualTo, $isNotEqualTo)
+				$this->newTestedInstance(-1)
 			)
 			->then
-				->boolean($notEqual)->isTrue
+				->object($this->testedInstance->ifIsEqualTo($this->newTestedInstance, $isEqualToBlock, $isNotEqualToBlock))
+				->mock($isEqualToBlock)
+					->receive('blockArgumentsAre')
+						->withArguments()
+							->once
+				->mock($isNotEqualToBlock)
+					->receive('blockArgumentsAre')
+						->withArguments()
+							->once
 		;
 	}
 
@@ -112,49 +139,41 @@ class ointeger extends units\test
 	{
 		$this
 			->given(
-				$i = 0,
 				$integer = $this->newTestedInstance,
-				$callable = function() use (& $i) { $i++; }
+				$block = new mockOfBlock
 			)
 			->if(
 				$this->newTestedInstance
 			)
 			->then
-				->object($this->testedInstance->whileIsGreaterThan($integer, $callable))->isTestedInstance
-				->integer($i)->isZero
+				->object($this->testedInstance->whileIsGreaterThan($this->newTestedInstance, $block))
+					->isEqualTo($this->newTestedInstance)
+				->mock($block)
+					->receive('blockArgumentsAre')
+						->withArguments()
+							->never
 
-			->given(
-				$i = 0,
-				$integer = $this->newTestedInstance
-			)
 			->if(
 				$this->newTestedInstance(1)
 			)
 			->then
-				->object($this->testedInstance->whileIsGreaterThan($integer, $callable))->isTestedInstance
-				->integer($i)->isEqualTo(1)
+				->object($this->testedInstance->whileIsGreaterThan($this->newTestedInstance, $block))
+					->isEqualTo($this->newTestedInstance(1))
+				->mock($block)
+					->receive('blockArgumentsAre')
+						->withArguments()
+							->once
 
-			->given(
-				$i = 0,
-				$integer = $this->newTestedInstance
-			)
 			->if(
 				$this->newTestedInstance(2)
 			)
 			->then
-				->object($this->testedInstance->whileIsGreaterThan($integer, $callable))->isTestedInstance
-				->integer($i)->isEqualTo(2)
-
-			->given(
-				$i = 0,
-				$integer = $this->newTestedInstance(1)
-			)
-			->if(
-				$this->newTestedInstance(2)
-			)
-			->then
-				->object($this->testedInstance->whileIsGreaterThan($integer, $callable))->isTestedInstance
-				->integer($i)->isEqualTo(1)
+				->object($this->testedInstance->whileIsGreaterThan($this->newTestedInstance, $block))
+					->isEqualTo($this->newTestedInstance(2))
+				->mock($block)
+					->receive('blockArgumentsAre')
+						->withArguments()
+							->thrice
 		;
 	}
 
@@ -162,35 +181,29 @@ class ointeger extends units\test
 	{
 		$this
 			->given(
-				$i = 0,
-				$callable = function() use (& $i) { $i++; }
+				$block = new mockOfBlock
 			)
 			->if(
 				$this->newTestedInstance
 			)
 			->then
-				->object($this->testedInstance->whileIsGreaterThanZero($callable))->isTestedInstance
-				->integer($i)->isZero
+				->object($this->testedInstance->whileIsGreaterThanZero($block))
+					->isEqualTo($this->newTestedInstance)
+				->mock($block)
+					->receive('blockArgumentsAre')
+						->withArguments()
+							->never
 
-			->given(
-				$i = 0
-			)
 			->if(
 				$this->newTestedInstance(1)
 			)
 			->then
-				->object($this->testedInstance->whileIsGreaterThanZero($callable))->isTestedInstance
-				->integer($i)->isEqualTo(1)
-
-			->given(
-				$i = 0
-			)
-			->if(
-				$this->newTestedInstance(2)
-			)
-			->then
-				->object($this->testedInstance->whileIsGreaterThanZero($callable))->isTestedInstance
-				->integer($i)->isEqualTo(2)
+				->object($this->testedInstance->whileIsGreaterThanZero($block))
+					->isEqualTo($this->newTestedInstance(1))
+				->mock($block)
+					->receive('blockArgumentsAre')
+						->withArguments()
+							->once
 		;
 	}
 

@@ -31,48 +31,36 @@ class ointeger
 		return (string) $this->value;
 	}
 
-	function ifIsLessThan(self $integer, callable $isLessThan, callable $isNotLessThan = null)
+	function ifIsLessThan(self $integer, block $isLessThan, block $isNotLessThan = null)
 	{
 		return $this->ifTrue($this->value < $integer->value, $isLessThan, $isNotLessThan);
 	}
 
-	function ifIsEqualTo(self $integer, callable $isEqualTo, callable $isNotEqualTo = null)
+	function ifIsEqualTo(self $integer, block $isEqualTo, block $isNotEqualTo = null)
 	{
 		return $this->ifTrue($this->value == $integer->value, $isEqualTo, $isNotEqualTo);
 	}
 
-	function whileIsGreaterThan(self $integer, callable $loopBody)
+	function whileIsGreaterThan(self $integer, block $loopBody)
 	{
 		for ($i = $this->value; $i > $integer->value; $i--)
 		{
-			$loopBody();
+			$loopBody->blockArgumentsAre();
 		}
 
 		return $this;
 	}
 
-	function whileIsGreaterThanZero(callable $loopBody)
+	function whileIsGreaterThanZero(block $loopBody)
 	{
 		return $this->whileIsGreaterThan(new self, $loopBody);
 	}
 
-	static function newFromNothing()
+	private function ifTrue($boolean, block $true, block $false = null)
 	{
-		return new static;
-	}
+		$block = $boolean ? $true : ($false ?: new block\blackhole);
 
-	static function newFromInteger(self $integer)
-	{
-		$new = static::newFromNothing();
-
-		$new->value = $integer->value;
-
-		return $new;
-	}
-
-	private function ifTrue($boolean, callable $true, callable $false = null)
-	{
-		$boolean ? $true() : call_user_func($false ?: function() {});
+		$block->blockArgumentsAre();
 
 		return $this;
 	}

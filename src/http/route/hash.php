@@ -51,7 +51,7 @@ class hash
 			)
 		;
 
-		$this->routeShouldBeNull();
+		$this->routeWasAggregated();
 	}
 
 	function httpRouteControllerHasRequest(http\route\controller $controller, http\request $request)
@@ -89,7 +89,7 @@ class hash
 					function() use ($key) {
 						$this->routeHash->recipientOfHashWithValueIs(new risingsun\hash\value\withKey($this->route, $key), $this);
 
-						$this->routeShouldBeNull();
+						$this->routeWasAggregated();
 					}
 				)
 			)
@@ -146,6 +146,9 @@ class hash
 				new block\functor(
 					function() use ($value) {
 						$value->httpRouteControllerHasRequest($this->controller, $this->request);
+
+						$this->controller = null;
+						$this->request = null;
 					}
 				)
 			)
@@ -154,7 +157,7 @@ class hash
 		return $this;
 	}
 
-	private function routeShouldBeNull()
+	private function routeWasAggregated()
 	{
 		$this->route = null;
 	}

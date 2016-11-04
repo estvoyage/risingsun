@@ -36,7 +36,7 @@ class v1_1 extends units\test
 					->isEqualTo($this->newTestedInstance($method, $path))
 				->mock($recipient)
 					->receive('httpRequestHasKey')
-						->withArguments(new hash\key($path))
+						->withArguments(new hash\key(http\url\path::toString($path)))
 							->once
 		;
 	}

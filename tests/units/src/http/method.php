@@ -6,7 +6,8 @@ use
 	estvoyage\risingsun\tests\units,
 	estvoyage\risingsun,
 	estvoyage\risingsun\http,
-	mock\estvoyage\risingsun\block as mockOfBlock
+	mock\estvoyage\risingsun\block as mockOfBlock,
+	estvoyage\risingsun\http\method as testedClass
 ;
 
 class method extends units\test
@@ -34,6 +35,20 @@ class method extends units\test
 					->receive('blockArgumentsAre')
 						->withArguments()
 							->once
+		;
+	}
+
+	function testToString()
+	{
+		$this
+			->given(
+				$value = new risingsun\ostring\notEmpty(uniqid())
+			)
+			->if(
+				$this->newTestedInstance($value)
+			)
+			->then
+				->object(testedClass::toString($this->testedInstance))->isEqualTo($value)
 		;
 	}
 }

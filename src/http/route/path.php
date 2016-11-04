@@ -49,7 +49,7 @@ class path
 				new block\functor(
 					function() use ($path) {
 						$path
-							->ifEqualToString(
+							->ifIsEqualToHttpUrlPath(
 								$this->path,
 								new block\functor(
 									function() {

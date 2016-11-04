@@ -7,7 +7,7 @@ use
 	mock\estvoyage\risingsun as mockOfRisingsun
 ;
 
-class false extends units\test
+class wrong extends units\test
 {
 	function testClass()
 	{

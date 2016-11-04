@@ -59,7 +59,7 @@ class map
 
 	private static function hashIsRecipientOfValues(self $hash, value... $values)
 	{
-		$hash->newValues = new oboolean\true;
+		$hash->newValues = new oboolean\right;
 
 		(new iterator(... $values))
 			->iteratorPayloadIs(new block\functor(function($iterator, $value) use ($hash) {
@@ -69,7 +69,7 @@ class map
 			)
 		;
 
-		$hash->newValues = new oboolean\false;
+		$hash->newValues = new oboolean\wrong;
 
 		return $hash;
 	}

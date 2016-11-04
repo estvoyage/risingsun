@@ -20,7 +20,7 @@ class v1_1
 
 	function recipientOfHttpRequestHashKeyIs(http\request\hash\key\recipient $recipient)
 	{
-		$recipient->httpRequestHasKey(new hash\key($this->path));
+		$recipient->httpRequestHasKey(new hash\key(http\url\path::toString($this->path)));
 
 		return $this;
 	}

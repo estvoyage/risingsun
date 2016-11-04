@@ -5,6 +5,8 @@ require __DIR__ . '/../../../runner.php';
 use
 	estvoyage\risingsun\tests\units,
 	estvoyage\risingsun,
+	estvoyage\risingsun\block,
+	estvoyage\risingsun\oboolean,
 	mock\estvoyage\risingsun\hash as mockOfHash,
 	mock\estvoyage\risingsun\http as mockOfHttp
 ;
@@ -76,10 +78,15 @@ class hash extends units\test
 			)
 			->if(
 				$this->calling($route)->httpRouteControllerHasRequest = function($routeController, $routeRequest) use ($request, $response) {
-					if ($routeRequest === $request)
-					{
-						$routeController->httpResponseIs($response);
-					}
+					oboolean::isIdentical($routeRequest, $request)
+						->ifTrue(
+							new block\functor(
+								function() use ($routeController, $response) {
+									$routeController->httpResponseIs($response);
+								}
+							)
+						)
+					;
 				},
 
 				$hashKey = new risingsun\hash\key(uniqid()),
@@ -97,6 +104,10 @@ class hash extends units\test
 				->mock($controller)
 					->receive('httpResponseIs')
 						->withIdenticalArguments($response)
+							->once
+				->mock($routeAggregator)
+					->receive('httpRouteControllerHasRequest')
+						->withIdenticalArguments($controller, $request)
 							->once
 		;
 	}

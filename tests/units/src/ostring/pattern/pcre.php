@@ -127,21 +127,31 @@ class pcre extends units\test
 		$this
 			->given(
 				$string = new risingsun\ostring(uniqid()),
-				$block = new mockOfBlock
+				$matchBlock = new mockOfBlock,
+				$notMatchBlock = new mockOfBlock
 			)
 			->if(
 				$this->newTestedInstance('/' . $string . '/')
 			)
 			->then
-				->object($this->testedInstance->ifIsPatternOfString(new risingsun\ostring, $block))
+				->object($this->testedInstance->ifIsPatternOfString(new risingsun\ostring, $matchBlock))
 					->isEqualTo($this->newTestedInstance('/' . $string . '/'))
-				->mock($block)
+				->mock($matchBlock)
 					->receive('blockArgumentsAre')
 						->never
 
-				->object($this->testedInstance->ifIsPatternOfString($string, $block))
+				->object($this->testedInstance->ifIsPatternOfString(new risingsun\ostring, $matchBlock, $notMatchBlock))
 					->isEqualTo($this->newTestedInstance('/' . $string . '/'))
-				->mock($block)
+				->mock($matchBlock)
+					->receive('blockArgumentsAre')
+						->never
+				->mock($notMatchBlock)
+					->receive('blockArgumentsAre')
+						->once
+
+				->object($this->testedInstance->ifIsPatternOfString($string, $matchBlock))
+					->isEqualTo($this->newTestedInstance('/' . $string . '/'))
+				->mock($matchBlock)
 					->receive('blockArgumentsAre')
 						->withArguments()
 							->once

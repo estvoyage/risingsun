@@ -82,9 +82,13 @@ class pcre extends risingsun\ostring\notEmpty
 		return $this;
 	}
 
-	function ifIsPatternOfString(risingsun\ostring $string, block $block)
+	function ifIsPatternOfString(risingsun\ostring $string, block $matchBlock, block $notMatchBlock = null)
 	{
-		$this->match($string)->ifTrue($block);
+		$this
+			->match($string)
+				->ifTrue($matchBlock)
+				->ifFalse($notMatchBlock ?: new block\blackhole)
+		;
 
 		return $this;
 	}

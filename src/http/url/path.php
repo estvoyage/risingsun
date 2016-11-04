@@ -6,43 +6,53 @@ use
 	estvoyage\risingsun\oboolean
 ;
 
-class path extends risingsun\ostring
+class path
 {
-	function __construct(risingsun\ostring\notEmpty $path = null)
+	private
+		$value
+	;
+
+	private static
+		$pattern
+	;
+
+	function __construct(risingsun\ostring\notEmpty $path)
 	{
-		self::patternMatch($path = $path ?: new risingsun\ostring\notEmpty('/'))
-			->ifTrue(
+		self::$pattern = self::$pattern ?: new risingsun\ostring\pattern\pcre('%^/(?:[^/#?]+(?:/[^/#?]+)*)?$%');
+
+		self::$pattern
+			->ifIsPatternOfString(
+				$path,
 				new block\functor(
 					function() use ($path) {
-						parent::__construct($path);
+						$this->value = $path;
 					}
-				)
-			)
-			->ifFalse(
-				new block\functor(
-					function() {
-						throw new \domainException('HTTP URL path must match PCRE pattern \`^/(?:[^/#?](?:/[^/#?])*)?$\'');
-					}
+				),
+				new block\exception\domain(
+					new risingsun\ostring\notEmpty(
+						'HTTP URL path must match PCRE pattern `' . self::$pattern . '\''
+					)
 				)
 			)
 		;
 	}
 
-	private static function patternMatch(risingsun\ostring\notEmpty $path)
+	function ifIsEqualToHttpUrlPath(self $path, risingsun\block $isEqual, risingsun\block $isNotEqual = null)
 	{
-		$match = false;
-
-		(new risingsun\ostring\pattern\pcre('%^/$%'))
-			->ifIsPatternOfString(
-				$path,
-				new block\functor(
-					function() use (& $match) {
-						$match = ! $match;
-					}
+		$this
+			->value
+				->ifIsEqualToString(
+					$path->value,
+					$isEqual,
+					$isNotEqual
 				)
-			)
 		;
 
-		return oboolean::isTrue($match);
+		return $this;
+	}
+
+	static function toString(self $path)
+	{
+		return $path->value;
 	}
 }

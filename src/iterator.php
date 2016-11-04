@@ -16,13 +16,13 @@ class iterator
 	function __construct(... $values)
 	{
 		$this->values = $values;
-		$this->run = new oboolean\false;
+		$this->run = new oboolean\wrong;
 	}
 
 	function iteratorPayloadIs(iterator\payload $payload)
 	{
 		$_this = clone $this;
-		$_this->run = new oboolean\true;
+		$_this->run = new oboolean\right;
 
 		foreach ($_this->values as $value)
 		{

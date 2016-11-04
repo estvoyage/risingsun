@@ -5,6 +5,8 @@ require __DIR__ . '/../../../runner.php';
 use
 	estvoyage\risingsun\tests\units,
 	estvoyage\risingsun\http,
+	estvoyage\risingsun\block,
+	estvoyage\risingsun\oboolean,
 	mock\estvoyage\risingsun\http as mockOfHttp
 ;
 
@@ -24,7 +26,7 @@ class path extends units\test
 				$controller = new mockOfHttp\route\controller,
 				$endpoint = new mockOfHttp\route\endpoint,
 				$request = new mockOfHttp\request,
-				$path = new http\url\path
+				$path = new http\url\path\root
 			)
 			->if(
 				$this->newTestedInstance($path, $endpoint)
@@ -37,7 +39,7 @@ class path extends units\test
 						->never
 
 			->given(
-				$requestPath = new http\url\path,
+				$requestPath = new http\url\path\root,
 				$response = new mockOfHttp\response
 			)
 			->if(
@@ -45,10 +47,18 @@ class path extends units\test
 					$recipient->httpRequestUrlPathIs($requestPath);
 				},
 				$this->calling($endpoint)->recipientOfHttpResponseForRequestIs = function($endpointRequest, $recipient) use ($request, $response) {
-					if ($request === $endpointRequest)
-					{
-						$recipient->httpResponseIs($response);
-					}
+					oboolean::isIdentical(
+						$request,
+						$endpointRequest
+					)
+						->ifTrue(
+							new block\functor(
+								function() use ($recipient, $response) {
+									$recipient->httpResponseIs($response);
+								}
+							)
+						)
+					;
 				}
 			)
 			->then
@@ -65,7 +75,7 @@ class path extends units\test
 	{
 		$this
 			->given(
-				$path = new http\url\path,
+				$path = new http\url\path\root,
 				$endpoint = new mockOfHttp\route\endpoint,
 				$recipient = new mockOfHttp\route\hash\key\recipient
 			)

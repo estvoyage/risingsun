@@ -24,18 +24,6 @@ class ostring extends units\test
 		$this->castToString($this->newTestedInstance($value))->isEqualTo($value);
 	}
 
-	/**
-	 * @dataProvider invalidValueProvider
-	 */
-	function testWithInvalidValue($value)
-	{
-		$this
-			->exception(function() use ($value) { $this->newTestedInstance($value); })
-				->isInstanceOf('domainException')
-				->hasMessage('Value should be a string')
-		;
-	}
-
 	function testIfIsEmptyString()
 	{
 		$this
@@ -120,7 +108,7 @@ class ostring extends units\test
 		;
 	}
 
-	function testIfEqualToString()
+	function testIfIsEqualToString()
 	{
 		$this
 			->given(
@@ -132,21 +120,21 @@ class ostring extends units\test
 				$this->newTestedInstance
 			)
 			->then
-				->object($this->testedInstance->ifEqualToString($this->testedInstance, $blockIfEqual))
+				->object($this->testedInstance->ifIsEqualToString($this->testedInstance, $blockIfEqual))
 					->isEqualTo($this->newTestedInstance)
 				->mock($blockIfEqual)
 					->receive('blockArgumentsAre')
 						->withArguments()
 							->once
 
-				->object($this->testedInstance->ifEqualToString($this->newTestedInstance(uniqid()), $blockIfEqual))
+				->object($this->testedInstance->ifIsEqualToString($this->newTestedInstance(uniqid()), $blockIfEqual))
 					->isEqualTo($this->newTestedInstance)
 				->mock($blockIfEqual)
 					->receive('blockArgumentsAre')
 						->withArguments()
 							->once
 
-				->object($this->testedInstance->ifEqualToString($this->newTestedInstance(uniqid()), $blockIfEqual, $blockIfNotEqual))
+				->object($this->testedInstance->ifIsEqualToString($this->newTestedInstance(uniqid()), $blockIfEqual, $blockIfNotEqual))
 					->isEqualTo($this->newTestedInstance)
 				->mock($blockIfEqual)
 					->receive('blockArgumentsAre')
@@ -159,7 +147,7 @@ class ostring extends units\test
 		;
 	}
 
-	function testIfNotEqualToString()
+	function testIfIsNotEqualToString()
 	{
 		$this
 			->given(
@@ -171,13 +159,13 @@ class ostring extends units\test
 				$this->newTestedInstance
 			)
 			->then
-				->object($this->testedInstance->ifNotEqualToString($this->testedInstance, $blockIfNotEqual))
+				->object($this->testedInstance->ifIsNotEqualToString($this->testedInstance, $blockIfNotEqual))
 					->isEqualTo($this->newTestedInstance)
 				->mock($blockIfNotEqual)
 					->receive('blockArgumentsAre')
 						->never
 
-				->object($this->testedInstance->ifNotEqualToString($this->testedInstance, $blockIfNotEqual, $blockIfEqual))
+				->object($this->testedInstance->ifIsNotEqualToString($this->testedInstance, $blockIfNotEqual, $blockIfEqual))
 					->isEqualTo($this->newTestedInstance)
 				->mock($blockIfNotEqual)
 					->receive('blockArgumentsAre')
@@ -186,7 +174,7 @@ class ostring extends units\test
 					->receive('blockArgumentsAre')
 						->once
 
-				->object($this->testedInstance->ifNotEqualToString($this->newTestedInstance(uniqid()), $blockIfNotEqual, $blockIfEqual))
+				->object($this->testedInstance->ifIsNotEqualToString($this->newTestedInstance(uniqid()), $blockIfNotEqual, $blockIfEqual))
 					->isEqualTo($this->newTestedInstance)
 				->mock($blockIfNotEqual)
 					->receive('blockArgumentsAre')
@@ -612,52 +600,6 @@ class ostring extends units\test
 		;
 	}
 
-	function testOstringOffsetIs()
-	{
-		$this
-			->given(
-				$offset = new risingsun\ostring\offset(1)
-			)
-			->if(
-				$this->newTestedInstance
-			)
-			->then
-				->object($this->testedInstance->ostringOffsetIs($offset))
-					->isNotTestedInstance
-					->isEqualTo($this->newTestedInstance('1'))
-
-			->given(
-				$offset = new risingsun\ostring\offset(2)
-			)
-			->if(
-				$this->newTestedInstance
-			)
-			->then
-				->object($this->testedInstance->ostringOffsetIs($offset))
-					->isNotTestedInstance
-					->isEqualTo($this->newTestedInstance('2'))
-
-			->given(
-				$offset = new risingsun\ostring\offset(2)
-			)
-			->if(
-				$this->newTestedInstance('a')
-			)
-			->then
-				->object($this->testedInstance->ostringOffsetIs($offset))
-					->isNotTestedInstance
-					->isEqualTo($this->newTestedInstance('c'))
-
-			->if(
-				$this->newTestedInstance('/')
-			)
-			->then
-				->object($this->testedInstance->ostringOffsetIs($offset))
-					->isNotTestedInstance
-					->isEqualTo($this->newTestedInstance('/'))
-		;
-	}
-
 	function testRecipientOfStringLenghtIs()
 	{
 		$this
@@ -685,50 +627,12 @@ class ostring extends units\test
 		;
 	}
 
-	/**
-	 * @dataProvider invalidValueProvider
-	 */
-	function testValueIsWithInvalidValueProvider($value)
-	{
-		$this
-			->exception(function() use ($value) { $this->newTestedInstance->valueIs($value); })
-				->isInstanceOf('domainException')
-				->hasMessage('Value should be a string')
-		;
-	}
-
-	/**
-	 * @dataProvider validValueProvider
-	 */
-	function testValueIsWithValidValueProvider($value)
-	{
-		$this->castToString($this->newTestedInstance->valueIs($value))->isEqualTo($value);
-	}
-
 	protected function validValueProvider()
 	{
 		return [
 			'',
 			uniqid(),
 			$this->newTestedInstance
-		];
-	}
-
-	protected function invalidValueProvider()
-	{
-		return [
-			true,
-			false,
-			null,
-			rand(- PHP_INT_MAX, 1),
-			0,
-			rand(1, PHP_INT_MAX),
-			(float) rand(- PHP_INT_MAX, 1),
-			0.,
-			M_PI,
-			(float) rand(1, PHP_INT_MAX)
-			[ [] ],
-			new \stdclass
 		];
 	}
 }

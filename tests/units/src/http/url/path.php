@@ -4,26 +4,14 @@ require __DIR__ . '/../../../runner.php';
 
 use
 	estvoyage\risingsun\tests\units,
-	estvoyage\risingsun
+	estvoyage\risingsun,
+	estvoyage\risingsun\http\url,
+	estvoyage\risingsun\http\url\path as testedClass,
+	mock\estvoyage\risingsun\block as mockOfBlock
 ;
 
 class path extends units\test
 {
-	function testClass()
-	{
-		$this->testedClass
-			->extends('estvoyage\risingsun\ostring')
-		;
-	}
-
-	function testWithValidValue()
-	{
-		$this
-			->castToString($this->newTestedInstance)->isEqualTo('/')
-			->castToString($this->newTestedInstance(new risingsun\ostring\notEmpty('/')))->isEqualTo('/')
-		;
-	}
-
 	/**
 	 * @dataProvider invalidPcrePatternProvider
 	 */
@@ -32,7 +20,60 @@ class path extends units\test
 		$this
 			->exception(function() use ($value) { $this->newTestedInstance(new risingsun\ostring\notEmpty($value)); })
 				->isInstanceOf('domainException')
-				->hasMessage('HTTP URL path must match PCRE pattern \`^/(?:[^/#?](?:/[^/#?])*)?$\'')
+				->hasMessage('HTTP URL path must match PCRE pattern `%^/(?:[^/#?]+(?:/[^/#?]+)*)?$%\'')
+		;
+	}
+
+	function testIfIsEqualToHttpUrlPath()
+	{
+		$this
+			->given(
+				$isEqualBlock = new mockOfBlock,
+				$path = new risingsun\ostring\notEmpty('/' . uniqid())
+			)
+			->if(
+				$this->newTestedInstance($path)
+			)
+			->then
+				->object($this->testedInstance->ifIsEqualToHttpUrlPath($this->newTestedInstance($path), $isEqualBlock))
+					->isEqualTo($this->newTestedInstance($path))
+				->mock($isEqualBlock)
+					->receive('blockArgumentsAre')
+						->withArguments()
+							->once
+
+			->given(
+				$notIsEqualBlock = new mockOfBlock,
+				$otherPath = new risingsun\ostring\notEmpty('/' . uniqid())
+			)
+			->if(
+				$this->newTestedInstance($path)
+			)
+			->then
+				->object($this->testedInstance->ifIsEqualToHttpUrlPath($this->newTestedInstance($otherPath), $isEqualBlock, $notIsEqualBlock))
+					->isEqualTo($this->newTestedInstance($path))
+				->mock($isEqualBlock)
+					->receive('blockArgumentsAre')
+						->withArguments()
+							->once
+				->mock($notIsEqualBlock)
+					->receive('blockArgumentsAre')
+						->withArguments()
+							->once
+		;
+	}
+
+	function testToString()
+	{
+		$this
+			->given(
+				$path = new risingsun\ostring\notEmpty('/' . uniqid())
+			)
+			->if(
+				$this->newTestedInstance($path)
+			)
+			->then
+				->object(testedClass::toString($this->testedInstance))->isEqualTo($path)
 		;
 	}
 
@@ -42,7 +83,9 @@ class path extends units\test
 			uniqid(),
 			'/#',
 			'/foo#',
-			'/foo'
+			'/foo?',
+			'/foo/',
+			'/foo/bar/'
 		];
 	}
 }

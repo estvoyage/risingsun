@@ -5,9 +5,9 @@ abstract class oboolean
 	abstract function ifTrue(block $block);
 	abstract function ifFalse(block $block);
 
-	static function newInstance(... $values)
+	static function newInstance($variable, ... $variables)
 	{
-		return in_array(false, $values, true) ? new oboolean\false : new oboolean\true;
+		return self::arrayContainsAtLeastOneValueIdenticalTo(func_get_args(), false) ? new oboolean\wrong : new oboolean\right;
 	}
 
 	static function keyIsInArray($key, array $array)
@@ -15,24 +15,24 @@ abstract class oboolean
 		return self::newInstance(isset($array[(string) $key]));
 	}
 
-	static function isNotNull(... $variables)
+	static function isNotNull($variable, ... $variables)
 	{
-		return self::newInstance(! in_array(null, $variables, true));
+		return self::arrayContainsValuesNotIdenticalTo(func_get_args(), null);
 	}
 
-	static function isFalse(... $variables)
+	static function isFalse($variable, ... $variables)
 	{
-		return self::newInstance(sizeof(array_keys($variables, false, true)) == sizeof($variables));
+		return self::arrayContainsOnlyValueIdenticalTo(func_get_args(), false);
 	}
 
-	static function isTrue(... $variables)
+	static function isTrue($variable, ... $variables)
 	{
-		return self::newInstance(sizeof(array_keys($variables, true, true)) == sizeof($variables));
+		return self::arrayContainsOnlyValueIdenticalTo(func_get_args(), true);
 	}
 
-	static function isNotFalse(... $variables)
+	static function isNotFalse($variable, ... $variables)
 	{
-		return self::newInstance(! in_array(false, $variables, true));
+		return self::arrayContainsValuesNotIdenticalTo(func_get_args(), false);
 	}
 
 	static function throwException(block $block)
@@ -46,14 +46,54 @@ abstract class oboolean
 		return self::newInstance(isset($exception));
 	}
 
-	static function isZero(... $variables)
+	static function isZero($variable, ... $variables)
 	{
-		return self::newInstance(sizeof(array_keys($variables, 0, true)) == sizeof($variables));
+		return self::isIdentical(0, $variable, ... $variables);
 	}
 
-	static function isNotZero(... $variables)
+	static function isNotZero($variable, ... $variables)
 	{
-		return self::newInstance(! in_array(0, $variables, true));
+		return self::arrayContainsValuesNotIdenticalTo(func_get_args(), 0);
+	}
+
+	static function isIdentical($reference, $variable, ... $variables)
+	{
+		return self::arrayContainsOnlyValueIdenticalTo(array_slice(func_get_args(), 1), $reference);
+	}
+
+	static function isEqual($reference, $variable, ... $variables)
+	{
+		return self::arrayContainsOnlyValueEqualTo(array_slice(func_get_args(), 1), $reference);
+	}
+
+	static function isNumeric($variable, ... $variables)
+	{
+		return self::arrayHasSameSizeThan(func_get_args(), array_filter(func_get_args(), [ 'self', 'variableIsNumeric' ]));
+	}
+
+	static function isNotNumeric($variable, ... $variables)
+	{
+		return self::complement(self::isNumeric($variable, ...$variables));
+	}
+
+	static function isString($variable, ... $variables)
+	{
+		return self::arrayHasSameSizeThan(func_get_args(), array_filter(func_get_args(), function($variable) { return is_string($variable) || method_exists($variable, '__toString'); }));
+	}
+
+	static function isInteger($variable, ... $variables)
+	{
+		return self::arrayHasSameSizeThan(func_get_args(), array_filter(func_get_args(), function($variable) { return self::variableIsNumeric($variable) && (int) $variable == $variable; }));
+	}
+
+	static function isEmptyString($variable, ... $variables)
+	{
+		return self::isIdentical('', $variable, ... $variables);
+	}
+
+	static function isNotEmptyString($variable, ... $variables)
+	{
+		return self::newInstance(! self::arrayContainsAtLeastOneValueIdenticalTo(func_get_args(), ''));
 	}
 
 	static function complement(self $boolean)
@@ -93,5 +133,45 @@ abstract class oboolean
 		;
 
 		return $error;
+	}
+
+	private static function arrayContainsOnlyValue(array $variables, $reference, $strict)
+	{
+		return self::arrayHasSameSizeThan(array_keys($variables, $reference, $strict), $variables);
+	}
+
+	private static function arrayContainsOnlyValueEqualTo(array $variables, $reference)
+	{
+		return self::arrayContainsOnlyValue($variables, $reference, false);
+	}
+
+	private static function arrayContainsOnlyValueIdenticalTo(array $variables, $reference)
+	{
+		return self::arrayContainsOnlyValue($variables, $reference, true);
+	}
+
+	private static function arrayContainsValuesNotIdenticalTo(array $variables, $reference)
+	{
+		return self::newInstance(! self::arrayContainsAtLeastOneValueIdenticalTo($variables, $reference));
+	}
+
+	private static function arrayHasSameSizeThan(array $first, array $second)
+	{
+		return self::newInstance(sizeof($first) == sizeof($second));
+	}
+
+	private static function variableIsNumeric($variable)
+	{
+		return is_numeric($variable);
+	}
+
+	private static function variableIsNotNumeric($variable)
+	{
+		return ! self::variableIsNumeric($variable);
+	}
+
+	private static function arrayContainsAtLeastOneValueIdenticalTo(array $variables, $reference)
+	{
+		return in_array($reference, $variables, true);
 	}
 }
