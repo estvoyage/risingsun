@@ -4,6 +4,7 @@ require __DIR__ . '/../runner.php';
 
 use
 	estvoyage\risingsun,
+	estvoyage\risingsun\ointeger as testedClass,
 	estvoyage\risingsun\tests\units,
 	mock\estvoyage\risingsun\block as mockOfBlock
 ;
@@ -205,6 +206,14 @@ class ointeger extends units\test
 						->withArguments()
 							->once
 		;
+	}
+
+	/**
+	 * @dataProvider validValueProvider
+	 */
+	function testToFloat($value)
+	{
+		$this->object(testedClass::toFloat($this->newTestedInstance($value)))->isEqualTo(new risingsun\ofloat((float) $value));
 	}
 
 	protected function validValueProvider()

@@ -22,6 +22,8 @@ class fifo
 	function __construct(http\route... $routes)
 	{
 		$this->routes = new risingsun\iterator(... $routes);
+		$this->iterator = new risingsun\blackhole;
+		$this->controller = new risingsun\blackhole;
 	}
 
 	function httpRouteControllerHasRequest(http\route\controller $controller, http\request $request)
@@ -52,19 +54,8 @@ class fifo
 
 	function httpResponseIs(http\response $response)
 	{
-		oboolean::isNotNull($this->controller, $this->iterator)
-			->ifTrue(
-				new block\functor(
-					function() use ($response) {
-						$this->iterator->nextIteratorValuesAreUseless();
-
-						$this->controller->httpResponseIs($response);
-
-						$this->controller = null;
-					}
-				)
-			)
-		;
+		$this->iterator->nextIteratorValuesAreUseless();
+		$this->controller->httpResponseIs($response);
 
 		return $this;
 	}

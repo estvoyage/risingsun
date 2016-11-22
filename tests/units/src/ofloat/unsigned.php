@@ -11,7 +11,6 @@ class unsigned extends units\test
 	function testClass()
 	{
 		$this->testedClass
-			->isAbstract
 			->extends('estvoyage\risingsun\ofloat')
 		;
 	}

@@ -4,7 +4,7 @@ use
 	estvoyage\risingsun
 ;
 
-abstract class unsigned extends risingsun\ofloat
+class unsigned extends risingsun\ofloat
 {
 	function __construct($value = 0.)
 	{

@@ -32,8 +32,8 @@ class withKey extends units\test
 				->object($this->testedInstance->recipientOfHashValueContentsIs($recipient))
 					->isEqualTo($this->newTestedInstance($value, $key))
 				->mock($recipient)
-					->receive('hashValueContentsIs')
-						->withIdenticalArguments($key, $value)
+					->receive('hashValueContentsHasKey')
+						->withIdenticalArguments($value, $key)
 							->once
 		;
 	}

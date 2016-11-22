@@ -56,6 +56,11 @@ class ointeger
 		return $this->whileIsGreaterThan(new self, $loopBody);
 	}
 
+	static function toFloat(self $integer)
+	{
+		return new ofloat($integer->value);
+	}
+
 	private function ifTrue($boolean, block $true, block $false = null)
 	{
 		$block = $boolean ? $true : ($false ?: new block\blackhole);

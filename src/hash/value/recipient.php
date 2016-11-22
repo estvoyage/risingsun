@@ -2,5 +2,5 @@
 
 interface recipient
 {
-	function hashHasValue($value);
+	function hashKeyHasValue($value);
 }

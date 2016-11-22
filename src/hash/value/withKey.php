@@ -21,7 +21,7 @@ class withKey
 
 	function recipientOfHashValueContentsIs(hash\value\contents\recipient $recipient)
 	{
-		$recipient->hashValueContentsIs($this->key, $this->value);
+		$recipient->hashValueContentsHasKey($this->value, $this->key);
 
 		return $this;
 	}

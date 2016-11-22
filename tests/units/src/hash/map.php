@@ -30,32 +30,16 @@ class map extends units\test
 			)
 			->if(
 				$this->calling($hashValue)->recipientOfHashValueContentsIs = function($recipient) use ($key, $value) {
-					$recipient->hashValueContentsIs($key, $value);
+					$recipient->hashValueContentsHasKey($value, $key);
 				},
 				$this->newTestedInstance($hashValue)
 					->recipientOfHashValueAtKeyIs($key, $recipient)
 			)
 			->then
 				->mock($recipient)
-					->receive('hashHasValue')
+					->receive('hashKeyHasValue')
 						->withArguments($value)
 							->once
-		;
-	}
-
-	function testHashValueContentsIs()
-	{
-		$this
-			->given(
-				$key = new hash\key(uniqid()),
-				$value = uniqid()
-			)
-			->if(
-				$this->newTestedInstance
-			)
-			->then
-				->object($this->testedInstance->hashValueContentsIs($key, $value))
-					->isEqualTo($this->newTestedInstance)
 		;
 	}
 
@@ -74,8 +58,23 @@ class map extends units\test
 					->isEqualTo($this->newTestedInstance)
 				->mock($recipient)
 					->receive('hashIs')
-						->withArguments($this->newTestedInstance($value))
-							->once
+							->never
+
+			->given(
+				$valueContents = uniqid(),
+				$valueKey = new hash\key(uniqid()),
+
+				$this->calling($value)->recipientOfHashValueContentsIs = function($recipient) use ($valueContents, $valueKey) {
+					$recipient->hashValueContentsHasKey($valueContents, $valueKey);
+				}
+			)
+			->then
+				->object($this->testedInstance->recipientOfHashWithValueIs($value, $recipient))
+					->isEqualTo($this->newTestedInstance)
+				->mock($recipient)
+					->receive('hashIs')
+							->withArguments($this->newTestedInstance($value))
+								->once
 		;
 	}
 }

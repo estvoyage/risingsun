@@ -106,156 +106,37 @@ class ofloat extends units\test
 		;
 	}
 
-	function testAddendIsInteger()
+	function testRecipientOfFloatWithAddendIs()
 	{
 		$this
 			->given(
-				$addend = new risingsun\ointeger
-			)
-			->if(
-				$this->newTestedInstance
-			)
-			->then
-				->object($this->testedInstance->addendIsInteger($addend))
-					->isNotTestedInstance
-					->isEqualTo($this->newTestedInstance)
-
-			->given(
-				$addend = new risingsun\ointeger(1)
-			)
-			->if(
-				$this->newTestedInstance
-			)
-			->then
-				->object($this->testedInstance->addendIsInteger($addend))
-					->isEqualTo($this->newTestedInstance(1.))
-
-			->given(
-				$float = M_PI
-			)
-			->if(
-				$this->newTestedInstance($float)
-			)
-			->then
-				->object($this->testedInstance->addendIsInteger($addend))
-					->isEqualTo($this->newTestedInstance(M_PI + 1))
-		;
-	}
-
-	function testAddendIsFloat()
-	{
-		$this
-			->given(
+				$recipient = new mockOfOfloat\addition\recipient,
 				$addend = $this->newTestedInstance
 			)
 			->if(
 				$this->newTestedInstance
 			)
 			->then
-				->object($this->testedInstance->addendIsFloat($addend))
-					->isNotTestedInstance
+				->object($this->testedInstance->recipientOfFloatWithAddendIs($addend, $recipient))
 					->isEqualTo($this->newTestedInstance)
+				->mock($recipient)
+					->receive('ofloatWithAddendIs')
+						->withArguments($this->newTestedInstance)
+							->once
 
 			->given(
-				$addend = $this->newTestedInstance(1.)
+				$addend = $this->newTestedInstance(1.0)
 			)
 			->if(
 				$this->newTestedInstance
 			)
 			->then
-				->object($this->testedInstance->addendIsFloat($addend))
-					->isEqualTo($this->newTestedInstance(1.))
-
-			->given(
-				$float = M_PI
-			)
-			->if(
-				$this->newTestedInstance($float)
-			)
-			->then
-				->object($this->testedInstance->addendIsFloat($addend))
-					->isEqualTo($this->newTestedInstance(M_PI + 1.))
-		;
-	}
-
-	function testFactorIsFloat()
-	{
-		$this
-			->given(
-				$factor = $this->newTestedInstance
-			)
-			->if(
-				$this->newTestedInstance
-			)
-			->then
-				->object($this->testedInstance->factorIsFloat($factor))
-					->isNotTestedInstance
+				->object($this->testedInstance->recipientOfFloatWithAddendIs($addend, $recipient))
 					->isEqualTo($this->newTestedInstance)
-
-			->given(
-				$factor = $this->newTestedInstance(2.0)
-			)
-			->if(
-				$this->newTestedInstance(2.0)
-			)
-			->then
-				->object($this->testedInstance->factorIsFloat($factor))
-					->isNotTestedInstance
-					->isEqualTo($this->newTestedInstance(4.0))
-		;
-	}
-
-	function testFactorIsInteger()
-	{
-		$this
-			->given(
-				$factor = new risingsun\ointeger
-			)
-			->if(
-				$this->newTestedInstance
-			)
-			->then
-				->object($this->testedInstance->factorIsInteger($factor))
-					->isNotTestedInstance
-					->isEqualTo($this->newTestedInstance)
-
-			->given(
-				$factor = new risingsun\ointeger(2)
-			)
-			->if(
-				$this->newTestedInstance(2.0)
-			)
-			->then
-				->object($this->testedInstance->factorIsInteger($factor))
-					->isNotTestedInstance
-					->isEqualTo($this->newTestedInstance(4.0))
-		;
-	}
-
-	function testDivisorIsInteger()
-	{
-		$this
-			->given(
-				$divisor = new risingsun\ointeger\divisor(rand(1, PHP_INT_MAX))
-			)
-			->if(
-				$this->newTestedInstance
-			)
-			->then
-				->object($this->testedInstance->divisorIsInteger($divisor))
-					->isNotTestedInstance
-					->isEqualTo($this->newTestedInstance)
-
-			->given(
-				$divisor = new risingsun\ointeger\divisor(2)
-			)
-			->if(
-				$this->newTestedInstance(4.)
-			)
-			->then
-				->object($this->testedInstance->divisorIsInteger($divisor))
-					->isNotTestedInstance
-					->isEqualTo($this->newTestedInstance(2.))
+				->mock($recipient)
+					->receive('ofloatWithAddendIs')
+						->withArguments($addend)
+							->once
 		;
 	}
 

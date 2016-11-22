@@ -45,47 +45,13 @@ class ofloat
 		return $this;
 	}
 
-	function addendIsInteger(ointeger $addend)
+	function recipientOfFloatWithAddendIs(self $float, ofloat\addition\recipient $recipient)
 	{
-		return $this->addendIs($addend);
-	}
+		$_this = clone $this;
+		$_this->value += $float->value;
 
-	function addendIsFloat(self $addend)
-	{
-		return $this->addendIs($addend);
-	}
+		$recipient->ofloatWithAddendIs($_this);
 
-	function factorIsFloat(self $factor)
-	{
-		return $this->factorIs($factor);
-	}
-
-	function factorIsInteger(ointeger $factor)
-	{
-		return $this->factorIs($factor);
-	}
-
-	function divisorIsInteger(ointeger\divisor $divisor)
-	{
-		$float = clone $this;
-		$float->value /= $divisor->value;
-
-		return $float;
-	}
-
-	private function addendIs($addend)
-	{
-		$float = clone $this;
-		$float->value += $addend->value;
-
-		return $float;
-	}
-
-	private function factorIs($factor)
-	{
-		$float = clone $this;
-		$float->value *= $factor->value;
-
-		return $float;
+		return $this;
 	}
 }

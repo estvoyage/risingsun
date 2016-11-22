@@ -7,7 +7,7 @@ abstract class oboolean
 
 	static function newInstance($variable, ... $variables)
 	{
-		return self::arrayContainsAtLeastOneValueIdenticalTo(func_get_args(), false) ? new oboolean\wrong : new oboolean\right;
+		return self::atLeastIOneValueIsArrayIsIdenticalTo(func_get_args(), false) ? new oboolean\wrong : new oboolean\right;
 	}
 
 	static function keyIsInArray($key, array $array)
@@ -68,7 +68,7 @@ abstract class oboolean
 
 	static function isNumeric($variable, ... $variables)
 	{
-		return self::arrayHasSameSizeThan(func_get_args(), array_filter(func_get_args(), [ 'self', 'variableIsNumeric' ]));
+		return self::arrayFilteredWithCallableHasSameSize(func_get_args(), [ 'self', 'variableIsNumeric' ]);
 	}
 
 	static function isNotNumeric($variable, ... $variables)
@@ -78,12 +78,12 @@ abstract class oboolean
 
 	static function isString($variable, ... $variables)
 	{
-		return self::arrayHasSameSizeThan(func_get_args(), array_filter(func_get_args(), function($variable) { return is_string($variable) || method_exists($variable, '__toString'); }));
+		return self::arrayFilteredWithCallableHasSameSize(func_get_args(), function($variable) { return is_string($variable) || method_exists($variable, '__toString'); });
 	}
 
 	static function isInteger($variable, ... $variables)
 	{
-		return self::arrayHasSameSizeThan(func_get_args(), array_filter(func_get_args(), function($variable) { return self::variableIsNumeric($variable) && (int) $variable == $variable; }));
+		return self::arrayFilteredWithCallableHasSameSize(func_get_args(), function($variable) { return self::variableIsNumeric($variable) && (int) $variable == $variable; });
 	}
 
 	static function isEmptyString($variable, ... $variables)
@@ -93,7 +93,12 @@ abstract class oboolean
 
 	static function isNotEmptyString($variable, ... $variables)
 	{
-		return self::newInstance(! self::arrayContainsAtLeastOneValueIdenticalTo(func_get_args(), ''));
+		return self::newInstance(! self::atLeastIOneValueIsArrayIsIdenticalTo(func_get_args(), ''));
+	}
+
+	static function stringIsStartOfString($first, $second)
+	{
+		return self::newInstance(self::variableIsString($first, $second) && $first != '' && $second != '' && strpos($second, $first) === 0);
 	}
 
 	static function complement(self $boolean)
@@ -152,12 +157,17 @@ abstract class oboolean
 
 	private static function arrayContainsValuesNotIdenticalTo(array $variables, $reference)
 	{
-		return self::newInstance(! self::arrayContainsAtLeastOneValueIdenticalTo($variables, $reference));
+		return self::newInstance(! self::atLeastIOneValueIsArrayIsIdenticalTo($variables, $reference));
 	}
 
 	private static function arrayHasSameSizeThan(array $first, array $second)
 	{
-		return self::newInstance(sizeof($first) == sizeof($second));
+		return self::newInstance(self::hasSameSize($first, $second));
+	}
+
+	private static function arrayFilteredWithCallableHasSameSize(array $array, callable $callable)
+	{
+		return self::newInstance(self::filterArrayWithCallable($array, $callable));
 	}
 
 	private static function variableIsNumeric($variable)
@@ -170,8 +180,23 @@ abstract class oboolean
 		return ! self::variableIsNumeric($variable);
 	}
 
-	private static function arrayContainsAtLeastOneValueIdenticalTo(array $variables, $reference)
+	private static function atLeastIOneValueIsArrayIsIdenticalTo(array $variables, $reference)
 	{
 		return in_array($reference, $variables, true);
+	}
+
+	private static function variableIsString($variable, ... $variables)
+	{
+		return self::filterArrayWithCallable(func_get_args(), function($variable) { return is_string($variable) || method_exists($variable, '__toString'); });
+	}
+
+	private static function hasSameSize(array $first, array $second)
+	{
+		return sizeof($first) == sizeof($second);
+	}
+
+	private static function filterArrayWithCallable(array $array, callable $callable)
+	{
+		return self::hasSameSize($array, array_filter($array, $callable));
 	}
 }

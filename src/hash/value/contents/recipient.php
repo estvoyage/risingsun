@@ -6,5 +6,5 @@ use
 
 interface recipient
 {
-	function hashValueContentsIs(hash\key $key, $value);
+	function hashValueContentsHasKey($value, hash\key $key);
 }

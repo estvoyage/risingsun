@@ -234,6 +234,18 @@ class oboolean extends units\test
 			->object(testedClass::isNotEmptyString(uniqid(), ''))->isInstanceOf('estvoyage\risingsun\oboolean\wrong')
 			->object(testedClass::isNotEmptyString(''))->isInstanceOf('estvoyage\risingsun\oboolean\wrong')
 			->object(testedClass::isNotEmptyString('', ''))->isInstanceOf('estvoyage\risingsun\oboolean\wrong')
+			->object(testedClass::isNotEmptyString(rand(- PHP_INT_MAX, PHP_INT_MAX)))->isInstanceOf('estvoyage\risingsun\oboolean\right')
+			->object(testedClass::isNotEmptyString(M_PI))->isInstanceOf('estvoyage\risingsun\oboolean\right')
+		;
+	}
+
+	function testStringIsStartOfString()
+	{
+		$this
+			->object(testedClass::stringIsStartOfString(uniqid(), uniqid()))->isInstanceOf('estvoyage\risingsun\oboolean\wrong')
+			->object(testedClass::stringIsStartOfString('foo', 'foobar'))->isInstanceOf('estvoyage\risingsun\oboolean\right')
+			->object(testedClass::stringIsStartOfString('', ''))->isInstanceOf('estvoyage\risingsun\oboolean\wrong')
+			->object(testedClass::stringIsStartOfString(1, 1))->isInstanceOf('estvoyage\risingsun\oboolean\wrong')
 		;
 	}
 }

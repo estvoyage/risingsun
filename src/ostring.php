@@ -48,22 +48,12 @@ class ostring
 
 	function ifStartWithString(self $string, block $startWithString, block $notStartWithString = null)
 	{
-		return $this
-			->ifTrue(
-				oboolean::isNotEmptyString($this->value, $string->value),
-				new block\functor(
-					function() use ($string, $startWithString, $notStartWithString) {
-						$this->ifTrue(oboolean::isZero(strpos($this->value, $string->value)), $startWithString, $notStartWithString);
-					}
-				),
-				$notStartWithString
-			)
-		;
+		return $this->ifTrue(oboolean::stringIsStartOfString($string->value, $this->value), $startWithString, $notStartWithString);
 	}
 
 	function ifIsInteger(block $isInteger, block $isNotInteger = null)
 	{
-		return $this->ifTrue(oboolean::IsInteger($this->value), $isInteger, $isNotInteger);
+		return $this->ifTrue(oboolean::isInteger($this->value), $isInteger, $isNotInteger);
 	}
 
 	function ifIsNotNumeric(block $isNotNumeric, block $isNumeric = null)
