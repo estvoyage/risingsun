@@ -4,8 +4,9 @@ require __DIR__ . '/../../../runner.php';
 
 use
 	estvoyage\risingsun\tests\units,
-	mock\estvoyage\risingsun\http as mockOfHttp,
-	mock\estvoyage\risingsun\hash as mockOfHash
+	estvoyage\risingsun\block,
+	estvoyage\risingsun\oboolean,
+	mock\estvoyage\risingsun\http as mockOfHttp
 ;
 
 class fifo extends units\test
@@ -14,7 +15,6 @@ class fifo extends units\test
 	{
 		$this->testedClass
 			->implements('estvoyage\risingsun\http\route')
-			->implements('estvoyage\risingsun\http\route\controller')
 		;
 	}
 
@@ -37,12 +37,18 @@ class fifo extends units\test
 				$response = new mockOfHttp\response
 			)
 			->if(
-				$this->calling($route)->httpRouteControllerHasRequest = function($routeController, $routeRequest) use ($request, $response) {
-					if ($routeRequest === $request)
-					{
-						$routeController->httpResponseIs($response);
-					}
+				$this->calling($route)->httpRouteControllerHasRequest = function($aController, $aRequest) use ($request, $response) {
+					oboolean::isEqual($aRequest, $request)
+						->ifTrue(
+							new block\functor(
+								function() use ($aController, $response) {
+									$aController->httpResponseIs($response);
+								}
+							)
+						)
+					;
 				},
+
 				$this->newTestedInstance($route)
 			)
 			->then
@@ -78,21 +84,6 @@ class fifo extends units\test
 			)
 			->then
 				->object($this->testedInstance->recipientOfHttpRouteHashKeyIs($recipient))
-					->isEqualTo($this->newTestedInstance)
-		;
-	}
-
-	function testHttpResponseIs()
-	{
-		$this
-			->given(
-				$response = new mockOfHttp\response
-			)
-			->if(
-				$this->newTestedInstance
-			)
-			->then
-				->object($this->testedInstance->httpResponseIs($response))
 					->isEqualTo($this->newTestedInstance)
 		;
 	}

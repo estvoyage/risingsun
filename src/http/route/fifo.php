@@ -2,7 +2,6 @@
 
 use
 	estvoyage\risingsun,
-	estvoyage\risingsun\hash,
 	estvoyage\risingsun\http,
 	estvoyage\risingsun\block,
 	estvoyage\risingsun\oboolean
@@ -10,38 +9,73 @@ use
 
 class fifo
 	implements
-		http\route,
-		http\route\controller
+		http\route
 {
 	private
-		$routes,
-		$iterator,
-		$controller
+		$routes
 	;
 
 	function __construct(http\route... $routes)
 	{
-		$this->routes = new risingsun\iterator(... $routes);
-		$this->iterator = new risingsun\blackhole;
-		$this->controller = new risingsun\blackhole;
+		$this->routes = $routes;
 	}
 
 	function httpRouteControllerHasRequest(http\route\controller $controller, http\request $request)
 	{
-		$_this = clone $this;
+		(
+			new class(... $this->routes)
+				implements
+					http\route\controller
+			{
+				private
+					$routes,
+					$response
+				;
 
-		$_this->controller = $controller;
+				function __construct(http\route... $routes)
+				{
+					$this->routes = $routes;
+				}
 
-		$_this->routes
-			->iteratorPayloadIs(
-				new block\functor(
-					function($iterator, $route) use ($_this, $request) {
-						$_this->iterator = $iterator;
+				function httpRouteControllerHasRequest(http\route\controller $controller, http\request $request)
+				{
+					(new risingsun\iterator(... $this->routes))
+						->iteratorPayloadIs(
+							new block\functor(
+								function($iterator, $route) use ($controller, $request) {
+									$this->response = null;
 
-						$route->httpRouteControllerHasRequest($_this, $request);
-					}
-				)
-			)
+									$route
+										->httpRouteControllerHasRequest(
+											$this,
+											$request
+										)
+									;
+
+									oboolean::isNotNull($this->response)
+										->ifTrue(
+											new block\functor(
+												function() use ($controller, $iterator) {
+													$iterator->nextIteratorValuesAreUseless();
+
+													$controller->httpResponseIs($this->response);
+												}
+											)
+										)
+									;
+								}
+							)
+						)
+					;
+				}
+
+				function httpResponseIs(http\response $response)
+				{
+					$this->response = $response;
+				}
+			}
+		)
+			->httpRouteControllerHasRequest($controller, $request)
 		;
 
 		return $this;
@@ -49,14 +83,6 @@ class fifo
 
 	function recipientOfHttpRouteHashKeyIs(http\route\hash\key\recipient $recipient)
 	{
-		return $this;
-	}
-
-	function httpResponseIs(http\response $response)
-	{
-		$this->iterator->nextIteratorValuesAreUseless();
-		$this->controller->httpResponseIs($response);
-
 		return $this;
 	}
 }
