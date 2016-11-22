@@ -172,4 +172,9 @@ class map
 
 		return $this;
 	}
+
+	function recipientOfHttpRouteHashKeyIs(http\route\hash\key\recipient $recipient)
+	{
+		return $this;
+	}
 }

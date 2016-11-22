@@ -6,7 +6,7 @@ use
 	estvoyage\risingsun\http\request
 ;
 
-interface hash
+interface hash extends route
 {
 	function recipientOfHttpRouteHashWithRouteIs(route $route, hash\recipient $recipient);
 	function recipientOfHttpRouteAtKeyIs(key $key, hash\route\recipient $recipient);

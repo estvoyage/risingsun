@@ -127,4 +127,20 @@ class map extends units\test
 							->once
 		;
 	}
+
+	function testRecipientOfHttpRouteHashKeyIs()
+	{
+		$this
+			->given(
+				$route = new mockOfHttp\route,
+				$recipient = new mockOfHttp\route\hash\key\recipient
+			)
+			->if(
+				$this->newTestedInstance($route)
+			)
+			->then
+				->object($this->testedInstance->recipientOfHttpRouteHashKeyIs($recipient))
+					->isEqualTo($this->newTestedInstance($route))
+		;
+	}
 }
