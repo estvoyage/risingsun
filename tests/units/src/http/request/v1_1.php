@@ -61,4 +61,25 @@ class v1_1 extends units\test
 							->once
 		;
 	}
+
+	function testRecipientOfHttpMethodIs()
+	{
+		$this
+			->given(
+				$method = new mockOfHttp\method,
+				$path = new http\url\path(new ostring\notEmpty('/')),
+				$recipient = new mockOfHttp\method\recipient
+			)
+			->if(
+				$this->newTestedInstance($method, $path)
+			)
+			->then
+				->object($this->testedInstance->recipientOfHttpMethodIs($recipient))
+					->isEqualTo($this->newTestedInstance($method, $path))
+				->mock($recipient)
+					->receive('httpMethodIs')
+						->withArguments($method)
+							->once
+		;
+	}
 }

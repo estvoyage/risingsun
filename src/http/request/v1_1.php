@@ -10,11 +10,13 @@ class v1_1
 		http\request
 {
 	private
+		$method,
 		$path
 	;
 
 	function __construct(http\method $method, http\url\path $path)
 	{
+		$this->method = $method;
 		$this->path = $path;
 	}
 
@@ -28,6 +30,13 @@ class v1_1
 	function recipientOfHttpRequestUrlPathIs(http\request\url\path\recipient $recipient)
 	{
 		$recipient->httpRequestUrlPathIs($this->path);
+
+		return $this;
+	}
+
+	function recipientOfHttpMethodIs(http\method\recipient $recipient)
+	{
+		$recipient->httpMethodIs($this->method);
 
 		return $this;
 	}
