@@ -4,6 +4,7 @@ use
 	estvoyage\risingsun,
 	estvoyage\risingsun\http,
 	estvoyage\risingsun\block,
+	estvoyage\risingsun\iterator,
 	estvoyage\risingsun\oboolean
 ;
 
@@ -39,8 +40,9 @@ class fifo
 
 				function httpRouteControllerHasRequest(http\route\controller $controller, http\request $request)
 				{
-					(new risingsun\iterator(... $this->routes))
-						->iteratorPayloadIs(
+					(new iterator\fifo)
+						->iteratorPayloadForValuesIs(
+							$this->routes,
 							new block\functor(
 								function($iterator, $route) use ($controller, $request) {
 									$this->response = null;

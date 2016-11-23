@@ -4,6 +4,7 @@ use
 	estvoyage\risingsun,
 	estvoyage\risingsun\http,
 	estvoyage\risingsun\block,
+	estvoyage\risingsun\iterator,
 	estvoyage\risingsun\oboolean
 ;
 
@@ -51,10 +52,11 @@ class hash
 
 				function httpRoutesAre(http\route... $routes)
 				{
-					(new risingsun\iterator(... $routes))
-						->iteratorPayloadIs(
+					(new iterator\fifo)
+						->iteratorPayloadForValuesIs(
+							$routes,
 							new block\functor(
-								function($aggregator, $route) {
+								function($iterator, $route) {
 									$this->route = $route;
 
 									$this->routeHash->recipientOfHttpRouteHashWithRouteIs($this->route, $this);

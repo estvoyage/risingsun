@@ -6,7 +6,8 @@ require __DIR__ . '/../../runner.php';
 
 use
 	estvoyage\risingsun\tests\units,
-	estvoyage\risingsun
+	estvoyage\risingsun,
+	mock\estvoyage\risingsun\iterator as mockOfIterator
 ;
 
 class functor extends units\test
@@ -53,7 +54,7 @@ class functor extends units\test
 		$this
 			->given(
 				$callable = function() use (& $arguments) { $arguments = func_get_args(); },
-				$iterator = new risingsun\iterator,
+				$iterator = new mockOfIterator,
 				$value = uniqid()
 			)
 			->if(

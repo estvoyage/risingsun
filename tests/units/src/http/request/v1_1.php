@@ -61,4 +61,21 @@ class v1_1 extends units\test
 							->once
 		;
 	}
+
+	function testRecipientOfInnerHttpUrlPathIs()
+	{
+		$this
+			->given(
+				$method = new mockOfHttp\method,
+				$path = new http\url\path\root,
+				$recipient = new mockOfHttp\request\inner\recipient
+			)
+			->if(
+				$this->newTestedInstance($method, $path)
+			)
+			->then
+				->object($this->testedInstance->recipientOfInnerHttpUrlPathIs($recipient))
+					->isEqualTo($this->newTestedInstance($method, $path))
+		;
+	}
 }

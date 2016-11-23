@@ -6,7 +6,7 @@ use
 	estvoyage\risingsun\tests\units,
 	estvoyage\risingsun,
 	mock\estvoyage\risingsun\block as mockOfBlock,
-	mock\estvoyage\risingsun\ostring as mockOfOstring
+	mock\estvoyage\risingsun\ostring as mockOfOString
 ;
 
 class ostring extends units\test
@@ -604,7 +604,7 @@ class ostring extends units\test
 	{
 		$this
 			->given(
-				$recipient = new mockOfOstring\length\recipient
+				$recipient = new mockOfOString\length\recipient
 			)
 			->if(
 				$this->newTestedInstance
@@ -623,6 +623,170 @@ class ostring extends units\test
 				->mock($recipient)
 					->receive('stringLengthIs')
 						->withArguments(new risingsun\ostring\length(1))
+							->once
+		;
+	}
+
+	function testRecipientOfStringBeforeLastStringIs()
+	{
+		$this
+			->given(
+				$lastString = new risingsun\ostring\notEmpty(uniqid()),
+				$recipient = new mockOfOString\recipient
+			)
+			->if(
+				$this->newTestedInstance
+			)
+			->then
+				->object($this->testedInstance->recipientOfStringBeforeLastStringIs($lastString, $recipient))
+					->isEqualTo($this->newTestedInstance)
+				->mock($recipient)
+					->receive('ostringIs')
+						->never
+
+			->given(
+				$lastString = new risingsun\ostring\notEmpty('/'),
+				$recipient = new mockOfOString\recipient
+			)
+			->if(
+				$this->newTestedInstance('/')
+			)
+			->then
+				->object($this->testedInstance->recipientOfStringBeforeLastStringIs($lastString, $recipient))
+					->isEqualTo($this->newTestedInstance('/'))
+				->mock($recipient)
+					->receive('ostringIs')
+						->never
+
+			->given(
+				$string = uniqid()
+			)
+			->if(
+				$this->newTestedInstance($string)
+			)
+			->then
+				->object($this->testedInstance->recipientOfStringBeforeLastStringIs($lastString, $recipient))
+					->isEqualTo($this->newTestedInstance($string))
+				->mock($recipient)
+					->receive('ostringIs')
+						->never
+
+			->given(
+				$string = 'foobar',
+				$lastString = new risingsun\ostring\notEmpty('bar')
+			)
+			->if(
+				$this->newTestedInstance($string)
+			)
+			->then
+				->object($this->testedInstance->recipientOfStringBeforeLastStringIs($lastString, $recipient))
+					->isEqualTo($this->newTestedInstance($string))
+				->mock($recipient)
+					->receive('ostringIs')
+						->withArguments($this->newTestedInstance('foo'))
+							->once
+
+			->given(
+				$string = 'foobarbar'
+			)
+			->if(
+				$this->newTestedInstance($string)
+			)
+			->then
+				->object($this->testedInstance->recipientOfStringBeforeLastStringIs($lastString, $recipient))
+					->isEqualTo($this->newTestedInstance($string))
+				->mock($recipient)
+					->receive('ostringIs')
+						->withArguments($this->newTestedInstance('foobar'))
+							->once
+
+			->given(
+				$string = 'foobarBar'
+			)
+			->if(
+				$this->newTestedInstance($string)
+			)
+			->then
+				->object($this->testedInstance->recipientOfStringBeforeLastStringIs($lastString, $recipient))
+					->isEqualTo($this->newTestedInstance($string))
+				->mock($recipient)
+					->receive('ostringIs')
+						->withArguments($this->newTestedInstance('foobar'))
+							->once
+		;
+	}
+
+	function testRecipientOfStringAfterLastStringIs()
+	{
+		$this
+			->given(
+				$lastString = new risingsun\ostring\notEmpty(uniqid()),
+				$recipient = new mockOfOString\recipient
+			)
+			->if(
+				$this->newTestedInstance
+			)
+			->then
+				->object($this->testedInstance->recipientOfStringAfterLastStringIs($lastString, $recipient))
+					->isEqualTo($this->newTestedInstance)
+				->mock($recipient)
+					->receive('ostringIs')
+						->never
+
+			->given(
+				$lastString = new risingsun\ostring\notEmpty('/'),
+				$recipient = new mockOfOString\recipient
+			)
+			->if(
+				$this->newTestedInstance('/')
+			)
+			->then
+				->object($this->testedInstance->recipientOfStringAfterLastStringIs($lastString, $recipient))
+					->isEqualTo($this->newTestedInstance('/'))
+				->mock($recipient)
+					->receive('ostringIs')
+						->never
+
+			->given(
+				$string = uniqid()
+			)
+			->if(
+				$this->newTestedInstance($string)
+			)
+			->then
+				->object($this->testedInstance->recipientOfStringAfterLastStringIs($lastString, $recipient))
+					->isEqualTo($this->newTestedInstance($string))
+				->mock($recipient)
+					->receive('ostringIs')
+						->never
+
+			->given(
+				$string = 'foobar',
+				$lastString = new risingsun\ostring\notEmpty('foo')
+			)
+			->if(
+				$this->newTestedInstance($string)
+			)
+			->then
+				->object($this->testedInstance->recipientOfStringAfterLastStringIs($lastString, $recipient))
+					->isEqualTo($this->newTestedInstance($string))
+				->mock($recipient)
+					->receive('ostringIs')
+						->withArguments($this->newTestedInstance('bar'))
+							->once
+
+			->given(
+				$string = 'foobarfoobarbar'
+			)
+			->if(
+				$this->newTestedInstance($string)
+			)
+			->then
+				->object($this->testedInstance->recipientOfStringAfterLastStringIs($lastString, $recipient))
+					->isEqualTo($this->newTestedInstance($string))
+				->mock($recipient)
+					->receive('ostringIs')
+						->withArguments($this->newTestedInstance('barbar'))
 							->once
 		;
 	}

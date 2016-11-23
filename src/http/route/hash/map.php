@@ -37,10 +37,11 @@ class map
 
 				function httpRoutesAre(http\route... $routes)
 				{
-					(new iterator(... $routes))
-						->iteratorPayloadIs(
+					(new iterator\fifo)
+						->iteratorPayloadForValuesIs(
+							$routes,
 							new block\functor(
-								function($aggregator, $route) {
+								function($iterator, $route) {
 									$this->route = $route;
 
 									$this->route->recipientOfHttpUrlPathIs($this);

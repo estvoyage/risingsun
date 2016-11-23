@@ -61,8 +61,9 @@ class pcre extends risingsun\ostring\notEmpty
 			->ifTrue(
 				new block\functor(
 					function() use ($pattern, $matches, $recipient, $hash) {
-						(new iterator(... array_slice($matches, 1, sizeof(sizeof($pattern->names) <= sizeof($matches) ? $pattern->names : $matches))))
-							->iteratorPayloadIs(
+						(new iterator\fifo)
+							->iteratorPayloadForValuesIs(
+								array_slice($matches, 1, sizeof(sizeof($pattern->names) <= sizeof($matches) ? $pattern->names : $matches)),
 								new block\functor(
 									function($iterator, $value) use ($pattern, & $key) {
 										static $key = 0;

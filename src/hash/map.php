@@ -41,8 +41,10 @@ class map
 
 			function valuesAre(value... $values)
 			{
-				(new iterator(... $values))
-					->iteratorPayloadIs(new block\functor(function($iterator, $value) {
+				(new iterator\fifo)
+					->iteratorPayloadForValuesIs(
+						$values,
+						new block\functor(function($iterator, $value) {
 								$value->recipientOfHashValueContentsIs($this);
 							}
 						)

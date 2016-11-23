@@ -68,6 +68,56 @@ class ostring
 		return $this;
 	}
 
+	function recipientOfStringBeforeLastStringIs(ostring\notEmpty $lastString, ostring\recipient $recipient)
+	{
+		$lastPosition = strrpos($this->value, $lastString->value);
+
+		oboolean::isTrue($lastPosition > 0)
+			->ifTrue(
+				new block\functor(
+					function() use ($lastPosition, $recipient) {
+						$_this = clone $this;
+						$_this->value = substr($this->value, 0, $lastPosition);
+
+						$recipient->ostringIs($_this);
+					}
+				)
+			)
+		;
+
+		return $this;
+	}
+
+	function recipientOfStringAfterLastStringIs(ostring\notEmpty $lastString, ostring\recipient $recipient)
+	{
+		$lastPosition = strrpos($this->value, $lastString->value);
+
+		oboolean::isNotFalse($lastPosition)
+			->ifTrue(
+				new block\functor(
+					function() use ($lastString, $lastPosition, $recipient) {
+						$value = substr($this->value, $lastPosition + strlen($lastString));
+
+						oboolean::isNotEmptyString($value)
+							->ifTrue(
+								new block\functor(
+									function() use ($value, $recipient) {
+										$_this = clone $this;
+										$_this->value = $value;
+
+										$recipient->ostringIs($_this);
+									}
+								)
+							)
+						;
+					}
+				)
+			)
+		;
+
+		return $this;
+	}
+
 	private function ifTrue(oboolean $boolean, block $true, block $false = null)
 	{
 		$boolean

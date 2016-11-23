@@ -33,4 +33,9 @@ class v1_1
 
 		return $this;
 	}
+
+	function recipientOfInnerHttpUrlPathIs()
+	{
+		return $this;
+	}
 }
