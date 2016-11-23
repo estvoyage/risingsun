@@ -48,19 +48,19 @@ class method extends units\test
 		;
 	}
 
-	function testRecipientOfHttpRouteHashKeyIs()
+	function testRecipientOfHttpUrlPathIs()
 	{
 		$this
 			->given(
 				$method = new mockOfHttp\method,
 				$route = new mockOfHttp\route,
-				$recipient = new mockOfHttp\route\hash\key\recipient
+				$recipient = new mockOfHttp\url\path\recipient
 			)
 			->if(
 				$this->newTestedInstance($method, $route)
 			)
 			->then
-				->object($this->testedInstance->recipientOfHttpRouteHashKeyIs($recipient))
+				->object($this->testedInstance->recipientOfHttpUrlPathIs($recipient))
 					->isEqualTo($this->newTestedInstance($method, $route))
 		;
 	}

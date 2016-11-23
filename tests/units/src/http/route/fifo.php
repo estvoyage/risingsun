@@ -73,17 +73,17 @@ class fifo extends units\test
 		;
 	}
 
-	function testRecipientOfHashKeyIs()
+	function testRecipientOfHttpUrlPathIs()
 	{
 		$this
 			->given(
-				$recipient = new mockOfHttp\route\hash\key\recipient
+				$recipient = new mockOfHttp\url\path\recipient
 			)
 			->if(
 				$this->newTestedInstance
 			)
 			->then
-				->object($this->testedInstance->recipientOfHttpRouteHashKeyIs($recipient))
+				->object($this->testedInstance->recipientOfHttpUrlPathIs($recipient))
 					->isEqualTo($this->newTestedInstance)
 		;
 	}

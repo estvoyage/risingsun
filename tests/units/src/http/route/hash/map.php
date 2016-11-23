@@ -4,7 +4,8 @@ require __DIR__ . '/../../../../runner.php';
 
 use
 	estvoyage\risingsun\tests\units,
-	estvoyage\risingsun\hash,
+	estvoyage\risingsun\http,
+	estvoyage\risingsun\ostring,
 	mock\estvoyage\risingsun\http as mockOfHttp,
 	mock\estvoyage\risingsun\http\route\hash as mockOfHash
 ;
@@ -22,31 +23,31 @@ class map extends units\test
 	{
 		$this
 			->given(
-				$key = new hash\key(uniqid()),
+				$path = new http\url\path(new ostring\notEmpty('/foo')),
 				$recipient = new mockOfHttp\route\hash\route\recipient
 			)
 			->if(
 				$this->newTestedInstance
 			)
 			->then
-				->object($this->testedInstance->recipientOfHttpRouteAtKeyIs($key, $recipient))
+				->object($this->testedInstance->recipientOfHttpRouteWithPathIs($path, $recipient))
 					->isEqualTo($this->newTestedInstance)
 
 			->given(
 				$route = new mockOfHttp\route,
 
-				$this->calling($route)->recipientOfHttpRouteHashKeyIs = function($recipient) use ($key) {
-					$recipient->httpRouteHasKey($key);
+				$this->calling($route)->recipientOfHttpUrlPathIs = function($recipient) use ($path) {
+					$recipient->httpUrlPathIs($path);
 				}
 			)
 			->if(
 				$this->newTestedInstance($route)
 			)
 			->then
-				->object($this->testedInstance->recipientOfHttpRouteAtKeyIs($key, $recipient))
+				->object($this->testedInstance->recipientOfHttpRouteWithPathIs($path, $recipient))
 					->isEqualTo($this->newTestedInstance($route))
 				->mock($recipient)
-					->receive('hashKeyHasHttpRoute')
+					->receive('httpRouteWithPathIs')
 						->withIdenticalArguments($route)
 							->once
 		;
@@ -70,10 +71,10 @@ class map extends units\test
 						->never
 
 			->given(
-				$key = new hash\key(uniqid()),
+				$path = new http\url\path(new ostring\notEmpty('/foo')),
 
-				$this->calling($route)->recipientOfHttpRouteHashKeyIs = function($recipient) use ($key) {
-					$recipient->httpRouteHasKey($key);
+				$this->calling($route)->recipientOfHttpUrlPathIs = function($recipient) use ($path) {
+					$recipient->httpUrlPathIs($path);
 				}
 			)
 			->if(
@@ -104,15 +105,15 @@ class map extends units\test
 					->isEqualTo($this->newTestedInstance)
 
 			->given(
-				$key = new hash\key(uniqid()),
+				$path = new http\url\path(new ostring\notEmpty('/foo')),
 
-				$this->calling($request)->recipientOfHttpRequestHashKeyIs = function($recipient) use ($key) {
-					$recipient->httpRequestHasKey($key);
+				$this->calling($request)->recipientOfHttpUrlPathIs = function($recipient) use ($path) {
+					$recipient->httpUrlPathIs($path);
 				},
 
 				$route = new mockOfHttp\route,
-				$this->calling($route)->recipientOfHttpRouteHashKeyIs = function($recipient) use ($key) {
-					$recipient->httpRouteHasKey($key);
+				$this->calling($route)->recipientOfHttpUrlPathIs = function($recipient) use ($path) {
+					$recipient->httpUrlPathIs($path);
 				}
 			)
 			->if(
@@ -128,18 +129,18 @@ class map extends units\test
 		;
 	}
 
-	function testRecipientOfHttpRouteHashKeyIs()
+	function testRecipientOfHttpUrlPathIs()
 	{
 		$this
 			->given(
 				$route = new mockOfHttp\route,
-				$recipient = new mockOfHttp\route\hash\key\recipient
+				$recipient = new mockOfHttp\url\path\recipient
 			)
 			->if(
 				$this->newTestedInstance($route)
 			)
 			->then
-				->object($this->testedInstance->recipientOfHttpRouteHashKeyIs($recipient))
+				->object($this->testedInstance->recipientOfHttpUrlPathIs($recipient))
 					->isEqualTo($this->newTestedInstance($route))
 		;
 	}

@@ -20,44 +20,23 @@ class v1_1 extends units\test
 		;
 	}
 
-	function testRecipientOfHashKeyIs()
+	function testRecipientOfHttpUrlPathIs()
 	{
 		$this
 			->given(
 				$method = new mockOfHttp\method,
 				$path = new http\url\path(new ostring\notEmpty('/')),
-				$recipient = new mockOfHttp\request\hash\key\recipient
+				$recipient = new mockOfHttp\url\path\recipient
 			)
 			->if(
 				$this->newTestedInstance($method, $path)
 			)
 			->then
-				->object($this->testedInstance->recipientOfHttpRequestHashKeyIs($recipient))
+				->object($this->testedInstance->recipientOfHttpUrlPathIs($recipient))
 					->isEqualTo($this->newTestedInstance($method, $path))
 				->mock($recipient)
-					->receive('httpRequestHasKey')
-						->withArguments(new hash\key(http\url\path::toString($path)))
-							->once
-		;
-	}
-
-	function testRecipientOfHttpRequestUrlPathIs()
-	{
-		$this
-			->given(
-				$method = new mockOfHttp\method,
-				$path = new http\url\path(new ostring\notEmpty('/')),
-				$recipient = new mockOfHttp\request\url\path\recipient
-			)
-			->if(
-				$this->newTestedInstance($method, $path)
-			)
-			->then
-				->object($this->testedInstance->recipientOfHttpRequestUrlPathIs($recipient))
-					->isEqualTo($this->newTestedInstance($method, $path))
-				->mock($recipient)
-					->receive('httpRequestUrlPathIs')
-						->withIdenticalArguments($path)
+					->receive('httpUrlPathIs')
+						->withArguments($path)
 							->once
 		;
 	}

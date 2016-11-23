@@ -20,16 +20,9 @@ class v1_1
 		$this->path = $path;
 	}
 
-	function recipientOfHttpRequestHashKeyIs(http\request\hash\key\recipient $recipient)
+	function recipientOfHttpUrlPathIs(http\url\path\recipient $recipient)
 	{
-		$recipient->httpRequestHasKey(new hash\key(http\url\path::toString($this->path)));
-
-		return $this;
-	}
-
-	function recipientOfHttpRequestUrlPathIs(http\request\url\path\recipient $recipient)
-	{
-		$recipient->httpRequestUrlPathIs($this->path);
+		$recipient->httpUrlPathIs($this->path);
 
 		return $this;
 	}

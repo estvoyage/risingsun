@@ -127,7 +127,7 @@ class hash
 		return $this;
 	}
 
-	function recipientOfHttpRouteHashKeyIs(http\route\hash\key\recipient $recipient)
+	function recipientOfHttpUrlPathIs(http\url\path\recipient $recipient)
 	{
 		return $this;
 	}

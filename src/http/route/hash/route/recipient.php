@@ -6,5 +6,5 @@ use
 
 interface recipient
 {
-	function hashKeyHasHttpRoute(http\route $route);
+	function httpRouteWithPathIs(http\route $route);
 }

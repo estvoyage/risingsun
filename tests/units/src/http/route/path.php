@@ -43,8 +43,8 @@ class path extends units\test
 				$response = new mockOfHttp\response
 			)
 			->if(
-				$this->calling($request)->recipientOfHttpRequestUrlPathIs = function($recipient) use ($requestPath) {
-					$recipient->httpRequestUrlPathIs($requestPath);
+				$this->calling($request)->recipientOfHttpUrlPathIs = function($recipient) use ($requestPath) {
+					$recipient->httpUrlPathIs($requestPath);
 				},
 				$this->calling($endpoint)->recipientOfHttpResponseForRequestIs = function($endpointRequest, $recipient) use ($request, $response) {
 					oboolean::isIdentical(
@@ -71,19 +71,19 @@ class path extends units\test
 		;
 	}
 
-	function testRecipientOfHttpRouteHashKeyIs()
+	function testRecipientOfHttpUrlPathIs()
 	{
 		$this
 			->given(
 				$path = new http\url\path\root,
 				$endpoint = new mockOfHttp\route\endpoint,
-				$recipient = new mockOfHttp\route\hash\key\recipient
+				$recipient = new mockOfHttp\url\path\recipient
 			)
 			->if(
 				$this->newTestedInstance($path, $endpoint)
 			)
 			->then
-				->object($this->testedInstance->recipientOfHttpRouteHashKeyIs($recipient))
+				->object($this->testedInstance->recipientOfHttpUrlPathIs($recipient))
 					->isEqualTo($this->newTestedInstance($path, $endpoint))
 		;
 	}

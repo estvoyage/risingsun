@@ -21,7 +21,7 @@ class map
 			new class(new hash\map, new block\functor(function($hash) { $this->hash = $hash; }))
 				implements
 					hash\recipient,
-					http\route\hash\key\recipient
+					http\url\path\recipient
 			{
 				private
 					$hash,
@@ -43,7 +43,7 @@ class map
 								function($aggregator, $route) {
 									$this->route = $route;
 
-									$this->route->recipientOfHttpRouteHashKeyIs($this);
+									$this->route->recipientOfHttpUrlPathIs($this);
 								}
 							)
 						)
@@ -52,9 +52,9 @@ class map
 					$this->block->blockArgumentsAre($this->hash);
 				}
 
-				function httpRouteHasKey(hash\key $key)
+				function httpUrlPathIs(http\url\path $path)
 				{
-					$this->hash->recipientOfHashWithValueIs(new hash\value\withKey($this->route, $key), $this);
+					$this->hash->recipientOfHashWithValueIs(new hash\value\withKey($this->route, new hash\key(http\url\path::toString($path))), $this);
 				}
 
 				function hashIs(hash $hash)
@@ -67,12 +67,12 @@ class map
 		;
 	}
 
-	function recipientOfHttpRouteAtKeyIs(hash\key $key, http\route\hash\route\recipient $recipient)
+	function recipientOfHttpRouteWithPathIs(http\url\path $path, http\route\hash\route\recipient $recipient)
 	{
 		$this
 			->hash
 				->recipientOfHashValueAtKeyIs(
-					$key,
+					new hash\key(http\url\path::toString($path)),
 					new class($recipient)
 						implements
 							hash\value\recipient
@@ -88,7 +88,7 @@ class map
 
 						function hashKeyHasValue($value)
 						{
-							$this->recipient->hashKeyHasHttpRoute($value);
+							$this->recipient->httpRouteWithPathIs($value);
 						}
 					}
 				)
@@ -100,11 +100,11 @@ class map
 	function recipientOfHttpRouteHashWithRouteIs(http\route $route, http\route\hash\recipient $recipient)
 	{
 		$route
-			->recipientOfHttpRouteHashKeyIs(
+			->recipientOfHttpUrlPathIs(
 				new class($route, $this->hash, new block\functor(function($hash) use ($recipient) { $_this = clone $this; $_this->hash = $hash; $recipient->httpRouteHashIs($_this); }))
 					implements
 						hash\recipient,
-						http\route\hash\key\recipient
+						http\url\path\recipient
 				{
 					private
 						$route,
@@ -119,9 +119,9 @@ class map
 						$this->block = $block;
 					}
 
-					function httpRouteHasKey(hash\key $key)
+					function httpUrlPathIs(http\url\path $path)
 					{
-						$this->hash->recipientOfHashWithValueIs(new hash\value\withKey($this->route, $key), $this);
+						$this->hash->recipientOfHashWithValueIs(new hash\value\withKey($this->route, new hash\key(http\url\path::toString($path))), $this);
 					}
 
 					function hashIs(hash $hash)
@@ -138,11 +138,11 @@ class map
 	function httpRouteControllerHasRequest(http\route\controller $controller, http\request $request)
 	{
 		$request
-			->recipientOfHttpRequestHashKeyIs(
+			->recipientOfHttpUrlPathIs(
 				new class($this->hash, $controller, $request)
 					implements
 						hash\value\recipient,
-						http\request\hash\key\recipient
+						http\url\path\recipient
 				{
 					private
 						$hash,
@@ -157,9 +157,9 @@ class map
 						$this->request = $request;
 					}
 
-					function httpRequestHasKey(hash\key $key)
+					function httpUrlPathIs(http\url\path $path)
 					{
-						$this->hash->recipientOfHashValueAtKeyIs($key, $this);
+						$this->hash->recipientOfHashValueAtKeyIs(new hash\key(http\url\path::toString($path)), $this);
 					}
 
 					function hashKeyHasValue($value)
@@ -173,7 +173,7 @@ class map
 		return $this;
 	}
 
-	function recipientOfHttpRouteHashKeyIs(http\route\hash\key\recipient $recipient)
+	function recipientOfHttpUrlPathIs(http\url\path\recipient $recipient)
 	{
 		return $this;
 	}

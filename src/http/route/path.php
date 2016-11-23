@@ -10,7 +10,7 @@ class path
 	implements
 		http\route,
 		http\response\recipient,
-		http\request\url\path\recipient
+		http\url\path\recipient
 {
 	private
 		$path,
@@ -32,17 +32,17 @@ class path
 		$_this->controller = $controller;
 		$_this->request = $request;
 
-		$request->recipientOfHttpRequestUrlPathIs($_this);
+		$request->recipientOfHttpUrlPathIs($_this);
 
 		return $this;
 	}
 
-	function recipientOfHttpRouteHashKeyIs(http\route\hash\key\recipient $recipient)
+	function recipientOfHttpUrlPathIs(http\url\path\recipient $recipient)
 	{
 		return $this;
 	}
 
-	function httpRequestUrlPathIs(http\url\path $path)
+	function httpUrlPathIs(http\url\path $path)
 	{
 		oboolean::isNotNull($this->request)
 			->ifTrue(
