@@ -85,6 +85,10 @@ class path extends units\test
 			->then
 				->object($this->testedInstance->recipientOfHttpUrlPathIs($recipient))
 					->isEqualTo($this->newTestedInstance($path, $endpoint))
+				->mock($recipient)
+					->receive('httpUrlPathIs')
+						->withArguments($path)
+							->once
 		;
 	}
 }

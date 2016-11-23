@@ -8,15 +8,11 @@ use
 
 class path
 	implements
-		http\route,
-		http\response\recipient,
-		http\url\path\recipient
+		http\route
 {
 	private
 		$path,
-		$endpoint,
-		$controller,
-		$request
+		$endpoint
 	;
 
 	function __construct(http\url\path $path, endpoint $endpoint)
@@ -27,30 +23,33 @@ class path
 
 	function httpRouteControllerHasRequest(http\route\controller $controller, http\request $request)
 	{
-		$_this = clone $this;
+		$request->recipientOfHttpUrlPathIs(
+			new class($this->path, $this->endpoint, $controller, $request)
+				implements
+					http\response\recipient,
+					http\url\path\recipient
+			{
+				private
+					$path,
+					$endpoint,
+					$controller,
+					$request
+				;
 
-		$_this->controller = $controller;
-		$_this->request = $request;
+				function __construct(http\url\path $path, endpoint $endpoint, http\route\controller $controller,  http\request $request)
+				{
+					$this->path = $path;
+					$this->endpoint = $endpoint;
+					$this->controller = $controller;
+					$this->request = $request;
+				}
 
-		$request->recipientOfHttpUrlPathIs($_this);
-
-		return $this;
-	}
-
-	function recipientOfHttpUrlPathIs(http\url\path\recipient $recipient)
-	{
-		return $this;
-	}
-
-	function httpUrlPathIs(http\url\path $path)
-	{
-		oboolean::isNotNull($this->request)
-			->ifTrue(
-				new block\functor(
-					function() use ($path) {
-						$path
+				function httpUrlPathIs(http\url\path $path)
+				{
+					$this
+						->path
 							->ifIsEqualToHttpUrlPath(
-								$this->path,
+								$path,
 								new block\functor(
 									function() {
 										$this->endpoint
@@ -62,23 +61,23 @@ class path
 									}
 								)
 							)
-						;
-					}
-				)
-			)
-		;
+					;
+				}
+
+				function httpResponseIs(http\response $response)
+				{
+					$this->controller->httpResponseIs($response);
+				}
+			}
+		);
+
+		return $this;
 	}
 
-	function httpResponseIs(http\response $response)
+	function recipientOfHttpUrlPathIs(http\url\path\recipient $recipient)
 	{
-		oboolean::isNotNull($this->controller)
-			->ifTrue(
-				new block\functor(
-					function() use ($response) {
-						$this->controller->httpResponseIs($response);
-					}
-				)
-			)
-		;
+		$recipient->httpUrlPathIs($this->path);
+
+		return $this;
 	}
 }
