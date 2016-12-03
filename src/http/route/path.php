@@ -12,34 +12,33 @@ class path
 {
 	private
 		$path,
-		$endpoint
+		$route
 	;
 
-	function __construct(http\url\path $path, endpoint $endpoint)
+	function __construct(http\url\path $path, http\route $route)
 	{
 		$this->path = $path;
-		$this->endpoint = $endpoint;
+		$this->route = $route;
 	}
 
 	function httpRouteControllerHasRequest(http\route\controller $controller, http\request $request)
 	{
 		$request->recipientOfHttpUrlPathIs(
-			new class($this->path, $this->endpoint, $controller, $request)
+			new class($this->path, $this->route, $controller, $request)
 				implements
-					http\response\recipient,
 					http\url\path\recipient
 			{
 				private
 					$path,
-					$endpoint,
+					$route,
 					$controller,
 					$request
 				;
 
-				function __construct(http\url\path $path, endpoint $endpoint, http\route\controller $controller,  http\request $request)
+				function __construct(http\url\path $path, http\route $route, http\route\controller $controller,  http\request $request)
 				{
 					$this->path = $path;
-					$this->endpoint = $endpoint;
+					$this->route = $route;
 					$this->controller = $controller;
 					$this->request = $request;
 				}
@@ -52,21 +51,16 @@ class path
 								$path,
 								new block\functor(
 									function() {
-										$this->endpoint
-											->recipientOfHttpResponseForRequestIs(
-												$this->request,
-												$this
+										$this->route
+											->httpRouteControllerHasRequest(
+												$this->controller,
+												$this->request
 											)
 										;
 									}
 								)
 							)
 					;
-				}
-
-				function httpResponseIs(http\response $response)
-				{
-					$this->controller->httpResponseIs($response);
 				}
 			}
 		);

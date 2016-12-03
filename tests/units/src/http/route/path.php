@@ -24,16 +24,16 @@ class path extends units\test
 		$this
 			->given(
 				$controller = new mockOfHttp\route\controller,
-				$endpoint = new mockOfHttp\route\endpoint,
+				$route = new mockOfHttp\route,
 				$request = new mockOfHttp\request,
 				$path = new http\url\path\root
 			)
 			->if(
-				$this->newTestedInstance($path, $endpoint)
+				$this->newTestedInstance($path, $route)
 			)
 			->then
 				->object($this->testedInstance->httpRouteControllerHasRequest($controller, $request))
-					->isEqualTo($this->newTestedInstance($path, $endpoint))
+					->isEqualTo($this->newTestedInstance($path, $route))
 				->mock($controller)
 					->receive('httpResponseIs')
 						->never
@@ -45,28 +45,14 @@ class path extends units\test
 			->if(
 				$this->calling($request)->recipientOfHttpUrlPathIs = function($recipient) use ($requestPath) {
 					$recipient->httpUrlPathIs($requestPath);
-				},
-				$this->calling($endpoint)->recipientOfHttpResponseForRequestIs = function($endpointRequest, $recipient) use ($request, $response) {
-					oboolean::isIdentical(
-						$request,
-						$endpointRequest
-					)
-						->ifTrue(
-							new block\functor(
-								function() use ($recipient, $response) {
-									$recipient->httpResponseIs($response);
-								}
-							)
-						)
-					;
 				}
 			)
 			->then
 				->object($this->testedInstance->httpRouteControllerHasRequest($controller, $request))
-					->isEqualTo($this->newTestedInstance($path, $endpoint))
-				->mock($controller)
-					->receive('httpResponseIs')
-						->withIdenticalArguments($response)
+					->isEqualTo($this->newTestedInstance($path, $route))
+				->mock($route)
+					->receive('httpRouteControllerHasRequest')
+						->withIdenticalArguments($controller, $request)
 							->once
 		;
 	}
@@ -76,15 +62,15 @@ class path extends units\test
 		$this
 			->given(
 				$path = new http\url\path\root,
-				$endpoint = new mockOfHttp\route\endpoint,
+				$route = new mockOfHttp\route,
 				$recipient = new mockOfHttp\url\path\recipient
 			)
 			->if(
-				$this->newTestedInstance($path, $endpoint)
+				$this->newTestedInstance($path, $route)
 			)
 			->then
 				->object($this->testedInstance->recipientOfHttpUrlPathIs($recipient))
-					->isEqualTo($this->newTestedInstance($path, $endpoint))
+					->isEqualTo($this->newTestedInstance($path, $route))
 				->mock($recipient)
 					->receive('httpUrlPathIs')
 						->withArguments($path)
