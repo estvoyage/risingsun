@@ -2,7 +2,8 @@
 
 use
 	estvoyage\risingsun\hash,
-	estvoyage\risingsun\http
+	estvoyage\risingsun\http,
+	estvoyage\risingsun\block
 ;
 
 class v1_1
@@ -36,6 +37,45 @@ class v1_1
 
 	function recipientOfInnerHttpUrlPathIs()
 	{
+		return $this;
+	}
+
+	function recipientOfHttpRequestWithoutHeadUrlPathIs(http\url\path $head, recipient $recipient)
+	{
+		$this->path
+			->recipientOfHttpUrlPathWithoutHeadIs(
+				$head,
+				new class(
+					new block\functor(
+						function($path) use ($recipient)
+						{
+							$_this = clone $this;
+							$_this->path = $path;
+
+							$recipient->httpRequestIs($_this);
+						}
+					)
+				)
+					implements
+						http\url\path\recipient
+				{
+					private
+						$block
+					;
+
+					function __construct(block $block)
+					{
+						$this->block = $block;
+					}
+
+					function httpUrlPathIs(http\url\path $path)
+					{
+						$this->block->blockArgumentsAre($path);
+					}
+				}
+			)
+		;
+
 		return $this;
 	}
 }

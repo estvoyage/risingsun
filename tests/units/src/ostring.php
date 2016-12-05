@@ -791,6 +791,47 @@ class ostring extends units\test
 		;
 	}
 
+	function testRecipientOfStringWithoutPrefixIs()
+	{
+		$this
+			->given(
+				$prefix = new risingsun\ostring\notEmpty('foo'),
+				$recipient = new mockOfOString\recipient
+			)
+			->if(
+				$this->newTestedInstance
+			)
+			->then
+				->object($this->testedInstance->recipientOfStringWithoutPrefixIs($prefix, $recipient))
+					->isEqualTo($this->newTestedInstance)
+				->mock($recipient)
+					->receive('ostringIs')
+						->never
+
+			->if(
+				$this->newTestedInstance('foo')
+			)
+			->then
+				->object($this->testedInstance->recipientOfStringWithoutPrefixIs($prefix, $recipient))
+					->isEqualTo($this->newTestedInstance('foo'))
+				->mock($recipient)
+					->receive('ostringIs')
+						->withArguments($this->newTestedInstance)
+							->once
+
+			->if(
+				$this->newTestedInstance('foobar')
+			)
+			->then
+				->object($this->testedInstance->recipientOfStringWithoutPrefixIs($prefix, $recipient))
+					->isEqualTo($this->newTestedInstance('foobar'))
+				->mock($recipient)
+					->receive('ostringIs')
+						->withArguments($this->newTestedInstance('bar'))
+							->once
+		;
+	}
+
 	protected function validValueProvider()
 	{
 		return [

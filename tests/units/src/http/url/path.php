@@ -144,22 +144,22 @@ class path extends units\test
 		;
 	}
 
-	function testRecipientOfHttpUrlPathIteratorWithInnerPathsIs()
+	function testRecipientOfHttpUrlPathCollectionWithInnerPathsIs()
 	{
 		$this
 			->given(
 				$root = new risingsun\ostring\notEmpty('/'),
-				$recipient = new mockOfHttp\url\path\iterator\recipient,
+				$recipient = new mockOfHttp\url\path\collection\recipient,
 
-				$iteratorWithRoot = new mockOfHttp\url\path\iterator,
+				$collectionWithRoot = new mockOfHttp\url\path\collection,
 
-				$iterator = new mockOfHttp\url\path\iterator,
-				$this->calling($iterator)->recipientOfHttpUrlPathIteratorWithPathIs = function($aPath, $aRecipient) use ($root, $iteratorWithRoot) {
+				$collection = new mockOfHttp\url\path\collection,
+				$this->calling($collection)->recipientOfHttpUrlPathCollectionWithPathIs = function($aPath, $aRecipient) use ($root, $collectionWithRoot) {
 					oboolean::isEqual($aPath, $this->newTestedInstance($root))
 						->ifTrue(
 							new block\functor(
-								function() use ($iteratorWithRoot, $aRecipient) {
-									$aRecipient->httpUrlPathIteratorIs($iteratorWithRoot);
+								function() use ($collectionWithRoot, $aRecipient) {
+									$aRecipient->httpUrlPathCollectionIs($collectionWithRoot);
 								}
 							)
 						)
@@ -170,35 +170,35 @@ class path extends units\test
 				$this->newTestedInstance($root)
 			)
 			->then
-				->object($this->testedInstance->recipientOfHttpUrlInnerPathsIs($iterator, $recipient))
+				->object($this->testedInstance->recipientOfHttpUrlPathCollectionWithInnerPathsIs($collection, $recipient))
 					->isEqualTo($this->newTestedInstance($root))
 				->mock($recipient)
-					->receive('httpUrlPathIteratorIs')
-						->withIdenticalArguments($iteratorWithRoot)
+					->receive('httpUrlPathCollectionIs')
+						->withIdenticalArguments($collectionWithRoot)
 							->once
 
 			->given(
 				$foo = new risingsun\ostring\notEmpty('/foo'),
 
-				$this->calling($iterator)->recipientOfHttpUrlPathIteratorWithPathIs = function($aPath, $aRecipient) use ($foo, $iteratorWithRoot) {
+				$this->calling($collection)->recipientOfHttpUrlPathCollectionWithPathIs = function($aPath, $aRecipient) use ($foo, $collectionWithRoot) {
 					oboolean::isEqual($aPath, $this->newTestedInstance($foo))
 						->ifTrue(
 							new block\functor(
-								function() use ($iteratorWithRoot, $aRecipient) {
-									$aRecipient->httpUrlPathIteratorIs($iteratorWithRoot);
+								function() use ($collectionWithRoot, $aRecipient) {
+									$aRecipient->httpUrlPathcollectionIs($collectionWithRoot);
 								}
 							)
 						)
 					;
 				},
 
-				$iteratorWithRootAndFoo = new mockOfHttp\url\path\iterator,
-				$this->calling($iteratorWithRoot)->recipientOfHttpUrlPathIteratorWithPathIs = function($aPath, $aRecipient) use ($foo, $iteratorWithRootAndFoo) {
+				$collectionWithRootAndFoo = new mockOfHttp\url\path\collection,
+				$this->calling($collectionWithRoot)->recipientOfHttpUrlPathCollectionWithPathIs = function($aPath, $aRecipient) use ($foo, $collectionWithRootAndFoo) {
 					oboolean::isEqual($aPath, $this->newTestedInstance(new risingsun\ostring\notEmpty('/')))
 						->ifTrue(
 							new block\functor(
-								function() use ($iteratorWithRootAndFoo, $aRecipient) {
-									$aRecipient->httpUrlPathIteratorIs($iteratorWithRootAndFoo);
+								function() use ($collectionWithRootAndFoo, $aRecipient) {
+									$aRecipient->httpUrlPathCollectionIs($collectionWithRootAndFoo);
 								}
 							)
 						)
@@ -209,11 +209,11 @@ class path extends units\test
 				$this->newTestedInstance($foo)
 			)
 			->then
-				->object($this->testedInstance->recipientOfHttpUrlInnerPathsIs($iterator, $recipient))
+				->object($this->testedInstance->recipientOfHttpUrlPathCollectionWithInnerPathsIs($collection, $recipient))
 					->isEqualTo($this->newTestedInstance($foo))
 				->mock($recipient)
-					->receive('httpUrlPathIteratorIs')
-						->withIdenticalArguments($iteratorWithRootAndFoo)
+					->receive('httpUrlPathCollectionIs')
+						->withIdenticalArguments($collectionWithRootAndFoo)
 							->once
 		;
 	}
@@ -262,6 +262,54 @@ class path extends units\test
 			)
 			->then
 				->object(testedClass::toString($this->testedInstance))->isEqualTo($path)
+		;
+	}
+
+	function testRecipientOfHttpUrlPathWithoutHeadIs()
+	{
+		$this
+			->given(
+				$recipient = new mockOfHttp\url\path\recipient,
+				$head = $this->newTestedInstance(new risingsun\ostring\notEmpty('/'))
+			)
+			->if(
+				$this->newTestedInstance(new risingsun\ostring\notEmpty('/'))
+			)
+			->then
+				->object($this->testedInstance->recipientOfHttpUrlPathWithoutHeadIs($head, $recipient))
+					->isEqualTo($this->newTestedInstance(new risingsun\ostring\notEmpty('/')))
+				->mock($recipient)
+					->receive('httpUrlPathIs')
+						->withArguments($this->newTestedInstance(new risingsun\ostring\notEmpty('/')))
+							->once
+
+			->given(
+				$head = $this->newTestedInstance(new risingsun\ostring\notEmpty('/foo'))
+			)
+			->if(
+				$this->newTestedInstance(new risingsun\ostring\notEmpty('/foo'))
+			)
+			->then
+				->object($this->testedInstance->recipientOfHttpUrlPathWithoutHeadIs($head, $recipient))
+					->isEqualTo($this->newTestedInstance(new risingsun\ostring\notEmpty('/foo')))
+				->mock($recipient)
+					->receive('httpUrlPathIs')
+						->withArguments($this->newTestedInstance(new risingsun\ostring\notEmpty('/')))
+							->twice
+
+			->given(
+				$head = $this->newTestedInstance(new risingsun\ostring\notEmpty('/foo'))
+			)
+			->if(
+				$this->newTestedInstance(new risingsun\ostring\notEmpty('/foo/bar'))
+			)
+			->then
+				->object($this->testedInstance->recipientOfHttpUrlPathWithoutHeadIs($head, $recipient))
+					->isEqualTo($this->newTestedInstance(new risingsun\ostring\notEmpty('/foo/bar')))
+				->mock($recipient)
+					->receive('httpUrlPathIs')
+						->withArguments($this->newTestedInstance(new risingsun\ostring\notEmpty('/bar')))
+							->once
 		;
 	}
 

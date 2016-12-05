@@ -40,11 +40,23 @@ class path extends units\test
 
 			->given(
 				$requestPath = new http\url\path\root,
-				$response = new mockOfHttp\response
+				$response = new mockOfHttp\response,
+				$subRequest = new mockOfHttp\request
 			)
 			->if(
 				$this->calling($request)->recipientOfHttpUrlPathIs = function($recipient) use ($requestPath) {
 					$recipient->httpUrlPathIs($requestPath);
+				},
+				$this->calling($request)->recipientOfHttpRequestWithoutHeadUrlPathIs = function($aPath, $aRecipient) use ($path, $subRequest) {
+					oboolean::isIdentical($path, $aPath)
+						->ifTrue(
+							new block\functor(
+								function() use ($aRecipient, $subRequest) {
+									$aRecipient->httpRequestIs($subRequest);
+								}
+							)
+						)
+					;
 				}
 			)
 			->then
@@ -52,7 +64,7 @@ class path extends units\test
 					->isEqualTo($this->newTestedInstance($path, $route))
 				->mock($route)
 					->receive('httpRouteControllerHasRequest')
-						->withIdenticalArguments($controller, $request)
+						->withIdenticalArguments($controller, $subRequest)
 							->once
 		;
 	}

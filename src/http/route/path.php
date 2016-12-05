@@ -51,10 +51,34 @@ class path
 								$path,
 								new block\functor(
 									function() {
-										$this->route
-											->httpRouteControllerHasRequest(
-												$this->controller,
-												$this->request
+										$this->request
+											->recipientOfHttpRequestWithoutHeadUrlPathIs(
+												$this->path,
+												new class($this->route, $this->controller)
+													implements
+														http\request\recipient
+												{
+													private
+														$route,
+														$controller
+													;
+
+													function __construct(http\route $route, http\route\controller $controller)
+													{
+														$this->route = $route;
+														$this->controller = $controller;
+													}
+
+													function httpRequestIs(http\request $request)
+													{
+														$this->route
+															->httpRouteControllerHasRequest(
+																$this->controller,
+																$request
+															)
+														;
+													}
+												}
 											)
 										;
 									}

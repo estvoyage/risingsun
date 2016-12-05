@@ -3,6 +3,7 @@
 use
 	estvoyage\risingsun,
 	estvoyage\risingsun\block,
+	estvoyage\risingsun\ostring,
 	estvoyage\risingsun\oboolean
 ;
 
@@ -20,7 +21,8 @@ class path
 			->ifIsPatternOfString(
 				$path,
 				new block\functor(
-					function() use ($path) {
+					function() use ($path)
+					{
 						$this->value = $path;
 					}
 				),
@@ -57,21 +59,25 @@ class path
 		return $this->ifIsRoot($isEqual ?: new risingsun\block\blackhole, $isNotEqual);
 	}
 
-	function recipientOfHttpUrlInnerPathsIs(path\iterator $iterator, path\iterator\recipient $recipient)
+	function recipientOfHttpUrlPathCollectionWithInnerPathsIs(path\collection $collection, path\collection\recipient $recipient)
 	{
 		(
-			new class($iterator, $this)
+			new class($collection, $this)
 				implements
 					path\recipient,
-					path\iterator\recipient
+					path\collection\recipient
 			{
-				function __construct(path\iterator $iterator, path $path)
+				private
+					$collection
+				;
+
+				function __construct(path\collection $collection, path $path)
 				{
-					$this->iterator = $iterator;
+					$this->collection = $collection;
 
 					while ($path)
 					{
-						$this->iterator->recipientOfHttpUrlPathIteratorWithPathIs($path, $this);
+						$this->collection->recipientOfHttpUrlPathCollectionWithPathIs($path, $this);
 
 						$this->path = null;
 
@@ -86,18 +92,18 @@ class path
 					$this->path = $path;
 				}
 
-				function httpUrlPathIteratorIs(path\iterator $iterator)
+				function httpUrlPathCollectionIs(path\collection $collection)
 				{
-					$this->iterator = $iterator;
+					$this->collection = $collection;
 				}
 
-				function recipientOfHttpUrlPathIteratorIs(path\iterator\recipient $recipient)
+				function recipientOfHttpUrlPathCollectionIs(path\collection\recipient $recipient)
 				{
-					$recipient->httpUrlPathIteratorIs($this->iterator);
+					$recipient->httpUrlPathCollectionIs($this->collection);
 				}
 			}
 		)
-			->recipientOfHttpUrlPathIteratorIs($recipient)
+			->recipientOfHttpUrlPathCollectionIs($recipient)
 		;
 
 		return $this;
@@ -108,7 +114,8 @@ class path
 		$this
 			->ifIsNotRoot(
 				new block\functor(
-					function() use ($recipient) {
+					function() use ($recipient)
+					{
 						$recipient
 							->httpUrlPathIs(
 								self::cloneWithValue(
@@ -137,6 +144,72 @@ class path
 										}
 									)->value
 								)
+							)
+						;
+					}
+				)
+			)
+		;
+
+		return $this;
+	}
+
+	function recipientOfHttpUrlPathWithoutHeadIs(self $head, path\recipient $recipient)
+	{
+		$this
+			->ifIsRoot(
+				new block\functor(
+					function() use ($recipient)
+					{
+						$recipient->httpUrlPathIs($this);
+					}
+				),
+				new block\functor(
+					function() use ($head, $recipient)
+					{
+						$this->value
+							->recipientOfStringWithoutPrefixIs(
+								$head->value,
+								new class(
+									new block\functor(
+										function($string) use ($recipient)
+										{
+											$string
+												->ifIsEmptyString(
+													new block\functor(
+														function() use ($recipient)
+														{
+															$recipient->httpUrlPathIs(self::cloneWithValue($this, self::getRootValue()));
+														}
+													),
+													new block\functor(
+														function() use ($recipient, $string)
+														{
+															$recipient->httpUrlPathIs(self::cloneWithValue($this, $string));
+														}
+													)
+												)
+											;
+										}
+									)
+								)
+									implements
+										ostring\recipient
+								{
+									private
+										$block
+									;
+
+									function __construct(block $block)
+									{
+										$this->block = $block;
+									}
+
+									function ostringIs(ostring $string)
+									{
+										$this->block->blockArgumentsAre($string);
+									}
+								}
 							)
 						;
 					}
