@@ -3,7 +3,10 @@
 require __DIR__ . '/../../runner.php';
 
 use
-	estvoyage\risingsun\tests\units
+	estvoyage\risingsun\tests\units,
+	estvoyage\risingsun\ostring,
+	mock\estvoyage\risingsun\ostring as mockOfOString,
+	estvoyage\risingsun\ostring\notEmpty as testedClass
 ;
 
 class notEmpty extends units\test
@@ -32,6 +35,14 @@ class notEmpty extends units\test
 			->exception(function() use ($value) { $this->newTestedInstance($value); })
 				->isInstanceOf('domainException')
 				->hasMessage('Value should be a not empty string')
+		;
+	}
+
+	function testDefaultIfStringIsEmptyIs()
+	{
+		$this
+			->object(testedClass::defaultIfStringIsEmptyIs(new ostring, $this->newTestedInstance(uniqid())))->isIdenticalTo($this->testedInstance)
+			->object(testedClass::defaultIfStringIsEmptyIs(new ostring($value = uniqid()), $this->newTestedInstance(uniqid())))->isEqualTo($this->newTestedInstance($value))
 		;
 	}
 

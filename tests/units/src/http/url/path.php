@@ -280,8 +280,7 @@ class path extends units\test
 					->isEqualTo($this->newTestedInstance(new risingsun\ostring\notEmpty('/')))
 				->mock($recipient)
 					->receive('httpUrlPathIs')
-						->withArguments($this->newTestedInstance(new risingsun\ostring\notEmpty('/')))
-							->once
+						->never
 
 			->given(
 				$head = $this->newTestedInstance(new risingsun\ostring\notEmpty('/foo'))
@@ -295,7 +294,7 @@ class path extends units\test
 				->mock($recipient)
 					->receive('httpUrlPathIs')
 						->withArguments($this->newTestedInstance(new risingsun\ostring\notEmpty('/')))
-							->twice
+							->once
 
 			->given(
 				$head = $this->newTestedInstance(new risingsun\ostring\notEmpty('/foo'))
@@ -306,6 +305,20 @@ class path extends units\test
 			->then
 				->object($this->testedInstance->recipientOfHttpUrlPathWithoutHeadIs($head, $recipient))
 					->isEqualTo($this->newTestedInstance(new risingsun\ostring\notEmpty('/foo/bar')))
+				->mock($recipient)
+					->receive('httpUrlPathIs')
+						->withArguments($this->newTestedInstance(new risingsun\ostring\notEmpty('/bar')))
+							->once
+
+			->given(
+				$head = $this->newTestedInstance(new risingsun\ostring\notEmpty('/foo'))
+			)
+			->if(
+				$this->newTestedInstance(new risingsun\ostring\notEmpty('/oof/bar'))
+			)
+			->then
+				->object($this->testedInstance->recipientOfHttpUrlPathWithoutHeadIs($head, $recipient))
+					->isEqualTo($this->newTestedInstance(new risingsun\ostring\notEmpty('/oof/bar')))
 				->mock($recipient)
 					->receive('httpUrlPathIs')
 						->withArguments($this->newTestedInstance(new risingsun\ostring\notEmpty('/bar')))

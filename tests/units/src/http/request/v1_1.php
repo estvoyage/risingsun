@@ -64,65 +64,48 @@ class v1_1 extends units\test
 		;
 	}
 
-	function testRecipientOfInnerHttpUrlPathIs()
-	{
-		$this
-			->given(
-				$method = new mockOfHttp\method,
-				$path = new http\url\path\root,
-				$recipient = new mockOfHttp\request\inner\recipient
-			)
-			->if(
-				$this->newTestedInstance($method, $path)
-			)
-			->then
-				->object($this->testedInstance->recipientOfInnerHttpUrlPathIs($recipient))
-					->isEqualTo($this->newTestedInstance($method, $path))
-		;
-	}
-
-	function testRecipientOfHttpRequestWithoutHeadUrlPathIs()
+	function testRecipientOfSubRequestOfHttpUrlPathIs()
 	{
 		$this
 			->given(
 				$method = new mockOfHttp\method,
 				$path = new mockOfHttp\url\path,
 				$recipient = new mockOfHttp\request\recipient,
-				$headPath = new mockOfHttp\url\path
+				$headPath = new http\url\path(new ostring\notEmpty('/'))
 			)
 			->if(
 				$this->newTestedInstance($method, $path)
 			)
 			->then
-				->object($this->testedInstance->recipientOfHttpRequestWithoutHeadUrlPathIs($headPath, $recipient))
+				->object($this->testedInstance->recipientOfSubRequestOfHttpUrlPathIs($headPath, $recipient))
 					->isEqualTo($this->newTestedInstance($method, $path))
 				->mock($recipient)
 					->receive('httpRequestIs')
 						->never
 
 			->given(
-				$pathWithoutHead = new mockOfHttp\url\path,
-				$this->calling($path)->recipientOfHttpUrlPathWithoutHeadIs = function($aHead, $aRecipient) use ($headPath, $pathWithoutHead) {
-					oboolean::isIdentical($aHead, $headPath)
+				$subRequestPath = new mockOfHttp\url\path
+			)
+			->if(
+				$this->calling($path)->recipientOfHttpUrlPathWithoutHeadIs = function($aPath, $aRecipient) use ($headPath, $subRequestPath) {
+					oboolean::isIdentical($aPath, $headPath)
 						->ifTrue(
 							new block\functor(
-								function() use ($aRecipient, $pathWithoutHead) {
-									$aRecipient->httpUrlPathIs($pathWithoutHead);
+								function() use ($aRecipient, $subRequestPath)
+								{
+									$aRecipient->httpUrlPathIs($subRequestPath);
 								}
 							)
 						)
 					;
 				}
 			)
-			->if(
-				$this->newTestedInstance($method, $path)
-			)
 			->then
-				->object($this->testedInstance->recipientOfHttpRequestWithoutHeadUrlPathIs($headPath, $recipient))
+				->object($this->testedInstance->recipientOfSubRequestOfHttpUrlPathIs($headPath, $recipient))
 					->isEqualTo($this->newTestedInstance($method, $path))
 				->mock($recipient)
 					->receive('httpRequestIs')
-						->withArguments($this->newTestedInstance($method, $pathWithoutHead))
+						->withArguments($this->newTestedInstance($method, $subRequestPath))
 							->once
 		;
 	}

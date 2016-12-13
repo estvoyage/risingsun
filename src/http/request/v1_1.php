@@ -35,16 +35,11 @@ class v1_1
 		return $this;
 	}
 
-	function recipientOfInnerHttpUrlPathIs()
-	{
-		return $this;
-	}
-
-	function recipientOfHttpRequestWithoutHeadUrlPathIs(http\url\path $head, recipient $recipient)
+	function recipientOfSubRequestOfHttpUrlPathIs(http\url\path $path, recipient $recipient)
 	{
 		$this->path
 			->recipientOfHttpUrlPathWithoutHeadIs(
-				$head,
+				$path,
 				new class(
 					new block\functor(
 						function($path) use ($recipient)

@@ -6,7 +6,8 @@ use
 	estvoyage\risingsun\tests\units,
 	estvoyage\risingsun\block,
 	estvoyage\risingsun\oboolean,
-	mock\estvoyage\risingsun\http as mockOfHttp
+	mock\estvoyage\risingsun\http as mockOfHttp,
+	mock\estvoyage\risingsun\iterator as mockOfIterator
 ;
 
 class node extends units\test
@@ -24,12 +25,18 @@ class node extends units\test
 			->given(
 				$controller = new mockOfHttp\route\controller,
 				$request = new mockOfHttp\request,
+				$iterator = new mockOfIterator,
 				$firstRoute = new mockOfHttp\route,
 				$secondRoute = new mockOfHttp\route
 			)
 
 			->given(
+				$this->calling($iterator)->iteratorPayloadForValuesIs = function($values, $payload) use ($iterator, $firstRoute, $secondRoute) {
+					$payload->currentValueOfIteratorIs($iterator, $firstRoute);
+				},
+
 				$firstResponse = new mockOfHttp\response,
+
 				$this->calling($firstRoute)->httpRouteControllerHasRequest = function($aController, $aRequest) use ($request, $firstResponse) {
 					oboolean::isIdentical($request, $aRequest)
 						->ifTrue(
@@ -41,7 +48,9 @@ class node extends units\test
 						)
 					;
 				},
+
 				$secondResponse = new mockOfHttp\response,
+
 				$this->calling($secondRoute)->httpRouteControllerHasRequest = function($aController, $aRequest) use ($request, $secondResponse) {
 					oboolean::isIdentical($request, $aRequest)
 						->ifTrue(
@@ -55,33 +64,20 @@ class node extends units\test
 				}
 			)
 			->if(
-				$this->newTestedInstance($firstRoute, $secondRoute)
+				$this->newTestedInstance($iterator, $firstRoute, $secondRoute)
 			)
 			->then
 				->object($this->testedInstance->httpRouteControllerHasRequest($controller, $request))
-					->isEqualTo($this->newTestedInstance($firstRoute, $secondRoute))
+					->isEqualTo($this->newTestedInstance($iterator, $firstRoute, $secondRoute))
 				->mock($controller)
 					->receive('httpResponseIs')
 						->withIdenticalArguments($firstResponse)
 							->once
 						->withIdenticalArguments($secondResponse)
 							->never
-
-			->given(
-				$this->calling($firstRoute)->httpRouteControllerHasRequest->doesNothing
-			)
-			->if(
-				$this->newTestedInstance($firstRoute, $secondRoute)
-			)
-			->then
-				->object($this->testedInstance->httpRouteControllerHasRequest($controller, $request))
-					->isEqualTo($this->newTestedInstance($firstRoute, $secondRoute))
-				->mock($controller)
-					->receive('httpResponseIs')
-						->withIdenticalArguments($firstResponse)
-							->once
-						->withIdenticalArguments($secondResponse)
-							->once
+				->mock($iterator)
+					->receive('nextIteratorValuesAreUseless')
+						->once
 		;
 	}
 }

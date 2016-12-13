@@ -3,6 +3,7 @@
 use
 	estvoyage\risingsun\http,
 	estvoyage\risingsun\block,
+	estvoyage\risingsun\iterator,
 	estvoyage\risingsun\oboolean
 ;
 
@@ -23,71 +24,36 @@ class path
 
 	function httpRouteControllerHasRequest(http\route\controller $controller, http\request $request)
 	{
-		$request->recipientOfHttpUrlPathIs(
-			new class($this->path, $this->route, $controller, $request)
-				implements
-					http\url\path\recipient
-			{
-				private
-					$path,
-					$route,
-					$controller,
-					$request
-				;
-
-				function __construct(http\url\path $path, http\route $route, http\route\controller $controller,  http\request $request)
+		$request
+			->recipientOfSubRequestOfHttpUrlPathIs(
+				$this->path,
+				new class($this->route, $controller)
+					implements
+						http\request\recipient
 				{
-					$this->path = $path;
-					$this->route = $route;
-					$this->controller = $controller;
-					$this->request = $request;
-				}
-
-				function httpUrlPathIs(http\url\path $path)
-				{
-					$this
-						->path
-							->ifIsEqualToHttpUrlPath(
-								$path,
-								new block\functor(
-									function() {
-										$this->request
-											->recipientOfHttpRequestWithoutHeadUrlPathIs(
-												$this->path,
-												new class($this->route, $this->controller)
-													implements
-														http\request\recipient
-												{
-													private
-														$route,
-														$controller
-													;
-
-													function __construct(http\route $route, http\route\controller $controller)
-													{
-														$this->route = $route;
-														$this->controller = $controller;
-													}
-
-													function httpRequestIs(http\request $request)
-													{
-														$this->route
-															->httpRouteControllerHasRequest(
-																$this->controller,
-																$request
-															)
-														;
-													}
-												}
-											)
-										;
-									}
-								)
-							)
+					private
+						$route,
+						$controller
 					;
+
+					function __construct(http\route $route, http\route\controller $controller)
+					{
+						$this->route = $route;
+						$this->controller = $controller;
+					}
+
+					function httpRequestIs(http\request $request)
+					{
+						$this->route
+							->httpRouteControllerHasRequest(
+								$this->controller,
+								$request
+							)
+						;
+					}
 				}
-			}
-		);
+			)
+		;
 
 		return $this;
 	}

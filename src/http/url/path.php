@@ -51,7 +51,7 @@ class path
 
 	function ifIsRoot(risingsun\block $isEqual, risingsun\block $isNotEqual = null)
 	{
-		return $this->ifIsEqualToHttpUrlPath(new self(self::getRootValue()), $isEqual, $isNotEqual);
+		return $this->ifIsEqualToHttpUrlPath(new self(self::root()), $isEqual, $isNotEqual);
 	}
 
 	function ifIsNotRoot(risingsun\block $isNotEqual, risingsun\block $isEqual = null)
@@ -116,36 +116,16 @@ class path
 				new block\functor(
 					function() use ($recipient)
 					{
-						$recipient
-							->httpUrlPathIs(
-								self::cloneWithValue(
-									$this,
-									(
-										new class(self::getRootValue(), $this->value)
-											implements
-												risingsun\ostring\recipient
-										{
-											function __construct(risingsun\ostring\notEmpty $defaultValue, risingsun\ostring\notEmpty $value)
-											{
-												$this->value = $defaultValue;
+						$_this = self::valueOfPathIs($this, self::root());
 
-												$value
-													->recipientOfStringBeforeLastStringIs(
-														$defaultValue,
-														$this
-													)
-												;
-											}
-
-											function ostringIs(risingsun\ostring $string)
-											{
-												$this->value = $string;
-											}
-										}
-									)->value
-								)
+						$this->value
+							->recipientOfStringBeforeLastStringIs(
+								self::root(),
+								new ostring\recipient\block\functor(function($value) use ($_this) { $_this->value = $value; })
 							)
 						;
+
+						$recipient->httpUrlPathIs($_this);
 					}
 				)
 			)
@@ -157,59 +137,29 @@ class path
 	function recipientOfHttpUrlPathWithoutHeadIs(self $head, path\recipient $recipient)
 	{
 		$this
-			->ifIsRoot(
-				new block\functor(
-					function() use ($recipient)
-					{
-						$recipient->httpUrlPathIs($this);
-					}
-				),
+			->ifIsNotRoot(
 				new block\functor(
 					function() use ($head, $recipient)
 					{
 						$this->value
 							->recipientOfStringWithoutPrefixIs(
 								$head->value,
-								new class(
-									new block\functor(
-										function($string) use ($recipient)
-										{
-											$string
-												->ifIsEmptyString(
-													new block\functor(
-														function() use ($recipient)
-														{
-															$recipient->httpUrlPathIs(self::cloneWithValue($this, self::getRootValue()));
-														}
-													),
-													new block\functor(
-														function() use ($recipient, $string)
-														{
-															$recipient->httpUrlPathIs(self::cloneWithValue($this, $string));
-														}
+								new ostring\recipient\block\functor(
+									function($string) use ($head, $recipient)
+									{
+										$recipient
+											->httpUrlPathIs(
+												self::valueOfPathIs(
+													$this,
+													ostring\notEmpty::defaultIfStringIsEmptyIs(
+														$string,
+														self::root()
 													)
 												)
-											;
-										}
-									)
+											)
+										;
+									}
 								)
-									implements
-										ostring\recipient
-								{
-									private
-										$block
-									;
-
-									function __construct(block $block)
-									{
-										$this->block = $block;
-									}
-
-									function ostringIs(ostring $string)
-									{
-										$this->block->blockArgumentsAre($string);
-									}
-								}
 							)
 						;
 					}
@@ -225,14 +175,14 @@ class path
 		return $path->value;
 	}
 
-	private static function getRootValue()
+	private static function root()
 	{
 		static $root;
 
 		return ($root ?: $root = new risingsun\ostring\notEmpty('/'));
 	}
 
-	private static function cloneWithValue(self $path, risingsun\ostring\notEmpty $value)
+	private static function valueOfPathIs(self $path, risingsun\ostring\notEmpty $value)
 	{
 		$path = clone $path;
 		$path->value = $value;

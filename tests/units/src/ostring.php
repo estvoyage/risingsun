@@ -5,6 +5,7 @@ require __DIR__ . '/../runner.php';
 use
 	estvoyage\risingsun\tests\units,
 	estvoyage\risingsun,
+	estvoyage\risingsun\ostring as testedInstance,
 	mock\estvoyage\risingsun\block as mockOfBlock,
 	mock\estvoyage\risingsun\ostring as mockOfOString
 ;
@@ -829,6 +830,51 @@ class ostring extends units\test
 					->receive('ostringIs')
 						->withArguments($this->newTestedInstance('bar'))
 							->once
+
+			->if(
+				$this->newTestedInstance('oofbar')
+			)
+			->then
+				->object($this->testedInstance->recipientOfStringWithoutPrefixIs($prefix, $recipient))
+					->isEqualTo($this->newTestedInstance('oofbar'))
+				->mock($recipient)
+					->receive('ostringIs')
+						->withArguments($this->newTestedInstance('bar'))
+							->once
+		;
+	}
+
+	function testCopy()
+	{
+		$this
+			->given(
+				$origin = $this->newTestedInstance
+			)
+			->if(
+				$destination = $this->newTestedInstance
+			)
+			->then
+				->object(testedInstance::copy($origin, $destination))
+					->IsNotIdenticalTo($origin)
+					->IsNotIdenticalTo($destination)
+					->isEqualTo($this->newTestedInstance)
+
+			->if(
+				$destination = $this->newTestedInstance('foo')
+			)
+			->then
+				->object(testedInstance::copy($origin, $destination))
+					->isEqualTo($this->newTestedInstance)
+
+			->given(
+				$origin = $this->newTestedInstance('bar')
+			)
+			->if(
+				$destination = $this->newTestedInstance('foo')
+			)
+			->then
+				->object(testedInstance::copy($origin, $destination))
+					->isEqualTo($this->newTestedInstance('bar'))
 		;
 	}
 

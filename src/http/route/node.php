@@ -1,7 +1,6 @@
 <?php namespace estvoyage\risingsun\http\route;
 
 use
-	estvoyage\risingsun,
 	estvoyage\risingsun\http,
 	estvoyage\risingsun\block,
 	estvoyage\risingsun\iterator
@@ -12,11 +11,13 @@ class node
 		http\route
 {
 	private
+		$iterator,
 		$collection
 	;
 
-	function __construct(http\route... $routes)
+	function __construct(iterator $iterator, http\route... $routes)
 	{
+		$this->iterator = $iterator;
 		$this->collection = new http\route\collection(... $routes);
 	}
 
@@ -25,7 +26,7 @@ class node
 		$this
 			->collection
 				->payloadForIteratorIs(
-					new iterator\fifo,
+					$this->iterator,
 					new block\functor(
 						function($iterator, $route) use ($controller, $request) {
 							$route->httpRouteControllerHasRequest(
@@ -37,7 +38,7 @@ class node
 										$controller
 									;
 
-									function __construct(risingsun\iterator $iterator, http\route\controller $controller)
+									function __construct(iterator $iterator, http\route\controller $controller)
 									{
 										$this->iterator = $iterator;
 										$this->controller = $controller;

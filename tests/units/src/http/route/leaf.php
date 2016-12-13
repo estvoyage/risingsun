@@ -5,12 +5,11 @@ require __DIR__ . '/../../../runner.php';
 use
 	estvoyage\risingsun\tests\units,
 	estvoyage\risingsun\http,
-	estvoyage\risingsun\block,
 	estvoyage\risingsun\oboolean,
 	mock\estvoyage\risingsun\http as mockOfHttp
 ;
 
-class path extends units\test
+class leaf extends units\test
 {
 	function testClass()
 	{
@@ -23,10 +22,10 @@ class path extends units\test
 	{
 		$this
 			->given(
-				$controller = new mockOfHttp\route\controller,
+				$path = new mockOfHttp\url\path,
 				$route = new mockOfHttp\route,
-				$request = new mockOfHttp\request,
-				$path = new mockOfHttp\url\path
+				$controller = new mockOfHttp\route\controller,
+				$request = new mockOfHttp\request
 			)
 			->if(
 				$this->newTestedInstance($path, $route)
@@ -34,43 +33,39 @@ class path extends units\test
 			->then
 				->object($this->testedInstance->httpRouteControllerHasRequest($controller, $request))
 					->isEqualTo($this->newTestedInstance($path, $route))
-				->mock($controller)
-					->receive('httpResponseIs')
+				->mock($route)
+					->receive('httpRouteControllerHasRequest')
 						->never
 
 			->given(
-				$subRequest = new mockOfHttp\request
-			)
-			->if(
-				$this->calling($request)->recipientOfSubRequestOfHttpUrlPathIs = function($aPath, $aRecipient) use ($path, $subRequest) {
-					oboolean::isIdentical($path, $aPath)
-						->ifTrue(
-							new block\functor(
-								function() use ($aRecipient, $subRequest) {
-									$aRecipient->httpRequestIs($subRequest);
-								}
-							)
-						)
+				$this->calling($request)->recipientOfHttpUrlPathIs = function($recipient) use ($path) {
+					$recipient->httpUrlPathIs($path);
+				},
+				$this->calling($path)->ifIsEqualToHttpUrlPath = function($aPath, $aBlock) use ($path) {
+					oboolean::isIdentical($aPath, $path)
+						->ifTrue($aBlock)
 					;
 				}
+			)
+			->if(
+				$this->newTestedInstance($path, $route)
 			)
 			->then
 				->object($this->testedInstance->httpRouteControllerHasRequest($controller, $request))
 					->isEqualTo($this->newTestedInstance($path, $route))
 				->mock($route)
 					->receive('httpRouteControllerHasRequest')
-						->withIdenticalArguments($controller, $subRequest)
+						->withIdenticalArguments($controller, $request)
 							->once
 		;
 	}
 
-	function testRecipientOfHttpUrlPathIs()
+	function testRecipientOfHttpUrlPathIs(http\url\path\recipient $recipient)
 	{
 		$this
 			->given(
-				$path = new http\url\path\root,
-				$route = new mockOfHttp\route,
-				$recipient = new mockOfHttp\url\path\recipient
+				$path = new mockOfHttp\url\path,
+				$route = new mockOfHttp\route
 			)
 			->if(
 				$this->newTestedInstance($path, $route)
@@ -80,7 +75,7 @@ class path extends units\test
 					->isEqualTo($this->newTestedInstance($path, $route))
 				->mock($recipient)
 					->receive('httpUrlPathIs')
-						->withArguments($path)
+						->withIdenticalArguments($path)
 							->once
 		;
 	}

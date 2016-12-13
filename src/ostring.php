@@ -77,7 +77,7 @@ class ostring
 				new block\functor(
 					function() use ($lastPosition, $recipient)
 					{
-						$recipient->ostringIs(self::cloneWithValue($this, substr($this->value, 0, $lastPosition)));
+						$recipient->ostringIs(self::clone($this, substr($this->value, 0, $lastPosition)));
 					}
 				)
 			)
@@ -102,7 +102,7 @@ class ostring
 								new block\functor(
 									function() use ($value, $recipient)
 									{
-										$recipient->ostringIs(self::cloneWithValue($this, $value));
+										$recipient->ostringIs(self::clone($this, $value));
 									}
 								)
 							)
@@ -117,20 +117,23 @@ class ostring
 
 	function recipientOfStringWithoutPrefixIs(ostring\notEmpty $prefix, ostring\recipient $recipient)
 	{
-		$value = substr_replace($this->value, '', 0, strlen($prefix->value));
-
-		oboolean::isEqual($this->value, $value)
-			->ifFalse(
+		oboolean::isZero(strpos($this->value, $prefix->value))
+			->ifTrue(
 				new block\functor(
-					function() use ($value, $recipient)
+					function() use ($prefix, $recipient)
 					{
-						$recipient->ostringIs(self::cloneWithValue($this, $value));
+						$recipient->ostringIs(self::clone($this, substr($this->value, strlen($prefix->value))));
 					}
 				)
 			)
 		;
 
 		return $this;
+	}
+
+	static function copy(self $origin, self $destination)
+	{
+		return self::clone($destination, $origin->value);
 	}
 
 	private function ifTrue(oboolean $boolean, block $true, block $false = null)
@@ -143,7 +146,7 @@ class ostring
 		return $this;
 	}
 
-	private static function cloneWithValue(self $string, $value)
+	private static function clone(self $string, $value)
 	{
 		$string = clone $string;
 		$string->value = $value;
