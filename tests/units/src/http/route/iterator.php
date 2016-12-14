@@ -10,7 +10,7 @@ use
 	mock\estvoyage\risingsun\iterator as mockOfIterator
 ;
 
-class node extends units\test
+class iterator extends units\test
 {
 	function testClass()
 	{

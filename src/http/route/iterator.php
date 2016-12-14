@@ -1,12 +1,12 @@
 <?php namespace estvoyage\risingsun\http\route;
 
 use
+	estvoyage\risingsun,
 	estvoyage\risingsun\http,
-	estvoyage\risingsun\block,
-	estvoyage\risingsun\iterator
+	estvoyage\risingsun\block
 ;
 
-class node
+class iterator
 	implements
 		http\route
 {
@@ -15,7 +15,7 @@ class node
 		$collection
 	;
 
-	function __construct(iterator $iterator, http\route... $routes)
+	function __construct(risingsun\iterator $iterator, http\route... $routes)
 	{
 		$this->iterator = $iterator;
 		$this->collection = new http\route\collection(... $routes);
