@@ -30,27 +30,15 @@ class node
 					new block\functor(
 						function($iterator, $route) use ($controller, $request) {
 							$route->httpRouteControllerHasRequest(
-								new class($iterator, $controller)
-									implements http\route\controller
-								{
-									private
-										$iterator,
-										$controller
-									;
+								new http\route\controller\block\functor(
+									new block\functor(
+										function($response) use ($iterator, $controller) {
+											$iterator->nextIteratorValuesAreUseless();
 
-									function __construct(iterator $iterator, http\route\controller $controller)
-									{
-										$this->iterator = $iterator;
-										$this->controller = $controller;
-									}
-
-									function httpResponseIs(http\response $response)
-									{
-										$this->iterator->nextIteratorValuesAreUseless();
-
-										$this->controller->httpResponseIs($response);
-									}
-								},
+											$controller->httpResponseIs($response);
+										}
+									)
+								),
 								$request
 							);
 						}

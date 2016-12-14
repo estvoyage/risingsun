@@ -6,7 +6,8 @@ use
 	estvoyage\risingsun\http,
 	estvoyage\risingsun\block,
 	estvoyage\risingsun\output,
-	estvoyage\risingsun\ostring
+	estvoyage\risingsun\ostring,
+	estvoyage\risingsun\iterator
 ;
 
 $output = new output\stdout;
@@ -90,6 +91,7 @@ $output->endOfLine();
 (
 	new http\route\post(
 		new http\route\node(
+			new iterator\fifo,
 			new http\route\path(
 				new http\url\path(
 					new ostring\notEmpty('/foo/bar')
@@ -143,6 +145,7 @@ $output->endOfLine();
 		new http\route\path(
 			new http\url\path(new ostring\notEmpty('/foo')),
 			new http\route\node(
+				new iterator\fifo,
 				new http\route\leaf(new http\url\path(new ostring\notEmpty('/')), new http\route\endpoint(new http\response\stream(new output\stream('POST to /foo!')))),
 				new http\route\path(new http\url\path(new ostring\notEmpty('/bar')), new http\route\endpoint(new http\response\stream(new output\stream('other POST to /foo/bar!'))))
 			)
@@ -167,9 +170,11 @@ $output->endOfLine();
 (
 	new http\route\post(
 		new http\route\node(
+			new iterator\fifo,
 			new http\route\path(
 				new http\url\path(new ostring\notEmpty('/foo')),
 				new http\route\node(
+					new iterator\fifo,
 					new http\route\leaf(new http\url\path(new ostring\notEmpty('/')), new http\route\endpoint(new http\response\stream(new output\stream('POST to /foo!')))),
 					new http\route\leaf(new http\url\path(new ostring\notEmpty('/bar')), new http\route\endpoint(new http\response\stream(new output\stream('again, other POST to /foo/bar!'))))
 				)
@@ -177,6 +182,7 @@ $output->endOfLine();
 			new http\route\path(
 				new http\url\path(new ostring\notEmpty('/oof')),
 				new http\route\node(
+					new iterator\fifo,
 					new http\route\leaf(new http\url\path(new ostring\notEmpty('/')), new http\route\endpoint(new http\response\stream(new output\stream('POST to /oof!')))),
 					new http\route\leaf(new http\url\path(new ostring\notEmpty('/rab')), new http\route\endpoint(new http\response\stream(new output\stream('POST to /oof/rab!'))))
 				)
