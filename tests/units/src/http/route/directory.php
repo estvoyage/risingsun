@@ -19,11 +19,11 @@ class directory extends units\test
 		;
 	}
 
-	function testHttpRouteControllerHasRequest()
+	function testRecipientOfHttpResponseForRequestIs()
 	{
 		$this
 			->given(
-				$controller = new mockOfHttp\route\controller,
+				$recipient = new mockOfHttp\response\recipient,
 				$route = new mockOfHttp\route,
 				$request = new mockOfHttp\request,
 				$path = new mockOfHttp\url\path
@@ -32,9 +32,9 @@ class directory extends units\test
 				$this->newTestedInstance($path, $route)
 			)
 			->then
-				->object($this->testedInstance->httpRouteControllerHasRequest($controller, $request))
+				->object($this->testedInstance->recipientOfHttpResponseForRequestIs($request, $recipient))
 					->isEqualTo($this->newTestedInstance($path, $route))
-				->mock($controller)
+				->mock($recipient)
 					->receive('httpResponseIs')
 						->never
 
@@ -55,11 +55,11 @@ class directory extends units\test
 				}
 			)
 			->then
-				->object($this->testedInstance->httpRouteControllerHasRequest($controller, $request))
+				->object($this->testedInstance->recipientOfHttpResponseForRequestIs($request, $recipient))
 					->isEqualTo($this->newTestedInstance($path, $route))
 				->mock($route)
-					->receive('httpRouteControllerHasRequest')
-						->withIdenticalArguments($controller, $subRequest)
+					->receive('recipientOfHttpResponseForRequestIs')
+						->withIdenticalArguments($subRequest, $recipient)
 							->once
 		;
 	}

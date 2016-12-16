@@ -20,20 +20,20 @@ class file
 		$this->route = $route;
 	}
 
-	function httpRouteControllerHasRequest(http\route\controller $controller, http\request $request)
+	function recipientOfHttpResponseForRequestIs(http\request $request, http\response\recipient $recipient)
 	{
 		$request
 			->recipientOfHttpUrlPathIs(
 				new class(
 					new block\functor(
-						function($path) use ($controller, $request)
+						function($path) use ($request, $recipient)
 						{
 							$this->path
 								->ifIsEqualToHttpUrlPath(
 									$path,
 									new block\functor(
-										function() use ($controller, $request) {
-											$this->route->httpRouteControllerHasRequest($controller, $request);
+										function() use ($request, $recipient) {
+											$this->route->recipientOfHttpResponseForRequestIs($request, $recipient);
 										}
 									)
 								)

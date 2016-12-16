@@ -81,17 +81,17 @@ class hash
 		;
 	}
 
-	function httpRouteControllerHasRequest(http\route\controller $controller, http\request $request)
+	function recipientOfHttpResponseForRequestIs(http\request $request, http\response\recipient $recipient)
 	{
 		(
 			new class($this->routeAggregator, $this->routeHash)
 				implements
-					http\route\controller
+					http\response\recipient
 			{
 				private
 					$routeAggregator,
 					$routeHash,
-					$controller
+					$recipient
 				;
 
 				function __construct(http\route\aggregator $routeAggregator, http\route\hash $routeHash)
@@ -102,20 +102,20 @@ class hash
 
 				function httpResponseIs(http\response $response)
 				{
-					$this->controller->httpResponseIs($response);
+					$this->recipient->httpResponseIs($response);
 
-					$this->controller = null;
+					$this->recipient = null;
 				}
 
-				function httpRouteControllerHasRequest(http\route\controller $controller, http\request $request)
+				function recipientOfHttpResponseForRequestIs(http\request $request, http\response\recipient $recipient)
 				{
-					$this->controller = $controller;
+					$this->recipient = $recipient;
 
-					$this->routeHash->httpRouteControllerHasRequest($this, $request);
+					$this->routeHash->recipientOfHttpResponseForRequestIs($request, $this);
 
-					oboolean::isNotNull($this->controller)
-						->ifTrue(new block\functor(function() use ($controller, $request) {
-									$this->routeAggregator->httpRouteControllerHasRequest($controller, $request);
+					oboolean::isNotNull($this->recipient)
+						->ifTrue(new block\functor(function() use ($recipient, $request) {
+									$this->routeAggregator->recipientOfHttpResponseForRequestIs($request, $recipient);
 								}
 							)
 						)
@@ -123,7 +123,7 @@ class hash
 				}
 			}
 		)
-			->httpRouteControllerHasRequest($controller, $request)
+			->recipientOfHttpResponseForRequestIs($request, $recipient)
 		;
 
 		return $this;

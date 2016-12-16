@@ -18,18 +18,18 @@ class fifo extends units\test
 		;
 	}
 
-	function testHttpRouteControllerHasRequest()
+	function testRecipientOfHttpResponseForRequestIs()
 	{
 		$this
 			->given(
-				$controller = new mockOfHttp\route\controller,
+				$recipient = new mockOfHttp\response\recipient,
 				$request = new mockOfHttp\request
 			)
 			->if(
 				$this->newTestedInstance
 			)
 			->then
-				->object($this->testedInstance->httpRouteControllerHasRequest($controller, $request))
+				->object($this->testedInstance->recipientOfHttpResponseForRequestIs($request, $recipient))
 					->isEqualTo($this->newTestedInstance)
 
 			->given(
@@ -37,12 +37,12 @@ class fifo extends units\test
 				$response = new mockOfHttp\response
 			)
 			->if(
-				$this->calling($route)->httpRouteControllerHasRequest = function($aController, $aRequest) use ($request, $response) {
+				$this->calling($route)->recipientOfHttpResponseForRequestIs = function($aRequest, $aRecipient) use ($request, $response) {
 					oboolean::isEqual($aRequest, $request)
 						->ifTrue(
 							new block\functor(
-								function() use ($aController, $response) {
-									$aController->httpResponseIs($response);
+								function() use ($aRecipient, $response) {
+									$aRecipient->httpResponseIs($response);
 								}
 							)
 						)
@@ -52,9 +52,9 @@ class fifo extends units\test
 				$this->newTestedInstance($route)
 			)
 			->then
-				->object($this->testedInstance->httpRouteControllerHasRequest($controller, $request))
+				->object($this->testedInstance->recipientOfHttpResponseForRequestIs($request, $recipient))
 					->isEqualTo($this->newTestedInstance($route))
-				->mock($controller)
+				->mock($recipient)
 					->receive('httpResponseIs')
 						->withIdenticalArguments($response)
 							->once
@@ -64,11 +64,11 @@ class fifo extends units\test
 			)
 			->if(
 				$this->newTestedInstance($route, $otherRoute)
-					->httpRouteControllerHasRequest($controller, $request)
+					->recipientOfHttpResponseForRequestIs($request, $recipient)
 			)
 			->then
 				->mock($otherRoute)
-					->receive('httpRouteControllerHasRequest')
+					->receive('recipientOfHttpResponseForRequestIs')
 						->never
 		;
 	}

@@ -53,7 +53,7 @@ class map extends units\test
 		;
 	}
 
-	function testRecipientOfHttpRouteHasWithRouteIs()
+	function testRecipientOfHttpRouteHashWithRouteIs()
 	{
 		$this
 			->given(
@@ -90,18 +90,18 @@ class map extends units\test
 		;
 	}
 
-	function testHttpRouteControllerHasRequest()
+	function testRecipientOfHttpResponseForRequestIs()
 	{
 		$this
 			->given(
-				$controller = new mockOfHttp\route\controller,
+				$recipient = new mockOfHttp\response\recipient,
 				$request = new mockOfHttp\request
 			)
 			->if(
 				$this->newTestedInstance
 			)
 			->then
-				->object($this->testedInstance->httpRouteControllerHasRequest($controller, $request))
+				->object($this->testedInstance->recipientOfHttpResponseForRequestIs($request, $recipient))
 					->isEqualTo($this->newTestedInstance)
 
 			->given(
@@ -120,11 +120,11 @@ class map extends units\test
 				$this->newTestedInstance($route)
 			)
 			->then
-				->object($this->testedInstance->httpRouteControllerHasRequest($controller, $request))
+				->object($this->testedInstance->recipientOfHttpResponseForRequestIs($request, $recipient))
 					->isEqualTo($this->newTestedInstance($route))
 				->mock($route)
-					->receive('httpRouteControllerHasRequest')
-						->withArguments($controller, $request)
+					->receive('recipientOfHttpResponseForRequestIs')
+						->withArguments($request, $recipient)
 							->once
 		;
 	}

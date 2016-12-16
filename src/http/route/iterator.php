@@ -21,25 +21,25 @@ class iterator
 		$this->collection = new http\route\collection(... $routes);
 	}
 
-	function httpRouteControllerHasRequest(http\route\controller $controller, http\request $request)
+	function recipientOfHttpResponseForRequestIs(http\request $request, http\response\recipient $recipient)
 	{
 		$this
 			->collection
 				->payloadForIteratorIs(
 					$this->iterator,
 					new block\functor(
-						function($iterator, $route) use ($controller, $request) {
-							$route->httpRouteControllerHasRequest(
-								new http\route\controller\block(
+						function($iterator, $route) use ($recipient, $request) {
+							$route->recipientOfHttpResponseForRequestIs(
+								$request,
+								new http\response\recipient\block(
 									new block\functor(
-										function($response) use ($iterator, $controller) {
+										function($response) use ($iterator, $recipient) {
 											$iterator->nextIteratorValuesAreUseless();
 
-											$controller->httpResponseIs($response);
+											$recipient->httpResponseIs($response);
 										}
 									)
-								),
-								$request
+								)
 							);
 						}
 					)

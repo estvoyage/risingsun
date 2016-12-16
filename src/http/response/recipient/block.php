@@ -1,4 +1,4 @@
-<?php namespace estvoyage\risingsun\http\route\controller;
+<?php namespace estvoyage\risingsun\http\response\recipient;
 
 use
 	estvoyage\risingsun,
@@ -7,7 +7,7 @@ use
 
 class block
 	implements
-		http\route\controller
+		http\response\recipient
 {
 	private
 		$block

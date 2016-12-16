@@ -21,19 +21,19 @@ class method
 		$this->route = $route;
 	}
 
-	function httpRouteControllerHasRequest(http\route\controller $controller, http\request $request)
+	function recipientOfHttpResponseForRequestIs(http\request $request, http\response\recipient $recipient)
 	{
 		$request
 			->recipientOfHttpMethodIs(
-				new class($this->method, $this->route, $controller, $request)
+				new class($this->method, $this->route, $request, $recipient)
 					implements
 						http\method\recipient
 				{
-					function __construct(http\method $method, http\route $route, http\route\controller $controller, http\request $request)
+					function __construct(http\method $method, http\route $route, http\request $request, http\response\recipient $recipient)
 					{
 						$this->method = $method;
 						$this->route = $route;
-						$this->controller = $controller;
+						$this->recipient = $recipient;
 						$this->request = $request;
 					}
 
@@ -46,7 +46,7 @@ class method
 									new block\functor(
 										function()
 										{
-											$this->route->httpRouteControllerHasRequest($this->controller, $this->request);
+											$this->route->recipientOfHttpResponseForRequestIs($this->request, $this->recipient);
 										}
 									)
 								)

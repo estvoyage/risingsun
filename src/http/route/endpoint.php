@@ -17,9 +17,9 @@ class endpoint
 		$this->response = $response;
 	}
 
-	function httpRouteControllerHasRequest(http\route\controller $controller, http\request $request)
+	function recipientOfHttpResponseForRequestIs(http\request $request, http\response\recipient $recipient)
 	{
-		$controller->httpResponseIs($this->response);
+		$recipient->httpResponseIs($this->response);
 
 		return $this;
 	}

@@ -1,4 +1,4 @@
-<?php namespace estvoyage\risingsun\tests\units\http\route\controller;
+<?php namespace estvoyage\risingsun\tests\units\http\response\recipient;
 
 require __DIR__ . '/../../../../runner.php';
 
@@ -13,7 +13,7 @@ class output extends units\test
 	function testClass()
 	{
 		$this->testedClass
-			->implements('estvoyage\risingsun\http\route\controller')
+			->implements('estvoyage\risingsun\http\response\recipient')
 		;
 	}
 

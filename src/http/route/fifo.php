@@ -21,12 +21,12 @@ class fifo
 		$this->routes = $routes;
 	}
 
-	function httpRouteControllerHasRequest(http\route\controller $controller, http\request $request)
+	function recipientOfHttpResponseForRequestIs(http\request $request, http\response\recipient $recipient)
 	{
 		(
 			new class(... $this->routes)
 				implements
-					http\route\controller
+					http\response\recipient
 			{
 				private
 					$routes,
@@ -38,29 +38,29 @@ class fifo
 					$this->routes = $routes;
 				}
 
-				function httpRouteControllerHasRequest(http\route\controller $controller, http\request $request)
+				function recipientOfHttpResponseForRequestIs(http\request $request, http\response\recipient $recipient)
 				{
 					(new iterator\fifo)
 						->iteratorPayloadForValuesIs(
 							$this->routes,
 							new block\functor(
-								function($iterator, $route) use ($controller, $request) {
+								function($iterator, $route) use ($recipient, $request) {
 									$this->response = null;
 
 									$route
-										->httpRouteControllerHasRequest(
-											$this,
-											$request
+										->recipientOfHttpResponseForRequestIs(
+											$request,
+											$this
 										)
 									;
 
 									oboolean::isNotNull($this->response)
 										->ifTrue(
 											new block\functor(
-												function() use ($controller, $iterator) {
+												function() use ($recipient, $iterator) {
 													$iterator->nextIteratorValuesAreUseless();
 
-													$controller->httpResponseIs($this->response);
+													$recipient->httpResponseIs($this->response);
 												}
 											)
 										)
@@ -77,7 +77,7 @@ class fifo
 				}
 			}
 		)
-			->httpRouteControllerHasRequest($controller, $request)
+			->recipientOfHttpResponseForRequestIs($request, $recipient)
 		;
 
 		return $this;

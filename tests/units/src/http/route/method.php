@@ -18,11 +18,11 @@ class method extends units\test
 		;
 	}
 
-	function testHttpRouteControllerHasRequest()
+	function testRecipientOfHttpResponseForRequestIs()
 	{
 		$this
 			->given(
-				$controller = new mockOfHttp\route\controller,
+				$recipient = new mockOfHttp\response\recipient,
 				$request = new mockOfHttp\request,
 				$route = new mockOfHttp\route,
 				$method = new mockOfHttp\method
@@ -39,11 +39,11 @@ class method extends units\test
 				$this->newTestedInstance($method, $route)
 			)
 			->then
-				->object($this->testedInstance->httpRouteControllerHasRequest($controller, $request))
+				->object($this->testedInstance->recipientOfHttpResponseForRequestIs($request, $recipient))
 					->isEqualTo($this->newTestedInstance($method, $route))
 				->mock($route)
-					->receive('httpRouteControllerHasRequest')
-						->withIdenticalArguments($controller, $request)
+					->receive('recipientOfHttpResponseForRequestIs')
+						->withIdenticalArguments($request, $recipient)
 							->once
 		;
 	}

@@ -22,19 +22,19 @@ class directory
 		$this->route = $route;
 	}
 
-	function httpRouteControllerHasRequest(http\route\controller $controller, http\request $request)
+	function recipientOfHttpResponseForRequestIs(http\request $request, http\response\recipient $recipient)
 	{
 		$request
 			->recipientOfSubRequestOfHttpUrlPathIs(
 				$this->path,
 				new http\request\recipient\block(
 					new block\functor(
-						function($request) use ($controller)
+						function($request) use ($recipient)
 						{
 							$this->route
-								->httpRouteControllerHasRequest(
-									$controller,
-									$request
+								->recipientOfHttpResponseForRequestIs(
+									$request,
+									$recipient
 								)
 							;
 						}

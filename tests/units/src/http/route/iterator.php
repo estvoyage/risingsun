@@ -19,11 +19,11 @@ class iterator extends units\test
 		;
 	}
 
-	function testHttpRouteControllerHasRequest()
+	function testRecipientOfHttpResponseForRequestIs()
 	{
 		$this
 			->given(
-				$controller = new mockOfHttp\route\controller,
+				$recipient = new mockOfHttp\response\recipient,
 				$request = new mockOfHttp\request,
 				$iterator = new mockOfIterator,
 				$firstRoute = new mockOfHttp\route,
@@ -37,12 +37,12 @@ class iterator extends units\test
 
 				$firstResponse = new mockOfHttp\response,
 
-				$this->calling($firstRoute)->httpRouteControllerHasRequest = function($aController, $aRequest) use ($request, $firstResponse) {
+				$this->calling($firstRoute)->recipientOfHttpResponseForRequestIs = function($aRequest, $aRecipient) use ($request, $firstResponse) {
 					oboolean::isIdentical($request, $aRequest)
 						->ifTrue(
 							new block\functor(
-								function() use ($aController, $firstResponse) {
-									$aController->httpResponseIs($firstResponse);
+								function() use ($aRecipient, $firstResponse) {
+									$aRecipient->httpResponseIs($firstResponse);
 								}
 							)
 						)
@@ -51,12 +51,12 @@ class iterator extends units\test
 
 				$secondResponse = new mockOfHttp\response,
 
-				$this->calling($secondRoute)->httpRouteControllerHasRequest = function($aController, $aRequest) use ($request, $secondResponse) {
+				$this->calling($secondRoute)->recipientOfHttpResponseForRequestIs = function($aRecipient, $aRequest) use ($request, $secondResponse) {
 					oboolean::isIdentical($request, $aRequest)
 						->ifTrue(
 							new block\functor(
-								function() use ($aController, $secondResponse) {
-									$aController->httpResponseIs($secondResponse);
+								function() use ($aRecipient, $secondResponse) {
+									$aRecipient->httpResponseIs($secondResponse);
 								}
 							)
 						)
@@ -67,9 +67,9 @@ class iterator extends units\test
 				$this->newTestedInstance($iterator, $firstRoute, $secondRoute)
 			)
 			->then
-				->object($this->testedInstance->httpRouteControllerHasRequest($controller, $request))
+				->object($this->testedInstance->recipientOfHttpResponseForRequestIs($request, $recipient))
 					->isEqualTo($this->newTestedInstance($iterator, $firstRoute, $secondRoute))
-				->mock($controller)
+				->mock($recipient)
 					->receive('httpResponseIs')
 						->withIdenticalArguments($firstResponse)
 							->once

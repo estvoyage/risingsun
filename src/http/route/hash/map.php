@@ -136,25 +136,25 @@ class map
 		return $this;
 	}
 
-	function httpRouteControllerHasRequest(http\route\controller $controller, http\request $request)
+	function recipientOfHttpResponseForRequestIs(http\request $request, http\response\recipient $recipient)
 	{
 		$request
 			->recipientOfHttpUrlPathIs(
-				new class($this->hash, $controller, $request)
+				new class($this->hash, $request, $recipient)
 					implements
 						hash\value\recipient,
 						http\url\path\recipient
 				{
 					private
 						$hash,
-						$controller,
+						$recipient,
 						$request
 					;
 
-					function __construct(hash $hash, http\route\controller $controller, http\request $request)
+					function __construct(hash $hash, http\request $request, http\response\recipient $recipient)
 					{
 						$this->hash = $hash;
-						$this->controller = $controller;
+						$this->recipient = $recipient;
 						$this->request = $request;
 					}
 
@@ -165,7 +165,7 @@ class map
 
 					function hashKeyHasValue($value)
 					{
-						$value->httpRouteControllerHasRequest($this->controller, $this->request);
+						$value->recipientOfHttpResponseForRequestIs($this->request, $this->recipient);
 					}
 				}
 			)

@@ -6,6 +6,6 @@ use
 
 interface route
 {
-	function httpRouteControllerHasRequest(route\controller $controller, request $request);
+	function recipientOfHttpResponseForRequestIs(request $request, response\recipient $recipient);
 	function recipientOfHttpUrlPathIs(url\path\recipient $recipient);
 }

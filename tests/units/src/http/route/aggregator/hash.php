@@ -79,24 +79,24 @@ class hash extends units\test
 		;
 	}
 
-	function testHttpRouteControllerHasRequest()
+	function testRecipientOfHttpResponseForRequestIs()
 	{
 		$this
 			->given(
 				$routeAggregator = new mockOfHttp\route\aggregator,
 				$routeHash = new mockOfHttp\route\hash,
-				$controller = new mockOfHttp\route\controller,
+				$recipient = new mockOfHttp\response\recipient,
 				$request = new mockOfHttp\request
 			)
 			->if(
 				$this->newTestedInstance($routeAggregator, $routeHash)
 			)
 			->then
-				->object($this->testedInstance->httpRouteControllerHasRequest($controller, $request))
+				->object($this->testedInstance->recipientOfHttpResponseForRequestIs($request, $recipient))
 					->isEqualTo($this->newTestedInstance($routeAggregator, $routeHash))
 				->mock($routeAggregator)
-					->receive('httpRouteControllerHasRequest')
-						->withIdenticalArguments($controller, $request)
+					->receive('recipientOfHttpResponseForRequestIs')
+						->withIdenticalArguments($request, $recipient)
 							->once
 
 			->given(
@@ -104,12 +104,12 @@ class hash extends units\test
 				$response = new mockOfHttp\response
 			)
 			->if(
-				$this->calling($routeHash)->httpRouteControllerHasRequest = function($aController, $aRequest) use ($request, $response) {
+				$this->calling($routeHash)->recipientOfHttpResponseForRequestIs = function($aRequest, $aRecipient) use ($request, $response) {
 					oboolean::isEqual($aRequest, $request)
 						->ifTrue(
 							new block\functor(
-								function() use ($aController, $response) {
-									$aController->httpResponseIs($response);
+								function() use ($aRecipient, $response) {
+									$aRecipient->httpResponseIs($response);
 								}
 							)
 						)
@@ -119,15 +119,15 @@ class hash extends units\test
 				$this->newTestedInstance($routeAggregator, $routeHash, $route)
 			)
 			->then
-				->object($this->testedInstance->httpRouteControllerHasRequest($controller, $request))
+				->object($this->testedInstance->recipientOfHttpResponseForRequestIs($request, $recipient))
 					->isEqualTo($this->newTestedInstance($routeAggregator, $routeHash, $route))
-				->mock($controller)
+				->mock($recipient)
 					->receive('httpResponseIs')
 						->withIdenticalArguments($response)
 							->once
 				->mock($routeAggregator)
-					->receive('httpRouteControllerHasRequest')
-						->withIdenticalArguments($controller, $request)
+					->receive('recipientOfHttpResponseForRequestIs')
+						->withIdenticalArguments($request, $recipient)
 							->once
 		;
 	}

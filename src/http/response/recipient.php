@@ -1,10 +1,10 @@
-<?php namespace estvoyage\risingsun\http\route;
+<?php namespace estvoyage\risingsun\http\response;
 
 use
 	estvoyage\risingsun\http
 ;
 
-interface controller
+interface recipient
 {
 	function httpResponseIs(http\response $response);
 }

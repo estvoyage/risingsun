@@ -10,5 +10,4 @@ interface hash extends route
 {
 	function recipientOfHttpRouteHashWithRouteIs(route $route, hash\recipient $recipient);
 	function recipientOfHttpRouteWithPathIs(url\path $path, hash\route\recipient $recipient);
-	function httpRouteControllerHasRequest(route\controller $controller, request $request);
 }
