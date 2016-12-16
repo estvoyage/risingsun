@@ -30,7 +30,7 @@ class iterator
 					new block\functor(
 						function($iterator, $route) use ($controller, $request) {
 							$route->httpRouteControllerHasRequest(
-								new http\route\controller\block\functor(
+								new http\route\controller\block(
 									new block\functor(
 										function($response) use ($iterator, $controller) {
 											$iterator->nextIteratorValuesAreUseless();

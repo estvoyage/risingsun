@@ -1,6 +1,6 @@
-<?php namespace estvoyage\risingsun\tests\units\http\route\controller\block;
+<?php namespace estvoyage\risingsun\tests\units\http\route\controller;
 
-require __DIR__ . '/../../../../../runner.php';
+require __DIR__ . '/../../../../runner.php';
 
 use
 	estvoyage\risingsun\tests\units,
@@ -8,7 +8,7 @@ use
 	mock\estvoyage\risingsun\block as mockOfBlock
 ;
 
-class functor extends units\test
+class block extends units\test
 {
 	function testClass()
 	{

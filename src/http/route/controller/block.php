@@ -1,11 +1,11 @@
-<?php namespace estvoyage\risingsun\http\route\controller\block;
+<?php namespace estvoyage\risingsun\http\route\controller;
 
 use
-	estvoyage\risingsun\http,
-	estvoyage\risingsun\block
+	estvoyage\risingsun,
+	estvoyage\risingsun\http
 ;
 
-class functor
+class block
 	implements
 		http\route\controller
 {
@@ -13,7 +13,7 @@ class functor
 		$block
 	;
 
-	function __construct(block $block)
+	function __construct(risingsun\block $block)
 	{
 		$this->block = $block;
 	}

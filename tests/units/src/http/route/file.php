@@ -9,7 +9,7 @@ use
 	mock\estvoyage\risingsun\http as mockOfHttp
 ;
 
-class leaf extends units\test
+class file extends units\test
 {
 	function testClass()
 	{

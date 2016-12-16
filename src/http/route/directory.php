@@ -7,7 +7,7 @@ use
 	estvoyage\risingsun\oboolean
 ;
 
-class path
+class directory
 	implements
 		http\route
 {
@@ -27,31 +27,19 @@ class path
 		$request
 			->recipientOfSubRequestOfHttpUrlPathIs(
 				$this->path,
-				new class($this->route, $controller)
-					implements
-						http\request\recipient
-				{
-					private
-						$route,
-						$controller
-					;
-
-					function __construct(http\route $route, http\route\controller $controller)
-					{
-						$this->route = $route;
-						$this->controller = $controller;
-					}
-
-					function httpRequestIs(http\request $request)
-					{
-						$this->route
-							->httpRouteControllerHasRequest(
-								$this->controller,
-								$request
-							)
-						;
-					}
-				}
+				new http\request\recipient\block(
+					new block\functor(
+						function($request) use ($controller)
+						{
+							$this->route
+								->httpRouteControllerHasRequest(
+									$controller,
+									$request
+								)
+							;
+						}
+					)
+				)
 			)
 		;
 

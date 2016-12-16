@@ -10,7 +10,7 @@ use
 	mock\estvoyage\risingsun\http as mockOfHttp
 ;
 
-class path extends units\test
+class directory extends units\test
 {
 	function testClass()
 	{

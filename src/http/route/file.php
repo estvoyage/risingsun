@@ -5,7 +5,7 @@ use
 	estvoyage\risingsun\block
 ;
 
-class leaf
+class file
 	implements
 		http\route
 {

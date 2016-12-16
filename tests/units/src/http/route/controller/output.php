@@ -36,5 +36,4 @@ class output extends units\test
 							->once
 		;
 	}
-
 }
