@@ -121,7 +121,11 @@ class path
 						$this->value
 							->recipientOfStringBeforeLastStringIs(
 								self::root(),
-								new ostring\recipient\block\functor(function($value) use ($_this) { $_this->value = $value; })
+								new ostring\recipient\block(
+									new block\functor(
+										function($value) use ($_this) { $_this->value = $value; }
+									)
+								)
 							)
 						;
 
@@ -144,21 +148,23 @@ class path
 						$this->value
 							->recipientOfStringWithoutPrefixIs(
 								$head->value,
-								new ostring\recipient\block\functor(
-									function($string) use ($head, $recipient)
-									{
-										$recipient
-											->httpUrlPathIs(
-												self::valueOfPathIs(
-													$this,
-													ostring\notEmpty::defaultIfStringIsEmptyIs(
-														$string,
-														self::root()
+								new ostring\recipient\block(
+									new block\functor(
+										function($string) use ($head, $recipient)
+										{
+											$recipient
+												->httpUrlPathIs(
+													self::valueOfPathIs(
+														$this,
+														ostring\notEmpty::defaultIfStringIsEmptyIs(
+															$string,
+															self::root()
+														)
 													)
 												)
-											)
-										;
-									}
+											;
+										}
+									)
 								)
 							)
 						;

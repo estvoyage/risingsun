@@ -1,9 +1,7 @@
 <?php namespace estvoyage\risingsun\http\route;
 
 use
-	estvoyage\risingsun\hash,
-	estvoyage\risingsun\http,
-	estvoyage\risingsun\block
+	estvoyage\risingsun\{hash, http, block}
 ;
 
 class post extends method

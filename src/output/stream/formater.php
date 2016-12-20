@@ -6,5 +6,5 @@ use
 
 interface formater
 {
-	function outputIs(output $output);
+	function recipientOfOutputStreamWithEndOfLineIs(output\stream $stream, output\stream\recipient $recipient);
 }

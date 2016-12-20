@@ -16,18 +16,19 @@ class stream extends units\test
 		;
 	}
 
-	function testOutputIs()
+	function testRecipientOfHttpResponseBodyIsOutput()
 	{
 		$this
 			->given(
 				$stream = new mockOfOutput\stream,
-				$output = new mockOfOutput
+				$output = new mockOfOutput,
+				$recipient = new mockOfOutput\recipient
 			)
 			->if(
 				$this->newTestedInstance($stream)
 			)
 			->then
-				->object($this->testedInstance->outputIs($output))
+				->object($this->testedInstance->recipientOfHttpResponseBodyIsOutput($output))
 					->isEqualTo($this->newTestedInstance($stream))
 				->mock($output)
 					->receive('outputStreamIs')

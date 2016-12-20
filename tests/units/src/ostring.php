@@ -844,6 +844,37 @@ class ostring extends units\test
 		;
 	}
 
+	function testRecipientOfStringWithSuffixIs()
+	{
+		$this
+			->given(
+				$suffix = new risingsun\ostring\notEmpty('bar'),
+				$recipient = new mockOfOString\recipient
+			)
+			->if(
+				$this->newTestedInstance
+			)
+			->then
+				->object($this->testedInstance->recipientOfStringWithSuffixIs($suffix, $recipient))
+					->isEqualTo($this->newTestedInstance)
+				->mock($recipient)
+					->receive('ostringIs')
+						->withArguments($this->newTestedInstance('bar'))
+							->once
+
+			->if(
+				$this->newTestedInstance('foo')
+			)
+			->then
+				->object($this->testedInstance->recipientOfStringWithSuffixIs($suffix, $recipient))
+					->isEqualTo($this->newTestedInstance('foo'))
+				->mock($recipient)
+					->receive('ostringIs')
+						->withArguments($this->newTestedInstance('foobar'))
+							->once
+		;
+	}
+
 	function testCopy()
 	{
 		$this

@@ -3,16 +3,14 @@
 namespace estvoyage\risingsun\block;
 
 use
-	estvoyage\risingsun\block,
-	estvoyage\risingsun\error,
-	estvoyage\risingsun\iterator
+	estvoyage\risingsun
 ;
 
 class functor
 	implements
-		block,
-		error\manager,
-		iterator\payload
+		risingsun\block,
+		risingsun\error\manager,
+		risingsun\iterator\payload
 {
 	private
 		$callable
@@ -30,14 +28,14 @@ class functor
 		return $this;
 	}
 
-	function errorIs(error $error)
+	function errorIs(risingsun\error $error)
 	{
 		$this->blockArgumentsAre($error);
 
 		return $this;
 	}
 
-	function currentValueOfIteratorIs(iterator $iterator, $value)
+	function currentValueOfIteratorIs(risingsun\iterator $iterator, $value)
 	{
 		return $this->blockArgumentsAre($iterator, $value);
 	}

@@ -6,5 +6,5 @@ use
 
 interface response
 {
-	function outputIs(risingsun\output $output);
+	function recipientOfHttpResponseBodyIsOutput(risingsun\output $output);
 }

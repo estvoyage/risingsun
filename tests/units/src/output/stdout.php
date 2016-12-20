@@ -4,7 +4,8 @@ require __DIR__ . '/../../runner.php';
 
 use
 	estvoyage\risingsun\tests\units,
-	estvoyage\risingsun\output
+	estvoyage\risingsun\output,
+	mock\estvoyage\risingsun\output as mockOfOutput
 ;
 
 class stdout extends units\test
@@ -13,15 +14,6 @@ class stdout extends units\test
 	{
 		$this->testedClass
 			->implements('estvoyage\risingsun\output')
-		;
-	}
-
-	function testEndOfLine()
-	{
-		$this->output(function() {
-					$this->object($this->newTestedInstance->endOfLine())->isTestedInstance;
-				}
-			)->isEqualTo(PHP_EOL)
 		;
 	}
 

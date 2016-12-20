@@ -3,5 +3,4 @@
 interface output
 {
 	function outputStreamIs(output\stream $stream);
-	function endOfLine();
 }

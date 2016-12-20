@@ -18,7 +18,7 @@ class stream
 		$this->stream = $stream;
 	}
 
-	function outputIs(output $output)
+	function recipientOfHttpResponseBodyIsOutput(output $output)
 	{
 		$output->outputStreamIs($this->stream);
 

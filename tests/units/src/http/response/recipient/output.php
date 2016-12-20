@@ -31,7 +31,7 @@ class output extends units\test
 				->object($this->testedInstance->httpResponseIs($response))
 					->isEqualTo($this->newTestedInstance($output))
 				->mock($response)
-					->receive('outputIs')
+					->receive('recipientOfHttpResponseBodyIsOutput')
 						->withIdenticalArguments($output)
 							->once
 		;

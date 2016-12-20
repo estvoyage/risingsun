@@ -20,7 +20,7 @@ class output
 
 	function httpResponseIs(http\response $response)
 	{
-		$response->outputIs($this->output);
+		$response->recipientOfHttpResponseBodyIsOutput($this->output);
 
 		return $this;
 	}

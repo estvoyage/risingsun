@@ -23,8 +23,8 @@ class ostring
 	{
 		return $this->ifTrue(oboolean::isEqual($this->value, $string->value), $equal, $notEqual);
 	}
-
 	function ifIsNotEqualToString(self $string, block $notEqual, block $equal = null)
+
 	{
 		return $this->ifIsEqualToString($string, $equal ?: new block\blackhole, $notEqual);
 	}
@@ -127,6 +127,13 @@ class ostring
 				)
 			)
 		;
+
+		return $this;
+	}
+
+	function recipientOfStringWithSuffixIs(ostring\notEmpty $suffix, ostring\recipient $recipient)
+	{
+		$recipient->ostringIs(self::clone($this, $this->value . $suffix->value));
 
 		return $this;
 	}

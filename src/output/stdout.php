@@ -8,13 +8,6 @@ class stdout
 	implements
 		output
 {
-	function endOfLine()
-	{
-		echo PHP_EOL;
-
-		return $this;
-	}
-
 	function outputStreamIs(output\stream $stream)
 	{
 		echo $stream;
