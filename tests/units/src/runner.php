@@ -11,28 +11,23 @@ use
 
 class runner extends units\test
 {
-	function testBlockCollectionIs()
+	function testBlockIs()
 	{
-$this
-	->given(
-		$output = new mockOfOutput,
-		$block1 = new mockOfBlock,
-		$block2 = new mockOfBlock
-	)
-	->if(
-		$this->newTestedInstance($output)
-	)
-	->then
-		->object($this->testedInstance->blockCollectionIs(new block\collection($block1, $block2)))
-			->isEqualTo($this->newTestedInstance($output))
-		->mock($block1)
-			->receive('blockArgumentsAre')
-				->withArguments($output)
-					->once
-		->mock($block2)
-			->receive('blockArgumentsAre')
-				->withArguments($output)
-					->once
-;
+		$this
+			->given(
+				$output = new mockOfOutput,
+				$block = new mockOfBlock
+			)
+			->if(
+				$this->newTestedInstance($output)
+			)
+			->then
+				->object($this->testedInstance->blockIs($block))
+					->isEqualTo($this->newTestedInstance($output))
+				->mock($block)
+					->receive('blockArgumentsAre')
+						->withArguments($output)
+							->once
+		;
 	}
 }

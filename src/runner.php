@@ -11,18 +11,9 @@ class runner
 		$this->output = $output;
 	}
 
-	function blockCollectionIs(block\collection $collection)
+	function blockIs(block $block)
 	{
-		$collection
-			->payloadForIteratorIs(
-				new iterator\fifo,
-				new block\functor(
-					function($iterator, $block) {
-						$block->blockArgumentsAre($this->output);
-					}
-				)
-			)
-		;
+		$block->blockArgumentsAre($this->output);
 
 		return $this;
 	}

@@ -1,10 +1,7 @@
 <?php namespace estvoyage\risingsun\http\route;
 
 use
-	estvoyage\risingsun\http,
-	estvoyage\risingsun\block,
-	estvoyage\risingsun\iterator,
-	estvoyage\risingsun\oboolean
+	estvoyage\risingsun\{http, block, boolean}
 ;
 
 class directory
