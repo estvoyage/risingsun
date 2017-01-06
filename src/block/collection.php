@@ -15,10 +15,9 @@ class collection
 		$this->blocks = $blocks;
 	}
 
-	function payloadForIteratorIs(risingsun\iterator $iterator, risingsun\iterator\payload $payload)
+	function payloadForIteratorIs(collection\iterator $iterator, collection\payload $payload)
 	{
-		$iterator->iteratorPayloadForValuesIs($this->blocks, $payload);
-
+		$iterator->blocksForPayloadAre($payload, ... $this->blocks);
 		return $this;
 	}
 }

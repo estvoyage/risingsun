@@ -16,8 +16,8 @@ class collection extends units\test
 			->given(
 				$block1 = new mockOfBlock,
 				$block2 = new mockOfBlock,
-				$iterator = new mockOfIterator,
-				$payload = new mockOfIterator\payload
+				$iterator = new mockOfBlock\collection\iterator,
+				$payload = new mockOfBlock\collection\payload
 			)
 			->if(
 				$this->newTestedInstance($block1, $block2)
@@ -26,8 +26,8 @@ class collection extends units\test
 				->object($this->testedInstance->payloadForIteratorIs($iterator, $payload))
 					->isEqualTo($this->newTestedInstance($block1, $block2))
 				->mock($iterator)
-					->receive('iteratorPayloadForValuesIs')
-						->withArguments([ $block1, $block2 ], $payload)
+					->receive('blocksForPayloadAre')
+						->withArguments($payload, $block1, $block2)
 							->once
 		;
 	}

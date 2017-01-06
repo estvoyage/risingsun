@@ -13,7 +13,7 @@ class iterator
 		$collection
 	;
 
-	function __construct(risingsun\iterator $iterator, risingsun\block\collection $collection)
+	function __construct(collection\iterator $iterator, collection $collection)
 	{
 		$this->iterator = $iterator;
 		$this->collection = $collection;
@@ -21,7 +21,7 @@ class iterator
 
 	function blockArgumentsAre(... $arguments)
 	{
-		$this->collection->payloadForIteratorIs($this->iterator, new risingsun\block\functor(function($iterator, $block) use ($arguments) { $block->blockArgumentsAre(... $arguments); }));
+		$this->collection->payloadForIteratorIs($this->iterator, new collection\payload\arguments(... $arguments));
 
 		return $this;
 	}

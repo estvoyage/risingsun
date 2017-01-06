@@ -1,15 +1,14 @@
-<?php namespace estvoyage\risingsun\tests\units\block;
+<?php namespace estvoyage\risingsun\tests\units\block\iterator;
 
-require __DIR__ . '/../../runner.php';
+require __DIR__ . '/../../../runner.php';
 
 use
 	estvoyage\risingsun\tests\units,
 	estvoyage\risingsun\block,
-	mock\estvoyage\risingsun\block as mockOfBlock,
-	mock\estvoyage\risingsun\iterator as mockOfIterator
+	mock\estvoyage\risingsun\block as mockOfBlock
 ;
 
-class iterator extends units\test
+class fifo extends units\test
 {
 	function testClass()
 	{
@@ -22,20 +21,19 @@ class iterator extends units\test
 	{
 		$this
 			->given(
-				$iterator = new mockOfBlock\collection\iterator,
 				$collection = new mockOfBlock\collection,
 				$argument1 = uniqid(),
 				$argument2 = uniqid()
 			)
 			->if(
-				$this->newTestedInstance($iterator, $collection)
+				$this->newTestedInstance($collection)
 			)
 			->then
 				->object($this->testedInstance->blockArgumentsAre($argument1, $argument2))
-					->isEqualTo($this->newTestedInstance($iterator, $collection))
+					->isEqualTo($this->newTestedInstance($collection))
 				->mock($collection)
 					->receive('payloadForIteratorIs')
-						->withArguments($iterator, new block\collection\payload\arguments($argument1, $argument2))
+						->withArguments(new block\collection\iterator\fifo, new block\collection\payload\arguments($argument1, $argument2))
 							->once
 		;
 	}

@@ -3,15 +3,14 @@
 require __DIR__ . '/../vendor/autoload.php';
 
 use
-	estvoyage\risingsun\{runner, http, block, output, ostring, iterator}
+	estvoyage\risingsun\{runner, http, block, output, ostring}
 ;
 
 (
  	new runner(new output\console(new output\stdout, new output\stream\formater\endOfLine))
 )
 	->blockIs(
-		new block\iterator(
-			new iterator\fifo,
+		new block\iterator\fifo(
 			new block\collection(
 				new block\functor(
 					function($output)
