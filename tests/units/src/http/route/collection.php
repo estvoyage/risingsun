@@ -2,11 +2,8 @@
 
 require __DIR__ . '/../../../runner.php';
 
-use
-	estvoyage\risingsun\tests\units,
-	mock\estvoyage\risingsun\http as mockOfHttp,
-	mock\estvoyage\risingsun\iterator as mockOfIterator
-;
+use estvoyage\risingsun\tests\units;
+use mock\estvoyage\risingsun\{http as mockOfHttp};
 
 class collection extends units\test
 {
@@ -14,24 +11,21 @@ class collection extends units\test
 	{
 		$this
 			->given(
-				$firstRoute = new mockOfHttp\route,
-				$firstRoute->id = uniqid(),
-				$secondRoute = new mockOfHttp\route,
-				$secondRoute->id = uniqid(),
-				$iterator = new mockOfIterator,
-				$payload = new mockOfIterator\payload
+				$route1 = new mockOfHttp\route,
+				$route2 = new mockOfHttp\route,
+				$iterator = new mockOfHttp\route\collection\iterator,
+				$payload = new mockOfHttp\route\collection\payload
 			)
 			->if(
-				$this->newTestedInstance($firstRoute, $secondRoute)
+				$this->newTestedInstance($route1, $route2)
 			)
 			->then
 				->object($this->testedInstance->payloadForIteratorIs($iterator, $payload))
-					->isEqualTo($this->newTestedInstance($firstRoute, $secondRoute))
+					->isEqualTo($this->newTestedInstance($route1, $route2))
 				->mock($iterator)
-					->receive('iteratorPayloadForValuesIs')
-						->withArguments([ $firstRoute, $secondRoute ], $payload)
+					->receive('httpRoutesForPayloadAre')
+						->withArguments($payload, $route1, $route2)
 							->once
 		;
 	}
-
 }

@@ -2,12 +2,8 @@
 
 require __DIR__ . '/../../runner.php';
 
-use
-	estvoyage\risingsun\tests\units,
-	estvoyage\risingsun\block,
-	mock\estvoyage\risingsun\block as mockOfBlock,
-	mock\estvoyage\risingsun\iterator as mockOfIterator
-;
+use estvoyage\risingsun\{tests\units, block};
+use mock\estvoyage\risingsun\{block as mockOfBlock, iterator as mockOfIterator};
 
 class iterator extends units\test
 {

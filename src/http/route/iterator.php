@@ -15,36 +15,15 @@ class iterator
 		$collection
 	;
 
-	function __construct(risingsun\iterator $iterator, http\route... $routes)
+	function __construct(collection\iterator $iterator, collection $collection)
 	{
 		$this->iterator = $iterator;
-		$this->collection = new http\route\collection(... $routes);
+		$this->collection = $collection;
 	}
 
 	function recipientOfHttpResponseForRequestIs(http\request $request, http\response\recipient $recipient)
 	{
-		$this
-			->collection
-				->payloadForIteratorIs(
-					$this->iterator,
-					new block\functor(
-						function($iterator, $route) use ($recipient, $request) {
-							$route->recipientOfHttpResponseForRequestIs(
-								$request,
-								new http\response\recipient\block(
-									new block\functor(
-										function($response) use ($iterator, $recipient) {
-											$iterator->nextIteratorValuesAreUseless();
-
-											$recipient->httpResponseIs($response);
-										}
-									)
-								)
-							);
-						}
-					)
-				)
-		;
+		$this->collection->payloadForIteratorIs($this->iterator, new http\route\collection\payload\requestFromRecipient($request, $recipient));
 
 		return $this;
 	}

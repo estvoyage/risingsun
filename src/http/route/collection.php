@@ -8,17 +8,17 @@ use
 class collection
 {
 	private
-		$collection
+		$routes
 	;
 
 	function __construct(http\route... $routes)
 	{
-		$this->collection = new risingsun\collection(... $routes);
+		$this->routes = $routes;
 	}
 
-	function payloadForIteratorIs(risingsun\iterator $iterator, risingsun\iterator\payload $payload)
+	function payloadForIteratorIs(collection\iterator $iterator, collection\payload $payload)
 	{
-		$this->collection->payloadForIteratorIs($iterator, $payload);
+		$iterator->httpRoutesForPayloadAre($payload, ... $this->routes);
 
 		return $this;
 	}

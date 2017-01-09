@@ -18,6 +18,7 @@ class collection
 	function payloadForIteratorIs(collection\iterator $iterator, collection\payload $payload)
 	{
 		$iterator->blocksForPayloadAre($payload, ... $this->blocks);
+
 		return $this;
 	}
 }

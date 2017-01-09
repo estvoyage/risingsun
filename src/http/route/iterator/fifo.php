@@ -7,8 +7,8 @@ use
 
 class fifo extends http\route\iterator
 {
-	function __construct(http\route... $routes)
+	function __construct(http\route\collection $collection)
 	{
-		parent::__construct(new risingsun\iterator\fifo, ... $routes);
+		parent::__construct(new http\route\collection\iterator\fifo, $collection);
 	}
 }

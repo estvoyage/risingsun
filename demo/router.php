@@ -93,28 +93,30 @@ use
 						(
 							new http\route\post(
 								new http\route\iterator\fifo(
-									new http\route\directory(
-										new http\url\path(
-											new ostring\notEmpty('/foo/bar')
+									new http\route\collection(
+										new http\route\directory(
+											new http\url\path(
+												new ostring\notEmpty('/foo/bar')
+											),
+											new http\route\stream(
+												new output\stream('Hello, POST to /foo/bar!')
+											)
 										),
-										new http\route\stream(
-											new output\stream('Hello, POST to /foo/bar!')
-										)
-									),
-									new http\route\directory(
-										new http\url\path(
-											new ostring\notEmpty('/foo')
+										new http\route\directory(
+											new http\url\path(
+												new ostring\notEmpty('/foo')
+											),
+											new http\route\stream(
+												new output\stream('Hello, POST to /foo!')
+											)
 										),
-										new http\route\stream(
-											new output\stream('Hello, POST to /foo!')
-										)
-									),
-									new http\route\directory(
-										new http\url\path(
-											new ostring\notEmpty('/bar')
-										),
-										new http\route\stream(
-											new output\stream('Hello, POST to /bar!')
+										new http\route\directory(
+											new http\url\path(
+												new ostring\notEmpty('/bar')
+											),
+											new http\route\stream(
+												new output\stream('Hello, POST to /bar!')
+											)
 										)
 									)
 								)
@@ -139,18 +141,24 @@ use
 						(
 							new http\route\post(
 								new http\route\iterator\fifo(
-									new http\route\directory(
-										new http\url\path(new ostring\notEmpty('/foo')),
-										new http\route\iterator\fifo(
-											new http\route\file\stream(new http\url\path(new ostring\notEmpty('/')), new output\stream('Hello, POST to /foo!')),
-											new http\route\file\stream(new http\url\path(new ostring\notEmpty('/bar')), new output\stream('Hello, other POST to /foo/bar!'))
-										)
-									),
-									new http\route\directory(
-										new http\url\path(new ostring\notEmpty('/oof')),
-										new http\route\iterator\fifo(
-											new http\route\file\stream(new http\url\path(new ostring\notEmpty('/')), new output\stream('Hello, POST to /oof!')),
-											new http\route\file\stream(new http\url\path(new ostring\notEmpty('/rab')), new output\stream('Hello, POST to /oof/rab!'))
+									new http\route\collection(
+										new http\route\directory(
+											new http\url\path(new ostring\notEmpty('/foo')),
+											new http\route\iterator\fifo(
+												new http\route\collection(
+													new http\route\file\stream(new http\url\path(new ostring\notEmpty('/')), new output\stream('Hello, POST to /foo!')),
+													new http\route\file\stream(new http\url\path(new ostring\notEmpty('/bar')), new output\stream('Hello, other POST to /foo/bar!'))
+												)
+											)
+										),
+										new http\route\directory(
+											new http\url\path(new ostring\notEmpty('/oof')),
+											new http\route\iterator\fifo(
+												new http\route\collection(
+													new http\route\file\stream(new http\url\path(new ostring\notEmpty('/')), new output\stream('Hello, POST to /oof!')),
+													new http\route\file\stream(new http\url\path(new ostring\notEmpty('/rab')), new output\stream('Hello, POST to /oof/rab!'))
+												)
+											)
 										)
 									)
 								)

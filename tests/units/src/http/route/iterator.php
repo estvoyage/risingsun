@@ -2,13 +2,8 @@
 
 require __DIR__ . '/../../../runner.php';
 
-use
-	estvoyage\risingsun\tests\units,
-	estvoyage\risingsun\block,
-	estvoyage\risingsun\oboolean,
-	mock\estvoyage\risingsun\http as mockOfHttp,
-	mock\estvoyage\risingsun\iterator as mockOfIterator
-;
+use estvoyage\risingsun\{ tests\units, oboolean, block, http };
+use mock\estvoyage\risingsun\http as mockOfHttp;
 
 class iterator extends units\test
 {
@@ -25,59 +20,19 @@ class iterator extends units\test
 			->given(
 				$recipient = new mockOfHttp\response\recipient,
 				$request = new mockOfHttp\request,
-				$iterator = new mockOfIterator,
-				$firstRoute = new mockOfHttp\route,
-				$secondRoute = new mockOfHttp\route
-			)
-
-			->given(
-				$this->calling($iterator)->iteratorPayloadForValuesIs = function($values, $payload) use ($iterator, $firstRoute, $secondRoute) {
-					$payload->currentValueOfIteratorIs($iterator, $firstRoute);
-				},
-
-				$firstResponse = new mockOfHttp\response,
-
-				$this->calling($firstRoute)->recipientOfHttpResponseForRequestIs = function($aRequest, $aRecipient) use ($request, $firstResponse) {
-					oboolean::isIdentical($request, $aRequest)
-						->ifTrue(
-							new block\functor(
-								function() use ($aRecipient, $firstResponse) {
-									$aRecipient->httpResponseIs($firstResponse);
-								}
-							)
-						)
-					;
-				},
-
-				$secondResponse = new mockOfHttp\response,
-
-				$this->calling($secondRoute)->recipientOfHttpResponseForRequestIs = function($aRecipient, $aRequest) use ($request, $secondResponse) {
-					oboolean::isIdentical($request, $aRequest)
-						->ifTrue(
-							new block\functor(
-								function() use ($aRecipient, $secondResponse) {
-									$aRecipient->httpResponseIs($secondResponse);
-								}
-							)
-						)
-					;
-				}
+				$iterator = new mockOfHttp\route\collection\iterator,
+				$collection = new mockOfHttp\route\collection
 			)
 			->if(
-				$this->newTestedInstance($iterator, $firstRoute, $secondRoute)
+				$this->newTestedInstance($iterator, $collection)
 			)
 			->then
 				->object($this->testedInstance->recipientOfHttpResponseForRequestIs($request, $recipient))
-					->isEqualTo($this->newTestedInstance($iterator, $firstRoute, $secondRoute))
-				->mock($recipient)
-					->receive('httpResponseIs')
-						->withIdenticalArguments($firstResponse)
+					->isEqualTo($this->newTestedInstance($iterator, $collection))
+				->mock($collection)
+					->receive('payloadForIteratorIs')
+						->withArguments($iterator, new http\route\collection\payload\requestFromRecipient($request, $recipient))
 							->once
-						->withIdenticalArguments($secondResponse)
-							->never
-				->mock($iterator)
-					->receive('nextIteratorValuesAreUseless')
-						->once
 		;
 	}
 }
