@@ -25,34 +25,25 @@ class method
 	{
 		$request
 			->recipientOfHttpMethodIs(
-				new class($this->method, $this->route, $request, $recipient)
-					implements
-						http\method\recipient
-				{
-					function __construct(http\method $method, http\route $route, http\request $request, http\response\recipient $recipient)
-					{
-						$this->method = $method;
-						$this->route = $route;
-						$this->recipient = $recipient;
-						$this->request = $request;
-					}
-
-					function httpMethodIs(http\method $method)
-					{
-						$this
-							->method
-								->ifIsEqualToHttpMethod(
-									$method,
-									new block\functor(
-										function()
-										{
-											$this->route->recipientOfHttpResponseForRequestIs($this->request, $this->recipient);
-										}
+				new http\method\recipient\block(
+					new block\functor(
+						function($method) use ($request, $recipient)
+						{
+							$this
+								->method
+									->ifIsEqualToHttpMethod(
+										$method,
+										new block\functor(
+											function() use ($request, $recipient)
+											{
+												$this->route->recipientOfHttpResponseForRequestIs($request, $recipient);
+											}
+										)
 									)
-								)
-						;
-					}
-				}
+							;
+						}
+					)
+				)
 			)
 		;
 

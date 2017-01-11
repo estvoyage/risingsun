@@ -131,7 +131,7 @@ class ostring
 		return $this;
 	}
 
-	function recipientOfStringWithSuffixIs(ostring\notEmpty $suffix, ostring\recipient $recipient)
+	function recipientOfStringWithSuffixIs(ostring $suffix, ostring\recipient $recipient)
 	{
 		$recipient->ostringIs(self::clone($this, $this->value . $suffix->value));
 

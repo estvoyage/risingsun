@@ -16,31 +16,30 @@ class stream extends units\test
 		;
 	}
 
-	function testOutputStreamIs()
+	function testRecipientOfOutputStreamWithIteratorContentsAsSuffixIs()
 	{
 		$this
 			->given(
-				$stream = new mockOfOutput\stream,
-				$this->calling($stream)->__toString = uniqid()
-			)
-			->if(
-				$this->newTestedInstance
-			)
-			->then
-				->object($this->testedInstance->outputStreamIs($stream))
-					->isNotTestedInstance
-					->isEqualTo($this->newTestedInstance((string) $stream))
+				$value = 'foo',
 
-			->given(
-				$value = uniqid()
+				$iteratorStream = $this->newTestedInstance('bar'),
+				$iterator = new mockOfOutput\stream\iterator,
+				$this->calling($iterator)->recipientOfOutputStreamIs = function($recipient) use ($iteratorStream) {
+					$recipient->outputStreamIs($iteratorStream);
+				},
+
+				$recipient = new mockOfOutput\stream\recipient
 			)
 			->if(
 				$this->newTestedInstance($value)
 			)
 			->then
-				->object($this->testedInstance->outputStreamIs($stream))
-					->isNotTestedInstance
-					->isEqualTo($this->newTestedInstance($value . $stream))
+				->object($this->testedInstance->recipientOfOutputStreamWithIteratorContentsAsSuffixIs($iterator, $recipient))
+					->isEqualTo($this->newTestedInstance($value))
+				->mock($recipient)
+					->receive('outputStreamIs')
+						->withArguments($this->newTestedInstance('foobar'))
+							->once
 		;
 	}
 }

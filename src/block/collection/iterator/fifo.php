@@ -20,7 +20,10 @@ class fifo
 
 	function blocksForPayloadAre(block\collection\payload $payload, block... $blocks)
 	{
-		$this->iterator->iteratorPayloadForValuesIs($blocks, new block\functor(function($iterator, $block) use ($payload) {
+		$this->iterator
+			->iteratorPayloadForValuesIs(
+				$blocks,
+				new block\functor(function($iterator, $block) use ($payload) {
 					$payload->currentBlockOfIteratorIs($iterator, $block);
 				}
 			)
