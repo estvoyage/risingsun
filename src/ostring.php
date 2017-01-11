@@ -19,10 +19,18 @@ class ostring
 		return $this->value;
 	}
 
+	function recipientOfStringValueIs(ostring\value\recipient $recipient)
+	{
+		$recipient->stringValueIs($this->value);
+
+		return $this;
+	}
+
 	function ifIsEqualToString(self $string, block $equal, block $notEqual = null)
 	{
 		return $this->ifTrue(oboolean::isEqual($this->value, $string->value), $equal, $notEqual);
 	}
+
 	function ifIsNotEqualToString(self $string, block $notEqual, block $equal = null)
 
 	{
@@ -133,7 +141,21 @@ class ostring
 
 	function recipientOfStringWithSuffixIs(ostring\notEmpty $suffix, ostring\recipient $recipient)
 	{
-		$recipient->ostringIs(self::clone($this, $this->value . $suffix->value));
+		$this->recipientForStringOperationWithOperandIs(new ostring\operation\binary\addition, $suffix, $recipient);
+
+		return $this;
+	}
+
+	function recipientForStringOperationIs(ostring\operation\unary $operation, ostring\recipient $recipient)
+	{
+		$operation->recipientForStringOperandIs($this, $recipient);
+
+		return $this;
+	}
+
+	function recipientForStringOperationWithOperandIs(ostring\operation\binary $operation, ostring $operand, ostring\recipient $recipient)
+	{
+		$operation->recipientForStringOperandAndStringOperandIs($this, $operand, $recipient);
 
 		return $this;
 	}

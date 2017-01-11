@@ -875,6 +875,69 @@ class ostring extends units\test
 		;
 	}
 
+	function testRecipientForStringOperationWithOperandIs()
+	{
+		$this
+			->given(
+				$operation = new mockOfOString\operation\binary,
+				$operand = $this->newTestedInstance(uniqid()),
+				$recipient = new mockOfOString\recipient,
+				$stringValue = uniqid()
+			)
+			->if(
+				$this->newTestedInstance($stringValue)
+			)
+			->then
+				->object($this->testedInstance->recipientForStringOperationWithOperandIs($operation, $operand, $recipient))
+					->isEqualTo($this->newTestedInstance($stringValue))
+				->mock($operation)
+					->receive('recipientForStringOperandAndStringOperandIs')
+						->withArguments($this->testedInstance, $operand, $recipient)
+							->once
+		;
+	}
+
+	function testRecipientForStringOperationIs()
+	{
+		$this
+			->given(
+				$operation = new mockOfOString\operation\unary,
+				$recipient = new mockOfOString\recipient,
+				$stringValue = uniqid()
+			)
+			->if(
+				$this->newTestedInstance($stringValue)
+			)
+			->then
+				->object($this->testedInstance->recipientForStringOperationIs($operation, $recipient))
+					->isEqualTo($this->newTestedInstance($stringValue))
+				->mock($operation)
+					->receive('recipientForStringOperandIs')
+						->withArguments($this->testedInstance, $recipient)
+							->once
+		;
+	}
+
+	function testRecipientOfStringValueIs()
+	{
+		$this
+			->given(
+				$value = uniqid(),
+				$recipient = new mockOfOString\value\recipient
+			)
+			->if(
+				$this->newTestedInstance($value)
+			)
+			->then
+				->object($this->testedInstance->recipientOfStringValueIs($recipient))
+					->isEqualTo($this->newTestedInstance($value))
+				->mock($recipient)
+					->receive('stringValueIs')
+						->withArguments($value)
+							->once
+		;
+	}
+
 	function testCopy()
 	{
 		$this
