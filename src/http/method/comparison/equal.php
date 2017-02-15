@@ -18,7 +18,7 @@ class equal
 								new functor(
 									function($secondOperandValue) use ($firstOperandValue, $recipient)
 									{
-										$recipient->obooleanIs($firstOperandValue === $secondOperandValue ? new oboolean\ok : new oboolean\ko);
+										$recipient->obooleanIs(oboolean\factory::areIdenticals($firstOperandValue, $secondOperandValue));
 									}
 								)
 							)
