@@ -3,6 +3,7 @@
 require __DIR__ . '/../../runner.php';
 
 use estvoyage\risingsun\tests\units;
+use mock\estvoyage\risingsun\{ oboolean as mockOfOBoolean, container as mockOfContainer };
 
 class functor extends units\test
 {
@@ -11,6 +12,9 @@ class functor extends units\test
 		$this->testedClass
 			->implements('estvoyage\risingsun\block')
 			->implements('estvoyage\risingsun\nstring\recipient')
+			->implements('estvoyage\risingsun\oboolean\recipient')
+			->implements('estvoyage\risingsun\container\iterator\engine')
+			->implements('estvoyage\risingsun\container\payload')
 		;
 	}
 
@@ -63,4 +67,70 @@ class functor extends units\test
 					->isEqualTo([ $nstring ])
 		;
 	}
+
+	function testOBooleanIs()
+	{
+		$this
+			->given(
+				$oboolean = new mockOfOBoolean,
+
+				$callable = function() use (& $arguments) {
+					$arguments = func_get_args();
+				}
+			)
+			->if(
+				$this->newTestedInstance($callable)
+			)
+			->then
+				->object($this->testedInstance->obooleanIs($oboolean))
+					->isEqualTo($this->newTestedInstance($callable))
+				->array($arguments)
+					->isEqualTo([ $oboolean ])
+		;
+	}
+
+	function testControllerOfContainerIteratorIs()
+	{
+		$this
+			->given(
+				$controller = new mockOfContainer\iterator\controller,
+
+				$callable = function() use (& $arguments) {
+					$arguments = func_get_args();
+				}
+			)
+			->if(
+				$this->newTestedInstance($callable)
+			)
+			->then
+				->object($this->testedInstance->controllerOfContainerIteratorIs($controller))
+					->isEqualTo($this->newTestedInstance($callable))
+				->array($arguments)
+					->isEqualTo([ $controller ])
+		;
+	}
+
+	function testContainerIteratorControllerForValueAtPositionIs()
+	{
+		$this
+			->given(
+				$value = uniqid(),
+				$position = new mockOfContainer\iterator\position,
+				$controller = new mockOfContainer\iterator\controller,
+
+				$callable = function() use (& $arguments) {
+					$arguments = func_get_args();
+				}
+			)
+			->if(
+				$this->newTestedInstance($callable)
+			)
+			->then
+				->object($this->testedInstance->containerIteratorControllerForValueAtPositionIs($value, $position, $controller))
+					->isEqualTo($this->newTestedInstance($callable))
+				->array($arguments)
+					->isEqualTo([ $value, $position, $controller ])
+		;
+	}
+
 }

@@ -1,11 +1,14 @@
 <?php namespace estvoyage\risingsun\block;
 
-use estvoyage\risingsun\{ block, nstring };
+use estvoyage\risingsun\{ block, nstring, oboolean, container\iterator, container\payload };
 
 class functor
 	implements
 		block,
-		nstring\recipient
+		nstring\recipient,
+		oboolean\recipient,
+		iterator\engine,
+		payload
 {
 	private
 		$callable
@@ -25,8 +28,21 @@ class functor
 
 	function nstringIs(string $nstring)
 	{
-		$this->blockArgumentsAre($nstring);
+		return $this->blockArgumentsAre($nstring);
+	}
 
-		return $this;
+	function obooleanIs(oboolean $oboolean)
+	{
+		return $this->blockArgumentsAre($oboolean);
+	}
+
+	function controllerOfContainerIteratorIs(iterator\controller $controller)
+	{
+		return $this->blockArgumentsAre($controller);
+	}
+
+	function containerIteratorControllerForValueAtPositionIs($value, iterator\position $position, iterator\controller $controller)
+	{
+		return $this->blockArgumentsAre($value, $position, $controller);
 	}
 }
