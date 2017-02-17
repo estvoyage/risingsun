@@ -1,6 +1,6 @@
 <?php namespace estvoyage\risingsun\ointeger;
 
-use estvoyage\risingsun\{ ointeger, ninteger, oboolean };
+use estvoyage\risingsun\{ ointeger, ninteger, oboolean, block };
 
 class any
 	implements
@@ -50,6 +50,13 @@ class any
 	function recipientOfComparisonWithOIntegerIs(ointeger\comparison $comparison, ointeger $ointeger, oboolean\recipient $recipient)
 	{
 		$comparison->recipientOfComparisonBetweenOIntegersIs($this, $ointeger, $recipient);
+
+		return $this;
+	}
+
+	function blockForComparisonWithOIntegerIs(ointeger\comparison $comparison, ointeger $ointeger, block $block)
+	{
+		$comparison->blockForComparisonBetweenOIntegersIs($this, $ointeger, $block);
 
 		return $this;
 	}

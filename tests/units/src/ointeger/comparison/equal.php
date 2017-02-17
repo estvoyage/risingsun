@@ -3,7 +3,7 @@
 require __DIR__ . '/../../../runner.php';
 
 use estvoyage\risingsun\{ tests\units, oboolean };
-use mock\estvoyage\risingsun\{ ointeger as mockOfOInteger, oboolean as mockOfOBoolean };
+use mock\estvoyage\risingsun\{ ointeger as mockOfOInteger, oboolean as mockOfOBoolean, block as mockOfBlock };
 
 class equal extends units\test
 {
@@ -79,6 +79,78 @@ class equal extends units\test
 					->receive('obooleanIs')
 						->withArguments($equal)
 							->once
+		;
+	}
+
+	function testBlockForComparisonBetweenOIntegerIs()
+	{
+		$this
+			->given(
+				$oboolean = new mockOfOBoolean,
+				$firstOperand = new mockOfOInteger,
+				$secondOperand = new mockOfOInteger,
+				$block = new mockOfBlock
+			)
+			->if(
+				$this->newTestedInstance($oboolean)
+			)
+			->then
+				->object($this->testedInstance->blockForComparisonBetweenOIntegersIs($firstOperand, $secondOperand, $block))
+					->isEqualTo($this->newTestedInstance($oboolean))
+				->mock($block)
+					->receive('blockArgumentsAre')
+						->never
+
+			->if(
+				$this->calling($firstOperand)->recipientOfNIntegerIs = function($recipient) {
+					$recipient->nintegerIs(2);
+				}
+			)
+			->then
+				->object($this->testedInstance->blockForComparisonBetweenOIntegersIs($firstOperand, $secondOperand, $block))
+					->isEqualTo($this->newTestedInstance($oboolean))
+				->mock($block)
+					->receive('blockArgumentsAre')
+						->never
+
+			->if(
+				$this->calling($secondOperand)->recipientOfNIntegerIs = function($recipient) {
+					$recipient->nintegerIs(2);
+				}
+			)
+			->then
+				->object($this->testedInstance->blockForComparisonBetweenOIntegersIs($firstOperand, $secondOperand, $block))
+					->isEqualTo($this->newTestedInstance($oboolean))
+				->mock($block)
+					->receive('blockArgumentsAre')
+						->never
+
+			->if(
+				$equal = new mockOfOBoolean,
+
+				$this->calling($oboolean)->recipientOfOBooleanWithValueIs = function($value, $recipient) use ($equal) {
+					if ($value)
+					{
+						$recipient->obooleanIs($equal);
+					}
+				}
+			)
+			->then
+				->object($this->testedInstance->blockForComparisonBetweenOIntegersIs($firstOperand, $secondOperand, $block))
+					->isEqualTo($this->newTestedInstance($oboolean))
+				->mock($block)
+					->receive('blockArgumentsAre')
+						->never
+
+			->if(
+				$this->calling($equal)->blockForTrueIs = function($block) { $block->blockArgumentsAre();  }
+			)
+			->then
+				->object($this->testedInstance->blockForComparisonBetweenOIntegersIs($firstOperand, $secondOperand, $block))
+					->isEqualTo($this->newTestedInstance($oboolean))
+				->mock($block)
+					->receive('blockArgumentsAre')
+						->once
 		;
 	}
 }

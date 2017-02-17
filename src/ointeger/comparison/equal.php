@@ -1,6 +1,6 @@
 <?php namespace estvoyage\risingsun\ointeger\comparison;
 
-use estvoyage\risingsun\{ ointeger, ointeger\comparison, oboolean, block\functor };
+use estvoyage\risingsun\{ ointeger, ointeger\comparison, oboolean, block\functor, block };
 
 class equal
 	implements
@@ -43,5 +43,19 @@ class equal
 		;
 
 		return $this;
+	}
+
+	function blockForComparisonBetweenOIntegersIs(ointeger $firstOperand, ointeger $secondOperand, block $block)
+	{
+		return $this->recipientOfComparisonBetweenOIntegersIs(
+			$firstOperand,
+			$secondOperand,
+			new functor(
+				function($oboolean) use ($block)
+				{
+					$oboolean->blockForTrueIs($block);
+				}
+			)
+		);
 	}
 }

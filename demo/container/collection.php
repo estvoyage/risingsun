@@ -31,20 +31,13 @@ require __DIR__ . '/../../vendor/autoload.php';
 			{
 				var_dump($value, $position);
 
-				$value->recipientOfComparisonWithOIntegerIs(
+				$value->blockForComparisonWithOIntegerIs(
 					new ointeger\comparison\equal,
 					new ointeger\any(3),
 					new functor(
-						function($oboolean)  use ($controller)
+						function() use ($controller)
 						{
-							$oboolean->blockForTrueIs(
-								new functor(
-									function() use ($controller)
-									{
-										$controller->nextContainerValuesAreUseless();
-									}
-								)
-							);
+							$controller->nextContainerValuesAreUseless();
 						}
 					)
 				);
