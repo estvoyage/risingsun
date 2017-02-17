@@ -1,6 +1,6 @@
 <?php namespace estvoyage\risingsun\ointeger;
 
-use estvoyage\risingsun\{ ointeger, ninteger };
+use estvoyage\risingsun\{ ointeger, ninteger, oboolean };
 
 class any
 	implements
@@ -36,6 +36,20 @@ class any
 		$ointeger->value = $value;
 
 		$recipient->ointegerIs($ointeger);
+
+		return $this;
+	}
+
+	function recipientOfOperationWithOIntegerIs(ointeger\operation\binary $operation, ointeger $ointeger, ointeger\recipient $recipient)
+	{
+		$operation->recipientOfOperationOnIntegersIs($this, $ointeger, $recipient);
+
+		return $this;
+	}
+
+	function recipientOfComparisonWithOIntegerIs(ointeger\comparison $comparison, ointeger $ointeger, oboolean\recipient $recipient)
+	{
+		$comparison->recipientOfComparisonBetweenOIntegersIs($this, $ointeger, $recipient);
 
 		return $this;
 	}

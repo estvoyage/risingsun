@@ -6,11 +6,16 @@ class factory
 {
 	static function areEquals($firstOperand, $secondOperand)
 	{
-		return $firstOperand == $secondOperand ? new ok : new ko;
+		return self::isTrue($firstOperand == $secondOperand);
 	}
 
 	static function areIdenticals($firstOperand, $secondOperand)
 	{
-		return $firstOperand === $secondOperand ? new ok : new ko;
+		return self::isTrue($firstOperand === $secondOperand);
+	}
+
+	static function isTrue(bool $value)
+	{
+		return $value ? new ok : new ko;
 	}
 }

@@ -3,7 +3,7 @@
 require __DIR__ . '/../../runner.php';
 
 use estvoyage\risingsun\tests\units;
-use mock\estvoyage\risingsun\{ ninteger as mockOfNInteger, ointeger as mockOfOInteger };
+use mock\estvoyage\risingsun\{ ninteger as mockOfNInteger, ointeger as mockOfOInteger, oboolean as mockOfOBoolean };
 
 class any extends units\test
 {
@@ -92,6 +92,48 @@ class any extends units\test
 				->mock($recipient)
 					->receive('ointegerIs')
 						->withArguments(new childOfTestedClass($value))
+							->once
+		;
+	}
+
+	function testRecipientOfOperationWithIntegerIs()
+	{
+		$this
+			->given(
+				$operation = new mockOfOInteger\operation\binary,
+				$ointeger = new mockOfOInteger,
+				$recipient = new mockOfOInteger\recipient
+			)
+			->if(
+				$this->newTestedInstance
+			)
+			->then
+				->object($this->testedInstance->recipientOfOperationWithOIntegerIs($operation, $ointeger, $recipient))
+					->isEqualTo($this->newTestedInstance)
+				->mock($operation)
+					->receive('recipientOfOperationOnIntegersIs')
+						->withArguments($this->testedInstance, $ointeger, $recipient)
+							->once
+		;
+	}
+
+	function testRecipientOfComparisonWithIntegerIs()
+	{
+		$this
+			->given(
+				$comparison = new mockOfOInteger\comparison,
+				$ointeger = new mockOfOInteger,
+				$recipient = new mockOfOBoolean\recipient
+			)
+			->if(
+				$this->newTestedInstance
+			)
+			->then
+				->object($this->testedInstance->recipientOfComparisonWithOIntegerIs($comparison, $ointeger, $recipient))
+					->isEqualTo($this->newTestedInstance)
+				->mock($comparison)
+					->receive('recipientOfComparisonBetweenOIntegersIs')
+						->withArguments($this->testedInstance, $ointeger, $recipient)
 							->once
 		;
 	}

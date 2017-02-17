@@ -1,6 +1,6 @@
 <?php namespace estvoyage\risingsun\container\iterator;
 
-use estvoyage\risingsun\{ oboolean, container\iterator, container\payload, block\functor, ointeger };
+use estvoyage\risingsun\{ oboolean, container\iterator, container\payload, block\functor, ointeger\generator };
 
 class fifo
 	implements
@@ -11,10 +11,10 @@ class fifo
 		$generator
 	;
 
-	function __construct(iterator\controller $controller, ointeger\generator $generator)
+	function __construct(iterator\controller $controller = null, generator $generator = null)
 	{
-		$this->controller = $controller;
-		$this->generator = $generator;
+		$this->controller = $controller ?: new iterator\controller\stopper;
+		$this->generator = $generator ?: new generator\operation\binary\addition;
 	}
 
 	function payloadForContainerValuesIs(array $values, payload $payload)

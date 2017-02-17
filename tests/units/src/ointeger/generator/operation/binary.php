@@ -29,9 +29,9 @@ class binary extends units\test
 			->then
 				->object($this->testedInstance->recipientOfOIntegerIs($recipient))
 					->isEqualTo($this->newTestedInstance($start, $otherInteger, $operation))
-				->mock($recipient)
-					->receive('ointegerIs')
-						->withIdenticalArguments($start)
+				->mock($start)
+					->receive('recipientOfOperationWithOIntegerIs')
+						->withIdenticalArguments($operation, $otherInteger, $recipient)
 							->never
 
 			->given(
@@ -39,8 +39,8 @@ class binary extends units\test
 				$nextInteger->id = uniqid()
 			)
 			->if(
-				$this->calling($operation)->recipientOfOperationOnIntegersIs = function($firstOperand, $secondOperand, $recipient) use ($start, $otherInteger, $nextInteger) {
-					factory::areEquals($firstOperand, $start)
+				$this->calling($start)->recipientOfOperationWithOIntegerIs = function($anOperation, $secondOperand, $recipient) use ($operation, $otherInteger, $nextInteger) {
+					factory::areEquals($anOperation, $operation)
 						->blockForTrueIs(
 							new functor(
 								function() use ($secondOperand, $recipient, $otherInteger, $nextInteger)

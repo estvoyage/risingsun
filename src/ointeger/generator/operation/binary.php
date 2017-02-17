@@ -21,9 +21,9 @@ class binary
 
 	function recipientOfOIntegerIs(recipient $recipient)
 	{
-		$this->operation
-			->recipientOfOperationOnIntegersIs(
-				$this->current,
+		$this->current
+			->recipientOfOperationWithOIntegerIs(
+				$this->operation,
 				$this->secondOperand,
 				new functor(
 					function($newCurrent) use ($recipient)

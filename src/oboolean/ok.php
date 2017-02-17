@@ -19,4 +19,11 @@ class ok
 
 		return $this;
 	}
+
+	function recipientOfOBooleanWithValueIs(bool $value, recipient $recipient)
+	{
+		$recipient->obooleanIs(factory::isTrue($value));
+
+		return $this;
+	}
 }

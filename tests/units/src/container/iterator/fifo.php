@@ -2,7 +2,7 @@
 
 require __DIR__ . '/../../../runner.php';
 
-use estvoyage\risingsun\{ tests\units, container, oboolean };
+use estvoyage\risingsun\{ tests\units, container, oboolean, ointeger\generator };
 use mock\estvoyage\risingsun\{ container as mockOfContainer, ointeger as mockOfOInteger };
 
 class fifo extends units\test
@@ -11,6 +11,33 @@ class fifo extends units\test
 	{
 		$this->testedClass
 			->implements('estvoyage\risingsun\container\iterator')
+		;
+	}
+
+	function testWithNoIntegerGenerator()
+	{
+		$this
+			->given(
+				$controller = new mockOfContainer\iterator\controller
+			)
+			->if(
+				$this->newTestedInstance($controller)
+			)
+			->then
+				->object($this->testedInstance)
+					->isEqualTo($this->newTestedInstance($controller, new generator\operation\binary\addition))
+		;
+	}
+
+	function testWithNoController()
+	{
+		$this
+			->if(
+				$this->newTestedInstance
+			)
+			->then
+				->object($this->testedInstance)
+					->isEqualTo($this->newTestedInstance(new container\iterator\controller\stopper, new generator\operation\binary\addition))
 		;
 	}
 
