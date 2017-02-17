@@ -3,7 +3,7 @@
 require __DIR__ . '/../../runner.php';
 
 use estvoyage\risingsun\tests\units;
-use mock\estvoyage\risingsun\{ oboolean as mockOfOBoolean, container as mockOfContainer };
+use mock\estvoyage\risingsun\{ oboolean as mockOfOBoolean, container as mockOfContainer, ointeger as mockOfOInteger };
 
 class functor extends units\test
 {
@@ -15,6 +15,8 @@ class functor extends units\test
 			->implements('estvoyage\risingsun\oboolean\recipient')
 			->implements('estvoyage\risingsun\container\iterator\engine')
 			->implements('estvoyage\risingsun\container\payload')
+			->implements('estvoyage\risingsun\ointeger\recipient')
+			->implements('estvoyage\risingsun\ninteger\recipient')
 		;
 	}
 
@@ -133,4 +135,45 @@ class functor extends units\test
 		;
 	}
 
+	function testOIntegerIs()
+	{
+		$this
+			->given(
+				$ointeger = new mockOfOInteger,
+
+				$callable = function() use (& $arguments) {
+					$arguments = func_get_args();
+				}
+			)
+			->if(
+				$this->newTestedInstance($callable)
+			)
+			->then
+				->object($this->testedInstance->ointegerIs($ointeger))
+					->isEqualTo($this->newTestedInstance($callable))
+				->array($arguments)
+					->isEqualTo([ $ointeger ])
+		;
+	}
+
+	function testNIntegerIs()
+	{
+		$this
+			->given(
+				$ninteger = rand(- PHP_INT_MAX, PHP_INT_MAX),
+
+				$callable = function() use (& $arguments) {
+					$arguments = func_get_args();
+				}
+			)
+			->if(
+				$this->newTestedInstance($callable)
+			)
+			->then
+				->object($this->testedInstance->nintegerIs($ninteger))
+					->isEqualTo($this->newTestedInstance($callable))
+				->array($arguments)
+					->isEqualTo([ $ninteger ])
+		;
+	}
 }

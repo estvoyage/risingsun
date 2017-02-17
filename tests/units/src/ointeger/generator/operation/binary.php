@@ -1,0 +1,73 @@
+<?php namespace estvoyage\risingsun\tests\units\ointeger\generator\operation;
+
+require __DIR__ . '/../../../../runner.php';
+
+use estvoyage\risingsun\{ tests\units, oboolean\factory, block\functor };
+use mock\estvoyage\risingsun\ointeger as mockOfOInteger;
+
+class binary extends units\test
+{
+	function testClass()
+	{
+		$this->testedClass
+			->implements('estvoyage\risingsun\ointeger\generator')
+		;
+	}
+
+	function testRecipientOfOIntegerIs()
+	{
+		$this
+			->given(
+				$recipient = new mockOfOInteger\recipient,
+				$start = new mockOfOInteger,
+				$otherInteger = new mockOfOInteger,
+				$operation = new mockOfOInteger\operation\binary
+			)
+			->if(
+				$this->newTestedInstance($start, $otherInteger, $operation)
+			)
+			->then
+				->object($this->testedInstance->recipientOfOIntegerIs($recipient))
+					->isEqualTo($this->newTestedInstance($start, $otherInteger, $operation))
+				->mock($recipient)
+					->receive('ointegerIs')
+						->withIdenticalArguments($start)
+							->never
+
+			->given(
+				$nextInteger = new mockOfOInteger,
+				$nextInteger->id = uniqid()
+			)
+			->if(
+				$this->calling($operation)->recipientOfOperationOnIntegersIs = function($firstOperand, $secondOperand, $recipient) use ($start, $otherInteger, $nextInteger) {
+					factory::areEquals($firstOperand, $start)
+						->blockForTrueIs(
+							new functor(
+								function() use ($secondOperand, $recipient, $otherInteger, $nextInteger)
+								{
+									factory::areEquals($secondOperand, $otherInteger)
+										->blockForTrueIs(
+											new functor(
+												function() use ($recipient, $nextInteger)
+												{
+													$recipient->ointegerIs($nextInteger);
+												}
+											)
+										)
+									;
+								}
+							)
+						)
+					;
+				}
+			)
+			->then
+				->object($this->testedInstance->recipientOfOIntegerIs($recipient))
+					->isEqualTo($this->newTestedInstance($nextInteger, $otherInteger, $operation))
+				->mock($recipient)
+					->receive('ointegerIs')
+						->withIdenticalArguments($start)
+							->once
+		;
+	}
+}

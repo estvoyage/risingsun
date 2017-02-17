@@ -1,6 +1,6 @@
 <?php namespace estvoyage\risingsun\block;
 
-use estvoyage\risingsun\{ block, nstring, oboolean, container\iterator, container\payload };
+use estvoyage\risingsun\{ block, nstring, oboolean, container\iterator, container\payload, ointeger, ninteger };
 
 class functor
 	implements
@@ -8,7 +8,9 @@ class functor
 		nstring\recipient,
 		oboolean\recipient,
 		iterator\engine,
-		payload
+		payload,
+		ointeger\recipient,
+		ninteger\recipient
 {
 	private
 		$callable
@@ -41,8 +43,22 @@ class functor
 		return $this->blockArgumentsAre($controller);
 	}
 
-	function containerIteratorControllerForValueAtPositionIs($value, iterator\position $position, iterator\controller $controller)
+	function containerIteratorControllerForValueAtPositionIs($value, ointeger $position, iterator\controller $controller)
 	{
 		return $this->blockArgumentsAre($value, $position, $controller);
+	}
+
+	function ointegerIs(ointeger $ointeger)
+	{
+		$this->blockArgumentsAre($ointeger);
+
+		return $this;
+	}
+
+	function nintegerIs(int $ninteger)
+	{
+		$this->blockArgumentsAre($ninteger);
+
+		return $this;
 	}
 }

@@ -2,9 +2,7 @@
 
 use estvoyage\risingsun\ointeger;
 
-class position
-	implements
-		ointeger
+interface position extends ointeger
 {
 
 }

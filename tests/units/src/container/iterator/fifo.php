@@ -3,7 +3,7 @@
 require __DIR__ . '/../../../runner.php';
 
 use estvoyage\risingsun\{ tests\units, container, oboolean };
-use mock\estvoyage\risingsun\container as mockOfContainer;
+use mock\estvoyage\risingsun\{ container as mockOfContainer, ointeger as mockOfOInteger };
 
 class fifo extends units\test
 {
@@ -20,40 +20,89 @@ class fifo extends units\test
 			->given(
 				$values = range(0, 3),
 				$payload = new mockOfContainer\payload,
-				$controller = new mockOfContainer\iterator\controller
+				$controller = new mockOfContainer\iterator\controller,
+				$integerGenerator = new mockOfOInteger\generator
 			)
 			->if(
-				$this->newTestedInstance($controller)
+				$this->newTestedInstance($controller, $integerGenerator)
 			)
 			->then
 				->object($this->testedInstance->payloadForContainerValuesIs($values, $payload))
-					->isEqualTo($this->newTestedInstance($controller))
+					->isEqualTo($this->newTestedInstance($controller, $integerGenerator))
 				->mock($payload)
 					->receive('containerIteratorControllerForValueAtPositionIs')
 						->never
 
 			->if(
-			$this->calling($controller)->blockToStopContainerIteratorEngineIs = function($iteration, $block) use ($controller, & $stopBlock) {
-					$stopBlock = $block;
+				$position1 = new mockOfOInteger,
+				$this->calling($integerGenerator)->recipientOfOIntegerIs[1] = function($recipient) use ($position1) {
+					$recipient->ointegerIs($position1);
+				},
 
-					$iteration->controllerOfContainerIteratorIs($controller);
+				$position2 = new mockOfOInteger,
+				$this->calling($integerGenerator)->recipientOfOIntegerIs[2] = function($recipient) use ($position2) {
+					$recipient->ointegerIs($position2);
+				},
+
+				$position3 = new mockOfOInteger,
+				$this->calling($integerGenerator)->recipientOfOIntegerIs[3] = function($recipient) use ($position3) {
+					$recipient->ointegerIs($position3);
+				},
+
+				$position4 = new mockOfOInteger,
+				$this->calling($integerGenerator)->recipientOfOIntegerIs[4] = function($recipient) use ($position4) {
+					$recipient->ointegerIs($position4);
 				}
 			)
 			->then
 				->object($this->testedInstance->payloadForContainerValuesIs($values, $payload))
-					->isEqualTo($this->newTestedInstance($controller))
+					->isEqualTo($this->newTestedInstance($controller, $integerGenerator))
 				->mock($payload)
 					->receive('containerIteratorControllerForValueAtPositionIs')
-						->withArguments(0, new container\iterator\position, $controller)
+						->never
+
+			->if(
+				$this->calling($controller)->blockToStopContainerIteratorEngineIs = function($engine, $block) use ($controller, & $stopBlock) {
+					$stopBlock = $block;
+
+					$engine->controllerOfContainerIteratorIs($controller);
+				}
+			)
+			->then
+				->object($this->testedInstance->payloadForContainerValuesIs($values, $payload))
+					->isEqualTo($this->newTestedInstance($controller, $integerGenerator))
+				->mock($payload)
+					->receive('containerIteratorControllerForValueAtPositionIs')
+						->withIdenticalArguments(0, $position1, $controller)
 							->once
-						->withArguments(1, new container\iterator\position(1), $controller)
+						->withIdenticalArguments(1, $position2, $controller)
 							->once
-						->withArguments(2, new container\iterator\position(2), $controller)
+						->withIdenticalArguments(2, $position3, $controller)
 							->once
-						->withArguments(3, new container\iterator\position(3), $controller)
+						->withIdenticalArguments(3, $position4, $controller)
 							->once
 
 			->if(
+				$position5 = new mockOfOInteger,
+				$this->calling($integerGenerator)->recipientOfOIntegerIs[5] = function($recipient) use ($position5) {
+					$recipient->ointegerIs($position5);
+				},
+
+				$position6 = new mockOfOInteger,
+				$this->calling($integerGenerator)->recipientOfOIntegerIs[6] = function($recipient) use ($position6) {
+					$recipient->ointegerIs($position6);
+				},
+
+				$position7 = new mockOfOInteger,
+				$this->calling($integerGenerator)->recipientOfOIntegerIs[7] = function($recipient) use ($position7) {
+					$recipient->ointegerIs($position7);
+				},
+
+				$position8 = new mockOfOInteger,
+				$this->calling($integerGenerator)->recipientOfOIntegerIs[8] = function($recipient) use ($position8) {
+					$recipient->ointegerIs($position8);
+				},
+
 				$this->calling($payload)->containerIteratorControllerForValueAtPositionIs = function($value, $position, $controller) {
 					$controller->nextContainerValuesAreUseless();
 				},
@@ -64,16 +113,45 @@ class fifo extends units\test
 			)
 			->then
 				->object($this->testedInstance->payloadForContainerValuesIs($values, $payload))
-					->isEqualTo($this->newTestedInstance($controller))
+					->isEqualTo($this->newTestedInstance($controller, $integerGenerator))
 				->mock($payload)
 					->receive('containerIteratorControllerForValueAtPositionIs')
-						->withArguments(0, new container\iterator\position, $controller)
+						->withIdenticalArguments(0, $position5, $controller)
+							->once
+						->withIdenticalArguments(1, $position6, $controller)
+							->never
+						->withIdenticalArguments(2, $position7, $controller)
+							->never
+						->withIdenticalArguments(3, $position8, $controller)
+							->never
+
+			->given(
+				$controller = new mockOfContainer\iterator\controller,
+				$integerGenerator = new mockOfOInteger\generator
+			)
+			->if(
+				$this->calling($integerGenerator)->recipientOfOIntegerIs->doesNothing,
+
+				$this->calling($controller)->blockToStopContainerIteratorEngineIs = function($engine, $block) use ($controller) {
+					$engine->controllerOfContainerIteratorIs($controller);
+				},
+
+				$this->calling($controller)->nextContainerValuesAreUseless->doesNothing,
+
+				$this->newTestedInstance($controller, $integerGenerator)
+			)
+			->then
+				->object($this->testedInstance->payloadForContainerValuesIs($values, $payload))
+					->isEqualTo($this->newTestedInstance($controller, $integerGenerator))
+				->mock($payload)
+					->receive('containerIteratorControllerForValueAtPositionIs')
+						->withIdenticalArguments(0)
 							->twice
-						->withArguments(1, new container\iterator\position(1), $controller)
+						->withIdenticalArguments(1)
 							->once
-						->withArguments(2, new container\iterator\position(2), $controller)
+						->withIdenticalArguments(2)
 							->once
-						->withArguments(3, new container\iterator\position(3), $controller)
+						->withIdenticalArguments(3)
 							->once
 		;
 	}
