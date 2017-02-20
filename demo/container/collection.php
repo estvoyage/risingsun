@@ -1,6 +1,6 @@
 <?php namespace estvoyage\risingsun\tests\functionals;
 
-use estvoyage\risingsun\{ container\collection, container\iterator\fifo, container\iterator\controller\stopper, block\functor, ointeger, oboolean, datum, ostring, output };
+use estvoyage\risingsun\{ container\collection, container\iterator\fifo, container\iterator\controller\stopper, block\functor, ointeger, oboolean, datum, ostring, output, container\payload };
 
 require __DIR__ . '/../../vendor/autoload.php';
 
@@ -17,21 +17,13 @@ require __DIR__ . '/../../vendor/autoload.php';
 )
 	->payloadForContainerIteratorIs(
 		new fifo(new stopper, new ointeger\generator\operation\binary\addition(new ointeger\any(42), new ointeger\any(42))),
-		new functor(
-			function($value, $position, $controller)
-			{
-				(new output\stdout)
-					->outputLineIsOperationOnData(
-						new datum\operation\binary\pair(
-							new ostring\any('('),
-							new ostring\any(':'),
-							new ostring\any(')')
-						),
-						$position,
-						$value
-					)
-				;
-			}
+		new payload\output\line(
+			new output\stdout,
+			new datum\operation\binary\pair(
+				new ostring\any('('),
+				new ostring\any(':'),
+				new ostring\any(')')
+			)
 		)
 	)
 	->payloadForContainerIteratorIs(
