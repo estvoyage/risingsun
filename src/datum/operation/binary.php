@@ -1,8 +1,8 @@
-<?php namespace estvoyage\risingsun\datum;
+<?php namespace estvoyage\risingsun\datum\operation;
 
 use estvoyage\risingsun\{ datum, nstring };
 
-interface operation
+interface binary
 {
 	function recipientOfOperationOnDataIs(datum $firstDatum, datum $secondDatum, nstring\recipient $recipient);
 }

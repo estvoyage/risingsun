@@ -75,7 +75,7 @@ class stdout extends units\test
 	{
 		$this
 			->given(
-				$operation = new mockOfDatum\operation,
+				$operation = new mockOfDatum\operation\binary,
 				$firstDatum = new mockOfDatum,
 				$secondDatum = new mockOfDatum
 			)

@@ -13,7 +13,7 @@ class pair extends units\test
 			->given(
 				$firstDatum = new mockOfDatum,
 				$secondDatum = new mockOfDatum,
-				$operation = new mockOfDatum\operation,
+				$operation = new mockOfDatum\operation\binary,
 				$output = new mockOfOutput
 			)
 			->if(

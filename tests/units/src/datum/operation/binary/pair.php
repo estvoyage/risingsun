@@ -10,7 +10,7 @@ class pair extends units\test
 	function testClass()
 	{
 		$this->testedClass
-			->implements('estvoyage\risingsun\datum\operation')
+			->implements('estvoyage\risingsun\datum\operation\binary')
 		;
 	}
 

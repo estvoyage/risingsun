@@ -1,10 +1,10 @@
 <?php namespace estvoyage\risingsun\container\iterator;
 
-use estvoyage\risingsun\{ oboolean, container\iterator, container\payload, block\functor, ointeger\generator };
+use estvoyage\risingsun\{ container\iterator, block\functor, ointeger\generator, datum };
 
 class fifo
 	implements
-		iterator
+		datum\container\iterator
 {
 	private
 		$controller,
@@ -17,21 +17,21 @@ class fifo
 		$this->generator = $generator ?: new generator\operation\binary\addition;
 	}
 
-	function payloadForContainerValuesIs(array $values, payload $payload)
+	function dataForPayloadAre(datum\container\payload $payload, datum... $data)
 	{
 		$this->controller
 			->blockToStopContainerIteratorEngineIs(
 				new functor(
-					function($controller) use ($values, $payload, & $break)
+					function($controller) use ($data, $payload, & $break)
 					{
-						foreach ($values as $value)
+						foreach ($data as $datum)
 						{
 							$this->generator
 								->recipientOfOIntegerIs(
 									new functor(
-										function($position) use ($payload, $value, $controller)
+										function($position) use ($payload, $datum, $controller)
 										{
-											$payload->containerIteratorControllerForValueAtPositionIs($value, $position, $controller);
+											$payload->containerIteratorControllerForDatumAtPositionIs($datum, $position, $controller);
 										}
 									)
 								)
@@ -52,7 +52,6 @@ class fifo
 				)
 			)
 		;
-
 		return $this;
 	}
 }

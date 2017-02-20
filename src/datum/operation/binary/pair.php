@@ -1,10 +1,10 @@
 <?php namespace estvoyage\risingsun\datum\operation\binary;
 
-use estvoyage\risingsun\{ datum, nstring, block\functor };
+use estvoyage\risingsun\{ datum, datum\operation, nstring, block\functor };
 
 class pair
 	implements
-		datum\operation
+		operation\binary
 {
 	private
 		$prefix,

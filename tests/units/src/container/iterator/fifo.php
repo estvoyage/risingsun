@@ -3,14 +3,14 @@
 require __DIR__ . '/../../../runner.php';
 
 use estvoyage\risingsun\{ tests\units, container, oboolean, ointeger\generator };
-use mock\estvoyage\risingsun\{ container as mockOfContainer, ointeger as mockOfOInteger };
+use mock\estvoyage\risingsun\{ container as mockOfContainer, ointeger as mockOfOInteger, datum as mockOfDatum };
 
 class fifo extends units\test
 {
 	function testClass()
 	{
 		$this->testedClass
-			->implements('estvoyage\risingsun\container\iterator')
+			->implements('estvoyage\risingsun\datum\container\iterator')
 		;
 	}
 
@@ -41,12 +41,11 @@ class fifo extends units\test
 		;
 	}
 
-	function testPayloadForContainerValuesIs()
+	function testPayloadForDataIs()
 	{
 		$this
 			->given(
-				$values = range(0, 3),
-				$payload = new mockOfContainer\payload,
+				$payload = new mockOfDatum\container\payload,
 				$controller = new mockOfContainer\iterator\controller,
 				$integerGenerator = new mockOfOInteger\generator
 			)
@@ -54,12 +53,18 @@ class fifo extends units\test
 				$this->newTestedInstance($controller, $integerGenerator)
 			)
 			->then
-				->object($this->testedInstance->payloadForContainerValuesIs($values, $payload))
+				->object($this->testedInstance->dataForPayloadAre($payload))
 					->isEqualTo($this->newTestedInstance($controller, $integerGenerator))
 				->mock($payload)
-					->receive('containerIteratorControllerForValueAtPositionIs')
+					->receive('containerIteratorControllerForDatumAtPositionIs')
 						->never
 
+			->given(
+				$datum1 = new mockOfDatum,
+				$datum2 = new mockOfDatum,
+				$datum3 = new mockOfDatum,
+				$datum4 = new mockOfDatum
+			)
 			->if(
 				$position1 = new mockOfOInteger,
 				$this->calling($integerGenerator)->recipientOfOIntegerIs[1] = function($recipient) use ($position1) {
@@ -82,10 +87,10 @@ class fifo extends units\test
 				}
 			)
 			->then
-				->object($this->testedInstance->payloadForContainerValuesIs($values, $payload))
+				->object($this->testedInstance->dataForPayloadAre($payload, $datum1, $datum2, $datum3, $datum4))
 					->isEqualTo($this->newTestedInstance($controller, $integerGenerator))
 				->mock($payload)
-					->receive('containerIteratorControllerForValueAtPositionIs')
+					->receive('containerIteratorControllerForDatumAtPositionIs')
 						->never
 
 			->if(
@@ -96,17 +101,17 @@ class fifo extends units\test
 				}
 			)
 			->then
-				->object($this->testedInstance->payloadForContainerValuesIs($values, $payload))
+				->object($this->testedInstance->dataForPayloadAre($payload, $datum1, $datum2, $datum3, $datum4))
 					->isEqualTo($this->newTestedInstance($controller, $integerGenerator))
 				->mock($payload)
-					->receive('containerIteratorControllerForValueAtPositionIs')
-						->withIdenticalArguments(0, $position1, $controller)
+					->receive('containerIteratorControllerForDatumAtPositionIs')
+						->withIdenticalArguments($datum1, $position1, $controller)
 							->once
-						->withIdenticalArguments(1, $position2, $controller)
+						->withIdenticalArguments($datum2, $position2, $controller)
 							->once
-						->withIdenticalArguments(2, $position3, $controller)
+						->withIdenticalArguments($datum3, $position3, $controller)
 							->once
-						->withIdenticalArguments(3, $position4, $controller)
+						->withIdenticalArguments($datum4, $position4, $controller)
 							->once
 
 			->if(
@@ -130,7 +135,7 @@ class fifo extends units\test
 					$recipient->ointegerIs($position8);
 				},
 
-				$this->calling($payload)->containerIteratorControllerForValueAtPositionIs = function($value, $position, $controller) {
+				$this->calling($payload)->containerIteratorControllerForDatumAtPositionIs = function($value, $position, $controller) {
 					$controller->nextContainerValuesAreUseless();
 				},
 
@@ -139,17 +144,17 @@ class fifo extends units\test
 				}
 			)
 			->then
-				->object($this->testedInstance->payloadForContainerValuesIs($values, $payload))
+				->object($this->testedInstance->dataForPayloadAre($payload, $datum1, $datum2, $datum3, $datum4))
 					->isEqualTo($this->newTestedInstance($controller, $integerGenerator))
 				->mock($payload)
-					->receive('containerIteratorControllerForValueAtPositionIs')
-						->withIdenticalArguments(0, $position5, $controller)
+					->receive('containerIteratorControllerForDatumAtPositionIs')
+						->withIdenticalArguments($datum1, $position5, $controller)
 							->once
-						->withIdenticalArguments(1, $position6, $controller)
+						->withIdenticalArguments($datum2, $position6, $controller)
 							->never
-						->withIdenticalArguments(2, $position7, $controller)
+						->withIdenticalArguments($datum3, $position7, $controller)
 							->never
-						->withIdenticalArguments(3, $position8, $controller)
+						->withIdenticalArguments($datum4, $position8, $controller)
 							->never
 
 			->given(
@@ -168,17 +173,17 @@ class fifo extends units\test
 				$this->newTestedInstance($controller, $integerGenerator)
 			)
 			->then
-				->object($this->testedInstance->payloadForContainerValuesIs($values, $payload))
+				->object($this->testedInstance->dataForPayloadAre($payload, $datum1, $datum2, $datum3, $datum4))
 					->isEqualTo($this->newTestedInstance($controller, $integerGenerator))
 				->mock($payload)
-					->receive('containerIteratorControllerForValueAtPositionIs')
-						->withIdenticalArguments(0)
+					->receive('containerIteratorControllerForDatumAtPositionIs')
+						->withIdenticalArguments($datum1)
 							->twice
-						->withIdenticalArguments(1)
+						->withIdenticalArguments($datum2)
 							->once
-						->withIdenticalArguments(2)
+						->withIdenticalArguments($datum3)
 							->once
-						->withIdenticalArguments(3)
+						->withIdenticalArguments($datum4)
 							->once
 		;
 	}

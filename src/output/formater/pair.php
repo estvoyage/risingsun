@@ -10,7 +10,7 @@ class pair
 		$operation
 	;
 
-	function __construct(datum $firstDatum, datum $secondDatum, datum\operation $operation)
+	function __construct(datum $firstDatum, datum $secondDatum, datum\operation\binary $operation)
 	{
 		$this->firstDatum = $firstDatum;
 		$this->secondDatum = $secondDatum;

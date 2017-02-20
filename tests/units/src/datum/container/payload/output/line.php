@@ -1,6 +1,6 @@
-<?php namespace estvoyage\risingsun\tests\units\container\payload\output;
+<?php namespace estvoyage\risingsun\tests\units\datum\container\payload\output;
 
-require __DIR__ . '/../../../../runner.php';
+require __DIR__ . '/../../../../../runner.php';
 
 use estvoyage\risingsun\tests\units;
 use mock\estvoyage\risingsun\{ datum as mockOfDatum, ointeger as mockOfOInteger, container as mockOfContainer, output as mockOfOutput };
@@ -10,29 +10,29 @@ class line extends units\test
 	function testClass()
 	{
 		$this->testedClass
-			->implements('estvoyage\risingsun\container\payload')
+			->implements('estvoyage\risingsun\datum\container\payload')
 		;
 	}
 
-	function testContainerIteratorControllerForValueAtPositionIs()
+	function testContainerIteratorControllerForDatumAtPositionIs()
 	{
 		$this
 			->given(
-				$value = new mockOfDatum,
+				$datum = new mockOfDatum,
 				$position = new mockOfOInteger,
 				$controller = new mockOfContainer\iterator\controller,
 				$output = new mockOfOutput,
-				$operation = new mockOfDatum\operation
+				$operation = new mockOfDatum\operation\binary
 			)
 			->if(
 				$this->newTestedInstance($output, $operation)
 			)
 			->then
-				->object($this->testedInstance->containerIteratorControllerForValueAtPositionIs($value, $position, $controller))
+				->object($this->testedInstance->containerIteratorControllerForDatumAtPositionIs($datum, $position, $controller))
 					->isEqualTo($this->newTestedInstance($output, $operation))
 				->mock($output)
 					->receive('outputLineIsOperationOnData')
-						->withArguments($operation, $position, $value)
+						->withArguments($operation, $position, $datum)
 							->once
 		;
 	}

@@ -1,11 +1,11 @@
 <?php namespace estvoyage\risingsun\tests\functionals;
 
-use estvoyage\risingsun\{ container\collection, container\iterator\fifo, container\iterator\controller\stopper, block\functor, ointeger, oboolean, datum, ostring, output, container\payload };
+use estvoyage\risingsun\{ container\iterator\fifo, container\iterator\controller\stopper, block\functor, ointeger, datum, ostring, output, datum\container\payload };
 
-require __DIR__ . '/../../vendor/autoload.php';
+require __DIR__ . '/../../../vendor/autoload.php';
 
 (
-	new collection(
+	new datum\container\collection(
 		new ointeger\any,
 		new ointeger\any(1),
 		new ointeger\any(2),
@@ -15,7 +15,18 @@ require __DIR__ . '/../../vendor/autoload.php';
 		new ointeger\any(6)
 	)
 )
-	->payloadForContainerIteratorIs(
+	->payloadForDatumContainerIteratorIs(
+		new fifo,
+		new payload\output\line(
+			new output\stdout,
+			new datum\operation\binary\pair(
+				new ostring\any('('),
+				new ostring\any(':'),
+				new ostring\any(')')
+			)
+		)
+	)
+	->payloadForDatumContainerIteratorIs(
 		new fifo(new stopper, new ointeger\generator\operation\binary\addition(new ointeger\any(42), new ointeger\any(42))),
 		new payload\output\line(
 			new output\stdout,
@@ -26,7 +37,7 @@ require __DIR__ . '/../../vendor/autoload.php';
 			)
 		)
 	)
-	->payloadForContainerIteratorIs(
+	->payloadForDatumContainerIteratorIs(
 		new fifo,
 		new functor(
 			function($value, $position, $controller)
