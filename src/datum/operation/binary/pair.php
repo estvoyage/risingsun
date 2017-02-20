@@ -1,6 +1,6 @@
 <?php namespace estvoyage\risingsun\datum\operation\binary;
 
-use estvoyage\risingsun\{ datum, datum\operation, nstring, block\functor, ostring };
+use estvoyage\risingsun\{ datum, datum\operation, nstring, block\functor, ostring, datum\operation\unary\addition, datum\operation\unary\collection };
 
 class pair
 	implements
@@ -14,62 +14,26 @@ class pair
 
 	function __construct(datum $prefix = null, datum $separator = null, datum $suffix = null)
 	{
-		(
-			$prefix ?: new ostring\any('(')
-		)
-			->recipientOfNStringIs(
-				new functor(
-					function($nstring) {
-						$this->prefix = $nstring;
-					}
-				)
-			)
-		;
-
-		(
-			$separator ?: new ostring\any(':')
-		)
-			->recipientOfNStringIs(
-				new functor(
-					function($nstring) {
-						$this->separator = $nstring;
-					}
-				)
-			)
-		;
-
-		(
-			$suffix ?: new ostring\any(')')
-		)
-			->recipientOfNStringIs(
-				new functor(
-					function($nstring) {
-						$this->suffix = $nstring;
-					}
-				)
-			)
-		;
+		$this->prefix = $prefix ?: new ostring\any('(');
+		$this->separator = $separator ?: new ostring\any(':');
+		$this->suffix = $suffix ?: new ostring\any(')');
 	}
 
 	function recipientOfOperationOnDataIs(datum $firstDatum, datum $secondDatum, nstring\recipient $recipient)
 	{
-		$firstDatum->recipientOfNStringIs(
-			new functor(
-				function($firstDatumValue) use ($firstDatum, $secondDatum, $recipient)
-				{
-					$secondDatum->recipientOfNStringIs(
-						new functor(
-							function ($secondDatumValue) use ($firstDatum, $firstDatumValue, $recipient)
-							{
-								$recipient->nstringIs(
-									$this->prefix . $firstDatumValue . $this->separator . $secondDatumValue . $this->suffix
-								);
-							}
-						)
-					);
-				}
+		(
+			new collection(
+				new addition($this->prefix),
+				new addition($firstDatum),
+				new addition($this->separator),
+				new addition($secondDatum),
+				new addition($this->suffix)
 			)
-		);
+		)
+			->recipientOfOperationIs(
+				$recipient
+			)
+		;
 
 		return $this;
 	}

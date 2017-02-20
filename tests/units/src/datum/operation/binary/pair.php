@@ -38,31 +38,24 @@ class pair extends units\test
 					->isEqualTo($this->newTestedInstance($prefix, $separator, $suffix))
 				->mock($recipient)
 					->receive('nstringIs')
-						->never
+						->withArguments('')
+							->once
 
-			->given(
-				$prefixValue = uniqid(),
-				$separatorValue = uniqid(),
-				$suffixValue = uniqid(),
-				$firstDatumValue = uniqid(),
-				$secondDatumValue = uniqid(),
-				$operation = new mockOfDatum
-			)
 			->if(
-				$this->calling($prefix)->recipientOfNStringIs = function($recipient) use ($prefixValue) {
-					$recipient->nstringIs($prefixValue);
+				$this->calling($prefix)->recipientOfNStringIs = function($recipient) {
+					$recipient->nstringIs('(');
 				},
-				$this->calling($separator)->recipientOfNStringIs = function($recipient) use ($separatorValue) {
-					$recipient->nstringIs($separatorValue);
+				$this->calling($separator)->recipientOfNStringIs = function($recipient) {
+					$recipient->nstringIs(':');
 				},
-				$this->calling($suffix)->recipientOfNStringIs = function($recipient) use ($suffixValue) {
-					$recipient->nstringIs($suffixValue);
+				$this->calling($suffix)->recipientOfNStringIs = function($recipient) {
+					$recipient->nstringIs(')');
 				},
-				$this->calling($firstDatum)->recipientOfNStringIs = function($recipient) use ($firstDatumValue) {
-					$recipient->nstringIs($firstDatumValue);
+				$this->calling($firstDatum)->recipientOfNStringIs = function($recipient) {
+					$recipient->nstringIs('foo');
 				},
-				$this->calling($secondDatum)->recipientOfNStringIs = function($recipient) use ($secondDatumValue) {
-					$recipient->nstringIs($secondDatumValue);
+				$this->calling($secondDatum)->recipientOfNStringIs = function($recipient) {
+					$recipient->nstringIs('bar');
 				},
 
 				$this->newTestedInstance($prefix, $separator, $suffix)
@@ -72,7 +65,7 @@ class pair extends units\test
 					->isEqualTo($this->newTestedInstance($prefix, $separator, $suffix))
 				->mock($recipient)
 					->receive('nstringIs')
-						->withArguments($prefixValue . $firstDatumValue . $separatorValue . $secondDatumValue . $suffixValue)
+						->withArguments('(foo:bar)')
 							->once
 		;
 	}
