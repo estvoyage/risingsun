@@ -25,7 +25,7 @@ class stopper
 		return $this;
 	}
 
-	function nextContainerValuesAreUseless()
+	function nextIterationsAreUseless()
 	{
 		$this->block->blockArgumentsAre();
 

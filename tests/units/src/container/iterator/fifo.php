@@ -136,10 +136,10 @@ class fifo extends units\test
 				},
 
 				$this->calling($payload)->containerIteratorControllerForDatumAtPositionIs = function($value, $position, $controller) {
-					$controller->nextContainerValuesAreUseless();
+					$controller->nextIterationsAreUseless();
 				},
 
-				$this->calling($controller)->nextContainerValuesAreUseless = function() use (& $stopBlock) {
+				$this->calling($controller)->nextIterationsAreUseless = function() use (& $stopBlock) {
 					$stopBlock->blockArgumentsAre();
 				}
 			)
@@ -168,7 +168,7 @@ class fifo extends units\test
 					$engine->controllerOfContainerIteratorIs($controller);
 				},
 
-				$this->calling($controller)->nextContainerValuesAreUseless->doesNothing,
+				$this->calling($controller)->nextIterationsAreUseless->doesNothing,
 
 				$this->newTestedInstance($controller, $integerGenerator)
 			)

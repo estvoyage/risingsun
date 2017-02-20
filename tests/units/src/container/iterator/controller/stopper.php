@@ -34,14 +34,14 @@ class stopper extends units\test
 		;
 	}
 
-	function testNextContainerValuesAreUseless()
+	function testNextIterationsAreUseless()
 	{
 		$this
 			->if(
 				$this->newTestedInstance
 			)
 			->then
-				->object($this->testedInstance->nextContainerValuesAreUseless())
+				->object($this->testedInstance->nextIterationsAreUseless())
 					->isEqualTo($this->newTestedInstance)
 
 			->given(
@@ -51,7 +51,7 @@ class stopper extends units\test
 				$this->newTestedInstance($block)
 			)
 			->then
-				->object($this->testedInstance->nextContainerValuesAreUseless())
+				->object($this->testedInstance->nextIterationsAreUseless())
 					->isEqualTo($this->newTestedInstance($block))
 				->mock($block)
 					->receive('blockArgumentsAre')
