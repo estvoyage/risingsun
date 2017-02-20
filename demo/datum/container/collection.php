@@ -1,6 +1,6 @@
 <?php namespace estvoyage\risingsun\tests\functionals;
 
-use estvoyage\risingsun\{ container\iterator\fifo, container\iterator\controller\stopper, block\functor, ointeger, datum, ostring, output, datum\container\payload, container\iterator\position };
+use estvoyage\risingsun\{ container\iterator\fifo, container\iterator\controller\stopper, block\functor, ointeger, datum, ostring, output, datum\container\payload, container\iterator\position, container\iterator\lifo };
 
 require __DIR__ . '/../../../vendor/autoload.php';
 
@@ -12,7 +12,8 @@ require __DIR__ . '/../../../vendor/autoload.php';
 		new ointeger\any(3),
 		new ointeger\any(4),
 		new ointeger\any(5),
-		new ointeger\any(6)
+		new ointeger\any(6),
+		new ostring\any(uniqid())
 	)
 )
 	->payloadForDatumContainerIteratorIs(
@@ -30,7 +31,7 @@ require __DIR__ . '/../../../vendor/autoload.php';
 		)
 	)
 	->payloadForDatumContainerIteratorIs(
-		new fifo,
+		new lifo,
 		new datum\container\payload\collection(
 			new payload\output\line(
 				new output\stdout,
