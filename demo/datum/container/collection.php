@@ -1,6 +1,20 @@
 <?php namespace estvoyage\risingsun\tests\functionals;
 
-use estvoyage\risingsun\{ container\iterator\fifo, container\iterator\controller\stopper, block\functor, ointeger, datum, ostring, output, datum\container\payload, container\iterator\position, container\iterator\lifo };
+use estvoyage\risingsun\
+	{
+		container\iterator\fifo,
+		container\iterator\controller\stopper,
+		block\functor,
+		ointeger,
+		datum,
+		ostring,
+		output,
+		datum\container\payload,
+		container\iterator\position,
+		container\iterator\lifo,
+		container\iterator\controller\blackhole
+	}
+;
 
 require __DIR__ . '/../../../vendor/autoload.php';
 
@@ -36,12 +50,21 @@ require __DIR__ . '/../../../vendor/autoload.php';
 			new payload\output\line(
 				new output\stdout,
 				new datum\operation\binary\pair(
-					new ostring\any('[ '),
-					new ostring\any(' => '),
-					new ostring\any(' ]')
+					new ostring\any('[ \''),
+					new ostring\any('\' => \''),
+					new ostring\any('\' ]')
 				)
 			),
 			new position\comparator(new ointeger\comparison\unary\equal(new ointeger\any(3)))
+		)
+	)
+	->payloadForDatumContainerIteratorIs(
+		new lifo(new blackhole),
+		new datum\container\payload\collection(
+			new payload\output\line(
+				new output\stdout,
+				new datum\operation\binary\pair
+			)
 		)
 	)
 ;
