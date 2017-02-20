@@ -1,6 +1,6 @@
 <?php namespace estvoyage\risingsun\tests\functionals;
 
-use estvoyage\risingsun\{ container\iterator\fifo, container\iterator\controller\stopper, block\functor, ointeger, datum, ostring, output, datum\container\payload };
+use estvoyage\risingsun\{ container\iterator\fifo, container\iterator\controller\stopper, block\functor, ointeger, datum, ostring, output, datum\container\payload, container\iterator\position };
 
 require __DIR__ . '/../../../vendor/autoload.php';
 
@@ -40,7 +40,7 @@ require __DIR__ . '/../../../vendor/autoload.php';
 	->payloadForDatumContainerIteratorIs(
 		new fifo,
 		new functor(
-			function($value, $position, $controller)
+			function($datum, $position, $controller)
 			{
 				(new output\stdout)
 					->outputLineIsOperationOnData(
@@ -50,20 +50,16 @@ require __DIR__ . '/../../../vendor/autoload.php';
 							new ostring\any(')')
 						),
 						$position,
-						$value
+						$datum
 					)
 				;
 
-				$value->blockForComparisonWithOIntegerIs(
-					new ointeger\comparison\equal,
-					new ointeger\any(3),
-					new functor(
-						function() use ($controller)
-						{
-							$controller->nextContainerValuesAreUseless();
-						}
+				(new position\comparator(new ointeger\comparison\unary\equal(new ointeger\any(3))))
+					->iteratorControllerForPositionIs(
+						$position,
+						$controller
 					)
-				);
+				;
 			}
 		)
 	)
