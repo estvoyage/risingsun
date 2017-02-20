@@ -1,6 +1,6 @@
 <?php namespace estvoyage\risingsun\datum\operation\binary;
 
-use estvoyage\risingsun\{ datum, datum\operation, nstring, block\functor };
+use estvoyage\risingsun\{ datum, datum\operation, nstring, block\functor, ostring };
 
 class pair
 	implements
@@ -12,31 +12,43 @@ class pair
 		$suffix
 	;
 
-	function __construct(datum $prefix, datum $separator, datum $suffix)
+	function __construct(datum $prefix = null, datum $separator = null, datum $suffix = null)
 	{
-		$prefix->recipientOfNStringIs(
-			new functor(
-				function($nstring) {
-					$this->prefix = $nstring;
-				}
+		(
+			$prefix ?: new ostring\any('(')
+		)
+			->recipientOfNStringIs(
+				new functor(
+					function($nstring) {
+						$this->prefix = $nstring;
+					}
+				)
 			)
-		);
+		;
 
-		$separator->recipientOfNStringIs(
-			new functor(
-				function($nstring) {
-					$this->separator = $nstring;
-				}
+		(
+			$separator ?: new ostring\any(':')
+		)
+			->recipientOfNStringIs(
+				new functor(
+					function($nstring) {
+						$this->separator = $nstring;
+					}
+				)
 			)
-		);
+		;
 
-		$suffix->recipientOfNStringIs(
-			new functor(
-				function($nstring) {
-					$this->suffix = $nstring;
-				}
+		(
+			$suffix ?: new ostring\any(')')
+		)
+			->recipientOfNStringIs(
+				new functor(
+					function($nstring) {
+						$this->suffix = $nstring;
+					}
+				)
 			)
-		);
+		;
 	}
 
 	function recipientOfOperationOnDataIs(datum $firstDatum, datum $secondDatum, nstring\recipient $recipient)

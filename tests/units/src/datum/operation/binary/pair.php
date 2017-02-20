@@ -2,7 +2,7 @@
 
 require __DIR__ . '/../../../../runner.php';
 
-use estvoyage\risingsun\{ tests\units, oboolean, block\functor };
+use estvoyage\risingsun\{ tests\units, oboolean, block\functor, ostring };
 use mock\estvoyage\risingsun\{ datum as mockOfDatum, nstring as mockOfNString };
 
 class pair extends units\test
@@ -12,6 +12,11 @@ class pair extends units\test
 		$this->testedClass
 			->implements('estvoyage\risingsun\datum\operation\binary')
 		;
+	}
+
+	function testWithoutValues()
+	{
+		$this->object($this->newTestedInstance)->isEqualTo($this->newTestedInstance(new ostring\any('('), new ostring\any(':'), new ostring\any(')')));
 	}
 
 	function testRecipientOfOperationOnDataIs()

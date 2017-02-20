@@ -19,22 +19,14 @@ require __DIR__ . '/../../../vendor/autoload.php';
 		new fifo,
 		new payload\output\line(
 			new output\stdout,
-			new datum\operation\binary\pair(
-				new ostring\any('('),
-				new ostring\any(':'),
-				new ostring\any(')')
-			)
+			new datum\operation\binary\pair
 		)
 	)
 	->payloadForDatumContainerIteratorIs(
 		new fifo(new stopper, new ointeger\generator\operation\binary\addition(new ointeger\any(42), new ointeger\any(42))),
 		new payload\output\line(
 			new output\stdout,
-			new datum\operation\binary\pair(
-				new ostring\any('('),
-				new ostring\any(':'),
-				new ostring\any(')')
-			)
+			new datum\operation\binary\pair
 		)
 	)
 	->payloadForDatumContainerIteratorIs(
@@ -43,9 +35,9 @@ require __DIR__ . '/../../../vendor/autoload.php';
 			new payload\output\line(
 				new output\stdout,
 				new datum\operation\binary\pair(
-					new ostring\any('('),
-					new ostring\any(':'),
-					new ostring\any(')')
+					new ostring\any('[ '),
+					new ostring\any(' => '),
+					new ostring\any(' ]')
 				)
 			),
 			new position\comparator(new ointeger\comparison\unary\equal(new ointeger\any(3)))
