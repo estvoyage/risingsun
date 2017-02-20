@@ -39,28 +39,16 @@ require __DIR__ . '/../../../vendor/autoload.php';
 	)
 	->payloadForDatumContainerIteratorIs(
 		new fifo,
-		new functor(
-			function($datum, $position, $controller)
-			{
-				(new output\stdout)
-					->outputLineIsOperationOnData(
-						new datum\operation\binary\pair(
-							new ostring\any('('),
-							new ostring\any(':'),
-							new ostring\any(')')
-						),
-						$position,
-						$datum
-					)
-				;
-
-				(new position\comparator(new ointeger\comparison\unary\equal(new ointeger\any(3))))
-					->iteratorControllerForPositionIs(
-						$position,
-						$controller
-					)
-				;
-			}
+		new datum\container\payload\collection(
+			new payload\output\line(
+				new output\stdout,
+				new datum\operation\binary\pair(
+					new ostring\any('('),
+					new ostring\any(':'),
+					new ostring\any(')')
+				)
+			),
+			new position\comparator(new ointeger\comparison\unary\equal(new ointeger\any(3)))
 		)
 	)
 ;
