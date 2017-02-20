@@ -3,7 +3,7 @@
 require __DIR__ . '/../../runner.php';
 
 use estvoyage\risingsun\tests\units;
-use mock\estvoyage\risingsun\{ oboolean as mockOfOBoolean, container as mockOfContainer, ointeger as mockOfOInteger };
+use mock\estvoyage\risingsun\{ oboolean as mockOfOBoolean, container as mockOfContainer, ointeger as mockOfOInteger, datum as mockOfDatum };
 
 class functor extends units\test
 {
@@ -17,6 +17,7 @@ class functor extends units\test
 			->implements('estvoyage\risingsun\container\payload')
 			->implements('estvoyage\risingsun\ointeger\recipient')
 			->implements('estvoyage\risingsun\ninteger\recipient')
+			->implements('estvoyage\risingsun\datum\recipient')
 		;
 	}
 
@@ -174,6 +175,27 @@ class functor extends units\test
 					->isEqualTo($this->newTestedInstance($callable))
 				->array($arguments)
 					->isEqualTo([ $ninteger ])
+		;
+	}
+
+	function testDatumIs()
+	{
+		$this
+			->given(
+				$datum = new mockOfDatum,
+
+				$callable = function() use (& $arguments) {
+					$arguments = func_get_args();
+				}
+			)
+			->if(
+				$this->newTestedInstance($callable)
+			)
+			->then
+				->object($this->testedInstance->datumIs($datum))
+					->isEqualTo($this->newTestedInstance($callable))
+				->array($arguments)
+					->isEqualTo([ $datum ])
 		;
 	}
 }

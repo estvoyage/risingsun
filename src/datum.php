@@ -1,6 +1,6 @@
 <?php namespace estvoyage\risingsun;
 
-interface ostring extends datum
+interface datum
 {
 	function recipientOfNStringIs(nstring\recipient $recipient);
 }

@@ -1,6 +1,6 @@
 <?php namespace estvoyage\risingsun\output;
 
-use estvoyage\risingsun\{ output, ostring, block\functor };
+use estvoyage\risingsun\{ output, ostring, block\functor, datum };
 
 class stdout
 	implements
@@ -18,16 +18,23 @@ class stdout
 		return $this->nstringIs(PHP_EOL);
 	}
 
-	function outputLineIs(ostring $line)
+	function outputLineIs(string $line)
 	{
-		$line->recipientOfNStringIs(
+		return $this
+			->nstringIs($line)
+			->endOfLine()
+		;
+	}
+
+	function outputLineIsOperationOnData(datum\operation $operation, datum $firstDatum, datum $secondDatum)
+	{
+		$operation->recipientOfOperationOnDataIs(
+			$firstDatum,
+			$secondDatum,
 			new functor(
-				function($nstring)
+				function($operation)
 				{
-					$this
-						->nstringIs($nstring)
-						->endOfLine()
-					;
+					$this->outputLineIs($operation);
 				}
 			)
 		);

@@ -3,7 +3,7 @@
 require __DIR__ . '/../../runner.php';
 
 use estvoyage\risingsun\tests\units;
-use mock\estvoyage\risingsun\{ ninteger as mockOfNInteger, ointeger as mockOfOInteger, oboolean as mockOfOBoolean, block as mockOfBlock };
+use mock\estvoyage\risingsun\{ ninteger as mockOfNInteger, ointeger as mockOfOInteger, oboolean as mockOfOBoolean, block as mockOfBlock, nstring as mockOfNString };
 
 class any extends units\test
 {
@@ -11,6 +11,7 @@ class any extends units\test
 	{
 		$this->testedClass
 			->implements('estvoyage\risingsun\ointeger')
+			->implements('estvoyage\risingsun\datum')
 		;
 	}
 
@@ -155,6 +156,25 @@ class any extends units\test
 				->mock($comparison)
 					->receive('blockForComparisonBetweenOIntegersIs')
 						->withArguments($this->testedInstance, $ointeger, $block)
+							->once
+		;
+	}
+
+	function testRecipientOfNStringIs()
+	{
+		$this
+			->given(
+				$recipient = new mockOfNString\recipient
+			)
+			->if(
+				$this->newTestedInstance
+			)
+			->then
+				->object($this->testedInstance->recipientOfNStringIs($recipient))
+					->isEqualTo($this->newTestedInstance)
+				->mock($recipient)
+					->receive('nstringIs')
+						->withArguments('0')
 							->once
 		;
 	}

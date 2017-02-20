@@ -1,6 +1,6 @@
 <?php namespace estvoyage\risingsun\tests\functionals;
 
-use estvoyage\risingsun\{ container\collection, container\iterator\fifo, container\iterator\controller\stopper, block\functor, ointeger, oboolean };
+use estvoyage\risingsun\{ container\collection, container\iterator\fifo, container\iterator\controller\stopper, block\functor, ointeger, oboolean, datum, ostring, output };
 
 require __DIR__ . '/../../vendor/autoload.php';
 
@@ -20,7 +20,17 @@ require __DIR__ . '/../../vendor/autoload.php';
 		new functor(
 			function($value, $position, $controller)
 			{
-				var_dump($value, $position);
+				(new output\stdout)
+					->outputLineIsOperationOnData(
+						new datum\operation\binary\pair(
+							new ostring\any('('),
+							new ostring\any(':'),
+							new ostring\any(')')
+						),
+						$position,
+						$value
+					)
+				;
 			}
 		)
 	)
@@ -29,7 +39,17 @@ require __DIR__ . '/../../vendor/autoload.php';
 		new functor(
 			function($value, $position, $controller)
 			{
-				var_dump($value, $position);
+				(new output\stdout)
+					->outputLineIsOperationOnData(
+						new datum\operation\binary\pair(
+							new ostring\any('('),
+							new ostring\any(':'),
+							new ostring\any(')')
+						),
+						$position,
+						$value
+					)
+				;
 
 				$value->blockForComparisonWithOIntegerIs(
 					new ointeger\comparison\equal,

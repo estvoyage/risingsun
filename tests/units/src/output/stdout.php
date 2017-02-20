@@ -2,8 +2,8 @@
 
 require __DIR__ . '/../../runner.php';
 
-use estvoyage\risingsun\tests\units;
-use mock\estvoyage\risingsun\{ output as mockOfOutput, ostring as mockOfOString };
+use estvoyage\risingsun\{ tests\units, oboolean, block\functor };
+use mock\estvoyage\risingsun\{ output as mockOfOutput, ostring as mockOfOString, datum as mockOfDatum };
 
 class stdout extends units\test
 {
@@ -55,7 +55,7 @@ class stdout extends units\test
 	{
 		$this
 			->given(
-				$line = new mockOfOString
+				$line = uniqid()
 			)
 			->if(
 				$this->newTestedInstance
@@ -67,24 +67,64 @@ class stdout extends units\test
 						;
 					}
 				)
-					->isEmpty
+					->isEqualTo($line . PHP_EOL)
+		;
+	}
 
+	function testOutputLineIsOperationOnData()
+	{
+		$this
 			->given(
-				$lineValue = uniqid()
+				$operation = new mockOfDatum\operation,
+				$firstDatum = new mockOfDatum,
+				$secondDatum = new mockOfDatum
 			)
 			->if(
-				$this->calling($line)->recipientOfNStringIs = function($recipient) use ($lineValue) {
-					$recipient->nstringIs($lineValue);
-				}
+				$this->newTestedInstance
 			)
 			->then
-				->output(function() use ($line) {
-						$this->object($this->testedInstance->outputLineIs($line))
+				->output(function() use ($operation, $firstDatum, $secondDatum) {
+						$this->object($this->testedInstance->outputLineIsOperationOnData($operation, $firstDatum, $secondDatum))
 							->isEqualTo($this->newTestedInstance)
 						;
 					}
 				)
-					->isEqualTo($lineValue . PHP_EOL)
+					->isEmpty
+
+			->given(
+				$operationValue = uniqid()
+			)
+			->if(
+				$this->calling($operation)->recipientOfOperationOnDataIs = function($aFirstDatum, $aSecondDatum, $recipient) use ($firstDatum, $secondDatum, $operationValue) {
+					oboolean\factory::areEquals($aFirstDatum, $firstDatum)
+						->blockForTrueIs(
+							new functor(
+								function() use ($aSecondDatum, $secondDatum, $recipient, $operationValue)
+								{
+									oboolean\factory::areEquals($aSecondDatum, $secondDatum)
+										->blockForTrueIs(
+											new functor(
+												function() use ($recipient, $operationValue)
+												{
+													$recipient->nstringIs($operationValue);
+												}
+											)
+										)
+									;
+								}
+							)
+						)
+					;
+				}
+			)
+			->then
+				->output(function() use ($operation, $firstDatum, $secondDatum) {
+						$this->object($this->testedInstance->outputLineIsOperationOnData($operation, $firstDatum, $secondDatum))
+							->isEqualTo($this->newTestedInstance)
+						;
+					}
+				)
+					->isEqualTo($operationValue . PHP_EOL)
 		;
 	}
 }

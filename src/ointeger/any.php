@@ -1,6 +1,6 @@
 <?php namespace estvoyage\risingsun\ointeger;
 
-use estvoyage\risingsun\{ ointeger, ninteger, oboolean, block };
+use estvoyage\risingsun\{ ointeger, ninteger, oboolean, block, nstring };
 
 class any
 	implements
@@ -57,6 +57,13 @@ class any
 	function blockForComparisonWithOIntegerIs(ointeger\comparison $comparison, ointeger $ointeger, block $block)
 	{
 		$comparison->blockForComparisonBetweenOIntegersIs($this, $ointeger, $block);
+
+		return $this;
+	}
+
+	function recipientOfNStringIs(nstring\recipient $recipient)
+	{
+		$recipient->nstringIs((string) $this->value);
 
 		return $this;
 	}
