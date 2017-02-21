@@ -3,7 +3,7 @@
 require __DIR__ . '/../../../../../runner.php';
 
 use estvoyage\risingsun\{ tests\units, oboolean\factory, block\functor, ointeger\operation, ointeger };
-use mock\estvoyage\risingsun\ointeger as mockOfOInteger;
+use mock\estvoyage\risingsun\{ ointeger as mockOfOInteger, block as mockOfBlock };
 
 class addition extends units\test
 {
@@ -45,12 +45,13 @@ class addition extends units\test
 			->given(
 				$start = new mockOfOInteger,
 				$increment = new mockOfOInteger,
-				$recipient = new mockOfOInteger\recipient
+				$recipient = new mockOfOInteger\recipient,
+				$overflow  =new mockOfBlock
 			)
 			->if(
 				$addition = new mockOfOInteger,
-				$this->calling($start)->recipientOfOperationWithOIntegerIs = function($operation, $ointeger, $recipient) use ($increment, $addition) {
-					factory::areEquals($operation, new operation\binary\addition)
+				$this->calling($start)->recipientOfOperationWithOIntegerIs = function($operation, $ointeger, $recipient) use ($increment, $addition, $overflow) {
+					factory::areEquals($operation, new operation\binary\addition($overflow))
 						->blockForTrueIs(
 							new functor(
 								function() use ($ointeger, $recipient, $increment, $addition)
@@ -71,11 +72,11 @@ class addition extends units\test
 					;
 				},
 
-				$this->newTestedInstance($start, $increment)
+				$this->newTestedInstance($start, $increment, $overflow)
 			)
 			->then
 				->object($this->testedInstance->recipientOfOIntegerIs($recipient))
-					->isEqualTo($this->newTestedInstance($addition, $increment))
+					->isEqualTo($this->newTestedInstance($addition, $increment, $overflow))
 				->mock($recipient)
 					->receive('ointegerIs')
 						->withIdenticalArguments($start)

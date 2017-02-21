@@ -67,4 +67,27 @@ require __DIR__ . '/../../../vendor/autoload.php';
 			)
 		)
 	)
+	->payloadForDatumContainerIteratorIs(
+		new fifo(
+			new stopper,
+			new ointeger\generator\operation\binary\addition(
+				new ointeger\any(PHP_INT_MAX),
+				new ointeger\any(1),
+				new functor(
+					function()
+					{
+						(new output\stdout)
+							->outputLineIs(
+								'Integer overflow!'
+							)
+						;
+					}
+				)
+			)
+		),
+		new payload\output\line(
+			new output\stdout,
+			new datum\operation\binary\pair
+		)
+	)
 ;

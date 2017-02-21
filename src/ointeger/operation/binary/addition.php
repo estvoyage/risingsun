@@ -1,11 +1,20 @@
 <?php namespace estvoyage\risingsun\ointeger\operation\binary;
 
-use estvoyage\risingsun\{ ointeger, ointeger\recipient, ointeger\operation\binary, block\functor };
+use estvoyage\risingsun\{ ointeger, ointeger\recipient, ointeger\operation\binary, block\functor, block };
 
 class addition
 	implements
 		binary
 {
+	private
+		$overflow
+	;
+
+	function __construct(block $overflow)
+	{
+		$this->overflow = $overflow;
+	}
+
 	function recipientOfOperationOnIntegersIs(ointeger $firstOperand, ointeger $secondOperand, ointeger\recipient $recipient)
 	{
 		$firstOperand->recipientOfNIntegerIs(
@@ -16,10 +25,19 @@ class addition
 						new functor(
 							function($secondOperandValue) use ($firstOperand, $firstOperandValue, $recipient)
 							{
-								$firstOperand->recipientOfOIntegerWithValueIs(
-									$firstOperandValue + $secondOperandValue,
-									$recipient
-								);
+								$addition = $firstOperandValue + $secondOperandValue;
+
+								if (is_float($addition))
+								{
+									$this->overflow->blockArgumentsAre();
+								}
+								else
+								{
+									$firstOperand->recipientOfOIntegerWithValueIs(
+										$addition,
+										$recipient
+									);
+								}
 							}
 						)
 					);

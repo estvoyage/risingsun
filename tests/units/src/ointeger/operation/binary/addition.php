@@ -3,7 +3,7 @@
 require __DIR__ . '/../../../../runner.php';
 
 use estvoyage\risingsun\{ tests\units, oboolean, block\functor };
-use mock\estvoyage\risingsun\ointeger as mockOfOInteger;
+use mock\estvoyage\risingsun\{ ointeger as mockOfOInteger, block as mockOfBlock };
 
 class addition extends units\test
 {
@@ -20,14 +20,15 @@ class addition extends units\test
 			->given(
 				$firstOperand = new mockOfOInteger,
 				$secondOperand = new mockOfOInteger,
-				$recipient = new mockOfOInteger\recipient
+				$recipient = new mockOfOInteger\recipient,
+				$overflow = new mockOfBlock
 			)
 			->if(
-				$this->newTestedInstance
+				$this->newTestedInstance($overflow)
 			)
 			->then
 				->object($this->testedInstance->recipientOfOperationOnIntegersIs($firstOperand, $secondOperand, $recipient))
-					->isEqualTo($this->newTestedInstance)
+					->isEqualTo($this->newTestedInstance($overflow))
 				->mock($recipient)
 					->receive('ointegerIs')
 						->never
@@ -39,7 +40,7 @@ class addition extends units\test
 			)
 			->then
 				->object($this->testedInstance->recipientOfOperationOnIntegersIs($firstOperand, $secondOperand, $recipient))
-					->isEqualTo($this->newTestedInstance)
+					->isEqualTo($this->newTestedInstance($overflow))
 				->mock($recipient)
 					->receive('ointegerIs')
 						->never
@@ -51,7 +52,7 @@ class addition extends units\test
 			)
 			->then
 				->object($this->testedInstance->recipientOfOperationOnIntegersIs($firstOperand, $secondOperand, $recipient))
-					->isEqualTo($this->newTestedInstance)
+					->isEqualTo($this->newTestedInstance($overflow))
 				->mock($recipient)
 					->receive('ointegerIs')
 						->never
@@ -73,11 +74,27 @@ class addition extends units\test
 			)
 			->then
 				->object($this->testedInstance->recipientOfOperationOnIntegersIs($firstOperand, $secondOperand, $recipient))
-					->isEqualTo($this->newTestedInstance)
+					->isEqualTo($this->newTestedInstance($overflow))
 				->mock($recipient)
 					->receive('ointegerIs')
 						->withIdenticalArguments($addition)
 							->once
+
+			->if(
+				$this->calling($secondOperand)->recipientOfNIntegerIs = function($recipient) {
+					$recipient->nintegerIs(PHP_INT_MAX);
+				}
+			)
+			->then
+				->object($this->testedInstance->recipientOfOperationOnIntegersIs($firstOperand, $secondOperand, $recipient))
+					->isEqualTo($this->newTestedInstance($overflow))
+				->mock($recipient)
+					->receive('ointegerIs')
+						->withIdenticalArguments($addition)
+							->once
+				->mock($overflow)
+					->receive('blockArgumentsAre')
+						->once
 		;
 	}
 }
