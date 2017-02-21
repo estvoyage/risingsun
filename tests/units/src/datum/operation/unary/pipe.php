@@ -5,7 +5,7 @@ require __DIR__ . '/../../../../runner.php';
 use estvoyage\risingsun\{ tests\units, oboolean, block\functor, ostring };
 use mock\estvoyage\risingsun\{ datum as mockOfDatum, nstring as mockOfNString };
 
-class collection extends units\test
+class pipe extends units\test
 {
 	function testClass()
 	{

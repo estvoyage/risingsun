@@ -2,7 +2,7 @@
 
 use estvoyage\risingsun\{ datum\operation, datum, nstring, ostring, block\functor };
 
-class collection
+class pipe
 	implements
 		operation\unary
 {
