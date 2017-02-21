@@ -22,7 +22,7 @@ class micro extends units\test
 	/**
 	 * @dataProvider validValueProvider
 	 */
-	function testRecipientOfNFloat($value)
+	function testRecipientOfNFloatIs($value)
 	{
 		$this
 			->given(

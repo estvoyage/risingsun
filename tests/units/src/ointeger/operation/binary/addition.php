@@ -2,7 +2,7 @@
 
 require __DIR__ . '/../../../../runner.php';
 
-use estvoyage\risingsun\{ tests\units, oboolean\factory, block\functor };
+use estvoyage\risingsun\{ tests\units, oboolean, block\functor };
 use mock\estvoyage\risingsun\ointeger as mockOfOInteger;
 
 class addition extends units\test
@@ -32,7 +32,7 @@ class addition extends units\test
 					->receive('ointegerIs')
 						->never
 
-			->given(
+			->if(
 				$this->calling($firstOperand)->recipientOfNIntegerIs = function($recipient) {
 					$recipient->nintegerIs(1);
 				}
@@ -44,7 +44,7 @@ class addition extends units\test
 					->receive('ointegerIs')
 						->never
 
-			->given(
+			->if(
 				$this->calling($secondOperand)->recipientOfNIntegerIs = function($recipient) {
 					$recipient->nintegerIs(2);
 				}
@@ -56,10 +56,10 @@ class addition extends units\test
 					->receive('ointegerIs')
 						->never
 
-			->given(
+			->if(
 				$addition = new mockOfOInteger,
 				$this->calling($firstOperand)->recipientOfOIntegerWithValueIs = function($ninteger, $recipient) use ($addition) {
-					factory::areEquals($ninteger, 3)
+					oboolean\factory::areEquals($ninteger, 3)
 						->blockForTrueIs(
 							new functor(
 								function() use ($addition, $recipient)
