@@ -2,8 +2,8 @@
 
 require __DIR__ . '/../../../../runner.php';
 
-use estvoyage\risingsun\tests\units;
-use mock\estvoyage\risingsun\{ datum as mockOfDatum, nstring as mockOfNString };
+use estvoyage\risingsun\{ tests\units, oboolean, block\functor };
+use mock\estvoyage\risingsun\datum as mockOfDatum;
 
 class addition extends units\test
 {
@@ -20,7 +20,7 @@ class addition extends units\test
 			->given(
 				$firstDatum = new mockOfDatum,
 				$secondDatum = new mockOfDatum,
-				$recipient = new mockOfNString\recipient
+				$recipient = new mockOfDatum\recipient
 			)
 			->if(
 				$this->newTestedInstance
@@ -29,7 +29,7 @@ class addition extends units\test
 				->object($this->testedInstance->recipientOfOperationOnDataIs($firstDatum, $secondDatum, $recipient))
 					->isEqualTo($this->newTestedInstance)
 				->mock($recipient)
-					->receive('nstringIs')
+					->receive('datumIs')
 						->never
 
 			->given(
@@ -44,7 +44,7 @@ class addition extends units\test
 				->object($this->testedInstance->recipientOfOperationOnDataIs($firstDatum, $secondDatum, $recipient))
 					->isEqualTo($this->newTestedInstance)
 				->mock($recipient)
-					->receive('nstringIs')
+					->receive('datumIs')
 						->never
 
 			->given(
@@ -59,8 +59,32 @@ class addition extends units\test
 				->object($this->testedInstance->recipientOfOperationOnDataIs($firstDatum, $secondDatum, $recipient))
 					->isEqualTo($this->newTestedInstance)
 				->mock($recipient)
-					->receive('nstringIs')
-						->withArguments('foobar')
+					->receive('datumIs')
+						->never
+
+			->given(
+				$operation = new mockOfDatum
+			)
+			->if(
+				$this->calling($firstDatum)->recipientOfDatumWithValueIs = function($value, $recipient) use ($operation) {
+					oboolean\factory::areEquals($value, 'foobar')
+						->blockForTrueIs(
+							new functor(
+								function() use ($recipient, $operation)
+								{
+									$recipient->datumis($operation);
+								}
+							)
+						)
+					;
+				}
+			)
+			->then
+				->object($this->testedInstance->recipientOfOperationOnDataIs($firstDatum, $secondDatum, $recipient))
+					->isEqualTo($this->newTestedInstance)
+				->mock($recipient)
+					->receive('datumIs')
+						->withIdenticalArguments($operation)
 							->once
 		;
 	}

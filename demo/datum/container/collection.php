@@ -78,7 +78,7 @@ require __DIR__ . '/../../../vendor/autoload.php';
 					{
 						(new output\stdout)
 							->outputLineIs(
-								'Integer overflow!'
+								new ostring\any('Integer overflow!')
 							)
 						;
 					}

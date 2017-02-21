@@ -1,22 +1,25 @@
 <?php namespace estvoyage\risingsun\datum\operation\binary;
 
-use estvoyage\risingsun\{ datum\operation, datum, nstring, block\functor };
+use estvoyage\risingsun\{ datum\operation, datum, block\functor };
 
 class addition
 	implements
 		operation\binary
 {
-	function recipientOfOperationOnDataIs(datum $firstDatum, datum $secondDatum, nstring\recipient $recipient)
+	function recipientOfOperationOnDataIs(datum $firstDatum, datum $secondDatum, datum\recipient $recipient)
 	{
 		$firstDatum->recipientOfNStringIs(
 			new functor(
-				function($firstDatumValue) use ($secondDatum, $recipient)
+				function($firstDatumValue) use ($firstDatum, $secondDatum, $recipient)
 				{
 					$secondDatum->recipientOfNStringIs(
 						new functor(
-							function($secondDatumValue) use ($firstDatumValue, $recipient)
+							function($secondDatumValue) use ($firstDatum, $firstDatumValue, $recipient)
 							{
-								$recipient->nstringIs($firstDatumValue . $secondDatumValue);
+								$firstDatum->recipientOfDatumWithValueIs(
+									$firstDatumValue . $secondDatumValue,
+									$recipient
+								);
 							}
 						)
 					);

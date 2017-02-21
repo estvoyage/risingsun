@@ -1,6 +1,6 @@
 <?php namespace estvoyage\risingsun\datum\operation\unary;
 
-use estvoyage\risingsun\{ datum\operation, datum, nstring, ostring, block\functor };
+use estvoyage\risingsun\{ datum\operation, datum, ostring, block\functor };
 
 class pipe
 	implements
@@ -15,7 +15,7 @@ class pipe
 		$this->operations = $operations;
 	}
 
-	function recipientOfOperationWithDatumIs(datum $datum, nstring\recipient $recipient)
+	function recipientOfOperationWithDatumIs(datum $datum, datum\recipient $recipient)
 	{
 		$currentDatum = $datum;
 
@@ -24,20 +24,20 @@ class pipe
 			$operation->recipientOfOperationWithDatumIs(
 				$currentDatum,
 				new functor(
-					function($nstring) use (& $currentDatum)
+					function($datum) use (& $currentDatum)
 					{
-						$currentDatum = new ostring\any($nstring);
+						$currentDatum = $datum;
 					}
 				)
 			);
 		}
 
-		$currentDatum->recipientOfNStringIs($recipient);
+		$recipient->datumIs($currentDatum);
 
 		return $this;
 	}
 
-	function recipientOfOperationIs(nstring\recipient $recipient)
+	function recipientOfOperationIs(datum\recipient $recipient)
 	{
 		return $this->recipientOfOperationWithDatumIs(
 			new ostring\any,

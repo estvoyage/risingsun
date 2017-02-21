@@ -1,27 +1,36 @@
 <?php namespace estvoyage\risingsun\output;
 
-use estvoyage\risingsun\{ output, ostring, block\functor, datum };
+use estvoyage\risingsun\{ output, block\functor, datum };
 
 class stdout
 	implements
 		output
 {
-	function nstringIs(string $nstring)
+	function datumIs(datum $datum)
 	{
-		echo $nstring;
+		$datum->recipientOfNStringIs(
+			new functor(
+				function($nstring)
+				{
+					echo $nstring;
+				}
+			)
+		);
 
 		return $this;
 	}
 
 	function endOfLine()
 	{
-		return $this->nstringIs(PHP_EOL);
+		echo PHP_EOL;
+
+		return $this;
 	}
 
-	function outputLineIs(string $line)
+	function outputLineIs(datum $line)
 	{
 		return $this
-			->nstringIs($line)
+			->datumIs($line)
 			->endOfLine()
 		;
 	}

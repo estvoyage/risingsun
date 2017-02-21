@@ -2,8 +2,8 @@
 
 require __DIR__ . '/../../../../runner.php';
 
-use estvoyage\risingsun\tests\units;
-use mock\estvoyage\risingsun\{ datum as mockOfDatum, nstring as mockOfNString };
+use estvoyage\risingsun\{ tests\units, oboolean, block\functor };
+use mock\estvoyage\risingsun\datum as mockOfDatum;
 
 class addition extends units\test
 {
@@ -20,7 +20,7 @@ class addition extends units\test
 			->given(
 				$suffix = new mockOfDatum,
 				$datum = new mockOfDatum,
-				$recipient = new mockOfNString\recipient
+				$recipient = new mockOfDatum\recipient
 			)
 			->if(
 				$this->newTestedInstance($suffix)
@@ -29,7 +29,7 @@ class addition extends units\test
 				->object($this->testedInstance->recipientOfOperationWithDatumIs($datum, $recipient))
 					->isEqualTo($this->newTestedInstance($suffix))
 				->mock($recipient)
-					->receive('nstringIs')
+					->receive('datumIs')
 						->never
 
 			->if(
@@ -44,8 +44,32 @@ class addition extends units\test
 				->object($this->testedInstance->recipientOfOperationWithDatumIs($datum, $recipient))
 					->isEqualTo($this->newTestedInstance($suffix))
 				->mock($recipient)
-					->receive('nstringIs')
-						->withArguments('foobar')
+					->receive('datumIs')
+						->never
+
+			->given(
+				$addition = new mockOfDatum
+			)
+			->if(
+				$this->calling($datum)->recipientOfDatumWithValueIs = function($value, $recipient) use ($addition) {
+					oboolean\factory::areEquals($value, 'foobar')
+						->blockForTrueIs(
+							new functor(
+								function() use ($recipient, $addition)
+								{
+									$recipient->datumIs($addition);
+								}
+							)
+						)
+					;
+				}
+			)
+			->then
+				->object($this->testedInstance->recipientOfOperationWithDatumIs($datum, $recipient))
+					->isEqualTo($this->newTestedInstance($suffix))
+				->mock($recipient)
+					->receive('datumIs')
+						->withIdenticalArguments($addition)
 							->once
 		;
 	}

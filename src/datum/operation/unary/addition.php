@@ -1,6 +1,6 @@
 <?php namespace estvoyage\risingsun\datum\operation\unary;
 
-use estvoyage\risingsun\{ datum\operation, datum, nstring, block\functor };
+use estvoyage\risingsun\{ datum\operation, datum, block\functor };
 
 class addition
 	implements
@@ -15,7 +15,7 @@ class addition
 		$this->suffix = $suffix;
 	}
 
-	function recipientOfOperationWithDatumIs(datum $datum, nstring\recipient $recipient)
+	function recipientOfOperationWithDatumIs(datum $datum, datum\recipient $recipient)
 	{
 		(new operation\binary\addition)
 			->recipientOfOperationOnDataIs(

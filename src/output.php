@@ -2,8 +2,8 @@
 
 interface output
 {
-	function nstringIs(string $nstring);
+	function datumIs(datum $datum);
 	function endOfLine();
-	function outputLineIs(string $line);
+	function outputLineIs(datum $datum);
 	function outputLineIsOperationOnData(datum\operation\binary $operation, datum $firstDatum, datum $secondDatum);
 }

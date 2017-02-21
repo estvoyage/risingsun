@@ -28,7 +28,7 @@ class pair extends units\test
 				$suffix = new mockOfDatum,
 				$firstDatum = new mockOfDatum,
 				$secondDatum = new mockOfDatum,
-				$recipient = new mockOfNString\recipient
+				$recipient = new mockOfDatum\recipient
 			)
 			->if(
 				$this->newTestedInstance($prefix, $separator, $suffix)
@@ -37,8 +37,8 @@ class pair extends units\test
 				->object($this->testedInstance->recipientOfOperationOnDataIs($firstDatum, $secondDatum, $recipient))
 					->isEqualTo($this->newTestedInstance($prefix, $separator, $suffix))
 				->mock($recipient)
-					->receive('nstringIs')
-						->withArguments('')
+					->receive('datumIs')
+						->withArguments(new ostring\any)
 							->once
 
 			->if(
@@ -64,8 +64,8 @@ class pair extends units\test
 				->object($this->testedInstance->recipientOfOperationOnDataIs($firstDatum, $secondDatum, $recipient))
 					->isEqualTo($this->newTestedInstance($prefix, $separator, $suffix))
 				->mock($recipient)
-					->receive('nstringIs')
-						->withArguments('(foo:bar)')
+					->receive('datumIs')
+						->withArguments(new ostring\any('(foo:bar)'))
 							->once
 		;
 	}

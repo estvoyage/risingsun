@@ -3,7 +3,7 @@
 require __DIR__ . '/../../runner.php';
 
 use estvoyage\risingsun\tests\units;
-use mock\estvoyage\risingsun\{ ninteger as mockOfNInteger, ointeger as mockOfOInteger, oboolean as mockOfOBoolean, block as mockOfBlock, nstring as mockOfNString };
+use mock\estvoyage\risingsun\{ ninteger as mockOfNInteger, ointeger as mockOfOInteger, oboolean as mockOfOBoolean, block as mockOfBlock, nstring as mockOfNString, datum as mockOfDatum };
 
 class any extends units\test
 {
@@ -17,20 +17,7 @@ class any extends units\test
 
 	function testWithNoValue()
 	{
-		$this
-			->given(
-				$recipient = new mockOfNInteger\recipient
-			)
-			->if(
-				$this->newTestedInstance
-					->recipientOfNIntegerIs($recipient)
-			)
-			->then
-				->mock($recipient)
-					->receive('nintegerIs')
-						->withArguments(0)
-							->once
-		;
+		$this->object($this->newTestedInstance)->isEqualTo($this->newTestedInstance(0));
 	}
 
 	/**
@@ -179,6 +166,60 @@ class any extends units\test
 		;
 	}
 
+	/**
+	 * @dataProvider validNStringProvider
+	 */
+	function testRecipientOfDatumWitValueIs_withValidNString($nstring)
+	{
+		$this
+			->given(
+				$recipient = new mockOfDatum\recipient
+			)
+			->if(
+				$this->newTestedInstance
+			)
+			->then
+				->object($this->testedInstance->recipientOfDatumWithValueIs($nstring, $recipient))
+					->isEqualTo($this->newTestedInstance)
+				->mock($recipient)
+					->receive('datumIs')
+						->withArguments($this->newTestedInstance($nstring))
+							->once
+
+			->if(
+				$testedInstance = new childOfTestedClass
+			)
+			->then
+				->object($testedInstance->recipientOfDatumWithValueIs($nstring, $recipient))
+					->isEqualTo($testedInstance)
+				->mock($recipient)
+					->receive('datumIs')
+						->withArguments(new childOfTestedClass($nstring))
+							->once
+		;
+	}
+
+	/**
+	 * @dataProvider invalidNStringProvider
+	 */
+	function testRecipientOfDatumWitValueIs_withInvalidNString($nstring)
+	{
+		$this
+			->given(
+				$recipient = new mockOfDatum\recipient
+			)
+			->if(
+				$this->newTestedInstance
+			)
+			->then
+				->object($this->testedInstance->recipientOfDatumWithValueIs($nstring, $recipient))
+					->isEqualTo($this->newTestedInstance)
+				->mock($recipient)
+					->receive('datumIs')
+						->never
+		;
+	}
+
 	protected function validValueProvider()
 	{
 		return [
@@ -204,6 +245,27 @@ class any extends units\test
 			new \stdClass
 		];
 	}
+
+	protected function validNStringProvider()
+	{
+		return [
+			'0',
+			(string) - PHP_INT_MAX,
+			(string) PHP_INT_MAX,
+			new objectWith__toStringAsInteger
+		];
+	}
+
+	protected function invalidNStringProvider()
+	{
+		return [
+			'',
+			'1e9',
+			(string) M_PI,
+			'foobar',
+			new objectWith__toStringAsNotInteger
+		];
+	}
 }
 
 class objectWith__toStringAsInteger
@@ -211,5 +273,13 @@ class objectWith__toStringAsInteger
 	function __toString()
 	{
 		return '666';
+	}
+}
+
+class objectWith__toStringAsNotInteger
+{
+	function __toString()
+	{
+		return 'foobar';
 	}
 }

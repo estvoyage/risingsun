@@ -14,23 +14,40 @@ class stdout extends units\test
 		;
 	}
 
-	function testNStringIs()
+	function testDatumIs()
 	{
 		$this
 			->given(
-				$nstring = uniqid()
+				$datum = new mockOfDatum
 			)
 			->if(
 				$this->newTestedInstance
 			)
 			->then
-				->output(function() use ($nstring) {
-						$this->object($this->testedInstance->nstringIs($nstring))
+				->output(function() use ($datum) {
+						$this->object($this->testedInstance->datumIs($datum))
 							->isEqualTo($this->newTestedInstance)
 						;
 					}
 				)
-					->isEqualTo($nstring)
+					->isEmpty
+
+			->given(
+				$datumValue = uniqid()
+			)
+			->if(
+				$this->calling($datum)->recipientOfNStringIs = function($recipient) use ($datumValue) {
+					$recipient->nstringIs($datumValue);
+				}
+			)
+			->then
+				->output(function() use ($datum) {
+						$this->object($this->testedInstance->datumIs($datum))
+							->isEqualTo($this->newTestedInstance)
+						;
+					}
+				)
+					->isEqualTo($datumValue)
 		;
 	}
 
@@ -55,7 +72,7 @@ class stdout extends units\test
 	{
 		$this
 			->given(
-				$line = uniqid()
+				$line = new mockOfDatum
 			)
 			->if(
 				$this->newTestedInstance
@@ -67,7 +84,24 @@ class stdout extends units\test
 						;
 					}
 				)
-					->isEqualTo($line . PHP_EOL)
+					->isEqualTo(PHP_EOL)
+
+			->given(
+				$lineValue = uniqid()
+			)
+			->if(
+				$this->calling($line)->recipientOfNStringIs = function($recipient) use ($lineValue) {
+					$recipient->nstringIs($lineValue);
+				}
+			)
+			->then
+				->output(function() use ($line) {
+						$this->object($this->testedInstance->outputLineIs($line))
+							->isEqualTo($this->newTestedInstance)
+						;
+					}
+				)
+					->isEqualTo($lineValue . PHP_EOL)
 		;
 	}
 
@@ -92,21 +126,25 @@ class stdout extends units\test
 					->isEmpty
 
 			->given(
-				$operationValue = uniqid()
+				$datumValue = uniqid(),
+				$datum = new mockOfDatum,
+				$this->calling($datum)->recipientOfNStringIs = function($recipient) use ($datumValue) {
+					$recipient->nstringIs($datumValue);
+				}
 			)
 			->if(
-				$this->calling($operation)->recipientOfOperationOnDataIs = function($aFirstDatum, $aSecondDatum, $recipient) use ($firstDatum, $secondDatum, $operationValue) {
+				$this->calling($operation)->recipientOfOperationOnDataIs = function($aFirstDatum, $aSecondDatum, $recipient) use ($firstDatum, $secondDatum, $datum) {
 					oboolean\factory::areEquals($aFirstDatum, $firstDatum)
 						->blockForTrueIs(
 							new functor(
-								function() use ($aSecondDatum, $secondDatum, $recipient, $operationValue)
+								function() use ($aSecondDatum, $secondDatum, $recipient, $datum)
 								{
 									oboolean\factory::areEquals($aSecondDatum, $secondDatum)
 										->blockForTrueIs(
 											new functor(
-												function() use ($recipient, $operationValue)
+												function() use ($recipient, $datum)
 												{
-													$recipient->nstringIs($operationValue);
+													$recipient->datumIs($datum);
 												}
 											)
 										)
@@ -124,7 +162,7 @@ class stdout extends units\test
 						;
 					}
 				)
-					->isEqualTo($operationValue . PHP_EOL)
+					->isEqualTo($datumValue . PHP_EOL)
 		;
 	}
 }

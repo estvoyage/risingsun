@@ -1,6 +1,6 @@
 <?php namespace estvoyage\risingsun\ostring;
 
-use estvoyage\risingsun\{ nstring, ostring };
+use estvoyage\risingsun\{ nstring, ostring, datum };
 
 class any
 	implements
@@ -18,5 +18,15 @@ class any
 	function recipientOfNStringIs(nstring\recipient $recipient)
 	{
 		$recipient->nstringIs($this->value);
+	}
+
+	function recipientOfDatumWithValueIs(string $value, datum\recipient $recipient)
+	{
+		$datum = clone $this;
+		$datum->value = $value;
+
+		$recipient->datumIs($datum);
+
+		return $this;
 	}
 }
