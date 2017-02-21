@@ -76,7 +76,7 @@ require __DIR__ . '/../../../vendor/autoload.php';
 				new functor(
 					function()
 					{
-						(new output\stdout)
+						(new output\stderr)
 							->outputLineIs(
 								new ostring\any('Integer overflow!')
 							)

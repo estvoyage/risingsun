@@ -1,6 +1,6 @@
 <?php namespace estvoyage\risingsun\output;
 
-use estvoyage\risingsun\{ output, block\functor, datum };
+use estvoyage\risingsun\{ output, block\functor, datum, ostring };
 
 class stdout
 	implements
@@ -22,9 +22,9 @@ class stdout
 
 	function endOfLine()
 	{
-		echo PHP_EOL;
-
-		return $this;
+		return $this
+			->datumIs(new ostring\any(PHP_EOL))
+		;
 	}
 
 	function outputLineIs(datum $line)
