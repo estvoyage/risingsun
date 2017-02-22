@@ -4,5 +4,5 @@ use estvoyage\risingsun\ointeger;
 
 interface binary
 {
-	function recipientOfOperationOnIntegersIs(ointeger $firstOperand, ointeger $secondOperand, ointeger\recipient $recipient);
+	function recipientOfOperationOnOIntegersIs(ointeger $firstOperand, ointeger $secondOperand, ointeger\recipient $recipient);
 }

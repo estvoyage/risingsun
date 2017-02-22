@@ -99,7 +99,7 @@ class any extends units\test
 				->object($this->testedInstance->recipientOfOperationWithOIntegerIs($operation, $ointeger, $recipient))
 					->isEqualTo($this->newTestedInstance)
 				->mock($operation)
-					->receive('recipientOfOperationOnIntegersIs')
+					->receive('recipientOfOperationOnOIntegersIs')
 						->withArguments($this->testedInstance, $ointeger, $recipient)
 							->once
 		;

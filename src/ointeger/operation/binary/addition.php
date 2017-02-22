@@ -15,7 +15,7 @@ class addition
 		$this->overflow = $overflow;
 	}
 
-	function recipientOfOperationOnIntegersIs(ointeger $firstOperand, ointeger $secondOperand, ointeger\recipient $recipient)
+	function recipientOfOperationOnOIntegersIs(ointeger $firstOperand, ointeger $secondOperand, ointeger\recipient $recipient)
 	{
 		$firstOperand->recipientOfNIntegerIs(
 			new functor(

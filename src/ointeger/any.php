@@ -42,7 +42,7 @@ class any
 
 	function recipientOfOperationWithOIntegerIs(ointeger\operation\binary $operation, ointeger $ointeger, ointeger\recipient $recipient)
 	{
-		$operation->recipientOfOperationOnIntegersIs($this, $ointeger, $recipient);
+		$operation->recipientOfOperationOnOIntegersIs($this, $ointeger, $recipient);
 
 		return $this;
 	}
