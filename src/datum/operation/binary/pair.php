@@ -37,9 +37,4 @@ class pair
 
 		return $this;
 	}
-
-	function recipientOfDatumOperationWithDatumIs(datum\operation\binary $operation, datum $datum, datum\recipient $recipient)
-	{
-		return $this;
-	}
 }

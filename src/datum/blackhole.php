@@ -20,4 +20,9 @@ class blackhole
 	{
 		return $this;
 	}
+
+	function recipientOfDatumOperationIs(datum\operation\unary $operation, datum\recipient $recipient)
+	{
+		return $this;
+	}
 }

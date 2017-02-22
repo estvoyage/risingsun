@@ -203,6 +203,26 @@ class micro extends units\test
 		;
 	}
 
+	function testRecipientOfDatumOperationIs()
+	{
+		$this
+			->given(
+				$operation = new mockOfDatum\operation\unary,
+				$recipient = new mockOfDatum\recipient
+			)
+			->if(
+				$this->newTestedInstance
+			)
+			->then
+				->object($this->testedInstance->recipientOfDatumOperationIs($operation, $recipient))
+					->isEqualTo($this->newTestedInstance)
+				->mock($operation)
+					->receive('recipientOfDatumOperationWithDatumIs')
+						->withArguments($this->testedInstance, $recipient)
+							->once
+		;
+	}
+
 	protected function validValueProvider()
 	{
 		return [

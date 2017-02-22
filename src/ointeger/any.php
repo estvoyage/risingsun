@@ -100,4 +100,16 @@ class any
 
 		return $this;
 	}
+
+	function recipientOfDatumOperationIs(datum\operation\unary $operation, datum\recipient $recipient)
+	{
+		$operation
+			->recipientOfDatumOperationWithDatumIs(
+				$this,
+				$recipient
+			)
+		;
+
+		return $this;
+	}
 }

@@ -47,16 +47,15 @@ class micro
 									new functor(
 										function($position) use ($datum, $recipient, $precision)
 										{
-											(new datum\operation\unary\slicer($position, $precision))
-												->recipientOfDatumOperationWithDatumIs(
-													$datum,
+											$datum
+												->recipientOfDatumOperationIs(
+													new datum\operation\unary\slicer($position, $precision),
 													new functor(
 														function($part) use ($precision, $recipient)
 														{
-															(new datum\operation\binary\padding\right($precision))
-																->recipientOfDatumOperationOnDataIs(
-																	$part,
-																	new ostring\any('0'),
+															$part
+																->recipientOfDatumOperationIs(
+																	new datum\operation\unary\padding\right($precision, new ostring\any('0')),
 																	$recipient
 																)
 															;
@@ -106,6 +105,18 @@ class micro
 			->recipientOfDatumOperationOnDataIs(
 				$this,
 				$datum,
+				$recipient
+			)
+		;
+
+		return $this;
+	}
+
+	function recipientOfDatumOperationIs(datum\operation\unary $operation, datum\recipient $recipient)
+	{
+		$operation
+			->recipientOfDatumOperationWithDatumIs(
+				$this,
 				$recipient
 			)
 		;
