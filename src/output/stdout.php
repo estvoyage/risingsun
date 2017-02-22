@@ -6,6 +6,15 @@ class stdout
 	implements
 		output
 {
+	private
+		$eol
+	;
+
+	function __construct(datum $eol = null)
+	{
+		$this->eol = $eol ?: new ostring\any(PHP_EOL);
+	}
+
 	function datumIs(datum $datum)
 	{
 		$datum->recipientOfNStringIs(
@@ -23,7 +32,7 @@ class stdout
 	function endOfLine()
 	{
 		return $this
-			->datumIs(new ostring\any(PHP_EOL))
+			->datumIs($this->eol)
 		;
 	}
 

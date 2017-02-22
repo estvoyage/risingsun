@@ -76,6 +76,8 @@ class stderr extends units\test
 	{
 		$this
 			->given(
+				$eol = new mockOfDatum,
+
 				$this->function->file_put_contents = function($filename, $data, $flags = 0) {
 					oboolean\factory::areEquals($filename, 'php://stderr')
 						->blockForTrueIs(
@@ -99,16 +101,33 @@ class stderr extends units\test
 				}
 			)
 			->if(
-				$this->newTestedInstance
+				$this->newTestedInstance($eol)
 			)
 			->then
-				->output(function() {
+				->output(function() use ($eol) {
 						$this->object($this->testedInstance->endOfLine())
-							->isEqualTo($this->newTestedInstance)
+							->isEqualTo($this->newTestedInstance($eol))
 						;
 					}
 				)
-					->isEqualTo(PHP_EOL)
+					->isEmpty
+
+			->given(
+				$eolValue = uniqid()
+			)
+			->if(
+				$this->calling($eol)->recipientOfNStringIs = function($recipient) use ($eolValue) {
+					$recipient->nstringIs($eolValue);
+				}
+			)
+			->then
+				->output(function() use ($eol) {
+						$this->object($this->testedInstance->endOfLine())
+							->isEqualTo($this->newTestedInstance($eol))
+						;
+					}
+				)
+					->isEqualTo($eolValue)
 		;
 	}
 
@@ -116,6 +135,7 @@ class stderr extends units\test
 	{
 		$this
 			->given(
+				$eol = new mockOfDatum,
 				$line = new mockOfDatum
 			)
 			->if(
@@ -140,33 +160,38 @@ class stderr extends units\test
 						)
 					;
 				},
-				$this->newTestedInstance
+				$this->newTestedInstance($eol)
 			)
 			->then
-				->output(function() use ($line) {
+				->output(function() use ($line, $eol) {
 						$this->object($this->testedInstance->outputLineIs($line))
-							->isEqualTo($this->newTestedInstance)
+							->isEqualTo($this->newTestedInstance($eol))
 						;
 					}
 				)
-					->isEqualTo(PHP_EOL)
+					->isEmpty
 
 			->given(
+				$eolValue = uniqid(),
 				$lineValue = uniqid()
 			)
 			->if(
+				$this->calling($eol)->recipientOfNStringIs = function($recipient) use ($eolValue) {
+					$recipient->nstringIs($eolValue);
+				},
+
 				$this->calling($line)->recipientOfNStringIs = function($recipient) use ($lineValue) {
 					$recipient->nstringIs($lineValue);
 				}
 			)
 			->then
-				->output(function() use ($line) {
+				->output(function() use ($line, $eol) {
 						$this->object($this->testedInstance->outputLineIs($line))
-							->isEqualTo($this->newTestedInstance)
+							->isEqualTo($this->newTestedInstance($eol))
 						;
 					}
 				)
-					->isEqualTo($lineValue . PHP_EOL)
+					->isEqualTo($lineValue . $eolValue)
 		;
 	}
 
@@ -176,7 +201,8 @@ class stderr extends units\test
 			->given(
 				$operation = new mockOfDatum\operation\binary,
 				$firstDatum = new mockOfDatum,
-				$secondDatum = new mockOfDatum
+				$secondDatum = new mockOfDatum,
+				$eol = new mockOfDatum
 			)
 			->if(
 				$this->function->file_put_contents = function($filename, $data, $flags = 0) {
@@ -200,25 +226,31 @@ class stderr extends units\test
 						)
 					;
 				},
-				$this->newTestedInstance
+				$this->newTestedInstance($eol)
 			)
 			->then
-				->output(function() use ($operation, $firstDatum, $secondDatum) {
+				->output(function() use ($operation, $firstDatum, $secondDatum, $eol) {
 						$this->object($this->testedInstance->outputLineIsOperationOnData($operation, $firstDatum, $secondDatum))
-							->isEqualTo($this->newTestedInstance)
+							->isEqualTo($this->newTestedInstance($eol))
 						;
 					}
 				)
 					->isEmpty
 
 			->given(
+				$eolValue = uniqid(),
 				$datumValue = uniqid(),
-				$datum = new mockOfDatum,
-				$this->calling($datum)->recipientOfNStringIs = function($recipient) use ($datumValue) {
-					$recipient->nstringIs($datumValue);
-				}
+				$datum = new mockOfDatum
 			)
 			->if(
+				$this->calling($eol)->recipientOfNStringIs = function($recipient) use ($eolValue) {
+					$recipient->nstringIs($eolValue);
+				},
+
+				$this->calling($datum)->recipientOfNStringIs = function($recipient) use ($datumValue) {
+					$recipient->nstringIs($datumValue);
+				},
+
 				$this->calling($operation)->recipientOfOperationOnDataIs = function($aFirstDatum, $aSecondDatum, $recipient) use ($firstDatum, $secondDatum, $datum) {
 					oboolean\factory::areEquals($aFirstDatum, $firstDatum)
 						->blockForTrueIs(
@@ -242,13 +274,13 @@ class stderr extends units\test
 				}
 			)
 			->then
-				->output(function() use ($operation, $firstDatum, $secondDatum) {
+				->output(function() use ($operation, $firstDatum, $secondDatum, $eol) {
 						$this->object($this->testedInstance->outputLineIsOperationOnData($operation, $firstDatum, $secondDatum))
-							->isEqualTo($this->newTestedInstance)
+							->isEqualTo($this->newTestedInstance($eol))
 						;
 					}
 				)
-					->isEqualTo($datumValue . PHP_EOL)
+					->isEqualTo($datumValue . $eolValue)
 		;
 	}
 }

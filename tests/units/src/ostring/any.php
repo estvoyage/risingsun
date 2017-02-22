@@ -17,20 +17,7 @@ class any extends units\test
 
 	function testWithNoValue()
 	{
-		$this
-			->given(
-				$recipient = new mockOfNString\recipient
-			)
-			->if(
-				$this->newTestedInstance
-					->recipientOfNStringIs($recipient)
-			)
-			->then
-				->mock($recipient)
-					->receive('nstringIs')
-						->withArguments('')
-							->once
-		;
+		$this->object($this->newTestedInstance)->isEqualTo($this->newTestedInstance(''));
 	}
 
 	/**
