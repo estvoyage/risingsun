@@ -25,6 +25,7 @@ require __DIR__ . '/../../../vendor/autoload.php';
 		new ointeger\any(2),
 		new ointeger\any(3),
 		new ointeger\any(4),
+		new datum\blackhole,
 		new ointeger\any(5),
 		new ointeger\any(6),
 		new ostring\any(uniqid())
