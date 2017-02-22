@@ -40,7 +40,14 @@ class any
 		return $this;
 	}
 
-	function recipientOfOperationWithOIntegerIs(ointeger\operation\binary $operation, ointeger $ointeger, ointeger\recipient $recipient)
+	function recipientOfOIntegerOperationIs(ointeger\operation\unary $operation, ointeger\recipient $recipient)
+	{
+		$operation->recipientOfOperationWithOIntegerIs($this, $recipient);
+
+		return $this;
+	}
+
+	function recipientOfOIntegerOperationWithOIntegerIs(ointeger\operation\binary $operation, ointeger $ointeger, ointeger\recipient $recipient)
 	{
 		$operation->recipientOfOperationOnOIntegersIs($this, $ointeger, $recipient);
 
@@ -77,6 +84,19 @@ class any
 
 			$recipient->datumIs($datum);
 		}
+
+		return $this;
+	}
+
+	function recipientOfDatumOperationWithDatumIs(datum\operation\binary $operation, datum $datum, datum\recipient $recipient)
+	{
+		$operation
+			->recipientOfDatumOperationOnDataIs(
+				$this,
+				$datum,
+				$recipient
+			)
+		;
 
 		return $this;
 	}

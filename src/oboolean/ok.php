@@ -20,6 +20,11 @@ class ok
 		return $this;
 	}
 
+	function blockForFalseIs(block $block)
+	{
+		return $this;
+	}
+
 	function recipientOfOBooleanWithValueIs(bool $value, recipient $recipient)
 	{
 		$recipient->obooleanIs(factory::isTrue($value));

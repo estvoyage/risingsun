@@ -15,7 +15,7 @@ class pow
 		$this->pow = $pow;
 	}
 
-	function recipientOfOperationOnOIntegerIs(ointeger $ointeger, ointeger\recipient $recipient)
+	function recipientOfOperationWithOIntegerIs(ointeger $ointeger, ointeger\recipient $recipient)
 	{
 		$this->pow
 			->recipientOfNIntegerIs(

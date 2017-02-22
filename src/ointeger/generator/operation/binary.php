@@ -22,7 +22,7 @@ class binary
 	function recipientOfOIntegerIs(recipient $recipient)
 	{
 		$this->current
-			->recipientOfOperationWithOIntegerIs(
+			->recipientOfOIntegerOperationWithOIntegerIs(
 				$this->operation,
 				$this->secondOperand,
 				new functor(

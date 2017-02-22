@@ -1,8 +1,10 @@
 <?php namespace estvoyage\risingsun\time\duration\timestamp\unix;
 
-use estvoyage\risingsun\{ nfloat, ostring, ointeger, block\functor, datum };
+use estvoyage\risingsun\{ nfloat, ostring, ointeger, block\functor, datum, nstring, block };
 
 class micro
+	implements
+		datum
 {
 	private
 		$value
@@ -27,25 +29,84 @@ class micro
 
 	function recipientOfPartAtRightOfRadixWithPrecisionIs(ointeger\unsigned $precision, datum\recipient $recipient)
 	{
-		$precision
-			->recipientOfNIntegerIs(
-				new functor(
-					function($precision) use ($recipient)
-					{
-						$value = (string) $this->value;
-						$radix = strpos($value, '.');
+		$datum = new ostring\any($this->value);
 
-						$recipient->datumIs(
-							new ostring\any(
-								$radix === false
-								?
-								$value
-								:
-								str_pad(substr($value, $radix + 1, $precision), $precision, '0')
-							)
-						);
-					}
+		(new datum\finder\first)
+			->recipientOfSearchOfDatumInDatumIs(
+				new ostring\any('.'),
+				$datum,
+				new datum\finder\recipient\proxy(
+					new functor(
+						function($position) use ($datum, $precision, $recipient)
+						{
+							$position
+								->recipientOfOIntegerOperationIs(
+									new ointeger\operation\unary\addition(
+										new ointeger\any(1)
+									),
+									new functor(
+										function($position) use ($datum, $recipient, $precision)
+										{
+											(new datum\operation\unary\slicer($position, $precision))
+												->recipientOfDatumOperationWithDatumIs(
+													$datum,
+													new functor(
+														function($part) use ($precision, $recipient)
+														{
+															(new datum\operation\binary\padding\right($precision))
+																->recipientOfDatumOperationOnDataIs(
+																	$part,
+																	new ostring\any('0'),
+																	$recipient
+																)
+															;
+														}
+													)
+												)
+											;
+										}
+									)
+								)
+							;
+						}
+					),
+					new functor(
+						function() use ($datum, $recipient)
+						{
+							$recipient->datumIs($datum);
+						}
+					)
 				)
+			)
+		;
+
+		return $this;
+	}
+
+	function recipientOfNStringIs(nstring\recipient $recipient)
+	{
+		$recipient->nstringIs($this->value);
+
+		return $this;
+	}
+
+	function recipientOfDatumWithValueIs(string $value, datum\recipient $recipient)
+	{
+		if (is_numeric($value) && (float) $value == $value && $value >= 0)
+		{
+			$recipient->datumIs(new self($value));
+		}
+
+		return $this;
+	}
+
+	function recipientOfDatumOperationWithDatumIs(datum\operation\binary $operation, datum $datum, datum\recipient $recipient)
+	{
+		$operation
+			->recipientOfDatumOperationOnDataIs(
+				$this,
+				$datum,
+				$recipient
 			)
 		;
 

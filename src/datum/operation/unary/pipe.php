@@ -15,13 +15,13 @@ class pipe
 		$this->operations = $operations;
 	}
 
-	function recipientOfOperationWithDatumIs(datum $datum, datum\recipient $recipient)
+	function recipientOfDatumOperationWithDatumIs(datum $datum, datum\recipient $recipient)
 	{
 		$currentDatum = $datum;
 
 		foreach ($this->operations as $operation)
 		{
-			$operation->recipientOfOperationWithDatumIs(
+			$operation->recipientOfDatumOperationWithDatumIs(
 				$currentDatum,
 				new functor(
 					function($datum) use (& $currentDatum)
@@ -37,9 +37,9 @@ class pipe
 		return $this;
 	}
 
-	function recipientOfOperationIs(datum\recipient $recipient)
+	function recipientOfDatumOperationIs(datum\recipient $recipient)
 	{
-		return $this->recipientOfOperationWithDatumIs(
+		return $this->recipientOfDatumOperationWithDatumIs(
 			new ostring\any,
 			$recipient
 		);

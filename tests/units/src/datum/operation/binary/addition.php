@@ -14,7 +14,7 @@ class addition extends units\test
 		;
 	}
 
-	function testRecipientOfOperationOnDataIs()
+	function testRecipientOfDatumOperationOnDataIs()
 	{
 		$this
 			->given(
@@ -26,7 +26,7 @@ class addition extends units\test
 				$this->newTestedInstance
 			)
 			->then
-				->object($this->testedInstance->recipientOfOperationOnDataIs($firstDatum, $secondDatum, $recipient))
+				->object($this->testedInstance->recipientOfDatumOperationOnDataIs($firstDatum, $secondDatum, $recipient))
 					->isEqualTo($this->newTestedInstance)
 				->mock($recipient)
 					->receive('datumIs')
@@ -41,7 +41,7 @@ class addition extends units\test
 				}
 			)
 			->then
-				->object($this->testedInstance->recipientOfOperationOnDataIs($firstDatum, $secondDatum, $recipient))
+				->object($this->testedInstance->recipientOfDatumOperationOnDataIs($firstDatum, $secondDatum, $recipient))
 					->isEqualTo($this->newTestedInstance)
 				->mock($recipient)
 					->receive('datumIs')
@@ -56,7 +56,7 @@ class addition extends units\test
 				}
 			)
 			->then
-				->object($this->testedInstance->recipientOfOperationOnDataIs($firstDatum, $secondDatum, $recipient))
+				->object($this->testedInstance->recipientOfDatumOperationOnDataIs($firstDatum, $secondDatum, $recipient))
 					->isEqualTo($this->newTestedInstance)
 				->mock($recipient)
 					->receive('datumIs')
@@ -80,7 +80,7 @@ class addition extends units\test
 				}
 			)
 			->then
-				->object($this->testedInstance->recipientOfOperationOnDataIs($firstDatum, $secondDatum, $recipient))
+				->object($this->testedInstance->recipientOfDatumOperationOnDataIs($firstDatum, $secondDatum, $recipient))
 					->isEqualTo($this->newTestedInstance)
 				->mock($recipient)
 					->receive('datumIs')

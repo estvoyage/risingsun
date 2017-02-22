@@ -18,6 +18,13 @@ class ko
 		return $this;
 	}
 
+	function blockForFalseIs(block $block)
+	{
+		$block->blockArgumentsAre();
+
+		return $this;
+	}
+
 	function recipientOfOBooleanWithValueIs(bool $value, recipient $recipient)
 	{
 		$recipient->obooleanIs(factory::isTrue($value));

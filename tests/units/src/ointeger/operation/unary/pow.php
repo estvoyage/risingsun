@@ -14,7 +14,7 @@ class pow extends units\test
 		;
 	}
 
-	function testRecipientOfOperationOnOIntegerIs()
+	function testRecipientOfOperationWithOIntegerIs()
 	{
 		$this
 			->given(
@@ -26,7 +26,7 @@ class pow extends units\test
 				$this->newTestedInstance($pow)
 			)
 			->then
-				->object($this->testedInstance->recipientOfOperationOnOIntegerIs($ointeger, $recipient))
+				->object($this->testedInstance->recipientOfOperationWithOIntegerIs($ointeger, $recipient))
 					->isEqualTo($this->newTestedInstance($pow))
 				->mock($recipient)
 					->receive('ointegerIs')
@@ -38,7 +38,7 @@ class pow extends units\test
 				}
 			)
 			->then
-				->object($this->testedInstance->recipientOfOperationOnOIntegerIs($ointeger, $recipient))
+				->object($this->testedInstance->recipientOfOperationWithOIntegerIs($ointeger, $recipient))
 					->isEqualTo($this->newTestedInstance($pow))
 				->mock($recipient)
 					->receive('ointegerIs')
@@ -50,7 +50,7 @@ class pow extends units\test
 				}
 			)
 			->then
-				->object($this->testedInstance->recipientOfOperationOnOIntegerIs($ointeger, $recipient))
+				->object($this->testedInstance->recipientOfOperationWithOIntegerIs($ointeger, $recipient))
 					->isEqualTo($this->newTestedInstance($pow))
 				->mock($recipient)
 					->receive('ointegerIs')
@@ -74,7 +74,7 @@ class pow extends units\test
 				}
 			)
 			->then
-				->object($this->testedInstance->recipientOfOperationOnOIntegerIs($ointeger, $recipient))
+				->object($this->testedInstance->recipientOfOperationWithOIntegerIs($ointeger, $recipient))
 					->isEqualTo($this->newTestedInstance($pow))
 				->mock($recipient)
 					->receive('ointegerIs')

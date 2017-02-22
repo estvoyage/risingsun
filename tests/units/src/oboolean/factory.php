@@ -35,4 +35,10 @@ class factory extends units\test
 		$this->object(oboolean\factory::isTrue(true))->isEqualTo(new ok);
 		$this->object(oboolean\factory::isTrue(false))->isEqualTo(new ko);
 	}
+
+	function testIsFalse()
+	{
+		$this->object(oboolean\factory::isFalse(true))->isEqualTo(new ko);
+		$this->object(oboolean\factory::isFalse(false))->isEqualTo(new ok);
+	}
 }

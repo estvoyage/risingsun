@@ -50,7 +50,7 @@ class addition extends units\test
 			)
 			->if(
 				$addition = new mockOfOInteger,
-				$this->calling($start)->recipientOfOperationWithOIntegerIs = function($operation, $ointeger, $recipient) use ($increment, $addition, $overflow) {
+				$this->calling($start)->recipientOfOIntegerOperationWithOIntegerIs = function($operation, $ointeger, $recipient) use ($increment, $addition, $overflow) {
 					factory::areEquals($operation, new operation\binary\addition($overflow))
 						->blockForTrueIs(
 							new functor(

@@ -2,7 +2,7 @@
 
 require __DIR__ . '/../../../../runner.php';
 
-use estvoyage\risingsun\{ tests\units, oboolean, block\functor };
+use estvoyage\risingsun\{ tests\units, oboolean, block\functor, block };
 use mock\estvoyage\risingsun\{ ointeger as mockOfOInteger, block as mockOfBlock };
 
 class addition extends units\test
@@ -12,6 +12,11 @@ class addition extends units\test
 		$this->testedClass
 			->implements('estvoyage\risingsun\ointeger\operation\binary')
 		;
+	}
+
+	function testWithoutArguments()
+	{
+		$this->object($this->newTestedInstance)->isEqualTo($this->newTestedInstance(new block\blackhole));
 	}
 
 	function testRecipientOfOperationOnOIntegersAre()

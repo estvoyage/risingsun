@@ -4,5 +4,5 @@ use estvoyage\risingsun\datum;
 
 interface binary
 {
-	function recipientOfOperationOnDataIs(datum $firstDatum, datum $secondDatum, datum\recipient $recipient);
+	function recipientOfDatumOperationOnDataIs(datum $firstDatum, datum $secondDatum, datum\recipient $recipient);
 }

@@ -19,7 +19,7 @@ class pair
 		$this->suffix = $suffix ?: new ostring\any(')');
 	}
 
-	function recipientOfOperationOnDataIs(datum $firstDatum, datum $secondDatum, datum\recipient $recipient)
+	function recipientOfDatumOperationOnDataIs(datum $firstDatum, datum $secondDatum, datum\recipient $recipient)
 	{
 		(
 			new pipe(
@@ -30,11 +30,16 @@ class pair
 				new addition($this->suffix)
 			)
 		)
-			->recipientOfOperationIs(
+			->recipientOfDatumOperationIs(
 				$recipient
 			)
 		;
 
+		return $this;
+	}
+
+	function recipientOfDatumOperationWithDatumIs(datum\operation\binary $operation, datum $datum, datum\recipient $recipient)
+	{
 		return $this;
 	}
 }

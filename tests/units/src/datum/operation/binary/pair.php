@@ -19,7 +19,7 @@ class pair extends units\test
 		$this->object($this->newTestedInstance)->isEqualTo($this->newTestedInstance(new ostring\any('('), new ostring\any(':'), new ostring\any(')')));
 	}
 
-	function testRecipientOfOperationOnDataIs()
+	function testRecipientOfDatumOperationOnDataIs()
 	{
 		$this
 			->given(
@@ -34,7 +34,7 @@ class pair extends units\test
 				$this->newTestedInstance($prefix, $separator, $suffix)
 			)
 			->then
-				->object($this->testedInstance->recipientOfOperationOnDataIs($firstDatum, $secondDatum, $recipient))
+				->object($this->testedInstance->recipientOfDatumOperationOnDataIs($firstDatum, $secondDatum, $recipient))
 					->isEqualTo($this->newTestedInstance($prefix, $separator, $suffix))
 				->mock($recipient)
 					->receive('datumIs')
@@ -61,7 +61,7 @@ class pair extends units\test
 				$this->newTestedInstance($prefix, $separator, $suffix)
 			)
 			->then
-				->object($this->testedInstance->recipientOfOperationOnDataIs($firstDatum, $secondDatum, $recipient))
+				->object($this->testedInstance->recipientOfDatumOperationOnDataIs($firstDatum, $secondDatum, $recipient))
 					->isEqualTo($this->newTestedInstance($prefix, $separator, $suffix))
 				->mock($recipient)
 					->receive('datumIs')

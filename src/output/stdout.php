@@ -46,7 +46,7 @@ class stdout
 
 	function outputLineIsOperationOnData(datum\operation\binary $operation, datum $firstDatum, datum $secondDatum)
 	{
-		$operation->recipientOfOperationOnDataIs(
+		$operation->recipientOfDatumOperationOnDataIs(
 			$firstDatum,
 			$secondDatum,
 			new functor(

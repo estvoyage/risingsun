@@ -3,10 +3,17 @@
 require __DIR__ . '/../../../../../runner.php';
 
 use estvoyage\risingsun\{ tests\units, ostring };
-use mock\estvoyage\risingsun\{ nfloat as mockOfNFloat, ostring as mockOfOString, ointeger as mockOfOInteger, datum as mockOfDatum };
+use mock\estvoyage\risingsun\{ nfloat as mockOfNFloat, ostring as mockOfOString, ointeger as mockOfOInteger, datum as mockOfDatum, nstring as mockOfNString };
 
 class micro extends units\test
 {
+	function testClass()
+	{
+		$this->testedClass
+			->implements('estvoyage\risingsun\datum')
+		;
+	}
+
 	function testWithNoValue()
 	{
 		$this->object($this->newTestedInstance)->isEqualTo($this->newTestedInstance(0));
@@ -46,6 +53,71 @@ class micro extends units\test
 		;
 	}
 
+	/**
+	 * @dataProvider validValueProvider
+	 */
+	function testRecipientOfNStringIs($value)
+	{
+		$this
+			->given(
+				$recipient = new mockOfNString\recipient
+			)
+			->if(
+				$this->newTestedInstance($value)
+			)
+			->then
+				->object($this->testedInstance->recipientOfNStringIs($recipient))
+					->isEqualTo($this->newTestedInstance($value))
+				->mock($recipient)
+					->receive('nstringIs')
+						->withIdenticalArguments((string) $value)
+							->once
+		;
+	}
+
+	/**
+	 * @dataProvider validNStringProvider
+	 */
+	function testRecipientOfDatumWithValueIs_withValidNString($nstring)
+	{
+		$this
+			->given(
+				$recipient = new mockOfDatum\recipient
+			)
+			->if(
+				$this->newTestedInstance
+			)
+			->then
+				->object($this->testedInstance->recipientOfDatumWithValueIs($nstring, $recipient))
+					->isEqualTo($this->newTestedInstance)
+				->mock($recipient)
+					->receive('datumIs')
+						->withArguments($this->newTestedInstance($nstring))
+							->once
+		;
+	}
+
+	/**
+	 * @dataProvider invalidNStringProvider
+	 */
+	function testRecipientOfDatumWithValueIs_withInvalidNString($nstring)
+	{
+		$this
+			->given(
+				$recipient = new mockOfDatum\recipient
+			)
+			->if(
+				$this->newTestedInstance
+			)
+			->then
+				->object($this->testedInstance->recipientOfDatumWithValueIs($nstring, $recipient))
+					->isEqualTo($this->newTestedInstance)
+				->mock($recipient)
+					->receive('datumIs')
+						->never
+		;
+	}
+
 	function testRecipientOfPartAtRightOfRadixIs()
 	{
 		$this
@@ -61,22 +133,13 @@ class micro extends units\test
 					->isEqualTo($this->newTestedInstance)
 				->mock($recipient)
 					->receive('datumIs')
-						->never
-
-			->if(
-				$this->calling($precision)->recipientOfNIntegerIs = function($recipient) {
-					$recipient->nintegerIs(3);
-				}
-			)
-			->then
-				->object($this->testedInstance->recipientOfPartAtRightOfRadixWithPrecisionIs($precision, $recipient))
-					->isEqualTo($this->newTestedInstance)
-				->mock($recipient)
-					->receive('datumIs')
 						->withArguments(new ostring\any('0'))
 							->once
 
 			->if(
+				$this->calling($precision)->recipientOfNIntegerIs = function($recipient) {
+					$recipient->nintegerIs(3);
+				},
 				$this->newTestedInstance(1.345)
 			)
 			->then
@@ -115,6 +178,31 @@ class micro extends units\test
 		;
 	}
 
+	function testRecipientOfDatumOperationWithDatumIs()
+	{
+		$this
+			->given(
+				$operation = new mockOfDatum\operation\binary,
+				$datum = new mockOfDatum,
+				$recipient = new mockOfDatum\recipient
+			)
+			->if(
+				$this->newTestedInstance
+			)
+			->then
+				->object($this->testedInstance->recipientOfDatumOperationWithDatumIs($operation, $datum, $recipient))
+					->isEqualTo($this->newTestedInstance)
+				->mock($operation)
+					->receive('recipientOfDatumOperationOnDataIs')
+						->withArguments(
+							$this->testedInstance,
+							$datum,
+							$recipient
+						)
+							->once
+		;
+	}
+
 	protected function validValueProvider()
 	{
 		return [
@@ -122,11 +210,12 @@ class micro extends units\test
 			0.,
 			rand(1, PHP_INT_MAX),
 			M_PI,
+			1e9,
 			'0',
 			'0.',
 			(string) rand(1, PHP_INT_MAX),
 			(string) M_PI,
-			1e9
+			'1e9',
 		];
 	}
 
@@ -143,6 +232,28 @@ class micro extends units\test
 			- M_PI,
 			(string) - M_PI
 			- 1e9
+		];
+	}
+
+	protected function validNStringProvider()
+	{
+		return [
+			'0',
+			'0.',
+			(string) rand(1, PHP_INT_MAX),
+			(string) M_PI,
+			'1e9'
+		];
+	}
+
+	protected function invalidNStringProvider()
+	{
+		return [
+			'',
+			'foobar',
+			(string) rand(- PHP_INT_MAX, -1),
+			(string) - M_PI,
+			'-1e9'
 		];
 	}
 }

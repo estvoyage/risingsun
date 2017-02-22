@@ -4,5 +4,5 @@ use estvoyage\risingsun\{ datum };
 
 interface unary
 {
-	function recipientOfOperationWithDatumIs(datum $datum, datum\recipient $recipient);
+	function recipientOfDatumOperationWithDatumIs(datum $datum, datum\recipient $recipient);
 }

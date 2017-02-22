@@ -6,7 +6,7 @@ class addition
 	implements
 		operation\binary
 {
-	function recipientOfOperationOnDataIs(datum $firstDatum, datum $secondDatum, datum\recipient $recipient)
+	function recipientOfDatumOperationOnDataIs(datum $firstDatum, datum $secondDatum, datum\recipient $recipient)
 	{
 		$firstDatum->recipientOfNStringIs(
 			new functor(

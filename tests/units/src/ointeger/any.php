@@ -84,7 +84,7 @@ class any extends units\test
 		;
 	}
 
-	function testRecipientOfOperationWithIntegerIs()
+	function testRecipientOfOIntegerOperationWithIntegerIs()
 	{
 		$this
 			->given(
@@ -96,11 +96,31 @@ class any extends units\test
 				$this->newTestedInstance
 			)
 			->then
-				->object($this->testedInstance->recipientOfOperationWithOIntegerIs($operation, $ointeger, $recipient))
+				->object($this->testedInstance->recipientOfOIntegerOperationWithOIntegerIs($operation, $ointeger, $recipient))
 					->isEqualTo($this->newTestedInstance)
 				->mock($operation)
 					->receive('recipientOfOperationOnOIntegersIs')
 						->withArguments($this->testedInstance, $ointeger, $recipient)
+							->once
+		;
+	}
+
+	function testRecipientOfOIntegerOperationIs()
+	{
+		$this
+			->given(
+				$operation = new mockOfOInteger\operation\unary,
+				$recipient = new mockOfOInteger\recipient
+			)
+			->if(
+				$this->newTestedInstance
+			)
+			->then
+				->object($this->testedInstance->recipientOfOIntegerOperationIs($operation, $recipient))
+					->isEqualTo($this->newTestedInstance)
+				->mock($operation)
+					->receive('recipientOfOperationWithOIntegerIs')
+						->withArguments($this->testedInstance, $recipient)
 							->once
 		;
 	}
@@ -217,6 +237,27 @@ class any extends units\test
 				->mock($recipient)
 					->receive('datumIs')
 						->never
+		;
+	}
+
+	function testRecipientOfDatumOperationWithDatumIs()
+	{
+		$this
+			->given(
+				$operation = new mockOfDatum\operation\binary,
+				$datum = new mockOfDatum,
+				$recipient = new mockOfDatum\recipient
+			)
+			->if(
+				$this->newTestedInstance
+			)
+			->then
+				->object($this->testedInstance->recipientOfDatumOperationWithDatumIs($operation, $datum, $recipient))
+					->isEqualTo($this->newTestedInstance)
+				->mock($operation)
+					->receive('recipientOfDatumOperationOnDataIs')
+						->withArguments($this->testedInstance, $datum, $recipient)
+							->once
 		;
 	}
 

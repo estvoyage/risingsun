@@ -2,5 +2,4 @@
 
 interface ostring extends datum
 {
-	function recipientOfNStringIs(nstring\recipient $recipient);
 }

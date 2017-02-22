@@ -10,9 +10,9 @@ class addition
 		$overflow
 	;
 
-	function __construct(block $overflow)
+	function __construct(block $overflow = null)
 	{
-		$this->overflow = $overflow;
+		$this->overflow = $overflow ?: new block\blackhole;
 	}
 
 	function recipientOfOperationOnOIntegersIs(ointeger $firstOperand, ointeger $secondOperand, ointeger\recipient $recipient)

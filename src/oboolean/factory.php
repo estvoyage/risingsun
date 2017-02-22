@@ -16,6 +16,11 @@ class factory
 
 	static function isTrue(bool $value)
 	{
-		return $value ? new ok : new ko;
+		return $value === true ? new ok : new ko;
+	}
+
+	static function isFalse(bool $value)
+	{
+		return $value === false ? new ok : new ko;
 	}
 }

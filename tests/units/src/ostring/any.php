@@ -74,6 +74,31 @@ class any extends units\test
 		;
 	}
 
+	function testRecipientOfDatumOperationWithDatumIs()
+	{
+		$this
+			->given(
+				$operation = new mockOfDatum\operation\binary,
+				$datum = new mockOfDatum,
+				$recipient = new mockOfDatum\recipient
+			)
+			->if(
+				$this->newTestedInstance
+			)
+			->then
+				->object($this->testedInstance->recipientOfDatumOperationWithDatumIs($operation, $datum, $recipient))
+					->isEqualTo($this->newTestedInstance)
+				->mock($operation)
+					->receive('recipientOfDatumOperationOnDataIs')
+						->withArguments(
+							$this->testedInstance,
+							$datum,
+							$recipient
+						)
+							->once
+		;
+	}
+
 	protected function validValueProvider()
 	{
 		return [
@@ -84,7 +109,8 @@ class any extends units\test
 			(string) - PHP_INT_MAX,
 			(string) PHP_INT_MAX,
 			'',
-			uniqid()
+			uniqid(),
+			null
 		];
 	}
 

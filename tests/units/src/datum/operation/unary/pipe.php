@@ -14,7 +14,7 @@ class pipe extends units\test
 		;
 	}
 
-	function testRecipientOfOperationWithDatumIs()
+	function testRecipientOfDatumOperationWithDatumIs()
 	{
 		$this
 			->given(
@@ -27,7 +27,7 @@ class pipe extends units\test
 				$this->newTestedInstance($operation1, $operation2)
 			)
 			->then
-				->object($this->testedInstance->recipientOfOperationWithDatumIs($datum, $recipient))
+				->object($this->testedInstance->recipientOfDatumOperationWithDatumIs($datum, $recipient))
 					->isEqualTo($this->newTestedInstance($operation1, $operation2))
 				->mock($recipient)
 					->receive('datumIs')
@@ -38,7 +38,7 @@ class pipe extends units\test
 				$datumOfOperation1 = new mockOfDatum
 			)
 			->if(
-				$this->calling($operation1)->recipientOfOperationWithDatumIs = function($aDatum, $recipient) use ($datum, $datumOfOperation1) {
+				$this->calling($operation1)->recipientOfDatumOperationWithDatumIs = function($aDatum, $recipient) use ($datum, $datumOfOperation1) {
 					oboolean\factory::areIdenticals($aDatum, $datum)
 						->blockForTrueIs(
 							new functor(
@@ -52,7 +52,7 @@ class pipe extends units\test
 				}
 			)
 			->then
-				->object($this->testedInstance->recipientOfOperationWithDatumIs($datum, $recipient))
+				->object($this->testedInstance->recipientOfDatumOperationWithDatumIs($datum, $recipient))
 					->isEqualTo($this->newTestedInstance($operation1, $operation2))
 				->mock($recipient)
 					->receive('datumIs')
@@ -63,7 +63,7 @@ class pipe extends units\test
 				$datumOfOperation2 = new mockOfDatum
 			)
 			->if(
-				$this->calling($operation2)->recipientOfOperationWithDatumIs = function($aDatum, $aRecipient) use ($datumOfOperation1, $datumOfOperation2) {
+				$this->calling($operation2)->recipientOfDatumOperationWithDatumIs = function($aDatum, $aRecipient) use ($datumOfOperation1, $datumOfOperation2) {
 					oboolean\factory::areIdenticals($aDatum, $datumOfOperation1)
 						->blockForTrueIs(
 							new functor(
@@ -77,7 +77,7 @@ class pipe extends units\test
 				}
 			)
 			->then
-				->object($this->testedInstance->recipientOfOperationWithDatumIs($datum, $recipient))
+				->object($this->testedInstance->recipientOfDatumOperationWithDatumIs($datum, $recipient))
 					->isEqualTo($this->newTestedInstance($operation1, $operation2))
 				->mock($recipient)
 					->receive('datumIs')
@@ -86,7 +86,7 @@ class pipe extends units\test
 		;
 	}
 
-	function testRecipientOfOperationIs()
+	function testRecipientOfDatumOperationIs()
 	{
 		$this
 			->given(
@@ -98,7 +98,7 @@ class pipe extends units\test
 				$this->newTestedInstance($operation1, $operation2)
 			)
 			->then
-				->object($this->testedInstance->recipientOfOperationIs($recipient))
+				->object($this->testedInstance->recipientOfDatumOperationIs($recipient))
 					->isEqualTo($this->newTestedInstance($operation1, $operation2))
 				->mock($recipient)
 					->receive('datumIs')
@@ -109,7 +109,7 @@ class pipe extends units\test
 				$datumOfOperation1 = new mockOfDatum
 			)
 			->if(
-				$this->calling($operation1)->recipientOfOperationWithDatumIs = function($aDatum, $recipient) use ($datumOfOperation1) {
+				$this->calling($operation1)->recipientOfDatumOperationWithDatumIs = function($aDatum, $recipient) use ($datumOfOperation1) {
 					oboolean\factory::areEquals($aDatum, new ostring\any)
 						->blockForTrueIs(
 							new functor(
@@ -123,7 +123,7 @@ class pipe extends units\test
 				}
 			)
 			->then
-				->object($this->testedInstance->recipientOfOperationIs($recipient))
+				->object($this->testedInstance->recipientOfDatumOperationIs($recipient))
 					->isEqualTo($this->newTestedInstance($operation1, $operation2))
 				->mock($recipient)
 					->receive('datumIs')
@@ -134,7 +134,7 @@ class pipe extends units\test
 				$datumOfOperation2 = new mockOfDatum
 			)
 			->if(
-				$this->calling($operation2)->recipientOfOperationWithDatumIs = function($aDatum, $aRecipient) use ($datumOfOperation1, $datumOfOperation2) {
+				$this->calling($operation2)->recipientOfDatumOperationWithDatumIs = function($aDatum, $aRecipient) use ($datumOfOperation1, $datumOfOperation2) {
 					oboolean\factory::areIdenticals($aDatum, $datumOfOperation1)
 						->blockForTrueIs(
 							new functor(
@@ -148,7 +148,7 @@ class pipe extends units\test
 				}
 			)
 			->then
-				->object($this->testedInstance->recipientOfOperationIs($recipient))
+				->object($this->testedInstance->recipientOfDatumOperationIs($recipient))
 					->isEqualTo($this->newTestedInstance($operation1, $operation2))
 				->mock($recipient)
 					->receive('datumIs')

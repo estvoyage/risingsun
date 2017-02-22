@@ -30,7 +30,7 @@ class binary extends units\test
 				->object($this->testedInstance->recipientOfOIntegerIs($recipient))
 					->isEqualTo($this->newTestedInstance($start, $otherInteger, $operation))
 				->mock($start)
-					->receive('recipientOfOperationWithOIntegerIs')
+					->receive('recipientOfOIntegerOperationWithOIntegerIs')
 						->withIdenticalArguments($operation, $otherInteger, $recipient)
 							->never
 
@@ -39,7 +39,7 @@ class binary extends units\test
 				$nextInteger->id = uniqid()
 			)
 			->if(
-				$this->calling($start)->recipientOfOperationWithOIntegerIs = function($anOperation, $secondOperand, $recipient) use ($operation, $otherInteger, $nextInteger) {
+				$this->calling($start)->recipientOfOIntegerOperationWithOIntegerIs = function($anOperation, $secondOperand, $recipient) use ($operation, $otherInteger, $nextInteger) {
 					factory::areEquals($anOperation, $operation)
 						->blockForTrueIs(
 							new functor(

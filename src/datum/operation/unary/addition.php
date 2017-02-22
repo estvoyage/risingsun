@@ -15,10 +15,10 @@ class addition
 		$this->suffix = $suffix;
 	}
 
-	function recipientOfOperationWithDatumIs(datum $datum, datum\recipient $recipient)
+	function recipientOfDatumOperationWithDatumIs(datum $datum, datum\recipient $recipient)
 	{
 		(new operation\binary\addition)
-			->recipientOfOperationOnDataIs(
+			->recipientOfDatumOperationOnDataIs(
 				$datum,
 				$this->suffix,
 				$recipient

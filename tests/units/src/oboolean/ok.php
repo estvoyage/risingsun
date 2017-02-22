@@ -33,6 +33,24 @@ class ok extends units\test
 		;
 	}
 
+	function testBlockForFalseIs()
+	{
+		$this
+			->given(
+				$block = new mockOfBlock
+			)
+			->if(
+				$this->newTestedInstance
+			)
+			->then
+				->object($this->testedInstance->blockForFalseIs($block))
+					->isEqualTo($this->newTestedInstance)
+				->mock($block)
+					->receive('blockArgumentsAre')
+						->never
+		;
+	}
+
 	function testRecipientOfObooleanWithValueIs()
 	{
 		$this

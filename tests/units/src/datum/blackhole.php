@@ -50,4 +50,24 @@ class blackhole extends units\test
 						->never
 		;
 	}
+
+	function testRecipientOfDatumOperationWithDatumIs()
+	{
+		$this
+			->given(
+				$operation = new mockOfDatum\operation\binary,
+				$datum = new mockOfDatum,
+				$recipient = new mockOfDatum\recipient
+			)
+			->if(
+				$this->newTestedInstance
+			)
+			->then
+				->object($this->testedInstance->recipientOfDatumOperationWithDatumIs($operation, $datum, $recipient))
+					->isEqualTo($this->newTestedInstance)
+				->mock($operation)
+					->receive('recipientOfDatumOperationOnDataIs')
+						->never
+		;
+	}
 }

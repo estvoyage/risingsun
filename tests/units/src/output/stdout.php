@@ -170,7 +170,7 @@ class stdout extends units\test
 					$recipient->nstringIs($datumValue);
 				},
 
-				$this->calling($operation)->recipientOfOperationOnDataIs = function($aFirstDatum, $aSecondDatum, $recipient) use ($firstDatum, $secondDatum, $datum) {
+				$this->calling($operation)->recipientOfDatumOperationOnDataIs = function($aFirstDatum, $aSecondDatum, $recipient) use ($firstDatum, $secondDatum, $datum) {
 					oboolean\factory::areEquals($aFirstDatum, $firstDatum)
 						->blockForTrueIs(
 							new functor(
