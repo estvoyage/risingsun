@@ -112,4 +112,25 @@ class any
 
 		return $this;
 	}
+
+	function recipientOfOIntegerComparisonIs(ointeger\comparison\unary $comparison, oboolean\recipient $recipient)
+	{
+		$comparison
+			->recipientOfOIntegerComparisonWithOIntegerIs(
+				$this,
+				$recipient
+			)
+		;
+
+		return $this;
+	}
+
+	function recipientOfDatumLengthComparisonIs(datum\length\comparison $comparison, oboolean\recipient $recipient)
+	{
+		$comparison
+			->recipientOfDatumLengthComparisonWithDatumLengthIs(new ointeger\unsigned\any(strlen($this->value)), $recipient)
+		;
+
+		return $this;
+	}
 }

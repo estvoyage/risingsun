@@ -2,8 +2,8 @@
 
 require __DIR__ . '/../../runner.php';
 
-use estvoyage\risingsun\tests\units;
-use mock\estvoyage\risingsun\{ nstring as mockOfNString, datum as mockOfDatum };
+use estvoyage\risingsun\{ tests\units, ointeger };
+use mock\estvoyage\risingsun\{ nstring as mockOfNString, datum as mockOfDatum, oboolean as mockOfOBoolean };
 
 class any extends units\test
 {
@@ -115,6 +115,27 @@ class any extends units\test
 				->mock($operation)
 					->receive('recipientOfDatumOperationWithDatumIs')
 						->withArguments($this->testedInstance, $recipient)
+							->once
+		;
+	}
+
+	function testRecipientOfDatumLengthComparisonIs()
+	{
+		$this
+			->given(
+				$value = rand(- PHP_INT_MAX, PHP_INT_MAX),
+				$comparison = new mockOfDatum\length\comparison,
+				$recipient = new mockOfOBoolean\recipient
+			)
+			->if(
+				$this->newTestedInstance($value)
+			)
+			->then
+				->object($this->testedInstance->recipientOfDatumLengthComparisonIs($comparison, $recipient))
+					->isEqualTo($this->newTestedInstance($value))
+				->mock($comparison)
+					->receive('recipientOfDatumLengthComparisonWithDatumLengthIs')
+						->withArguments(new ointeger\unsigned\any(strlen($value)), $recipient)
 							->once
 		;
 	}

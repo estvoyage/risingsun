@@ -2,8 +2,8 @@
 
 require __DIR__ . '/../../../../../runner.php';
 
-use estvoyage\risingsun\{ tests\units, ostring };
-use mock\estvoyage\risingsun\{ nfloat as mockOfNFloat, ostring as mockOfOString, ointeger as mockOfOInteger, datum as mockOfDatum, nstring as mockOfNString };
+use estvoyage\risingsun\{ tests\units, ostring, ointeger };
+use mock\estvoyage\risingsun\{ nfloat as mockOfNFloat, ostring as mockOfOString, ointeger as mockOfOInteger, datum as mockOfDatum, nstring as mockOfNString, oboolean as mockOfOBoolean };
 
 class micro extends units\test
 {
@@ -219,6 +219,37 @@ class micro extends units\test
 				->mock($operation)
 					->receive('recipientOfDatumOperationWithDatumIs')
 						->withArguments($this->testedInstance, $recipient)
+							->once
+		;
+	}
+
+	function testRecipientOfDatumLengthComparisonIs()
+	{
+		$this
+			->given(
+				$comparison = new mockOfDatum\length\comparison,
+				$recipient = new mockOfOBoolean\recipient
+			)
+			->if(
+				$this->newTestedInstance
+			)
+			->then
+				->object($this->testedInstance->recipientOfDatumLengthComparisonIs($comparison, $recipient))
+					->isEqualTo($this->newTestedInstance)
+				->mock($comparison)
+					->receive('recipientOfDatumLengthComparisonWithDatumLengthIs')
+						->withArguments(new ointeger\unsigned\any(1), $recipient)
+							->once
+
+			->if(
+				$this->newTestedInstance(M_PI)
+			)
+			->then
+				->object($this->testedInstance->recipientOfDatumLengthComparisonIs($comparison, $recipient))
+					->isEqualTo($this->newTestedInstance(M_PI))
+				->mock($comparison)
+					->receive('recipientOfDatumLengthComparisonWithDatumLengthIs')
+						->withArguments(new ointeger\unsigned\any(strlen(M_PI)), $recipient)
 							->once
 		;
 	}

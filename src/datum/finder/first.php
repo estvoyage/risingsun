@@ -3,6 +3,8 @@
 use estvoyage\risingsun\{ ointeger, datum, block\functor, oboolean };
 
 class first
+	implements
+		datum\finder
 {
 	private
 		$start

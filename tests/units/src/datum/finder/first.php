@@ -7,6 +7,13 @@ use mock\estvoyage\risingsun\{ datum as mockOfDatum, ointeger as mockOfOInteger 
 
 class first extends units\test
 {
+	function testClass()
+	{
+		$this->testedClass
+			->implements('estvoyage\risingsun\datum\finder')
+		;
+	}
+
 	function testWithNoArguments()
 	{
 		$this->object($this->newTestedInstance)->isEqualTo($this->newTestedInstance(new ointeger\unsigned\any));
@@ -18,8 +25,8 @@ class first extends units\test
 			->given(
 				$search = new mockOfDatum,
 				$datum = new mockOfDatum,
-				$start = new mockOfOInteger\unsigned,
-				$recipient = new mockOfDatum\finder\recipient
+				$recipient = new mockOfDatum\finder\recipient,
+				$start = new mockOfOInteger\unsigned
 			)
 			->if(
 				$this->newTestedInstance($start)

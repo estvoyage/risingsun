@@ -1,6 +1,6 @@
 <?php namespace estvoyage\risingsun\time\duration\timestamp\unix;
 
-use estvoyage\risingsun\{ nfloat, ostring, ointeger, block\functor, datum, nstring, block };
+use estvoyage\risingsun\{ nfloat, ostring, ointeger, block\functor, datum, nstring, block, oboolean };
 
 class micro
 	implements
@@ -31,7 +31,12 @@ class micro
 	{
 		$datum = new ostring\any($this->value);
 
-		(new datum\finder\first)
+		(
+			new datum\finder\after(
+				new datum\finder\first,
+				new ointeger\unsigned\any(1)
+			)
+		)
 			->recipientOfSearchOfDatumInDatumIs(
 				new ostring\any('.'),
 				$datum,
@@ -39,32 +44,13 @@ class micro
 					new functor(
 						function($position) use ($datum, $precision, $recipient)
 						{
-							$position
-								->recipientOfOIntegerOperationIs(
-									new ointeger\operation\unary\addition(
-										new ointeger\any(1)
+							$datum
+								->recipientOfDatumOperationIs(
+									new datum\operation\unary\pipe(
+										new datum\operation\unary\slicer($position, $precision),
+										new datum\operation\unary\padding\right($precision, new ostring\any('0'))
 									),
-									new functor(
-										function($position) use ($datum, $recipient, $precision)
-										{
-											$datum
-												->recipientOfDatumOperationIs(
-													new datum\operation\unary\slicer($position, $precision),
-													new functor(
-														function($part) use ($precision, $recipient)
-														{
-															$part
-																->recipientOfDatumOperationIs(
-																	new datum\operation\unary\padding\right($precision, new ostring\any('0')),
-																	$recipient
-																)
-															;
-														}
-													)
-												)
-											;
-										}
-									)
+									$recipient
 								)
 							;
 						}
@@ -117,6 +103,18 @@ class micro
 		$operation
 			->recipientOfDatumOperationWithDatumIs(
 				$this,
+				$recipient
+			)
+		;
+
+		return $this;
+	}
+
+	function recipientOfDatumLengthComparisonIs(datum\length\comparison $comparison, oboolean\recipient $recipient)
+	{
+		$comparison
+			->recipientOfDatumLengthComparisonWithDatumLengthIs(
+				new ointeger\unsigned\any(strlen($this->value)),
 				$recipient
 			)
 		;

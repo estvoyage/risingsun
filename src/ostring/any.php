@@ -1,6 +1,6 @@
 <?php namespace estvoyage\risingsun\ostring;
 
-use estvoyage\risingsun\{ nstring, ostring, datum };
+use estvoyage\risingsun\{ nstring, ostring, datum, oboolean, ointeger };
 
 class any
 	implements
@@ -48,6 +48,18 @@ class any
 		$operation
 			->recipientOfDatumOperationWithDatumIs(
 				$this,
+				$recipient
+			)
+		;
+
+		return $this;
+	}
+
+	function recipientOfDatumLengthComparisonIs(datum\length\comparison $comparison, oboolean\recipient $recipient)
+	{
+		$comparison
+			->recipientOfDatumLengthComparisonWithDatumLengthIs(
+				new ointeger\unsigned\any(strlen($this->value)),
 				$recipient
 			)
 		;

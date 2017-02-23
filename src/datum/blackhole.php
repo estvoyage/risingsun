@@ -1,6 +1,6 @@
 <?php namespace estvoyage\risingsun\datum;
 
-use estvoyage\risingsun\{ datum, nstring };
+use estvoyage\risingsun\{ datum, nstring, oboolean };
 
 class blackhole
 	implements
@@ -22,6 +22,11 @@ class blackhole
 	}
 
 	function recipientOfDatumOperationIs(datum\operation\unary $operation, datum\recipient $recipient)
+	{
+		return $this;
+	}
+
+	function recipientOfDatumLengthComparisonIs(datum\length\comparison $comparison, oboolean\recipient $recipient)
 	{
 		return $this;
 	}
