@@ -4,7 +4,7 @@ use estvoyage\risingsun\{ ointeger, ointeger\comparison, oboolean, block\functor
 
 class equal
 	implements
-		comparison
+		comparison\binary
 {
 	private
 		$oboolean
@@ -15,7 +15,7 @@ class equal
 		$this->oboolean = $oboolean ?: new oboolean\ok;
 	}
 
-	function recipientOfComparisonBetweenOIntegersIs(ointeger $firstOperand, ointeger $secondOperand, oboolean\recipient $recipient)
+	function recipientOfOIntegerComparisonBetweenOIntegersIs(ointeger $firstOperand, ointeger $secondOperand, oboolean\recipient $recipient)
 	{
 		$firstOperand
 			->recipientOfNIntegerIs(
@@ -45,9 +45,9 @@ class equal
 		return $this;
 	}
 
-	function blockForComparisonBetweenOIntegersIs(ointeger $firstOperand, ointeger $secondOperand, block $block)
+	function blockForOIntegerComparisonBetweenOIntegersIs(ointeger $firstOperand, ointeger $secondOperand, block $block)
 	{
-		return $this->recipientOfComparisonBetweenOIntegersIs(
+		return $this->recipientOfOIntegerComparisonBetweenOIntegersIs(
 			$firstOperand,
 			$secondOperand,
 			new functor(

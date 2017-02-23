@@ -57,7 +57,7 @@ class equal extends units\test
 		;
 	}
 
-	function testBlockForComparisonWithOIntegerIs()
+	function testBlockForOIntegerComparisonWithOIntegerIs()
 	{
 		$this
 			->given(

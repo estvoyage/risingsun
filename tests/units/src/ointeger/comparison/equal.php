@@ -10,7 +10,7 @@ class equal extends units\test
 	function testClass()
 	{
 		$this->testedClass
-			->implements('estvoyage\risingsun\ointeger\comparison')
+			->implements('estvoyage\risingsun\ointeger\comparison\binary')
 		;
 	}
 
@@ -19,7 +19,7 @@ class equal extends units\test
 		$this->object($this->newTestedInstance)->isEqualTo($this->newTestedInstance(new oboolean\ok));
 	}
 
-	function testRecipientOfComparisonBetweenOIntegerIs()
+	function testRecipientOfOIntegerComparisonBetweenOIntegerIs()
 	{
 		$this
 			->given(
@@ -32,7 +32,7 @@ class equal extends units\test
 				$this->newTestedInstance($oboolean)
 			)
 			->then
-				->object($this->testedInstance->recipientOfComparisonBetweenOIntegersIs($firstOperand, $secondOperand, $recipient))
+				->object($this->testedInstance->recipientOfOIntegerComparisonBetweenOIntegersIs($firstOperand, $secondOperand, $recipient))
 					->isEqualTo($this->newTestedInstance($oboolean))
 				->mock($recipient)
 					->receive('obooleanIs')
@@ -44,7 +44,7 @@ class equal extends units\test
 				}
 			)
 			->then
-				->object($this->testedInstance->recipientOfComparisonBetweenOIntegersIs($firstOperand, $secondOperand, $recipient))
+				->object($this->testedInstance->recipientOfOIntegerComparisonBetweenOIntegersIs($firstOperand, $secondOperand, $recipient))
 					->isEqualTo($this->newTestedInstance($oboolean))
 				->mock($recipient)
 					->receive('obooleanIs')
@@ -56,7 +56,7 @@ class equal extends units\test
 				}
 			)
 			->then
-				->object($this->testedInstance->recipientOfComparisonBetweenOIntegersIs($firstOperand, $secondOperand, $recipient))
+				->object($this->testedInstance->recipientOfOIntegerComparisonBetweenOIntegersIs($firstOperand, $secondOperand, $recipient))
 					->isEqualTo($this->newTestedInstance($oboolean))
 				->mock($recipient)
 					->receive('obooleanIs')
@@ -73,7 +73,7 @@ class equal extends units\test
 				}
 			)
 			->then
-				->object($this->testedInstance->recipientOfComparisonBetweenOIntegersIs($firstOperand, $secondOperand, $recipient))
+				->object($this->testedInstance->recipientOfOIntegerComparisonBetweenOIntegersIs($firstOperand, $secondOperand, $recipient))
 					->isEqualTo($this->newTestedInstance($oboolean))
 				->mock($recipient)
 					->receive('obooleanIs')
@@ -82,7 +82,7 @@ class equal extends units\test
 		;
 	}
 
-	function testBlockForComparisonBetweenOIntegerIs()
+	function testBlockForOIntegerComparisonBetweenOIntegerIs()
 	{
 		$this
 			->given(
@@ -95,7 +95,7 @@ class equal extends units\test
 				$this->newTestedInstance($oboolean)
 			)
 			->then
-				->object($this->testedInstance->blockForComparisonBetweenOIntegersIs($firstOperand, $secondOperand, $block))
+				->object($this->testedInstance->blockForOIntegerComparisonBetweenOIntegersIs($firstOperand, $secondOperand, $block))
 					->isEqualTo($this->newTestedInstance($oboolean))
 				->mock($block)
 					->receive('blockArgumentsAre')
@@ -107,7 +107,7 @@ class equal extends units\test
 				}
 			)
 			->then
-				->object($this->testedInstance->blockForComparisonBetweenOIntegersIs($firstOperand, $secondOperand, $block))
+				->object($this->testedInstance->blockForOIntegerComparisonBetweenOIntegersIs($firstOperand, $secondOperand, $block))
 					->isEqualTo($this->newTestedInstance($oboolean))
 				->mock($block)
 					->receive('blockArgumentsAre')
@@ -119,7 +119,7 @@ class equal extends units\test
 				}
 			)
 			->then
-				->object($this->testedInstance->blockForComparisonBetweenOIntegersIs($firstOperand, $secondOperand, $block))
+				->object($this->testedInstance->blockForOIntegerComparisonBetweenOIntegersIs($firstOperand, $secondOperand, $block))
 					->isEqualTo($this->newTestedInstance($oboolean))
 				->mock($block)
 					->receive('blockArgumentsAre')
@@ -136,7 +136,7 @@ class equal extends units\test
 				}
 			)
 			->then
-				->object($this->testedInstance->blockForComparisonBetweenOIntegersIs($firstOperand, $secondOperand, $block))
+				->object($this->testedInstance->blockForOIntegerComparisonBetweenOIntegersIs($firstOperand, $secondOperand, $block))
 					->isEqualTo($this->newTestedInstance($oboolean))
 				->mock($block)
 					->receive('blockArgumentsAre')
@@ -146,7 +146,7 @@ class equal extends units\test
 				$this->calling($equal)->blockForTrueIs = function($block) { $block->blockArgumentsAre();  }
 			)
 			->then
-				->object($this->testedInstance->blockForComparisonBetweenOIntegersIs($firstOperand, $secondOperand, $block))
+				->object($this->testedInstance->blockForOIntegerComparisonBetweenOIntegersIs($firstOperand, $secondOperand, $block))
 					->isEqualTo($this->newTestedInstance($oboolean))
 				->mock($block)
 					->receive('blockArgumentsAre')

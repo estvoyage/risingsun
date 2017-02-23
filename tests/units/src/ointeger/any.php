@@ -125,11 +125,11 @@ class any extends units\test
 		;
 	}
 
-	function testRecipientOfComparisonWithIntegerIs()
+	function testRecipientOfOIntegerComparisonWithOIntegerIs()
 	{
 		$this
 			->given(
-				$comparison = new mockOfOInteger\comparison,
+				$comparison = new mockOfOInteger\comparison\binary,
 				$ointeger = new mockOfOInteger,
 				$recipient = new mockOfOBoolean\recipient
 			)
@@ -137,20 +137,20 @@ class any extends units\test
 				$this->newTestedInstance
 			)
 			->then
-				->object($this->testedInstance->recipientOfComparisonWithOIntegerIs($comparison, $ointeger, $recipient))
+				->object($this->testedInstance->recipientOfOIntegerComparisonWithOIntegerIs($comparison, $ointeger, $recipient))
 					->isEqualTo($this->newTestedInstance)
 				->mock($comparison)
-					->receive('recipientOfComparisonBetweenOIntegersIs')
+					->receive('recipientOfOIntegerComparisonBetweenOIntegersIs')
 						->withArguments($this->testedInstance, $ointeger, $recipient)
 							->once
 		;
 	}
 
-	function testBlockForComparisonWithOIntegerIs()
+	function testBlockForOIntegerComparisonWithOIntegerIs()
 	{
 		$this
 			->given(
-				$comparison = new mockOfOInteger\comparison,
+				$comparison = new mockOfOInteger\comparison\binary,
 				$ointeger = new mockOfOInteger,
 				$block = new mockOfBlock
 			)
@@ -158,10 +158,10 @@ class any extends units\test
 				$this->newTestedInstance
 			)
 			->then
-				->object($this->testedInstance->blockForComparisonWithOIntegerIs($comparison, $ointeger, $block))
+				->object($this->testedInstance->blockForOIntegerComparisonWithOIntegerIs($comparison, $ointeger, $block))
 					->isEqualTo($this->newTestedInstance)
 				->mock($comparison)
-					->receive('blockForComparisonBetweenOIntegersIs')
+					->receive('blockForOIntegerComparisonBetweenOIntegersIs')
 						->withArguments($this->testedInstance, $ointeger, $block)
 							->once
 		;

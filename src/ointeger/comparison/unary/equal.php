@@ -18,7 +18,7 @@ class equal
 	function recipientOfOIntegerComparisonWithOIntegerIs(ointeger $ointeger, oboolean\recipient $recipient)
 	{
 		(new comparison\equal)
-			->recipientOfComparisonBetweenOIntegersIs(
+			->recipientOfOIntegerComparisonBetweenOIntegersIs(
 				$this->reference,
 				$ointeger,
 				$recipient
@@ -31,7 +31,7 @@ class equal
 	function blockForComparisonWithOIntegerIs(ointeger $ointeger, block $block)
 	{
 		(new comparison\equal)
-			->blockForComparisonBetweenOIntegersIs(
+			->blockForOIntegerComparisonBetweenOIntegersIs(
 				$this->reference,
 				$ointeger,
 				$block

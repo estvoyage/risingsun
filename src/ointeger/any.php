@@ -54,16 +54,16 @@ class any
 		return $this;
 	}
 
-	function recipientOfComparisonWithOIntegerIs(ointeger\comparison $comparison, ointeger $ointeger, oboolean\recipient $recipient)
+	function recipientOfOIntegerComparisonWithOIntegerIs(ointeger\comparison\binary $comparison, ointeger $ointeger, oboolean\recipient $recipient)
 	{
-		$comparison->recipientOfComparisonBetweenOIntegersIs($this, $ointeger, $recipient);
+		$comparison->recipientOfOIntegerComparisonBetweenOIntegersIs($this, $ointeger, $recipient);
 
 		return $this;
 	}
 
-	function blockForComparisonWithOIntegerIs(ointeger\comparison $comparison, ointeger $ointeger, block $block)
+	function blockForOIntegerComparisonWithOIntegerIs(ointeger\comparison\binary $comparison, ointeger $ointeger, block $block)
 	{
-		$comparison->blockForComparisonBetweenOIntegersIs($this, $ointeger, $block);
+		$comparison->blockForOIntegerComparisonBetweenOIntegersIs($this, $ointeger, $block);
 
 		return $this;
 	}
