@@ -5,7 +5,7 @@ require __DIR__ . '/../../runner.php';
 use estvoyage\risingsun\{ tests\units, oboolean };
 use mock\estvoyage\risingsun\oboolean as mockOfOBoolean;
 
-class identical extends units\test
+class equal extends units\test
 {
 	function testClass()
 	{
@@ -45,8 +45,8 @@ class identical extends units\test
 					->isEqualTo($this->newTestedInstance($firstOperand, $secondOperand))
 				->mock($recipient)
 					->receive('obooleanIs')
-						->withArguments(new oboolean\ko)
-							->twice
+						->withArguments(new oboolean\ok)
+							->once
 
 			->given(
 				$firstOperand = rand(- PHP_INT_MAX, PHP_INT_MAX),
@@ -61,7 +61,7 @@ class identical extends units\test
 				->mock($recipient)
 					->receive('obooleanIs')
 						->withArguments(new oboolean\ok)
-							->once
+							->twice
 		;
 	}
 }

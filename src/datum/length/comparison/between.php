@@ -30,7 +30,12 @@ class between
 					{
 						$greater
 							->blockForFalseIs(
-								new proxy\oboolean\recipient($recipient, new oboolean\ko)
+								new functor(
+									function() use ($recipient)
+									{
+										$recipient->obooleanIs(new oboolean\ko);
+									}
+								)
 							)
 							->blockForTrueIs(
 								new functor(

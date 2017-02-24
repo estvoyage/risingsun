@@ -2,7 +2,7 @@
 
 require __DIR__ . '/../../../../runner.php';
 
-use estvoyage\risingsun\{ tests\units, oboolean, block\functor, ointeger, ointeger\comparison\binary as comparison, block\proxy };
+use estvoyage\risingsun\{ tests\units, oboolean, ointeger, comparison };
 use mock\estvoyage\risingsun\{ ointeger as mockOfOInteger, oboolean as mockOfOBoolean, datum as mockOfDatum };
 
 class between extends units\test
@@ -25,7 +25,13 @@ class between extends units\test
 			)
 			->then
 				->object($this->testedInstance)
-					->isEqualTo($this->newTestedInstance($ointeger, new comparison\lessThanOrEqualTo, new comparison\greaterThanOrEqualTo))
+					->isEqualTo(
+						$this->newTestedInstance(
+							$ointeger,
+							new ointeger\comparison\binary\lessThanOrEqualTo,
+							new ointeger\comparison\binary\greaterThanOrEqualTo
+						)
+					)
 		;
 	}
 
@@ -52,35 +58,27 @@ class between extends units\test
 
 			->given(
 				$this->calling($greater)->recipientOfOIntegerComparisonBetweenOIntegersIs = function($firstOperand, $secondOperand, $recipient) use ($ointeger, & $isGreater) {
-					oboolean\factory::areIdenticals($firstOperand, $ointeger)
-						->blockForTrueIs(
-							new functor(
-								function() use ($secondOperand, $recipient, $isGreater)
-								{
-									oboolean\factory::areEquals($secondOperand, new ointeger\any)
-										->blockForTrueIs(
-											new proxy\oboolean\recipient($recipient, $isGreater)
-										)
-									;
-								}
-							)
+					(
+						new comparison\pipe(
+							new comparison\identical($firstOperand, $ointeger),
+							new comparison\equal($secondOperand, new ointeger\any)
+						)
+					)
+						->recipientOfComparisonIs(
+							new oboolean\recipient\forward($recipient, $isGreater)
 						)
 					;
 				},
 
 				$this->calling($less)->recipientOfOIntegerComparisonBetweenOIntegersIs = function($firstOperand, $secondOperand, $recipient) use ($ointeger, $length, & $isLess) {
-					oboolean\factory::areIdenticals($firstOperand, $ointeger)
-						->blockForTrueIs(
-							new functor(
-								function() use ($secondOperand, $recipient, $length, $isLess)
-								{
-									oboolean\factory::areIdenticals($secondOperand, $length)
-										->blockForTrueIs(
-											new proxy\oboolean\recipient($recipient, $isLess)
-										)
-									;
-								}
-							)
+					(
+						new comparison\pipe(
+							new comparison\identical($firstOperand, $ointeger),
+							new comparison\identical($secondOperand, $length)
+						)
+					)
+						->recipientOfComparisonIs(
+							new oboolean\recipient\forward($recipient, $isLess)
 						)
 					;
 				}
