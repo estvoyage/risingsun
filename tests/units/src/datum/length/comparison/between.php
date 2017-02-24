@@ -2,8 +2,8 @@
 
 require __DIR__ . '/../../../../runner.php';
 
-use estvoyage\risingsun\{ tests\units, oboolean, block\functor, ointeger };
-use mock\estvoyage\risingsun\{ ointeger as mockOfOInteger, oboolean as mockOfOBoolean };
+use estvoyage\risingsun\{ tests\units, oboolean, block\functor, ointeger, ointeger\comparison\binary as comparison, block\proxy };
+use mock\estvoyage\risingsun\{ ointeger as mockOfOInteger, oboolean as mockOfOBoolean, datum as mockOfDatum };
 
 class between extends units\test
 {
@@ -14,47 +14,69 @@ class between extends units\test
 		;
 	}
 
-	function testDatumLengthIs()
+	function testWithNoValue()
 	{
 		$this
 			->given(
-				$length = new mockOfOInteger\unsigned,
-				$ointeger = new mockOfOInteger,
-				$recipient = new mockOfOBoolean\recipient
+				$ointeger = new mockOfOInteger
 			)
 			->if(
 				$this->newTestedInstance($ointeger)
 			)
 			->then
+				->object($this->testedInstance)
+					->isEqualTo($this->newTestedInstance($ointeger, new comparison\lessThanOrEqualTo, new comparison\greaterThanOrEqualTo))
+		;
+	}
+
+	function testDatumLengthIs()
+	{
+		$this
+			->given(
+				$ointeger = new mockOfOInteger,
+				$less = new mockOfOInteger\comparison\binary\lessThanOrEqualTo,
+				$greater = new mockOfOInteger\comparison\binary\greaterThanOrEqualTo,
+				$length = new mockOfOInteger\unsigned,
+				$recipient = new mockOfOBoolean\recipient
+			)
+
+			->if(
+				$this->newTestedInstance($ointeger, $less, $greater)
+			)
+			->then
 				->object($this->testedInstance->recipientOfDatumLengthComparisonWithDatumLengthIs($length, $recipient))
-					->isEqualTo($this->newTestedInstance($ointeger))
+					->isEqualTo($this->newTestedInstance($ointeger, $less, $greater))
 				->mock($recipient)
 					->receive('obooleanIs')
 						->never
 
-			->if(
-				$this->calling($ointeger)->recipientOfOIntegerComparisonIs = function($aComparison, $aRecipient) use ($length) {
-					oboolean\factory::areEquals($aComparison, new ointeger\comparison\unary\greaterThanOrEqualTo)
+			->given(
+				$this->calling($greater)->recipientOfOIntegerComparisonBetweenOIntegersIs = function($firstOperand, $secondOperand, $recipient) use ($ointeger, & $isGreater) {
+					oboolean\factory::areIdenticals($firstOperand, $ointeger)
 						->blockForTrueIs(
 							new functor(
-								function() use ($aRecipient)
+								function() use ($secondOperand, $recipient, $isGreater)
 								{
-									$aRecipient->obooleanIs(new oboolean\ok);
+									oboolean\factory::areEquals($secondOperand, new ointeger\any)
+										->blockForTrueIs(
+											new proxy\oboolean\recipient($recipient, $isGreater)
+										)
+									;
 								}
 							)
 						)
-						->blockForFalseIs(
+					;
+				},
+
+				$this->calling($less)->recipientOfOIntegerComparisonBetweenOIntegersIs = function($firstOperand, $secondOperand, $recipient) use ($ointeger, $length, & $isLess) {
+					oboolean\factory::areIdenticals($firstOperand, $ointeger)
+						->blockForTrueIs(
 							new functor(
-								function() use ($aComparison, $aRecipient, $length)
+								function() use ($secondOperand, $recipient, $length, $isLess)
 								{
-									oboolean\factory::areEquals($aComparison, new ointeger\comparison\unary\lessThanOrEqualTo($length))
+									oboolean\factory::areIdenticals($secondOperand, $length)
 										->blockForTrueIs(
-											new functor(
-												function() use ($aRecipient)
-												{
-													$aRecipient->obooleanIs(new oboolean\ok);
-												}
-											)
+											new proxy\oboolean\recipient($recipient, $isLess)
 										)
 									;
 								}
@@ -63,74 +85,54 @@ class between extends units\test
 					;
 				}
 			)
-			->then
-				->object($this->testedInstance->recipientOfDatumLengthComparisonWithDatumLengthIs($length, $recipient))
-					->isEqualTo($this->newTestedInstance($ointeger))
-				->mock($recipient)
-					->receive('obooleanIs')
-						->withArguments(new oboolean\ok)
-							->once
 
 			->if(
-				$this->calling($ointeger)->recipientOfOIntegerComparisonIs = function($aComparison, $aRecipient) use ($length) {
-					oboolean\factory::areEquals($aComparison, new ointeger\comparison\unary\greaterThanOrEqualTo)
-						->blockForTrueIs(
-							new functor(
-								function() use ($aRecipient)
-								{
-									$aRecipient->obooleanIs(new oboolean\ko);
-								}
-							)
-						)
-					;
-				}
+				$isGreater = new oboolean\ko,
+				$isLess = new oboolean\ko
 			)
 			->then
 				->object($this->testedInstance->recipientOfDatumLengthComparisonWithDatumLengthIs($length, $recipient))
-					->isEqualTo($this->newTestedInstance($ointeger))
+					->isEqualTo($this->newTestedInstance($ointeger, $less, $greater))
 				->mock($recipient)
 					->receive('obooleanIs')
 						->withArguments(new oboolean\ko)
 							->once
 
 			->if(
-				$this->calling($ointeger)->recipientOfOIntegerComparisonIs = function($aComparison, $aRecipient) use ($length) {
-					oboolean\factory::areEquals($aComparison, new ointeger\comparison\unary\greaterThanOrEqualTo)
-						->blockForTrueIs(
-							new functor(
-								function() use ($aRecipient)
-								{
-									$aRecipient->obooleanIs(new oboolean\ok);
-								}
-							)
-						)
-						->blockForFalseIs(
-							new functor(
-								function() use ($aComparison, $aRecipient, $length)
-								{
-									oboolean\factory::areEquals($aComparison, new ointeger\comparison\unary\lessThanOrEqualTo($length))
-										->blockForTrueIs(
-											new functor(
-												function() use ($aRecipient)
-												{
-													$aRecipient->obooleanIs(new oboolean\ko);
-												}
-											)
-										)
-									;
-								}
-							)
-						)
-					;
-				}
+				$isGreater = new oboolean\ok,
+				$isLess = new oboolean\ko
 			)
 			->then
 				->object($this->testedInstance->recipientOfDatumLengthComparisonWithDatumLengthIs($length, $recipient))
-					->isEqualTo($this->newTestedInstance($ointeger))
+					->isEqualTo($this->newTestedInstance($ointeger, $less, $greater))
 				->mock($recipient)
 					->receive('obooleanIs')
 						->withArguments(new oboolean\ko)
 							->twice
+
+			->if(
+				$isGreater = new oboolean\ko,
+				$isLess = new oboolean\ok
+			)
+			->then
+				->object($this->testedInstance->recipientOfDatumLengthComparisonWithDatumLengthIs($length, $recipient))
+					->isEqualTo($this->newTestedInstance($ointeger, $less, $greater))
+				->mock($recipient)
+					->receive('obooleanIs')
+						->withArguments(new oboolean\ko)
+							->thrice
+
+			->if(
+				$isGreater = new oboolean\ok,
+				$isLess = new oboolean\ok
+			)
+			->then
+				->object($this->testedInstance->recipientOfDatumLengthComparisonWithDatumLengthIs($length, $recipient))
+					->isEqualTo($this->newTestedInstance($ointeger, $less, $greater))
+				->mock($recipient)
+					->receive('obooleanIs')
+						->withArguments(new oboolean\ok)
+							->once
 		;
 	}
 }

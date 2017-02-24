@@ -1,67 +1,46 @@
 <?php namespace estvoyage\risingsun\datum\length\comparison;
 
-use estvoyage\risingsun\{ ointeger, oboolean, block\functor, datum };
+use estvoyage\risingsun\{ ointeger, oboolean, block\functor, datum, ointeger\comparison\binary as comparison, block\proxy };
 
 class between
 	implements
 		datum\length\comparison
 {
 	private
-		$ointeger
+		$ointeger,
+		$less,
+		$greater
 	;
 
-	function __construct(ointeger $ointeger)
+	function __construct(ointeger $ointeger, comparison\lessThanOrEqualTo $less = null, comparison\greaterThanOrEqualTo $greater = null)
 	{
 		$this->ointeger = $ointeger;
+		$this->less = $less ?: new comparison\lessThanOrEqualTo;
+		$this->greater = $greater ?: new comparison\greaterThanOrEqualTo;
 	}
 
 	function recipientOfDatumLengthComparisonWithDatumLengthIs(ointeger\unsigned $length, oboolean\recipient $recipient)
 	{
-		$this->ointeger
-			->recipientOfOIntegerComparisonIs(
-				new ointeger\comparison\unary\greaterThanOrEqualTo,
+		$this->greater
+			->recipientOfOIntegerComparisonBetweenOIntegersIs(
+				$this->ointeger,
+				new ointeger\any,
 				new functor(
-					function($greaterThanOrEqualTo) use ($length, $recipient)
+					function($greater) use ($length, $recipient)
 					{
-						$greaterThanOrEqualTo
+						$greater
 							->blockForFalseIs(
-								new functor(
-									function() use ($recipient)
-									{
-										$recipient->obooleanIs(new oboolean\ko);
-									}
-								)
+								new proxy\oboolean\recipient($recipient, new oboolean\ko)
 							)
 							->blockForTrueIs(
 								new functor(
 									function() use ($length, $recipient)
 									{
-										$this->ointeger
-											->recipientOfOIntegerComparisonIs(
-												new ointeger\comparison\unary\lessThanOrEqualTo($length),
-												new functor(
-													function($lessThanOrEqualTo) use ($recipient)
-													{
-														$lessThanOrEqualTo
-															->blockForFalseIs(
-																new functor(
-																	function() use ($recipient)
-																	{
-																		$recipient->obooleanIs(new oboolean\ko);
-																	}
-																)
-															)
-															->blockForTrueIs(
-																new functor(
-																	function() use ($recipient)
-																	{
-																		$recipient->obooleanIs(new oboolean\ok);
-																	}
-																)
-															)
-														;
-													}
-												)
+										$this->less
+											->recipientOfOIntegerComparisonBetweenOIntegersIs(
+												$this->ointeger,
+												$length,
+												$recipient
 											)
 										;
 									}

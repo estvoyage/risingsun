@@ -175,6 +175,21 @@ class micro extends units\test
 					->receive('datumIs')
 						->withArguments(new ostring\any('24680'))
 							->once
+
+			->if(
+				$this->calling($precision)->recipientOfNIntegerIs = function($recipient) {
+					$recipient->nintegerIs(3);
+				},
+
+				$this->newTestedInstance(1e-5)
+			)
+			->then
+				->object($this->testedInstance->recipientOfPartAtRightOfRadixWithPrecisionIs($precision, $recipient))
+					->isEqualTo($this->newTestedInstance(1e-5))
+				->mock($recipient)
+					->receive('datumIs')
+						->withArguments(new ostring\any('000'))
+							->once
 		;
 	}
 
