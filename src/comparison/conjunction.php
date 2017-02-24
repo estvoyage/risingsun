@@ -2,7 +2,7 @@
 
 use estvoyage\risingsun\{ comparison, oboolean, block\functor };
 
-class pipe
+class conjunction
 	implements
 		comparison
 {

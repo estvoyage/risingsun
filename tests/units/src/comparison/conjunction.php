@@ -5,7 +5,7 @@ require __DIR__ . '/../../runner.php';
 use estvoyage\risingsun\{ tests\units, oboolean };
 use mock\estvoyage\risingsun\{ oboolean as mockOfOBoolean, comparison as mockOfComparison };
 
-class pipe extends units\test
+class conjunction extends units\test
 {
 	function testClass()
 	{

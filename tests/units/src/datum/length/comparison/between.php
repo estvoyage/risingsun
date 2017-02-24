@@ -59,7 +59,7 @@ class between extends units\test
 			->given(
 				$this->calling($greater)->recipientOfOIntegerComparisonBetweenOIntegersIs = function($firstOperand, $secondOperand, $recipient) use ($ointeger, & $isGreater) {
 					(
-						new comparison\pipe(
+						new comparison\conjunction(
 							new comparison\identical($firstOperand, $ointeger),
 							new comparison\equal($secondOperand, new ointeger\any)
 						)
@@ -72,7 +72,7 @@ class between extends units\test
 
 				$this->calling($less)->recipientOfOIntegerComparisonBetweenOIntegersIs = function($firstOperand, $secondOperand, $recipient) use ($ointeger, $length, & $isLess) {
 					(
-						new comparison\pipe(
+						new comparison\conjunction(
 							new comparison\identical($firstOperand, $ointeger),
 							new comparison\identical($secondOperand, $length)
 						)
