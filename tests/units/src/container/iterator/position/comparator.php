@@ -2,7 +2,7 @@
 
 require __DIR__ . '/../../../../runner.php';
 
-use estvoyage\risingsun\tests\units;
+use estvoyage\risingsun\{ tests\units, oboolean };
 use mock\estvoyage\risingsun\{ ointeger as mockOfOInteger, container as mockOfContainer, datum as mockOfDatum };
 
 class comparator extends units\test
@@ -33,8 +33,8 @@ class comparator extends units\test
 						->never
 
 			->if(
-				$this->calling($comparison)->blockForComparisonWithOIntegerIs = function($ointeger, $block) {
-					$block->blockArgumentsAre();
+				$this->calling($comparison)->recipientOfOIntegerComparisonWithOIntegerIs = function($ointeger, $recipient) {
+					$recipient->obooleanIs(new oboolean\ok);
 				}
 			)
 			->then
@@ -66,8 +66,8 @@ class comparator extends units\test
 						->never
 
 			->if(
-				$this->calling($comparison)->blockForComparisonWithOIntegerIs = function($ointeger, $block) {
-					$block->blockArgumentsAre();
+				$this->calling($comparison)->recipientOfOIntegerComparisonWithOIntegerIs = function($ointeger, $recipient) {
+					$recipient->obooleanIs(new oboolean\ok);
 				}
 			)
 			->then

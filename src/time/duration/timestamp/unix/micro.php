@@ -32,9 +32,9 @@ class micro
 		$datum = new ostring\any($this->value);
 
 		(
-			new datum\finder\after(
+			new datum\finder\operation(
 				new datum\finder\first,
-				new ointeger\unsigned\any(1)
+				new ointeger\operation\unary\addition(new ointeger\any(1))
 			)
 		)
 			->recipientOfSearchOfDatumInDatumIs(

@@ -8,7 +8,7 @@ class ok
 {
 	function recipientOfComplementIs(oboolean\recipient $recipient)
 	{
-		$recipient->obooleanIs(new oboolean\wrong);
+		$recipient->obooleanIs(new oboolean\ko);
 
 		return $this;
 	}

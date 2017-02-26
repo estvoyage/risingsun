@@ -44,18 +44,4 @@ class equal
 
 		return $this;
 	}
-
-	function blockForOIntegerComparisonBetweenOIntegersIs(ointeger $firstOperand, ointeger $secondOperand, block $block)
-	{
-		return $this->recipientOfOIntegerComparisonBetweenOIntegersIs(
-			$firstOperand,
-			$secondOperand,
-			new functor(
-				function($oboolean) use ($block)
-				{
-					$oboolean->blockForTrueIs($block);
-				}
-			)
-		);
-	}
 }

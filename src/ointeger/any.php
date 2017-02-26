@@ -61,13 +61,6 @@ class any
 		return $this;
 	}
 
-	function blockForOIntegerComparisonWithOIntegerIs(ointeger\comparison\binary $comparison, ointeger $ointeger, block $block)
-	{
-		$comparison->blockForOIntegerComparisonBetweenOIntegersIs($this, $ointeger, $block);
-
-		return $this;
-	}
-
 	function recipientOfNStringIs(nstring\recipient $recipient)
 	{
 		$recipient->nstringIs((string) $this->value);

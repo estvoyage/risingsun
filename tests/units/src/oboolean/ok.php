@@ -81,4 +81,23 @@ class ok extends units\test
 							->once
 		;
 	}
+
+	function testRecipientOfComplementIs()
+	{
+		$this
+			->given(
+				$recipient = new mockOfOBoolean\recipient
+			)
+			->if(
+				$this->newTestedInstance
+			)
+			->then
+				->object($this->testedInstance->recipientOfComplementIs($recipient))
+					->isEqualTo($this->newTestedInstance)
+				->mock($recipient)
+					->receive('obooleanIs')
+						->withArguments(new oboolean\ko)
+							->once
+		;
+	}
 }

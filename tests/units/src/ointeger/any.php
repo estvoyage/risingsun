@@ -146,27 +146,6 @@ class any extends units\test
 		;
 	}
 
-	function testBlockForOIntegerComparisonWithOIntegerIs()
-	{
-		$this
-			->given(
-				$comparison = new mockOfOInteger\comparison\binary,
-				$ointeger = new mockOfOInteger,
-				$block = new mockOfBlock
-			)
-			->if(
-				$this->newTestedInstance
-			)
-			->then
-				->object($this->testedInstance->blockForOIntegerComparisonWithOIntegerIs($comparison, $ointeger, $block))
-					->isEqualTo($this->newTestedInstance)
-				->mock($comparison)
-					->receive('blockForOIntegerComparisonBetweenOIntegersIs')
-						->withArguments($this->testedInstance, $ointeger, $block)
-							->once
-		;
-	}
-
 	function testRecipientOfNStringIs()
 	{
 		$this

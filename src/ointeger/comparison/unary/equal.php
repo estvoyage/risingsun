@@ -27,17 +27,4 @@ class equal
 
 		return $this;
 	}
-
-	function blockForComparisonWithOIntegerIs(ointeger $ointeger, block $block)
-	{
-		(new comparison\equal)
-			->blockForOIntegerComparisonBetweenOIntegersIs(
-				$this->reference,
-				$ointeger,
-				$block
-			)
-		;
-
-		return $this;
-	}
 }

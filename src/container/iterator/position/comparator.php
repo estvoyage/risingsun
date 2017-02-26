@@ -18,12 +18,21 @@ class comparator
 	function iteratorControllerForPositionIs(ointeger $position, controller $controller)
 	{
 		$this->comparison
-			->blockForComparisonWithOIntegerIs(
+			->recipientOfOIntegerComparisonWithOIntegerIs(
 				$position,
 				new functor(
-					function() use ($controller)
+					function($oboolean) use ($controller)
 					{
-						$controller->nextIterationsAreUseless();
+						$oboolean
+							->blockForTrueIs(
+								new functor(
+									function() use ($controller)
+									{
+										$controller->nextIterationsAreUseless();
+									}
+								)
+							)
+						;
 					}
 				)
 			)

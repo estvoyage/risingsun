@@ -8,5 +8,4 @@ interface ointeger extends datum
 	function recipientOfOIntegerOperationIs(ointeger\operation\unary $operation, ointeger\recipient $recipient);
 	function recipientOfOIntegerComparisonWithOIntegerIs(ointeger\comparison\binary $comparison, ointeger $ointeger, oboolean\recipient $recipient);
 	function recipientOfOIntegerComparisonIs(ointeger\comparison\unary $comparison, oboolean\recipient $recipient);
-	function blockForOIntegerComparisonWithOIntegerIs(ointeger\comparison\binary $comparison, ointeger $ointeger, block $block);
 }

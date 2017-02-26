@@ -39,28 +39,4 @@ class greaterThanOrEqualTo
 
 		return $this;
 	}
-
-	function blockForComparisonWithOIntegerIs(ointeger $ointeger, block $block)
-	{
-		return $this
-			->recipientOfOIntegerComparisonWithOIntegerIs(
-				$ointeger,
-				new functor(
-					function($oboolean) use ($block)
-					{
-						$oboolean
-							->blockForTrueIs(
-								new functor(
-									function() use ($block)
-									{
-										$block->blockArgumentsAre();
-									}
-								)
-							)
-						;
-					}
-				)
-			)
-		;
-	}
 }
