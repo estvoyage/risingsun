@@ -1,10 +1,10 @@
 <?php namespace estvoyage\risingsun\ointeger\comparison\unary;
 
-use estvoyage\risingsun\{ ointeger\comparison, ointeger, block, oboolean, block\functor };
+use estvoyage\risingsun\{ ointeger, block, oboolean, block\functor };
 
 class equal
 	implements
-		comparison\unary
+		ointeger\comparison\unary
 {
 	private
 		$reference
@@ -17,7 +17,7 @@ class equal
 
 	function recipientOfOIntegerComparisonWithOIntegerIs(ointeger $ointeger, oboolean\recipient $recipient)
 	{
-		(new comparison\equal)
+		(new ointeger\comparison\binary\equal)
 			->recipientOfOIntegerComparisonBetweenOIntegersIs(
 				$this->reference,
 				$ointeger,

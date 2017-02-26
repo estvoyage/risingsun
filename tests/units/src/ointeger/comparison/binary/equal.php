@@ -1,9 +1,9 @@
-<?php namespace estvoyage\risingsun\tests\units\ointeger\comparison;
+<?php namespace estvoyage\risingsun\tests\units\ointeger\comparison\binary;
 
-require __DIR__ . '/../../../runner.php';
+require __DIR__ . '/../../../../runner.php';
 
 use estvoyage\risingsun\{ tests\units, oboolean };
-use mock\estvoyage\risingsun\{ ointeger as mockOfOInteger, oboolean as mockOfOBoolean, block as mockOfBlock };
+use mock\estvoyage\risingsun\{ ointeger as mockOfOInteger, oboolean as mockOfOBoolean };
 
 class equal extends units\test
 {

@@ -1,10 +1,10 @@
-<?php namespace estvoyage\risingsun\ointeger\comparison;
+<?php namespace estvoyage\risingsun\ointeger\comparison\binary;
 
-use estvoyage\risingsun\{ ointeger, ointeger\comparison, oboolean, block\functor, block };
+use estvoyage\risingsun\{ ointeger, oboolean, block\functor };
 
 class equal
 	implements
-		comparison\binary
+		ointeger\comparison\binary
 {
 	private
 		$oboolean
