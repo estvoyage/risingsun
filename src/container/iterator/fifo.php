@@ -1,10 +1,11 @@
 <?php namespace estvoyage\risingsun\container\iterator;
 
-use estvoyage\risingsun\{ container\iterator, block\functor, ointeger\generator, datum };
+use estvoyage\risingsun\{ container\iterator, block\functor, ointeger\generator, datum, comparison, block };
 
 class fifo
 	implements
-		datum\container\iterator
+		datum\container\iterator,
+		comparison\binary\container\iterator
 {
 	private
 		$controller,
@@ -19,19 +20,48 @@ class fifo
 
 	function dataForPayloadAre(datum\container\payload $payload, datum... $data)
 	{
-		$this->controller
+		return $this->valuesOfControllerForBlockIs(
+			$this->controller,
+			new functor(
+				function($datum, $position, $controller) use ($payload)
+				{
+					$payload->containerIteratorControllerForDatumAtPositionIs($datum, $position, $controller);
+				}
+			),
+			$data
+		);
+
+	}
+
+	function binaryComparisonsForPayloadWithControllerAre(comparison\binary\container\payload $payload, iterator\controller $controller, comparison\binary... $comparisons)
+	{
+		return $this->valuesOfControllerForBlockIs(
+			$controller,
+			new functor(
+				function($comparison, $position, $controller) use ($payload)
+				{
+					$payload->iteratorControllerForBinaryComparisonAtPositionIs($comparison, $position, $controller);
+				}
+			),
+			$comparisons
+		);
+	}
+
+	private function valuesOfControllerForBlockIs(iterator\controller $controller, block $block, array $values)
+	{
+		$controller
 			->blockToStopContainerIteratorEngineIs(
 				new functor(
-					function($controller) use ($data, $payload, & $break)
+					function($controller) use ($values, $block, & $break)
 					{
-						foreach ($data as $datum)
+						foreach ($values as $value)
 						{
 							$this->generator
 								->recipientOfOIntegerIs(
 									new functor(
-										function($position) use ($payload, $datum, $controller)
+										function($position) use ($block, $value, $controller)
 										{
-											$payload->containerIteratorControllerForDatumAtPositionIs($datum, $position, $controller);
+											$block->blockArgumentsAre($value, $position, $controller);
 										}
 									)
 								)
