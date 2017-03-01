@@ -9,7 +9,7 @@ class payload extends units\test
 {
 	function testClass()
 	{
-		$this->testedClass->implements('estvoyage\risingsun\comparison\container\payload');
+		$this->testedClass->implements('estvoyage\risingsun\comparison\binary\container\payload');
 	}
 
 	function testIteratorControllerForComparisonAtPositionIs()
@@ -26,7 +26,7 @@ class payload extends units\test
 				$this->newTestedInstance($firstOperand, $secondOperand)
 			)
 			->then
-				->object($this->testedInstance->iteratorControllerForComparisonAtPositionIs($comparison, $position, $controller))
+				->object($this->testedInstance->iteratorControllerForBinaryComparisonAtPositionIs($comparison, $position, $controller))
 					->isEqualTo($this->newTestedInstance($firstOperand, $secondOperand))
 				->mock($controller)
 					->receive('nextIterationsAreUseless')
@@ -41,7 +41,7 @@ class payload extends units\test
 				}
 			)
 			->then
-				->object($this->testedInstance->iteratorControllerForComparisonAtPositionIs($comparison, $position, $controller))
+				->object($this->testedInstance->iteratorControllerForBinaryComparisonAtPositionIs($comparison, $position, $controller))
 					->isEqualTo($this->newTestedInstance($firstOperand, $secondOperand))
 				->mock($controller)
 					->receive('nextIterationsAreUseless')
@@ -56,7 +56,7 @@ class payload extends units\test
 				}
 			)
 			->then
-				->object($this->testedInstance->iteratorControllerForComparisonAtPositionIs($comparison, $position, $controller))
+				->object($this->testedInstance->iteratorControllerForBinaryComparisonAtPositionIs($comparison, $position, $controller))
 					->isEqualTo($this->newTestedInstance($firstOperand, $secondOperand))
 				->mock($controller)
 					->receive('nextIterationsAreUseless')

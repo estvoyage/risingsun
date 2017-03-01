@@ -11,7 +11,7 @@ class conjunction
 		$iterator
 	;
 
-	function __construct(comparison\container $container, comparison\container\iterator $iterator)
+	function __construct(comparison\binary\container $container, comparison\binary\container\iterator $iterator)
 	{
 		$this->container = $container;
 		$this->iterator = $iterator;
@@ -20,7 +20,7 @@ class conjunction
 	function recipientOfComparisonBetweenValuesIs($firstOperand, $secondOperand, comparison\recipient $recipient)
 	{
 		$this->container
-			->controllerOfPayloadForComparisonContainerIteratorIs(
+			->controllerOfPayloadForBinaryComparisonContainerIteratorIs(
 				new conjunction\payload(
 					$firstOperand,
 					$secondOperand

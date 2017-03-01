@@ -1,38 +1,38 @@
-<?php namespace estvoyage\risingsun\tests\units\comparison\container\iterator;
+<?php namespace estvoyage\risingsun\tests\units\comparison\binary\container\iterator;
 
-require __DIR__ . '/../../../../runner.php';
+require __DIR__ . '/../../../../../runner.php';
 
 use estvoyage\risingsun\tests\units;
-use mock\estvoyage\risingsun\{ comparison as mockOfComparison, ointeger as mockOfOInteger, container as mockOfContainer };
+use mock\estvoyage\risingsun\{ comparison\binary as mockOfComparison, ointeger as mockOfOInteger, container as mockOfContainer };
 
 class fifo extends units\test
 {
 	function testClass()
 	{
 		$this->testedClass
-			->implements('estvoyage\risingsun\comparison\container\iterator')
+			->implements('estvoyage\risingsun\comparison\binary\container\iterator')
 		;
 	}
 
-	function testComparisonsForPayloadWithControllerAre()
+	function testBinaryComparisonsForPayloadWithControllerAre()
 	{
 		$this
 			->given(
 				$payload = new mockOfComparison\container\payload,
 				$controller = new mockOfContainer\iterator\controller,
-				$comparison1 = new mockOfComparison\binary,
-				$comparison2 = new mockOfComparison\binary,
-				$comparison3 = new mockOfComparison\binary,
+				$comparison1 = new mockOfComparison,
+				$comparison2 = new mockOfComparison,
+				$comparison3 = new mockOfComparison,
 				$generator = new mockOfOInteger\generator
 			)
 			->if(
 				$this->newTestedInstance($generator)
 			)
 			->then
-				->object($this->testedInstance->comparisonsForPayloadWithControllerAre($payload, $controller, $comparison1, $comparison2, $comparison3))
+				->object($this->testedInstance->binaryComparisonsForPayloadWithControllerAre($payload, $controller, $comparison1, $comparison2, $comparison3))
 					->isEqualTo($this->newTestedInstance($generator))
 				->mock($payload)
-					->receive('iteratorControllerForComparisonAtPositionIs')
+					->receive('iteratorControllerForBinaryComparisonAtPositionIs')
 						->never
 
 			->given(
@@ -58,10 +58,10 @@ class fifo extends units\test
 				}
 			)
 			->then
-				->object($this->testedInstance->comparisonsForPayloadWithControllerAre($payload, $controller, $comparison1, $comparison2, $comparison3))
+				->object($this->testedInstance->binaryComparisonsForPayloadWithControllerAre($payload, $controller, $comparison1, $comparison2, $comparison3))
 					->isEqualTo($this->newTestedInstance($generator))
 				->mock($payload)
-					->receive('iteratorControllerForComparisonAtPositionIs')
+					->receive('iteratorControllerForBinaryComparisonAtPositionIs')
 						->withIdenticalArguments($comparison1, $position1, $comparisonsController)
 							->once
 						->withIdenticalArguments($comparison2, $position2, $comparisonsController)

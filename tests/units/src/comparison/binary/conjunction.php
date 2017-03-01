@@ -18,8 +18,8 @@ class conjunction extends units\test
 	{
 		$this
 			->given(
-				$container = new mockOfComparison\container,
-				$iterator = new mockOfComparison\container\iterator,
+				$container = new mockOfComparison\binary\container,
+				$iterator = new mockOfComparison\binary\container\iterator,
 				$recipient = new mockOfComparison\recipient,
 				$this->newTestedInstance($container, $iterator)
 			)
@@ -31,7 +31,7 @@ class conjunction extends units\test
 				->object($this->testedInstance->recipientOfComparisonBetweenValuesIs($firstOperand, $secondOperand, $recipient))
 					->isEqualTo($this->newTestedInstance($container, $iterator))
 				->mock($container)
-					->receive('controllerOfPayloadForComparisonContainerIteratorIs')
+					->receive('controllerOfPayloadForBinaryComparisonContainerIteratorIs')
 						->withArguments(
 								new comparison\binary\conjunction\payload(
 									$firstOperand,

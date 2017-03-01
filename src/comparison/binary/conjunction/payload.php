@@ -4,7 +4,7 @@ use estvoyage\risingsun\{ comparison, container, ointeger };
 
 class payload
 	implements
-		comparison\container\payload
+		comparison\binary\container\payload
 {
 	private
 		$firstOperand,
@@ -18,7 +18,7 @@ class payload
 		$this->secondOperand = $secondOperand;
 	}
 
-	function iteratorControllerForComparisonAtPositionIs(comparison\binary $comparison, ointeger $position, container\iterator\controller $controller)
+	function iteratorControllerForBinaryComparisonAtPositionIs(comparison\binary $comparison, ointeger $position, container\iterator\controller $controller)
 	{
 		$comparison->recipientOfComparisonBetweenValuesIs(
 			$this->firstOperand,

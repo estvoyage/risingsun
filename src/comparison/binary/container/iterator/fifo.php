@@ -1,6 +1,6 @@
-<?php namespace estvoyage\risingsun\comparison\container\iterator;
+<?php namespace estvoyage\risingsun\comparison\binary\container\iterator;
 
-use estvoyage\risingsun\{ comparison, container, block\functor, ointeger };
+use estvoyage\risingsun\{ comparison\binary as comparison, container, block\functor, ointeger };
 
 class fifo
 	implements
@@ -15,7 +15,7 @@ class fifo
 		$this->generator = $generator;
 	}
 
-	function comparisonsForPayloadWithControllerAre(comparison\container\payload $payload, container\iterator\controller $controller, comparison\binary... $comparisons)
+	function binaryComparisonsForPayloadWithControllerAre(comparison\container\payload $payload, container\iterator\controller $controller, comparison... $comparisons)
 	{
 		$controller
 			->blockToStopContainerIteratorEngineIs(
@@ -29,7 +29,7 @@ class fifo
 									new functor(
 										function($position) use ($payload, $comparison, $controller)
 										{
-											$payload->iteratorControllerForComparisonAtPositionIs($comparison, $position, $controller);
+											$payload->iteratorControllerForBinaryComparisonAtPositionIs($comparison, $position, $controller);
 										}
 									)
 								)
