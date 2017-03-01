@@ -28,13 +28,13 @@ class blackhole extends units\test
 		;
 	}
 
-	function testNextIterationsAreUseless()
+	function testRemainingIterationsAreUseless()
 	{
-		$this->object($this->newTestedInstance->nextIterationsAreUseless())->isEqualTo($this->newTestedInstance);
+		$this->object($this->newTestedInstance->remainingIterationsAreUseless())->isEqualTo($this->newTestedInstance);
 	}
 
-	function testEndOfIterations()
+	function testContainerIteratorEngineHasNoMoreIteration()
 	{
-		$this->object($this->newTestedInstance->endOfIterations())->isEqualTo($this->newTestedInstance);
+		$this->object($this->newTestedInstance->containerIteratorEngineHasNoMoreIteration())->isEqualTo($this->newTestedInstance);
 	}
 }

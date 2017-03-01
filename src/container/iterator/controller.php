@@ -5,6 +5,6 @@ use estvoyage\risingsun\block;
 interface controller
 {
 	function containerIteratorEngineIs(engine $engine);
-	function endOfIterations();
-	function nextIterationsAreUseless();
+	function containerIteratorEngineHasNoMoreIteration();
+	function remainingIterationsAreUseless();
 }

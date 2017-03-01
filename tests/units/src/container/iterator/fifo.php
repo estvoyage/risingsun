@@ -132,11 +132,11 @@ class fifo extends units\test
 				},
 
 				$this->calling($payload)->containerIteratorControllerForDatumAtPositionIs = function($value, $position, $controller) {
-					$controller->nextIterationsAreUseless();
+					$controller->remainingIterationsAreUseless();
 				},
 
-				$this->calling($controller)->nextIterationsAreUseless = function() use (& $engine) {
-					$engine->nextIterationsAreUseless();
+				$this->calling($controller)->remainingIterationsAreUseless = function() use (& $engine) {
+					$engine->remainingIterationsAreUseless();
 				}
 			)
 			->then
@@ -240,11 +240,11 @@ class fifo extends units\test
 				},
 
 				$this->calling($payload)->iteratorControllerForBinaryComparisonAtPositionIs = function($value, $position, $controller) {
-					$controller->nextIterationsAreUseless();
+					$controller->remainingIterationsAreUseless();
 				},
 
-				$this->calling($controller)->nextIterationsAreUseless = function() use (& $engine) {
-					$engine->nextIterationsAreUseless();
+				$this->calling($controller)->remainingIterationsAreUseless = function() use (& $engine) {
+					$engine->remainingIterationsAreUseless();
 				}
 			)
 			->then

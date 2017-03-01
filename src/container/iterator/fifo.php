@@ -93,11 +93,11 @@ class fifo
 
 						if (! $this->break)
 						{
-							$controller->endOfIterations();
+							$controller->containerIteratorEngineHasNoMoreIteration();
 						}
 					}
 
-					function nextIterationsAreUseless()
+					function remainingIterationsAreUseless()
 					{
 						$this->break = true;
 

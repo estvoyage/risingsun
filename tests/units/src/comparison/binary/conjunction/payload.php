@@ -29,7 +29,7 @@ class payload extends units\test
 				->object($this->testedInstance->iteratorControllerForBinaryComparisonAtPositionIs($comparison, $position, $controller))
 					->isEqualTo($this->newTestedInstance($firstOperand, $secondOperand))
 				->mock($controller)
-					->receive('nextIterationsAreUseless')
+					->receive('remainingIterationsAreUseless')
 						->never
 
 			->if(
@@ -44,7 +44,7 @@ class payload extends units\test
 				->object($this->testedInstance->iteratorControllerForBinaryComparisonAtPositionIs($comparison, $position, $controller))
 					->isEqualTo($this->newTestedInstance($firstOperand, $secondOperand))
 				->mock($controller)
-					->receive('nextIterationsAreUseless')
+					->receive('remainingIterationsAreUseless')
 						->never
 
 			->if(
@@ -59,7 +59,7 @@ class payload extends units\test
 				->object($this->testedInstance->iteratorControllerForBinaryComparisonAtPositionIs($comparison, $position, $controller))
 					->isEqualTo($this->newTestedInstance($firstOperand, $secondOperand))
 				->mock($controller)
-					->receive('nextIterationsAreUseless')
+					->receive('remainingIterationsAreUseless')
 						->once
 		;
 	}

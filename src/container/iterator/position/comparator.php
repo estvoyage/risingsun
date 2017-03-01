@@ -28,7 +28,7 @@ class comparator
 								new functor(
 									function() use ($controller)
 									{
-										$controller->nextIterationsAreUseless();
+										$controller->remainingIterationsAreUseless();
 									}
 								)
 							)

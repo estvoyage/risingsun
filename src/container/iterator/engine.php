@@ -3,5 +3,5 @@
 interface engine
 {
 	function controllerOfContainerIteratorIs(controller $controller);
-	function nextIterationsAreUseless();
+	function remainingIterationsAreUseless();
 }

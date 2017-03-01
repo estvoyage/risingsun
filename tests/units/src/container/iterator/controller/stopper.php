@@ -3,7 +3,7 @@
 require __DIR__ . '/../../../../runner.php';
 
 use estvoyage\risingsun\tests\units;
-use mock\estvoyage\risingsun\{ block as mockOfBlock, container as mockOfContainer };
+use mock\estvoyage\risingsun\container as mockOfContainer;
 
 class stopper extends units\test
 {
@@ -33,14 +33,14 @@ class stopper extends units\test
 		;
 	}
 
-	function testNextIterationsAreUseless()
+	function testRemainingIterationsAreUseless()
 	{
 		$this
 			->if(
 				$this->newTestedInstance
 			)
 			->then
-				->object($this->testedInstance->nextIterationsAreUseless())
+				->object($this->testedInstance->remainingIterationsAreUseless())
 					->isEqualTo($this->newTestedInstance)
 
 			->given(
@@ -50,12 +50,24 @@ class stopper extends units\test
 				$this->newTestedInstance($engine)
 			)
 			->then
-				->object($this->testedInstance->nextIterationsAreUseless())
+				->object($this->testedInstance->remainingIterationsAreUseless())
 					->isEqualTo($this->newTestedInstance($engine))
 				->mock($engine)
-					->receive('nextIterationsAreUseless')
+					->receive('remainingIterationsAreUseless')
 						->withArguments()
 							->once
+		;
+	}
+
+	function testContainerIteratorEngineHasNoMoreIteration()
+	{
+		$this
+			->if(
+				$this->newTestedInstance
+			)
+			->then
+				->object($this->testedInstance->containerIteratorEngineHasNoMoreIteration())
+					->isEqualTo($this->newTestedInstance)
 		;
 	}
 }

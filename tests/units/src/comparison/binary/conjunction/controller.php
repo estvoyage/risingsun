@@ -34,7 +34,7 @@ class controller extends units\test
 		;
 	}
 
-	function testEndOfIterations()
+	function testContainerIteratorEngineHasNoMoreIteration()
 	{
 		$this
 			->given(
@@ -44,7 +44,7 @@ class controller extends units\test
 				$this->newTestedInstance($recipient)
 			)
 			->then
-				->object($this->testedInstance->endOfIterations())
+				->object($this->testedInstance->containerIteratorHasNoMoreIteration())
 					->isEqualTo($this->newTestedInstance($recipient))
 				->mock($recipient)
 					->receive('comparisonIsFalse')
@@ -55,7 +55,7 @@ class controller extends units\test
 		;
 	}
 
-	function testNextIterationsAreUseless()
+	function testRemainingIterationsAreUseless()
 	{
 		$this
 			->given(
@@ -65,7 +65,7 @@ class controller extends units\test
 				$this->newTestedInstance($recipient)
 			)
 			->then
-				->object($this->testedInstance->nextIterationsAreUseless())
+				->object($this->testedInstance->remainingIterationsAreUseless())
 					->isEqualTo($this->newTestedInstance($recipient))
 				->mock($recipient)
 					->receive('comparisonIsFalse')

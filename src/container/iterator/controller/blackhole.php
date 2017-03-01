@@ -11,12 +11,12 @@ class blackhole
 		return $this;
 	}
 
-	function nextIterationsAreUseless()
+	function remainingIterationsAreUseless()
 	{
 		return $this;
 	}
 
-	function endOfIterations()
+	function containerIteratorEngineHasNoMoreIteration()
 	{
 		return $this;
 	}

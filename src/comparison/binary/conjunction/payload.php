@@ -42,7 +42,7 @@ class payload
 
 				function comparisonIsFalse()
 				{
-					$this->controller->nextIterationsAreUseless();
+					$this->controller->remainingIterationsAreUseless();
 				}
 			}
 		);

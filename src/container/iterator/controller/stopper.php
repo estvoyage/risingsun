@@ -25,14 +25,14 @@ class stopper
 		return $this;
 	}
 
-	function endOfIterations()
+	function containerIteratorEngineHasNoMoreIteration()
 	{
 		return $this;
 	}
 
-	function nextIterationsAreUseless()
+	function remainingIterationsAreUseless()
 	{
-		$this->engine->nextIterationsAreUseless();
+		$this->engine->remainingIterationsAreUseless();
 
 		return $this;
 	}

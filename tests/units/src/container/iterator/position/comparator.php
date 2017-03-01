@@ -29,7 +29,7 @@ class comparator extends units\test
 				->object($this->testedInstance->iteratorControllerForPositionIs($position, $controller))
 					->isEqualTo($this->newTestedInstance($comparison))
 				->mock($controller)
-					->receive('nextIterationsAreUseless')
+					->receive('remainingIterationsAreUseless')
 						->never
 
 			->if(
@@ -41,7 +41,7 @@ class comparator extends units\test
 				->object($this->testedInstance->iteratorControllerForPositionIs($position, $controller))
 					->isEqualTo($this->newTestedInstance($comparison))
 				->mock($controller)
-					->receive('nextIterationsAreUseless')
+					->receive('remainingIterationsAreUseless')
 						->once
 		;
 	}
@@ -62,7 +62,7 @@ class comparator extends units\test
 				->object($this->testedInstance->containerIteratorControllerForDatumAtPositionIs($datum, $position, $controller))
 					->isEqualTo($this->newTestedInstance($comparison))
 				->mock($controller)
-					->receive('nextIterationsAreUseless')
+					->receive('remainingIterationsAreUseless')
 						->never
 
 			->if(
@@ -74,7 +74,7 @@ class comparator extends units\test
 				->object($this->testedInstance->containerIteratorControllerForDatumAtPositionIs($datum, $position, $controller))
 					->isEqualTo($this->newTestedInstance($comparison))
 				->mock($controller)
-					->receive('nextIterationsAreUseless')
+					->receive('remainingIterationsAreUseless')
 						->once
 		;
 	}

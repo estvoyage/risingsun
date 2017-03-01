@@ -17,17 +17,17 @@ class controller extends container\iterator\controller\stopper
 		$this->recipient = $recipient;
 	}
 
-	function endOfIterations()
+	function containerIteratorHasNoMoreIteration()
 	{
 		$this->recipient->comparisonIsTrue();
 
-		return parent::endOfIterations();
+		return parent::containerIteratorEngineHasNoMoreIteration();
 	}
 
-	function nextIterationsAreUseless()
+	function remainingIterationsAreUseless()
 	{
 		$this->recipient->comparisonIsFalse();
 
-		return parent::nextIterationsAreUseless();
+		return parent::remainingIterationsAreUseless();
 	}
 }
