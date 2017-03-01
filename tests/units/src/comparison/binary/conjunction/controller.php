@@ -3,7 +3,7 @@
 require __DIR__ . '/../../../../runner.php';
 
 use estvoyage\risingsun\tests\units;
-use mock\estvoyage\risingsun\{ comparison as mockOfComparison, container as mockOfContainer, block as mockOfBlock };
+use mock\estvoyage\risingsun\{ comparison as mockOfComparison, container as mockOfContainer };
 
 class controller extends units\test
 {
@@ -14,23 +14,22 @@ class controller extends units\test
 		;
 	}
 
-	function testBlockToStopContainerIteratorEngineIs()
+	function testContainerIteratorEngineIs()
 	{
 		$this
 			->given(
 				$recipient = new mockOfComparison\recipient,
-				$engine = new mockOfContainer\iterator\engine,
-				$stopBlock = new mockOfBlock
+				$engine = new mockOfContainer\iterator\engine
 			)
 			->if(
 				$this->newTestedInstance($recipient)
 			)
 			->then
-				->object($this->testedInstance->blockToStopContainerIteratorEngineIs($engine, $stopBlock))
+				->object($this->testedInstance->containerIteratorEngineIs($engine))
 					->isEqualTo($this->newTestedInstance($recipient))
 				->mock($engine)
 					->receive('controllerOfContainerIteratorIs')
-						->withArguments($this->newTestedInstance($recipient, $stopBlock))
+						->withArguments($this->newTestedInstance($recipient, $engine))
 							->once
 		;
 	}

@@ -9,7 +9,8 @@ class fifo
 {
 	private
 		$controller,
-		$generator
+		$generator,
+		$values
 	;
 
 	function __construct(iterator\controller $controller = null, generator $generator = null)
@@ -50,41 +51,59 @@ class fifo
 	private function valuesOfControllerForBlockIs(iterator\controller $controller, block $block, array $values)
 	{
 		$controller
-			->blockToStopContainerIteratorEngineIs(
-				new functor(
-					function($controller) use ($values, $block, & $break)
+			->containerIteratorEngineIs(
+				new class($this->generator, $block, $values)
+					implements
+						engine
+				{
+					private
+						$generator,
+						$block,
+						$values,
+						$break
+					;
+
+					function __construct(generator $generator, block $block, array $values)
 					{
-						foreach ($values as $value)
+						$this->generator = $generator;
+						$this->block = $block;
+						$this->values = $values;
+					}
+
+					function controllerOfContainerIteratorIs(iterator\controller $controller)
+					{
+						foreach ($this->values as $value)
 						{
 							$this->generator
 								->recipientOfOIntegerIs(
 									new functor(
-										function($position) use ($block, $value, $controller)
+										function($position) use ($value, $controller)
 										{
-											$block->blockArgumentsAre($value, $position, $controller);
+											$this->block->blockArgumentsAre($value, $position, $controller);
 										}
 									)
 								)
 							;
 
-							if ($break)
+							if ($this->break)
 							{
 								break;
 							}
 						}
 
-						if (! $break)
+						if (! $this->break)
 						{
 							$controller->endOfIterations();
 						}
 					}
-				),
-				new functor(
-					function() use (& $break)
+
+					function nextIterationsAreUseless()
 					{
-						$break = true;
+						$this->break = true;
+
+						return $this;
 					}
-				)
+				}
 			)
 		;
 

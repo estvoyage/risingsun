@@ -14,18 +14,17 @@ class blackhole extends units\test
 		;
 	}
 
-	function testBlockToStopContainerIteratorEngineIs()
+	function testContainerIteratorEngineIs()
 	{
 		$this
 			->given(
-				$engine = new mockOfContainer\iterator\engine,
-				$block = new mockOfBlock
+				$engine = new mockOfContainer\iterator\engine
 			)
 			->if(
 				$this->newTestedInstance
 			)
 			->then
-				->object($this->newTestedInstance->nextIterationsAreUseless())->isEqualTo($this->newTestedInstance)
+				->object($this->newTestedInstance->containerIteratorEngineIs($engine))->isEqualTo($this->newTestedInstance)
 		;
 	}
 

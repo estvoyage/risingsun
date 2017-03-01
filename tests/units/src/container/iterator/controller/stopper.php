@@ -14,22 +14,21 @@ class stopper extends units\test
 		;
 	}
 
-	function testBlockToStopContainerIteratorEngineIs()
+	function testContainerIteratorEngineIs()
 	{
 		$this
 			->given(
-				$block = new mockOfBlock,
 				$engine = new mockOfContainer\iterator\engine
 			)
 			->if(
 				$this->newTestedInstance
 			)
 			->then
-				->object($this->testedInstance->blockToStopContainerIteratorEngineIs($engine, $block))
+				->object($this->testedInstance->containerIteratorEngineIs($engine))
 					->isEqualTo($this->newTestedInstance)
 				->mock($engine)
 					->receive('controllerOfContainerIteratorIs')
-						->withArguments($this->newTestedInstance($block))
+						->withArguments($this->newTestedInstance($engine))
 							->once
 		;
 	}
@@ -45,16 +44,16 @@ class stopper extends units\test
 					->isEqualTo($this->newTestedInstance)
 
 			->given(
-				$block = new mockOfBlock
+				$engine = new mockOfContainer\iterator\engine
 			)
 			->if(
-				$this->newTestedInstance($block)
+				$this->newTestedInstance($engine)
 			)
 			->then
 				->object($this->testedInstance->nextIterationsAreUseless())
-					->isEqualTo($this->newTestedInstance($block))
-				->mock($block)
-					->receive('blockArgumentsAre')
+					->isEqualTo($this->newTestedInstance($engine))
+				->mock($engine)
+					->receive('nextIterationsAreUseless')
 						->withArguments()
 							->once
 		;

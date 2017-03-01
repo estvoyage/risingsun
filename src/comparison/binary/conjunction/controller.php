@@ -1,6 +1,6 @@
 <?php namespace estvoyage\risingsun\comparison\binary\conjunction;
 
-use estvoyage\risingsun\{ container, block, comparison };
+use estvoyage\risingsun\{ container, comparison };
 
 class controller extends container\iterator\controller\stopper
 	implements
@@ -10,9 +10,9 @@ class controller extends container\iterator\controller\stopper
 		$recipient
 	;
 
-	function __construct(comparison\recipient $recipient, block $stopBlock = null)
+	function __construct(comparison\recipient $recipient, container\iterator\engine $engine = null)
 	{
-		parent::__construct($stopBlock);
+		parent::__construct($engine);
 
 		$this->recipient = $recipient;
 	}

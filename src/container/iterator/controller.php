@@ -4,7 +4,7 @@ use estvoyage\risingsun\block;
 
 interface controller
 {
-	function blockToStopContainerIteratorEngineIs(engine $engine, block $block);
+	function containerIteratorEngineIs(engine $engine);
 	function endOfIterations();
 	function nextIterationsAreUseless();
 }

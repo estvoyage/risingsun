@@ -13,7 +13,6 @@ class functor extends units\test
 			->implements('estvoyage\risingsun\block')
 			->implements('estvoyage\risingsun\nstring\recipient')
 			->implements('estvoyage\risingsun\oboolean\recipient')
-			->implements('estvoyage\risingsun\container\iterator\engine')
 			->implements('estvoyage\risingsun\ointeger\recipient')
 			->implements('estvoyage\risingsun\ninteger\recipient')
 			->implements('estvoyage\risingsun\datum\recipient')
@@ -90,27 +89,6 @@ class functor extends units\test
 					->isEqualTo($this->newTestedInstance($callable))
 				->array($arguments)
 					->isEqualTo([ $oboolean ])
-		;
-	}
-
-	function testControllerOfContainerIteratorIs()
-	{
-		$this
-			->given(
-				$controller = new mockOfContainer\iterator\controller,
-
-				$callable = function() use (& $arguments) {
-					$arguments = func_get_args();
-				}
-			)
-			->if(
-				$this->newTestedInstance($callable)
-			)
-			->then
-				->object($this->testedInstance->controllerOfContainerIteratorIs($controller))
-					->isEqualTo($this->newTestedInstance($callable))
-				->array($arguments)
-					->isEqualTo([ $controller ])
 		;
 	}
 

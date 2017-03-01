@@ -7,7 +7,6 @@ class functor
 		block,
 		nstring\recipient,
 		oboolean\recipient,
-		iterator\engine,
 		ointeger\recipient,
 		ninteger\recipient,
 		datum\recipient,
@@ -38,11 +37,6 @@ class functor
 	function obooleanIs(oboolean $oboolean)
 	{
 		return $this->blockArgumentsAre($oboolean);
-	}
-
-	function controllerOfContainerIteratorIs(iterator\controller $controller)
-	{
-		return $this->blockArgumentsAre($controller);
 	}
 
 	function containerIteratorControllerForValueAtPositionIs($value, ointeger $position, iterator\controller $controller)

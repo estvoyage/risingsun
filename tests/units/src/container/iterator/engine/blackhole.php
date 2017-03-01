@@ -5,7 +5,7 @@ require __DIR__ . '/../../../../runner.php';
 use estvoyage\risingsun\tests\units;
 use mock\estvoyage\risingsun\container as mockOfContainer;
 
-class fifo extends units\test
+class blackhole extends units\test
 {
 	function testClass()
 	{
@@ -27,5 +27,15 @@ class fifo extends units\test
 				->object($this->testedInstance->controllerOfContainerIteratorIs($controller))
 					->isEqualTo($this->newTestedInstance)
 		;
+	}
+
+	function testNextIterationsAreUseless()
+	{
+		$this->object($this->newTestedInstance->nextIterationsAreUseless())->isEqualTo($this->newTestedInstance);
+	}
+
+	function testEndOfIterations()
+	{
+		$this->object($this->newTestedInstance->endOfIteration())->isEqualTo($this->newTestedInstance);
 	}
 }

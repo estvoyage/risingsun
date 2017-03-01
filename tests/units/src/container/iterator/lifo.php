@@ -14,24 +14,20 @@ class lifo extends units\test
 		;
 	}
 
-	function testWithNoIntegerGenerator()
+	function testConstructor()
 	{
 		$this
 			->given(
 				$controller = new mockOfContainer\iterator\controller
 			)
+
 			->if(
 				$this->newTestedInstance($controller)
 			)
 			->then
 				->object($this->testedInstance)
 					->isEqualTo($this->newTestedInstance($controller, new generator\operation\binary\addition))
-		;
-	}
 
-	function testWithNoController()
-	{
-		$this
 			->if(
 				$this->newTestedInstance
 			)
@@ -94,8 +90,8 @@ class lifo extends units\test
 						->never
 
 			->if(
-				$this->calling($controller)->blockToStopContainerIteratorEngineIs = function($engine, $block) use ($controller, & $stopBlock) {
-					$stopBlock = $block;
+				$this->calling($controller)->containerIteratorEngineIs = function($anEngine) use ($controller, & $engine) {
+					$engine = $anEngine;
 
 					$engine->controllerOfContainerIteratorIs($controller);
 				}
@@ -139,8 +135,8 @@ class lifo extends units\test
 					$controller->nextIterationsAreUseless();
 				},
 
-				$this->calling($controller)->nextIterationsAreUseless = function() use (& $stopBlock) {
-					$stopBlock->blockArgumentsAre();
+				$this->calling($controller)->nextIterationsAreUseless = function() use (& $engine) {
+					$engine->nextIterationsAreUseless();
 				}
 			)
 			->then
@@ -156,35 +152,6 @@ class lifo extends units\test
 							->never
 						->withIdenticalArguments($datum1, $position8, $controller)
 							->never
-
-			->given(
-				$controller = new mockOfContainer\iterator\controller,
-				$integerGenerator = new mockOfOInteger\generator
-			)
-			->if(
-				$this->calling($integerGenerator)->recipientOfOIntegerIs->doesNothing,
-
-				$this->calling($controller)->blockToStopContainerIteratorEngineIs = function($engine, $block) use ($controller) {
-					$engine->controllerOfContainerIteratorIs($controller);
-				},
-
-				$this->calling($controller)->nextIterationsAreUseless->doesNothing,
-
-				$this->newTestedInstance($controller, $integerGenerator)
-			)
-			->then
-				->object($this->testedInstance->dataForPayloadAre($payload, $datum1, $datum2, $datum3, $datum4))
-					->isEqualTo($this->newTestedInstance($controller, $integerGenerator))
-				->mock($payload)
-					->receive('containerIteratorControllerForDatumAtPositionIs')
-						->withIdenticalArguments($datum4)
-							->twice
-						->withIdenticalArguments($datum3)
-							->once
-						->withIdenticalArguments($datum2)
-							->once
-						->withIdenticalArguments($datum1)
-							->once
 		;
 	}
 }

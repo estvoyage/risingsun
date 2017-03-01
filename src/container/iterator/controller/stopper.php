@@ -10,17 +10,17 @@ class stopper
 		$block
 	;
 
-	function __construct(block $block = null)
+	function __construct(engine $engine = null)
 	{
-		$this->block = $block ?: new block\blackhole;
+		$this->engine = $engine ?: new engine\blackhole;
 	}
 
-	function blockToStopContainerIteratorEngineIs(engine $engine, block $block)
+	function containerIteratorEngineIs(engine $engine)
 	{
 		$controller = clone $this;
-		$controller->block = $block;
+		$controller->engine = $engine;
 
-		$engine->controllerOfContainerIteratorIs($controller);
+		$controller->engine->controllerOfContainerIteratorIs($controller);
 
 		return $this;
 	}
@@ -32,7 +32,7 @@ class stopper
 
 	function nextIterationsAreUseless()
 	{
-		$this->block->blockArgumentsAre();
+		$this->engine->nextIterationsAreUseless();
 
 		return $this;
 	}
