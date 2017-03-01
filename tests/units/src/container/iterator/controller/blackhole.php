@@ -33,4 +33,9 @@ class blackhole extends units\test
 	{
 		$this->object($this->newTestedInstance->nextIterationsAreUseless())->isEqualTo($this->newTestedInstance);
 	}
+
+	function testEndOfIterations()
+	{
+		$this->object($this->newTestedInstance->endOfIterations())->isEqualTo($this->newTestedInstance);
+	}
 }

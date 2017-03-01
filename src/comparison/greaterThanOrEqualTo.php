@@ -1,30 +1,14 @@
 <?php namespace estvoyage\risingsun\comparison;
 
-use estvoyage\risingsun\{ comparison, oboolean };
+use estvoyage\risingsun\comparison;
 
 class greaterThanOrEqualTo
 	implements
 		comparison
 {
-	private
-		$firstOperand,
-		$secondOperand,
-		$oboolean
-	;
-
-	function __construct($firstOperand, $secondOperand = 0, oboolean $oboolean = null)
+	function recipientOfComparisonBetweenValuesIs($firstOperand, $secondOperand, comparison\recipient $recipient)
 	{
-		$this->firstOperand = $firstOperand;
-		$this->secondOperand = $secondOperand;
-		$this->oboolean = $oboolean ?: new oboolean\ok;
-	}
-
-	function recipientOfComparisonIs(oboolean\recipient $recipient)
-	{
-		if ($this->firstOperand >= $this->secondOperand)
-		{
-			$recipient->obooleanIs($this->oboolean);
-		}
+		$recipient->{'comparisonIs' . ($firstOperand >= $secondOperand ? 'True' : 'False')}();
 
 		return $this;
 	}

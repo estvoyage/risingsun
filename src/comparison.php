@@ -2,5 +2,5 @@
 
 interface comparison
 {
-	function recipientOfComparisonIs(oboolean\recipient $recipient);
+	function recipientOfComparisonBetweenValuesIs($firstOperand, $secondOperand, comparison\recipient $recipient);
 }

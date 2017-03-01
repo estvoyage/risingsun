@@ -25,8 +25,17 @@ class greaterThanOrEqualTo
 							->recipientOfNIntegerIs(
 								new functor(
 									function($secondOperandValue) use ($firstOperandValue, $recipient) {
-										(new comparison\greaterThanOrEqualTo($firstOperandValue, $secondOperandValue, $this->oboolean))
-											->recipientOfComparisonIs($recipient)
+										(new comparison\greaterThanOrEqualTo)
+											->recipientOfComparisonBetweenValuesIs(
+												$firstOperandValue,
+												$secondOperandValue,
+												new functor(
+													function() use ($recipient)
+													{
+														$recipient->obooleanIs($this->oboolean);
+													}
+												)
+											)
 										;
 									}
 								)

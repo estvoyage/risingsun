@@ -15,4 +15,9 @@ class blackhole
 	{
 		return $this;
 	}
+
+	function endOfIterations()
+	{
+		return $this;
+	}
 }

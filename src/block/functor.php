@@ -1,6 +1,6 @@
 <?php namespace estvoyage\risingsun\block;
 
-use estvoyage\risingsun\{ block, nstring, oboolean, container\iterator, ointeger, ninteger, datum };
+use estvoyage\risingsun\{ block, nstring, oboolean, container\iterator, ointeger, ninteger, datum, comparison };
 
 class functor
 	implements
@@ -11,7 +11,8 @@ class functor
 		ointeger\recipient,
 		ninteger\recipient,
 		datum\recipient,
-		datum\container\payload
+		datum\container\payload,
+		comparison\recipient
 {
 	private
 		$callable
@@ -67,5 +68,15 @@ class functor
 	function containerIteratorControllerForDatumAtPositionIs(datum $datum, ointeger $position, iterator\controller $controller)
 	{
 		return $this->blockArgumentsAre($datum, $position, $controller);
+	}
+
+	function comparisonIsTrue()
+	{
+		return $this->blockArgumentsAre();
+	}
+
+	function comparisonIsFalse()
+	{
+		return $this;
 	}
 }

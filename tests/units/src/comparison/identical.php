@@ -2,8 +2,8 @@
 
 require __DIR__ . '/../../runner.php';
 
-use estvoyage\risingsun\{ tests\units, oboolean };
-use mock\estvoyage\risingsun\oboolean as mockOfOBoolean;
+use estvoyage\risingsun\tests\units;
+use mock\estvoyage\risingsun\comparison as mockOfComparison;
 
 class identical extends units\test
 {
@@ -14,54 +14,54 @@ class identical extends units\test
 		;
 	}
 
-	function testRecipientOfComparisonIs()
+	function testRecipientOfComparisonBetweenValuesIs()
 	{
 		$this
 			->given(
-				$recipient = new mockOfOBoolean\recipient,
+				$recipient = new mockOfComparison\recipient,
+				$this->newTestedInstance
+			)
+			->if(
 				$firstOperand = uniqid(),
 				$secondOperand = uniqid()
 			)
-			->if(
-				$this->newTestedInstance($firstOperand, $secondOperand)
-			)
 			->then
-				->object($this->testedInstance->recipientOfComparisonIs($recipient))
-					->isEqualTo($this->newTestedInstance($firstOperand, $secondOperand))
+				->object($this->testedInstance->recipientOfComparisonBetweenValuesIs($firstOperand, $secondOperand, $recipient))
+					->isEqualTo($this->newTestedInstance)
 				->mock($recipient)
-					->receive('obooleanIs')
-						->withArguments(new oboolean\ko)
-							->once
+					->receive('comparisonIsTrue')
+						->never
+					->receive('comparisonIsFalse')
+						->once
 
-			->given(
+			->if(
 				$firstOperand = rand(- PHP_INT_MAX, PHP_INT_MAX),
 				$secondOperand = (string) $firstOperand
 			)
-			->if(
-				$this->newTestedInstance($firstOperand, $secondOperand)
-			)
 			->then
-				->object($this->testedInstance->recipientOfComparisonIs($recipient))
-					->isEqualTo($this->newTestedInstance($firstOperand, $secondOperand))
+				->object($this->testedInstance->recipientOfComparisonBetweenValuesIs($firstOperand, $secondOperand, $recipient))
+					->isEqualTo($this->newTestedInstance)
 				->mock($recipient)
-					->receive('obooleanIs')
-						->withArguments(new oboolean\ko)
-							->twice
+					->receive('comparisonIsTrue')
+						->never
+					->receive('comparisonIsFalse')
+						->twice
 
-			->given(
+			->if(
 				$firstOperand = rand(- PHP_INT_MAX, PHP_INT_MAX),
 				$secondOperand = $firstOperand
 			)
 			->if(
-				$this->newTestedInstance($firstOperand, $secondOperand)
+				$this->newTestedInstance
 			)
 			->then
-				->object($this->testedInstance->recipientOfComparisonIs($recipient))
-					->isEqualTo($this->newTestedInstance($firstOperand, $secondOperand))
+				->object($this->testedInstance->recipientOfComparisonBetweenValuesIs($firstOperand, $secondOperand, $recipient))
+					->isEqualTo($this->newTestedInstance)
 				->mock($recipient)
-					->receive('obooleanIs')
-						->withArguments(new oboolean\ok)
-							->once
+					->receive('comparisonIsTrue')
+						->once
+					->receive('comparisonIsFalse')
+						->twice
 		;
 	}
 }

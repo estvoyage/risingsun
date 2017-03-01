@@ -1,31 +1,14 @@
 <?php namespace estvoyage\risingsun\comparison;
 
-use estvoyage\risingsun\{ comparison, oboolean };
+use estvoyage\risingsun\comparison;
 
 class equal
 	implements
 		comparison
 {
-	private
-		$firstOperand,
-		$secondOperand
-	;
-
-	function __construct($firstOperand, $secondOperand)
+	function recipientOfComparisonBetweenValuesIs($firstOperand, $secondOperand, comparison\recipient $recipient)
 	{
-		$this->firstOperand = $firstOperand;
-		$this->secondOperand = $secondOperand;
-	}
-
-	function recipientOfComparisonIs(oboolean\recipient $recipient)
-	{
-		$recipient
-			->obooleanIs(
-				$this->firstOperand == $this->secondOperand
-				? new oboolean\ok
-				: new oboolean\ko
-			)
-		;
+		$recipient->{'comparisonIs' . ($firstOperand == $secondOperand ? 'True' : 'False')}();
 
 		return $this;
 	}

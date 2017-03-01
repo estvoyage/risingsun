@@ -7,49 +7,30 @@ class conjunction
 		comparison
 {
 	private
-		$comparisons
+		$container,
+		$iterator
 	;
 
-	function __construct(comparison... $comparisons)
+	function __construct(comparison\container $container, comparison\container\iterator $iterator)
 	{
-		$this->comparisons = $comparisons;
+		$this->container = $container;
+		$this->iterator = $iterator;
 	}
 
-	function recipientOfComparisonIs(oboolean\recipient $recipient)
+	function recipientOfComparisonBetweenValuesIs($firstOperand, $secondOperand, comparison\recipient $recipient)
 	{
-		$currentOBoolean = new oboolean\ko;
-
-		foreach ($this->comparisons as $comparison)
-		{
-			$comparison
-				->recipientOfComparisonIs(
-					new functor(
-						function($oboolean) use (& $currentOBoolean)
-						{
-							$currentOBoolean = $oboolean;
-						}
-					)
+		$this->container
+			->controllerOfPayloadForComparisonContainerIteratorIs(
+				new comparison\conjunction\payload(
+					$firstOperand,
+					$secondOperand
+				),
+				$this->iterator,
+				new comparison\conjunction\controller(
+					$recipient
 				)
-			;
-
-			$currentOBoolean
-				->blockForFalseIs(
-					new functor(
-						function() use (& $break)
-						{
-							$break = true;
-						}
-					)
-				)
-			;
-
-			if ($break)
-			{
-				break;
-			}
-		}
-
-		$recipient->obooleanIs($currentOBoolean);
+			)
+		;
 
 		return $this;
 	}

@@ -1,6 +1,6 @@
 <?php namespace estvoyage\risingsun\ointeger\comparison;
 
-use estvoyage\risingsun\{ ointeger, oboolean, block };
+use estvoyage\risingsun\{ ointeger, oboolean };
 
 interface binary
 {

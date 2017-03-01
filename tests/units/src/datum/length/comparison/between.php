@@ -58,29 +58,17 @@ class between extends units\test
 
 			->given(
 				$this->calling($greater)->recipientOfOIntegerComparisonBetweenOIntegersIs = function($firstOperand, $secondOperand, $recipient) use ($ointeger, & $isGreater) {
-					(
-						new comparison\conjunction(
-							new comparison\identical($firstOperand, $ointeger),
-							new comparison\equal($secondOperand, new ointeger\any)
-						)
-					)
-						->recipientOfComparisonIs(
-							new oboolean\recipient\forward($recipient, $isGreater)
-						)
-					;
+					if ($firstOperand === $ointeger && $secondOperand == new ointeger\any)
+					{
+						$recipient->obooleanIs($isGreater);
+					}
 				},
 
 				$this->calling($less)->recipientOfOIntegerComparisonBetweenOIntegersIs = function($firstOperand, $secondOperand, $recipient) use ($ointeger, $length, & $isLess) {
-					(
-						new comparison\conjunction(
-							new comparison\identical($firstOperand, $ointeger),
-							new comparison\identical($secondOperand, $length)
-						)
-					)
-						->recipientOfComparisonIs(
-							new oboolean\recipient\forward($recipient, $isLess)
-						)
-					;
+					if ($firstOperand === $ointeger && $secondOperand === $length)
+					{
+						$recipient->obooleanIs($isLess);
+					}
 				}
 			)
 

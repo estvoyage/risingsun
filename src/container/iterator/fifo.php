@@ -42,6 +42,11 @@ class fifo
 								break;
 							}
 						}
+
+						if (! $break)
+						{
+							$controller->endOfIterations();
+						}
 					}
 				),
 				new functor(
@@ -52,6 +57,7 @@ class fifo
 				)
 			)
 		;
+
 		return $this;
 	}
 }

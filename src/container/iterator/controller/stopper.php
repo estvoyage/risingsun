@@ -25,6 +25,11 @@ class stopper
 		return $this;
 	}
 
+	function endOfIterations()
+	{
+		return $this;
+	}
+
 	function nextIterationsAreUseless()
 	{
 		$this->block->blockArgumentsAre();
