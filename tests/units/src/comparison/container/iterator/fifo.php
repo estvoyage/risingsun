@@ -20,9 +20,9 @@ class fifo extends units\test
 			->given(
 				$payload = new mockOfComparison\container\payload,
 				$controller = new mockOfContainer\iterator\controller,
-				$comparison1 = new mockOfComparison,
-				$comparison2 = new mockOfComparison,
-				$comparison3 = new mockOfComparison,
+				$comparison1 = new mockOfComparison\binary,
+				$comparison2 = new mockOfComparison\binary,
+				$comparison3 = new mockOfComparison\binary,
 				$generator = new mockOfOInteger\generator
 			)
 			->if(

@@ -25,7 +25,7 @@ class greaterThanOrEqualTo
 							->recipientOfNIntegerIs(
 								new functor(
 									function($secondOperandValue) use ($firstOperandValue, $recipient) {
-										(new comparison\greaterThanOrEqualTo)
+										(new comparison\binary\greaterThanOrEqualTo)
 											->recipientOfComparisonBetweenValuesIs(
 												$firstOperandValue,
 												$secondOperandValue,

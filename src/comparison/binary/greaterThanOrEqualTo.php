@@ -1,10 +1,10 @@
-<?php namespace estvoyage\risingsun\comparison;
+<?php namespace estvoyage\risingsun\comparison\binary;
 
 use estvoyage\risingsun\comparison;
 
 class greaterThanOrEqualTo
 	implements
-		comparison
+		comparison\binary
 {
 	function recipientOfComparisonBetweenValuesIs($firstOperand, $secondOperand, comparison\recipient $recipient)
 	{

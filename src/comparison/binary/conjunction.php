@@ -1,10 +1,10 @@
-<?php namespace estvoyage\risingsun\comparison;
+<?php namespace estvoyage\risingsun\comparison\binary;
 
-use estvoyage\risingsun\{ comparison, oboolean, block\functor };
+use estvoyage\risingsun\{ comparison, block\functor };
 
 class conjunction
 	implements
-		comparison
+		comparison\binary
 {
 	private
 		$container,
@@ -21,12 +21,12 @@ class conjunction
 	{
 		$this->container
 			->controllerOfPayloadForComparisonContainerIteratorIs(
-				new comparison\conjunction\payload(
+				new conjunction\payload(
 					$firstOperand,
 					$secondOperand
 				),
 				$this->iterator,
-				new comparison\conjunction\controller(
+				new conjunction\controller(
 					$recipient
 				)
 			)

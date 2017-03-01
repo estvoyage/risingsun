@@ -1,16 +1,16 @@
-<?php namespace estvoyage\risingsun\tests\units\comparison;
+<?php namespace estvoyage\risingsun\tests\units\comparison\binary;
 
-require __DIR__ . '/../../runner.php';
+require __DIR__ . '/../../../runner.php';
 
 use estvoyage\risingsun\tests\units;
 use mock\estvoyage\risingsun\comparison as mockOfComparison;
 
-class identical extends units\test
+class equal extends units\test
 {
 	function testClass()
 	{
 		$this->testedClass
-			->implements('estvoyage\risingsun\comparison')
+			->implements('estvoyage\risingsun\comparison\binary')
 		;
 	}
 
@@ -19,14 +19,14 @@ class identical extends units\test
 		$this
 			->given(
 				$recipient = new mockOfComparison\recipient,
-				$this->newTestedInstance
-			)
-			->if(
 				$firstOperand = uniqid(),
 				$secondOperand = uniqid()
 			)
+			->if(
+				$this->newTestedInstance
+			)
 			->then
-				->object($this->testedInstance->recipientOfComparisonBetweenValuesIs($firstOperand, $secondOperand, $recipient))
+				->object($this->testedInstance->recipientOfComparisonBetweenValuesIs($firstOperand, $secondOperand,$recipient))
 					->isEqualTo($this->newTestedInstance)
 				->mock($recipient)
 					->receive('comparisonIsTrue')
@@ -43,25 +43,22 @@ class identical extends units\test
 					->isEqualTo($this->newTestedInstance)
 				->mock($recipient)
 					->receive('comparisonIsTrue')
-						->never
+						->once
 					->receive('comparisonIsFalse')
-						->twice
+						->once
 
 			->if(
 				$firstOperand = rand(- PHP_INT_MAX, PHP_INT_MAX),
 				$secondOperand = $firstOperand
-			)
-			->if(
-				$this->newTestedInstance
 			)
 			->then
 				->object($this->testedInstance->recipientOfComparisonBetweenValuesIs($firstOperand, $secondOperand, $recipient))
 					->isEqualTo($this->newTestedInstance)
 				->mock($recipient)
 					->receive('comparisonIsTrue')
-						->once
-					->receive('comparisonIsFalse')
 						->twice
+					->receive('comparisonIsFalse')
+						->once
 		;
 	}
 }

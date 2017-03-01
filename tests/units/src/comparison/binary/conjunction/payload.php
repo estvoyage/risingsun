@@ -1,9 +1,9 @@
-<?php namespace estvoyage\risingsun\tests\units\comparison\conjunction;
+<?php namespace estvoyage\risingsun\tests\units\comparison\binary\conjunction;
 
-require __DIR__ . '/../../../runner.php';
+require __DIR__ . '/../../../../runner.php';
 
 use estvoyage\risingsun\tests\units;
-use mock\estvoyage\risingsun\{ oboolean as mockOfOBoolean, comparison as mockOfComparison, ointeger as mockOfOInteger, container as mockOfContainer };
+use mock\estvoyage\risingsun\{ comparison as mockOfComparison, ointeger as mockOfOInteger, container as mockOfContainer };
 
 class payload extends units\test
 {
@@ -18,7 +18,7 @@ class payload extends units\test
 			->given(
 				$firstOperand = uniqid(),
 				$secondOperand = uniqid(),
-				$comparison = new mockOfComparison,
+				$comparison = new mockOfComparison\binary,
 				$position = new mockOfOInteger,
 				$controller = new mockOfContainer\iterator\controller
 			)

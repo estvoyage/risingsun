@@ -10,7 +10,7 @@ class collection
 		$comparisons
 	;
 
-	function __construct(comparison... $comparisons)
+	function __construct(comparison\binary... $comparisons)
 	{
 		$this->comparisons = $comparisons;
 	}

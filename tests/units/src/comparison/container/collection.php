@@ -21,9 +21,9 @@ class collection extends units\test
 				$iterator = new mockOfComparison\container\iterator,
 				$payload = new mockOfComparison\container\payload,
 				$controller = new mockOfContainer\iterator\controller,
-				$comparison1 = new mockOfComparison,
-				$comparison2 = new mockOfComparison,
-				$comparison3 = new mockOfComparison
+				$comparison1 = new mockOfComparison\binary,
+				$comparison2 = new mockOfComparison\binary,
+				$comparison3 = new mockOfComparison\binary
 			)
 			->if(
 				$this->newTestedInstance($comparison1, $comparison2, $comparison3)

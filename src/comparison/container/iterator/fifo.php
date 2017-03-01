@@ -15,7 +15,7 @@ class fifo
 		$this->generator = $generator;
 	}
 
-	function comparisonsForPayloadWithControllerAre(comparison\container\payload $payload, container\iterator\controller $controller, comparison... $comparisons)
+	function comparisonsForPayloadWithControllerAre(comparison\container\payload $payload, container\iterator\controller $controller, comparison\binary... $comparisons)
 	{
 		$controller
 			->blockToStopContainerIteratorEngineIs(

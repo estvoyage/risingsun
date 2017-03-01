@@ -1,4 +1,4 @@
-<?php namespace estvoyage\risingsun\comparison\conjunction;
+<?php namespace estvoyage\risingsun\comparison\binary\conjunction;
 
 use estvoyage\risingsun\{ comparison, container, ointeger };
 
@@ -18,7 +18,7 @@ class payload
 		$this->secondOperand = $secondOperand;
 	}
 
-	function iteratorControllerForComparisonAtPositionIs(comparison $comparison, ointeger $position, container\iterator\controller $controller)
+	function iteratorControllerForComparisonAtPositionIs(comparison\binary $comparison, ointeger $position, container\iterator\controller $controller)
 	{
 		$comparison->recipientOfComparisonBetweenValuesIs(
 			$this->firstOperand,

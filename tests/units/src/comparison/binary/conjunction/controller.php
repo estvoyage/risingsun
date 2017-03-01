@@ -1,6 +1,6 @@
-<?php namespace estvoyage\risingsun\tests\units\comparison\conjunction;
+<?php namespace estvoyage\risingsun\tests\units\comparison\binary\conjunction;
 
-require __DIR__ . '/../../../runner.php';
+require __DIR__ . '/../../../../runner.php';
 
 use estvoyage\risingsun\tests\units;
 use mock\estvoyage\risingsun\{ comparison as mockOfComparison, container as mockOfContainer, block as mockOfBlock };

@@ -1,16 +1,16 @@
-<?php namespace estvoyage\risingsun\tests\units\comparison;
+<?php namespace estvoyage\risingsun\tests\units\comparison\binary;
 
-require __DIR__ . '/../../runner.php';
+require __DIR__ . '/../../../runner.php';
 
-use estvoyage\risingsun\{ tests\units, oboolean, comparison };
-use mock\estvoyage\risingsun\{ oboolean as mockOfOBoolean, comparison as mockOfComparison, iterator as mockOfIterator };
+use estvoyage\risingsun\{ tests\units, comparison };
+use mock\estvoyage\risingsun\{ comparison as mockOfComparison, iterator as mockOfIterator };
 
 class conjunction extends units\test
 {
 	function testClass()
 	{
 		$this->testedClass
-			->implements('estvoyage\risingsun\comparison')
+			->implements('estvoyage\risingsun\comparison\binary')
 		;
 	}
 
@@ -33,12 +33,12 @@ class conjunction extends units\test
 				->mock($container)
 					->receive('controllerOfPayloadForComparisonContainerIteratorIs')
 						->withArguments(
-								new comparison\conjunction\payload(
+								new comparison\binary\conjunction\payload(
 									$firstOperand,
 									$secondOperand
 								),
 								$iterator,
-								new comparison\conjunction\controller(
+								new comparison\binary\conjunction\controller(
 									$recipient
 								)
 							)

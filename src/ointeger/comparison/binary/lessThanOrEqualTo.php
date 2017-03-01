@@ -25,7 +25,7 @@ class lessThanOrEqualTo
 							->recipientOfNIntegerIs(
 								new functor(
 									function($secondOperandValue) use ($firstOperandValue, $recipient) {
-										(new comparison\lessThanOrEqualTo)
+										(new comparison\binary\lessThanOrEqualTo)
 											->recipientOfComparisonBetweenValuesIs(
 												$firstOperandValue,
 												$secondOperandValue,

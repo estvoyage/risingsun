@@ -1,4 +1,4 @@
-<?php namespace estvoyage\risingsun\comparison\conjunction;
+<?php namespace estvoyage\risingsun\comparison\binary\conjunction;
 
 use estvoyage\risingsun\{ container, block, comparison };
 
