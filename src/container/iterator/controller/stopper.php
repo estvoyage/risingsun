@@ -1,13 +1,13 @@
 <?php namespace estvoyage\risingsun\container\iterator\controller;
 
-use estvoyage\risingsun\{ container\iterator\controller, block, container\iterator\engine };
+use estvoyage\risingsun\{ container\iterator\controller, container\iterator\engine };
 
 class stopper
 	implements
 		controller
 {
 	private
-		$block
+		$engine
 	;
 
 	function __construct(engine $engine = null)
