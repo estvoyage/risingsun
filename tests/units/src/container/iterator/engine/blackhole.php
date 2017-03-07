@@ -14,28 +14,21 @@ class blackhole extends units\test
 		;
 	}
 
-	function testControllerOfContainerIteratorIs()
+	function testValuesForContainerIteratorPayloadIs()
 	{
 		$this
 			->given(
-				$controller = new mockOfContainer\iterator\controller
+				$payload = new mockOfContainer\iterator\payload,
+				$value1 = uniqid(),
+				$value2 = rand(- PHP_INT_MAX, PHP_INT_MAX),
+				$value3 = new \stdClass
 			)
 			->if(
 				$this->newTestedInstance
 			)
 			->then
-				->object($this->testedInstance->controllerOfContainerIteratorIs($controller))
+				->object($this->testedInstance->valuesForContainerIteratorPayloadIs($payload, $value1, $value2, $value3))
 					->isEqualTo($this->newTestedInstance)
 		;
-	}
-
-	function testRemainingIterationsAreUseless()
-	{
-		$this->object($this->newTestedInstance->remainingIterationsAreUseless())->isEqualTo($this->newTestedInstance);
-	}
-
-	function testContainerIteratorEngineHasNoMoreIteration()
-	{
-		$this->object($this->newTestedInstance->containerIteratorHasNoMoreIteration())->isEqualTo($this->newTestedInstance);
 	}
 }

@@ -1,14 +1,25 @@
 <?php namespace estvoyage\risingsun\comparison\binary;
 
-use estvoyage\risingsun\comparison;
+use estvoyage\risingsun\{ comparison, oboolean };
 
 class identical
 	implements
 		comparison\binary
 {
-	function recipientOfComparisonBetweenValuesIs($firstOperand, $secondOperand, comparison\recipient $recipient)
+	private
+		$ok,
+		$ko
+	;
+
+	function __construct(oboolean $ok = null, oboolean $ko = null)
 	{
-		$recipient->{'comparisonIs' . ($firstOperand === $secondOperand ? 'True' : 'False')}();
+		$this->ok = $ok ?: new oboolean\ok;
+		$this->ko = $ko ?: new oboolean\ko;
+	}
+
+	function recipientOfComparisonBetweenValuesIs($firstOperand, $secondOperand, oboolean\recipient $recipient)
+	{
+		$recipient->obooleanIs($firstOperand === $secondOperand ? $this->ok : $this->ko);
 
 		return $this;
 	}

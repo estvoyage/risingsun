@@ -15,9 +15,9 @@ class collection
 		$this->comparisons = $comparisons;
 	}
 
-	function controllerOfPayloadForBinaryComparisonContainerIteratorIs(comparison\container\payload $payload, comparison\container\iterator $iterator, iterator\controller $controller)
+	function payloadForBinaryComparisonContainerIteratorIs(comparison\container\iterator $iterator, comparison\container\payload $payload)
 	{
-		$iterator->binaryComparisonsForPayloadWithControllerAre($payload, $controller, ...$this->comparisons);
+		$iterator->binaryComparisonsForPayloadAre($payload, ... $this->comparisons);
 
 		return $this;
 	}

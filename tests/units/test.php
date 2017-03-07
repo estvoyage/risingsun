@@ -19,7 +19,10 @@ class test extends \atoum
 
 		mock\controller::disableAutoBindForNewMock();
 
-		$this->mockGenerator->allIsInterface();
+		$this->mockGenerator
+			->allIsInterface()
+			->eachInstanceIsUnique()
+		;
 
 		return parent::beforeTestMethod($method);
 	}

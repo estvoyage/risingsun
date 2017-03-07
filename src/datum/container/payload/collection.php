@@ -1,6 +1,6 @@
 <?php namespace estvoyage\risingsun\datum\container\payload;
 
-use estvoyage\risingsun\{ datum\container\payload, datum, ointeger, container\iterator\controller };
+use estvoyage\risingsun\{ datum\container\payload, datum, ointeger, container\iterator\engine\controller };
 
 class collection
 	implements
@@ -15,11 +15,11 @@ class collection
 		$this->payloads = $payloads;
 	}
 
-	function containerIteratorControllerForDatumAtPositionIs(datum $datum, ointeger $position, controller $controller)
+	function containerIteratorEngineControllerForDatumAtPositionIs(datum $datum, ointeger $position, controller $controller)
 	{
 		foreach ($this->payloads as $payload)
 		{
-			$payload->containerIteratorControllerForDatumAtPositionIs($datum, $position, $controller);
+			$payload->containerIteratorEngineControllerForDatumAtPositionIs($datum, $position, $controller);
 		}
 
 		return $this;

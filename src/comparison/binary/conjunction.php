@@ -1,6 +1,6 @@
 <?php namespace estvoyage\risingsun\comparison\binary;
 
-use estvoyage\risingsun\{ comparison, block\functor };
+use estvoyage\risingsun\{ comparison, block\functor, oboolean };
 
 class conjunction
 	implements
@@ -17,16 +17,14 @@ class conjunction
 		$this->iterator = $iterator;
 	}
 
-	function recipientOfComparisonBetweenValuesIs($firstOperand, $secondOperand, comparison\recipient $recipient)
+	function recipientOfComparisonBetweenValuesIs($firstOperand, $secondOperand, oboolean\recipient $recipient)
 	{
 		$this->container
-			->controllerOfPayloadForBinaryComparisonContainerIteratorIs(
+			->payloadForBinaryComparisonContainerIteratorIs(
+				$this->iterator,
 				new conjunction\payload(
 					$firstOperand,
-					$secondOperand
-				),
-				$this->iterator,
-				new conjunction\controller(
+					$secondOperand,
 					$recipient
 				)
 			)

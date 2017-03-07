@@ -14,12 +14,12 @@ class comparator extends units\test
 		;
 	}
 
-	function testIteratorControllerIForPositionIs()
+	function testIteratorControllerForPositionIs()
 	{
 		$this
 			->given(
 				$position = new mockOfOInteger,
-				$controller = new mockOfContainer\iterator\controller,
+				$controller = new mockOfContainer\iterator\engine\controller,
 				$comparison = new mockOfOInteger\comparison\unary
 			)
 			->if(
@@ -29,7 +29,7 @@ class comparator extends units\test
 				->object($this->testedInstance->iteratorControllerForPositionIs($position, $controller))
 					->isEqualTo($this->newTestedInstance($comparison))
 				->mock($controller)
-					->receive('remainingIterationsAreUseless')
+					->receive('remainingIterationsInContainerIteratorEngineAreUseless')
 						->never
 
 			->if(
@@ -41,7 +41,7 @@ class comparator extends units\test
 				->object($this->testedInstance->iteratorControllerForPositionIs($position, $controller))
 					->isEqualTo($this->newTestedInstance($comparison))
 				->mock($controller)
-					->receive('remainingIterationsAreUseless')
+					->receive('remainingIterationsInContainerIteratorEngineAreUseless')
 						->once
 		;
 	}
@@ -52,17 +52,17 @@ class comparator extends units\test
 			->given(
 				$datum = new mockOfDatum,
 				$position = new mockOfOInteger,
-				$controller = new mockOfContainer\iterator\controller,
+				$controller = new mockOfContainer\iterator\engine\controller,
 				$comparison = new mockOfOInteger\comparison\unary
 			)
 			->if(
 				$this->newTestedInstance($comparison)
 			)
 			->then
-				->object($this->testedInstance->containerIteratorControllerForDatumAtPositionIs($datum, $position, $controller))
+				->object($this->testedInstance->containerIteratorEngineControllerForDatumAtPositionIs($datum, $position, $controller))
 					->isEqualTo($this->newTestedInstance($comparison))
 				->mock($controller)
-					->receive('remainingIterationsAreUseless')
+					->receive('remainingIterationsInContainerIteratorEngineAreUseless')
 						->never
 
 			->if(
@@ -71,10 +71,10 @@ class comparator extends units\test
 				}
 			)
 			->then
-				->object($this->testedInstance->containerIteratorControllerForDatumAtPositionIs($datum, $position, $controller))
+				->object($this->testedInstance->containerIteratorEngineControllerForDatumAtPositionIs($datum, $position, $controller))
 					->isEqualTo($this->newTestedInstance($comparison))
 				->mock($controller)
-					->receive('remainingIterationsAreUseless')
+					->receive('remainingIterationsInContainerIteratorEngineAreUseless')
 						->once
 		;
 	}

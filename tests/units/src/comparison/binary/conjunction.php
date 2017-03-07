@@ -3,7 +3,7 @@
 require __DIR__ . '/../../../runner.php';
 
 use estvoyage\risingsun\{ tests\units, comparison };
-use mock\estvoyage\risingsun\{ comparison as mockOfComparison, iterator as mockOfIterator };
+use mock\estvoyage\risingsun\{ comparison as mockOfComparison, iterator as mockOfIterator, oboolean as mockOfOBoolean };
 
 class conjunction extends units\test
 {
@@ -20,7 +20,7 @@ class conjunction extends units\test
 			->given(
 				$container = new mockOfComparison\binary\container,
 				$iterator = new mockOfComparison\binary\container\iterator,
-				$recipient = new mockOfComparison\recipient,
+				$recipient = new mockOfOBoolean\recipient,
 				$this->newTestedInstance($container, $iterator)
 			)
 			->if(
@@ -31,14 +31,12 @@ class conjunction extends units\test
 				->object($this->testedInstance->recipientOfComparisonBetweenValuesIs($firstOperand, $secondOperand, $recipient))
 					->isEqualTo($this->newTestedInstance($container, $iterator))
 				->mock($container)
-					->receive('controllerOfPayloadForBinaryComparisonContainerIteratorIs')
+					->receive('payloadForBinaryComparisonContainerIteratorIs')
 						->withArguments(
+								$iterator,
 								new comparison\binary\conjunction\payload(
 									$firstOperand,
-									$secondOperand
-								),
-								$iterator,
-								new comparison\binary\conjunction\controller(
+									$secondOperand,
 									$recipient
 								)
 							)

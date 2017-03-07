@@ -7,12 +7,14 @@ class lessThanOrEqualTo
 		ointeger\comparison\binary
 {
 	private
-		$oboolean
+		$ok,
+		$ko
 	;
 
-	function __construct(oboolean $oboolean = null)
+	function __construct(oboolean $ok = null, oboolean $ko = null)
 	{
-		$this->oboolean = $oboolean ?: new oboolean\ok;
+		$this->ok = $ok ?: new oboolean\ok;
+		$this->ko = $ko ?: new oboolean\ko;
 	}
 
 	function recipientOfOIntegerComparisonBetweenOIntegersIs(ointeger $firstOperand, ointeger $secondOperand, oboolean\recipient $recipient)
@@ -25,16 +27,11 @@ class lessThanOrEqualTo
 							->recipientOfNIntegerIs(
 								new functor(
 									function($secondOperandValue) use ($firstOperandValue, $recipient) {
-										(new comparison\binary\lessThanOrEqualTo)
+										(new comparison\binary\lessThanOrEqualTo($this->ok, $this->ko))
 											->recipientOfComparisonBetweenValuesIs(
 												$firstOperandValue,
 												$secondOperandValue,
-												new functor(
-													function() use ($recipient)
-													{
-														$recipient->obooleanIs($this->oboolean);
-													}
-												)
+												$recipient
 											)
 										;
 									}

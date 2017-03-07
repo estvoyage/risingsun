@@ -1,6 +1,6 @@
 <?php namespace estvoyage\risingsun\datum\container\payload\output;
 
-use estvoyage\risingsun\{ datum\container\payload, ointeger, container\iterator\controller, output, datum };
+use estvoyage\risingsun\{ datum\container\payload, ointeger, container\iterator\engine\controller, output, datum };
 
 class line
 	implements
@@ -17,7 +17,7 @@ class line
 		$this->operation = $operation;
 	}
 
-	function containerIteratorControllerForDatumAtPositionIs(datum $datum, ointeger $position, controller $controller)
+	function containerIteratorEngineControllerForDatumAtPositionIs(datum $datum, ointeger $position, controller $controller)
 	{
 		$this->output
 			->outputLineIsOperationOnData(

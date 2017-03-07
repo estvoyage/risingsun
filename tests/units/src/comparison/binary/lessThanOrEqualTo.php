@@ -2,8 +2,8 @@
 
 require __DIR__ . '/../../../runner.php';
 
-use estvoyage\risingsun\tests\units;
-use mock\estvoyage\risingsun\comparison as mockOfComparison;
+use estvoyage\risingsun\{ tests\units, oboolean };
+use mock\estvoyage\risingsun\oboolean as mockOfOBoolean;
 
 class lessThanOrEqualTo extends units\test
 {
@@ -14,12 +14,19 @@ class lessThanOrEqualTo extends units\test
 		;
 	}
 
+	function test__construct()
+	{
+		$this->object($this->newTestedInstance)->isEqualTo($this->newTestedInstance(new oboolean\ok, new oboolean\ko));
+	}
+
 	function testRecipientOfComparisonIs()
 	{
 		$this
 			->given(
-				$recipient = new mockOfComparison\recipient,
-				$this->newTestedInstance
+				$ok = new mockOfOBoolean,
+				$ko = new mockOfOBoolean,
+				$recipient = new mockOfOBoolean\recipient,
+				$this->newTestedInstance($ok, $ko)
 			)
 			->if(
 				$firstOperand = 1,
@@ -27,12 +34,13 @@ class lessThanOrEqualTo extends units\test
 			)
 			->then
 				->object($this->testedInstance->recipientOfComparisonBetweenValuesIs($firstOperand, $secondOperand, $recipient))
-					->isEqualTo($this->newTestedInstance)
+					->isEqualTo($this->newTestedInstance($ok, $ko))
 				->mock($recipient)
-					->receive('comparisonIsFalse')
-						->once
-					->receive('comparisonIsTrue')
-						->never
+					->receive('obooleanIs')
+						->withArguments($ko)
+							->once
+						->withArguments($ok)
+							->never
 
 			->if(
 				$firstOperand = 0,
@@ -40,12 +48,13 @@ class lessThanOrEqualTo extends units\test
 			)
 			->then
 				->object($this->testedInstance->recipientOfComparisonBetweenValuesIs($firstOperand, $secondOperand, $recipient))
-					->isEqualTo($this->newTestedInstance)
+					->isEqualTo($this->newTestedInstance($ok, $ko))
 				->mock($recipient)
-					->receive('comparisonIsFalse')
-						->once
-					->receive('comparisonIsTrue')
-						->once
+					->receive('obooleanIs')
+						->withArguments($ko)
+							->once
+						->withArguments($ok)
+							->once
 
 			->if(
 				$firstOperand = 0,
@@ -53,12 +62,13 @@ class lessThanOrEqualTo extends units\test
 			)
 			->then
 				->object($this->testedInstance->recipientOfComparisonBetweenValuesIs($firstOperand, $secondOperand, $recipient))
-					->isEqualTo($this->newTestedInstance)
+					->isEqualTo($this->newTestedInstance($ok, $ko))
 				->mock($recipient)
-					->receive('comparisonIsFalse')
-						->once
-					->receive('comparisonIsTrue')
-						->twice
+					->receive('obooleanIs')
+						->withArguments($ko)
+							->once
+						->withArguments($ok)
+							->twice
 		;
 	}
 }

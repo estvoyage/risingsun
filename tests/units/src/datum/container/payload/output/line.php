@@ -14,13 +14,13 @@ class line extends units\test
 		;
 	}
 
-	function testContainerIteratorControllerForDatumAtPositionIs()
+	function testContainerIteratorEngineControllerForDatumAtPositionIs()
 	{
 		$this
 			->given(
 				$datum = new mockOfDatum,
 				$position = new mockOfOInteger,
-				$controller = new mockOfContainer\iterator\controller,
+				$controller = new mockOfContainer\iterator\engine\controller,
 				$output = new mockOfOutput,
 				$operation = new mockOfDatum\operation\binary
 			)
@@ -28,7 +28,7 @@ class line extends units\test
 				$this->newTestedInstance($output, $operation)
 			)
 			->then
-				->object($this->testedInstance->containerIteratorControllerForDatumAtPositionIs($datum, $position, $controller))
+				->object($this->testedInstance->containerIteratorEngineControllerForDatumAtPositionIs($datum, $position, $controller))
 					->isEqualTo($this->newTestedInstance($output, $operation))
 				->mock($output)
 					->receive('outputLineIsOperationOnData')

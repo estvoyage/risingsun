@@ -18,6 +18,8 @@ class functor extends units\test
 			->implements('estvoyage\risingsun\datum\recipient')
 			->implements('estvoyage\risingsun\datum\container\payload')
 			->implements('estvoyage\risingsun\comparison\recipient')
+			->implements('estvoyage\risingsun\container\iterator\engine\controller\recipient')
+			->implements('estvoyage\risingsun\container\iterator\payload')
 		;
 	}
 
@@ -92,29 +94,6 @@ class functor extends units\test
 		;
 	}
 
-	function testContainerIteratorControllerForValueAtPositionIs()
-	{
-		$this
-			->given(
-				$value = uniqid(),
-				$position = new mockOfContainer\iterator\position,
-				$controller = new mockOfContainer\iterator\controller,
-
-				$callable = function() use (& $arguments) {
-					$arguments = func_get_args();
-				}
-			)
-			->if(
-				$this->newTestedInstance($callable)
-			)
-			->then
-				->object($this->testedInstance->containerIteratorControllerForValueAtPositionIs($value, $position, $controller))
-					->isEqualTo($this->newTestedInstance($callable))
-				->array($arguments)
-					->isEqualTo([ $value, $position, $controller ])
-		;
-	}
-
 	function testOIntegerIs()
 	{
 		$this
@@ -178,13 +157,13 @@ class functor extends units\test
 		;
 	}
 
-	function testContainerIteratorControllerForDatumAtPositionIs()
+	function testContainerIteratorEngineControllerForDatumAtPositionIs()
 	{
 		$this
 			->given(
 				$datum = new mockOfDatum,
 				$position = new mockOfContainer\iterator\position,
-				$controller = new mockOfContainer\iterator\controller,
+				$controller = new mockOfContainer\iterator\engine\controller,
 
 				$callable = function() use (& $arguments) {
 					$arguments = func_get_args();
@@ -194,7 +173,7 @@ class functor extends units\test
 				$this->newTestedInstance($callable)
 			)
 			->then
-				->object($this->testedInstance->containerIteratorControllerForDatumAtPositionIs($datum, $position, $controller))
+				->object($this->testedInstance->containerIteratorEngineControllerForDatumAtPositionIs($datum, $position, $controller))
 					->isEqualTo($this->newTestedInstance($callable))
 				->array($arguments)
 					->isEqualTo([ $datum, $position, $controller ])
@@ -236,6 +215,50 @@ class functor extends units\test
 					->isEqualTo($this->newTestedInstance($callable))
 				->variable($arguments)
 					->isNull
+		;
+	}
+
+	function testContainerIteratorEngineControllerIs()
+	{
+		$this
+			->given(
+				$controller = new mockOfContainer\iterator\engine\controller,
+
+				$callable = function() use (& $arguments) {
+					$arguments = func_get_args();
+				}
+			)
+			->if(
+				$this->newTestedInstance($callable)
+			)
+			->then
+				->object($this->testedInstance->containerIteratorEngineControllerIs($controller))
+					->isEqualTo($this->newTestedInstance($callable))
+				->array($arguments)
+					->isEqualTo([ $controller ])
+		;
+	}
+
+	function testContainerIteratorEngineControllerOfValueAtPositionIs()
+	{
+		$this
+			->given(
+				$value = uniqid(),
+				$position = new mockOfOInteger,
+				$controller = new mockOfContainer\iterator\engine\controller,
+
+				$callable = function() use (& $arguments) {
+					$arguments = func_get_args();
+				}
+			)
+			->if(
+				$this->newTestedInstance($callable)
+			)
+			->then
+				->object($this->testedInstance->containerIteratorEngineControllerOfValueAtPositionIs($value, $position, $controller))
+					->isEqualTo($this->newTestedInstance($callable))
+				->array($arguments)
+					->isEqualTo([ $value, $position, $controller ])
 		;
 	}
 }

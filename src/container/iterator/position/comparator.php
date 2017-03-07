@@ -1,6 +1,6 @@
 <?php namespace estvoyage\risingsun\container\iterator\position;
 
-use estvoyage\risingsun\{ ointeger\comparison, ointeger, container\iterator\controller, block\functor, datum };
+use estvoyage\risingsun\{ ointeger\comparison, ointeger, container\iterator\engine\controller, block\functor, datum };
 
 class comparator
 	implements
@@ -28,7 +28,7 @@ class comparator
 								new functor(
 									function() use ($controller)
 									{
-										$controller->remainingIterationsAreUseless();
+										$controller->remainingIterationsInContainerIteratorEngineAreUseless();
 									}
 								)
 							)
@@ -41,7 +41,7 @@ class comparator
 		return $this;
 	}
 
-	function containerIteratorControllerForDatumAtPositionIs(datum $datum, ointeger $position, controller $controller)
+	function containerIteratorEngineControllerForDatumAtPositionIs(datum $datum, ointeger $position, controller $controller)
 	{
 		return $this->iteratorControllerForPositionIs($position, $controller);
 	}

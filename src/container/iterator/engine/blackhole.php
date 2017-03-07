@@ -6,17 +6,7 @@ class blackhole
 	implements
 		iterator\engine
 {
-	function controllerOfContainerIteratorIs(iterator\controller $controller)
-	{
-		return $this;
-	}
-
-	function remainingIterationsAreUseless()
-	{
-		return $this;
-	}
-
-	function containerIteratorHasNoMoreIteration()
+	function valuesForContainerIteratorPayloadIs(iterator\payload $payload, ... $values)
 	{
 		return $this;
 	}

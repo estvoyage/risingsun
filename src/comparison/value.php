@@ -1,6 +1,6 @@
 <?php namespace estvoyage\risingsun\comparison;
 
-use estvoyage\risingsun\comparison;
+use estvoyage\risingsun\{ comparison, oboolean };
 
 class value
 	implements
@@ -17,7 +17,7 @@ class value
 		$this->comparison = $comparison;
 	}
 
-	function recipientOfComparisonIs(comparison\recipient $recipient)
+	function recipientOfComparisonIs(oboolean\recipient $recipient)
 	{
 		$this->comparison
 			->recipientOfComparisonWithValueIs(

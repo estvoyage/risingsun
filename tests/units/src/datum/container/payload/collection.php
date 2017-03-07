@@ -14,7 +14,7 @@ class collection extends units\test
 		;
 	}
 
-	function testContainerIteratorControllerForDatumAtPositionIs()
+	function testContainerIteratorEngineControllerForDatumAtPositionIs()
 	{
 		$this
 			->given(
@@ -22,20 +22,20 @@ class collection extends units\test
 				$payload2 = new mockOfDatum\container\payload,
 				$datum = new mockOfDatum,
 				$position = new mockOfOInteger,
-				$controller = new mockOfContainer\iterator\controller
+				$controller = new mockOfContainer\iterator\engine\controller
 			)
 			->if(
 				$this->newTestedInstance($payload1, $payload2)
 			)
 			->then
-				->object($this->testedInstance->containerIteratorControllerForDatumAtPositionIs($datum, $position, $controller))
+				->object($this->testedInstance->containerIteratorEngineControllerForDatumAtPositionIs($datum, $position, $controller))
 					->isEqualTo($this->newTestedInstance($payload1, $payload2))
 				->mock($payload1)
-					->receive('containerIteratorControllerForDatumAtPositionIs')
+					->receive('containerIteratorEngineControllerForDatumAtPositionIs')
 						->withIdenticalArguments($datum, $position, $controller)
 							->once
 				->mock($payload2)
-					->receive('containerIteratorControllerForDatumAtPositionIs')
+					->receive('containerIteratorEngineControllerForDatumAtPositionIs')
 						->withIdenticalArguments($datum, $position, $controller)
 							->once
 		;

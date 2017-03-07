@@ -3,7 +3,7 @@
 require __DIR__ . '/../../../runner.php';
 
 use estvoyage\risingsun\{ tests\units, comparison };
-use mock\estvoyage\risingsun\comparison as mockOfComparison;
+use mock\estvoyage\risingsun\{ comparison as mockOfComparison, oboolean as mockOfOBoolean };
 
 class value extends units\test
 {
@@ -14,7 +14,7 @@ class value extends units\test
 		;
 	}
 
-	function testConstructor()
+	function test__construct()
 	{
 		$this
 			->given(
@@ -36,7 +36,7 @@ class value extends units\test
 				$comparison = new mockOfComparison\binary,
 				$firstOperand = uniqid(),
 				$secondOperand = uniqid(),
-				$recipient = new mockOfComparison\recipient
+				$recipient = new mockOfOBoolean\recipient
 			)
 			->if(
 				$this->newTestedInstance($firstOperand, $comparison)

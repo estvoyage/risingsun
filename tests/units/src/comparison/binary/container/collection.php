@@ -14,26 +14,23 @@ class collection extends units\test
 		;
 	}
 
-	function testControllerOfPayloadForBinaryComparisonContainerIteratorIs()
+	function testPayloadForBinaryComparisonContainerIteratorIs()
 	{
 		$this
 			->given(
 				$iterator = new mockOfComparison\container\iterator,
 				$payload = new mockOfComparison\container\payload,
-				$controller = new mockOfContainer\iterator\controller,
-				$comparison1 = new mockOfComparison,
-				$comparison2 = new mockOfComparison,
-				$comparison3 = new mockOfComparison
+				$comparison = new mockOfComparison
 			)
 			->if(
-				$this->newTestedInstance($comparison1, $comparison2, $comparison3)
+				$this->newTestedInstance($comparison)
 			)
 			->then
-				->object($this->testedInstance->controllerOfPayloadForBinaryComparisonContainerIteratorIs($payload, $iterator, $controller))
-					->isEqualTo($this->newTestedInstance($comparison1, $comparison2, $comparison3))
+				->object($this->testedInstance->payloadForBinaryComparisonContainerIteratorIs($iterator, $payload))
+					->isEqualTo($this->newTestedInstance($comparison))
 				->mock($iterator)
-					->receive('binaryComparisonsForPayloadWithControllerAre')
-						->withArguments($payload, $controller, $comparison1, $comparison2, $comparison3)
+					->receive('binaryComparisonsForPayloadAre')
+						->withArguments($payload, $comparison)
 							->once
 		;
 	}

@@ -1,7 +1,8 @@
 <?php namespace estvoyage\risingsun\container\iterator;
 
+use estvoyage\risingsun\oboolean;
+
 interface engine
 {
-	function controllerOfContainerIteratorIs(controller $controller);
-	function remainingIterationsAreUseless();
+	function valuesForContainerIteratorPayloadIs(payload $payload, ... $values);
 }

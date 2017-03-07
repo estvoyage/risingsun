@@ -2,8 +2,8 @@
 
 require __DIR__ . '/../../../runner.php';
 
-use estvoyage\risingsun\tests\units;
-use mock\estvoyage\risingsun\comparison as mockOfComparison;
+use estvoyage\risingsun\{ tests\units, oboolean };
+use mock\estvoyage\risingsun\oboolean as mockOfOBoolean;
 
 class equal extends units\test
 {
@@ -14,25 +14,33 @@ class equal extends units\test
 		;
 	}
 
+	function test__construct()
+	{
+		$this->object($this->newTestedInstance)->isEqualTo($this->newTestedInstance(new oboolean\ok, new oboolean\ko));
+	}
+
 	function testRecipientOfComparisonBetweenValuesIs()
 	{
 		$this
 			->given(
-				$recipient = new mockOfComparison\recipient,
+				$ok = new mockOfOBoolean,
+				$ko = new mockOfOBoolean,
+				$recipient = new mockOfOBoolean\recipient,
+				$this->newTestedInstance($ok, $ko)
+			)
+			->if(
 				$firstOperand = uniqid(),
 				$secondOperand = uniqid()
 			)
-			->if(
-				$this->newTestedInstance
-			)
 			->then
 				->object($this->testedInstance->recipientOfComparisonBetweenValuesIs($firstOperand, $secondOperand,$recipient))
-					->isEqualTo($this->newTestedInstance)
+					->isEqualTo($this->newTestedInstance($ok, $ko))
 				->mock($recipient)
-					->receive('comparisonIsTrue')
-						->never
-					->receive('comparisonIsFalse')
-						->once
+					->receive('obooleanIs')
+						->withArguments($ok)
+							->never
+						->withArguments($ko)
+							->once
 
 			->if(
 				$firstOperand = rand(- PHP_INT_MAX, PHP_INT_MAX),
@@ -40,12 +48,13 @@ class equal extends units\test
 			)
 			->then
 				->object($this->testedInstance->recipientOfComparisonBetweenValuesIs($firstOperand, $secondOperand, $recipient))
-					->isEqualTo($this->newTestedInstance)
+					->isEqualTo($this->newTestedInstance($ok, $ko))
 				->mock($recipient)
-					->receive('comparisonIsTrue')
-						->once
-					->receive('comparisonIsFalse')
-						->once
+					->receive('obooleanIs')
+						->withArguments($ok)
+							->once
+						->withArguments($ko)
+							->once
 
 			->if(
 				$firstOperand = rand(- PHP_INT_MAX, PHP_INT_MAX),
@@ -53,12 +62,13 @@ class equal extends units\test
 			)
 			->then
 				->object($this->testedInstance->recipientOfComparisonBetweenValuesIs($firstOperand, $secondOperand, $recipient))
-					->isEqualTo($this->newTestedInstance)
+					->isEqualTo($this->newTestedInstance($ok, $ko))
 				->mock($recipient)
-					->receive('comparisonIsTrue')
-						->twice
-					->receive('comparisonIsFalse')
-						->once
+					->receive('obooleanIs')
+						->withArguments($ok)
+							->twice
+						->withArguments($ko)
+							->once
 		;
 	}
 }

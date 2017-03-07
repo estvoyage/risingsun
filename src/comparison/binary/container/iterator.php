@@ -4,5 +4,5 @@ use estvoyage\risingsun\{ comparison\binary as comparison, container };
 
 interface iterator
 {
-	function binaryComparisonsForPayloadWithControllerAre(payload $payload, container\iterator\controller $controller, comparison... $comparisons);
+	function binaryComparisonsForPayloadAre(payload $payload, comparison... $comparisons);
 }

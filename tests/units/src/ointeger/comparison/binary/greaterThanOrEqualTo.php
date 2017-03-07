@@ -14,26 +14,27 @@ class greaterThanOrEqualTo extends units\test
 		;
 	}
 
-	function testConstructor()
+	function test__construct()
 	{
-		$this->object($this->newTestedInstance)->isEqualTo($this->newTestedInstance(new oboolean\ok));
+		$this->object($this->newTestedInstance)->isEqualTo($this->newTestedInstance(new oboolean\ok, new oboolean\ko));
 	}
 
 	function testRecipientOfOIntegerComparisonBetweenOIntegerIs()
 	{
 		$this
 			->given(
+				$ok = new mockOfOBoolean,
+				$ko = new mockOfOBoolean,
 				$firstOperand = new mockOfOInteger,
 				$secondOperand = new mockOfOInteger,
-				$recipient = new mockOfOBoolean\recipient,
-				$oboolean = new mockOfOBoolean
+				$recipient = new mockOfOBoolean\recipient
 			)
 			->if(
-				$this->newTestedInstance($oboolean)
+				$this->newTestedInstance($ok, $ko)
 			)
 			->then
 				->object($this->testedInstance->recipientOfOIntegerComparisonBetweenOIntegersIs($firstOperand, $secondOperand, $recipient))
-					->isEqualTo($this->newTestedInstance($oboolean))
+					->isEqualTo($this->newTestedInstance($ok, $ko))
 				->mock($recipient)
 					->receive('obooleanIs')
 						->never
@@ -48,7 +49,7 @@ class greaterThanOrEqualTo extends units\test
 			)
 			->then
 				->object($this->testedInstance->recipientOfOIntegerComparisonBetweenOIntegersIs($firstOperand, $secondOperand, $recipient))
-					->isEqualTo($this->newTestedInstance($oboolean))
+					->isEqualTo($this->newTestedInstance($ok, $ko))
 				->mock($recipient)
 					->receive('obooleanIs')
 						->never
@@ -63,20 +64,21 @@ class greaterThanOrEqualTo extends units\test
 			)
 			->then
 				->object($this->testedInstance->recipientOfOIntegerComparisonBetweenOIntegersIs($firstOperand, $secondOperand, $recipient))
-					->isEqualTo($this->newTestedInstance($oboolean))
+					->isEqualTo($this->newTestedInstance($ok, $ko))
 				->mock($recipient)
 					->receive('obooleanIs')
-						->never
+						->withArguments($ko)
+							->once
 
 			->if(
 				$firstOperandValue = 1,
 				$secondOperandValue = 0
 			)
 				->object($this->testedInstance->recipientOfOIntegerComparisonBetweenOIntegersIs($firstOperand, $secondOperand, $recipient))
-					->isEqualTo($this->newTestedInstance($oboolean))
+					->isEqualTo($this->newTestedInstance($ok, $ko))
 				->mock($recipient)
 					->receive('obooleanIs')
-						->withIdenticalArguments($oboolean)
+						->withArguments($ok)
 							->once
 
 			->if(
@@ -84,10 +86,10 @@ class greaterThanOrEqualTo extends units\test
 				$secondOperandValue = 1
 			)
 				->object($this->testedInstance->recipientOfOIntegerComparisonBetweenOIntegersIs($firstOperand, $secondOperand, $recipient))
-					->isEqualTo($this->newTestedInstance($oboolean))
+					->isEqualTo($this->newTestedInstance($ok, $ko))
 				->mock($recipient)
 					->receive('obooleanIs')
-						->withIdenticalArguments($oboolean)
+						->withArguments($ok)
 							->twice
 		;
 	}

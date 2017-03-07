@@ -1,6 +1,6 @@
 <?php namespace estvoyage\risingsun\block;
 
-use estvoyage\risingsun\{ block, nstring, oboolean, container\iterator, ointeger, ninteger, datum, comparison };
+use estvoyage\risingsun\{ block, nstring, oboolean, container\iterator, ointeger, ninteger, datum, comparison, container };
 
 class functor
 	implements
@@ -11,7 +11,9 @@ class functor
 		ninteger\recipient,
 		datum\recipient,
 		datum\container\payload,
-		comparison\recipient
+		comparison\recipient,
+		container\iterator\engine\controller\recipient,
+		container\iterator\payload
 {
 	private
 		$callable
@@ -39,11 +41,6 @@ class functor
 		return $this->blockArgumentsAre($oboolean);
 	}
 
-	function containerIteratorControllerForValueAtPositionIs($value, ointeger $position, iterator\controller $controller)
-	{
-		return $this->blockArgumentsAre($value, $position, $controller);
-	}
-
 	function ointegerIs(ointeger $ointeger)
 	{
 		return $this->blockArgumentsAre($ointeger);
@@ -59,7 +56,7 @@ class functor
 		return $this->blockArgumentsAre($datum);
 	}
 
-	function containerIteratorControllerForDatumAtPositionIs(datum $datum, ointeger $position, iterator\controller $controller)
+	function containerIteratorEngineControllerForDatumAtPositionIs(datum $datum, ointeger $position, iterator\engine\controller $controller)
 	{
 		return $this->blockArgumentsAre($datum, $position, $controller);
 	}
@@ -72,5 +69,15 @@ class functor
 	function comparisonIsFalse()
 	{
 		return $this;
+	}
+
+	function containerIteratorEngineControllerIs(iterator\engine\controller $controller)
+	{
+		return $this->blockArgumentsAre($controller);
+	}
+
+	function containerIteratorEngineControllerOfValueAtPositionIs($value, ointeger $position, iterator\engine\controller $controller)
+	{
+		return $this->blockArgumentsAre($value, $position, $controller);
 	}
 }
