@@ -2,7 +2,7 @@
 
 use estvoyage\risingsun\
 	{
-		container\iterator\fifo,
+		container\iterator,
 		container\iterator\controller\stopper,
 		block\functor,
 		ointeger,
@@ -32,57 +32,58 @@ require __DIR__ . '/../../../vendor/autoload.php';
 	)
 )
 	->payloadForDatumContainerIteratorIs(
-		new fifo,
+		new iterator,
 		new payload\output\line(
 			new output\stdout,
 			new datum\operation\binary\pair
 		)
 	)
 	->payloadForDatumContainerIteratorIs(
-		new fifo(new stopper, new ointeger\generator\operation\binary\addition(new ointeger\any(42), new ointeger\any(42))),
+		new iterator(new iterator\engine\fifo(new ointeger\generator\operation\binary\addition(new ointeger\any(42), new ointeger\any(42)))),
 		new payload\output\line(
 			new output\stdout,
 			new datum\operation\binary\pair
 		)
 	)
+//	->payloadForDatumContainerIteratorIs(
+//		new lifo,
+//		new datum\container\payload\collection(
+//			new payload\output\line(
+//				new output\stdout,
+//				new datum\operation\binary\pair(
+//					new ostring\any('[ \''),
+//					new ostring\any('\' => \''),
+//					new ostring\any('\' ]')
+//				)
+//			),
+//			new position\comparator(new ointeger\comparison\unary\equal(new ointeger\any(3)))
+//		)
+//	)
+//	->payloadForDatumContainerIteratorIs(
+//		new lifo(new blackhole),
+//		new datum\container\payload\collection(
+//			new payload\output\line(
+//				new output\stdout,
+//				new datum\operation\binary\pair
+//			)
+//		)
+//	)
 	->payloadForDatumContainerIteratorIs(
-		new lifo,
-		new datum\container\payload\collection(
-			new payload\output\line(
-				new output\stdout,
-				new datum\operation\binary\pair(
-					new ostring\any('[ \''),
-					new ostring\any('\' => \''),
-					new ostring\any('\' ]')
-				)
-			),
-			new position\comparator(new ointeger\comparison\unary\equal(new ointeger\any(3)))
-		)
-	)
-	->payloadForDatumContainerIteratorIs(
-		new lifo(new blackhole),
-		new datum\container\payload\collection(
-			new payload\output\line(
-				new output\stdout,
-				new datum\operation\binary\pair
-			)
-		)
-	)
-	->payloadForDatumContainerIteratorIs(
-		new fifo(
-			new stopper,
-			new ointeger\generator\operation\binary\addition(
-				new ointeger\any(PHP_INT_MAX),
-				new ointeger\any(1),
-				new functor(
-					function()
-					{
-						(new output\stderr)
-							->outputLineIs(
-								new ostring\any('Integer overflow!')
-							)
-						;
-					}
+		new iterator(
+			new iterator\engine\fifo(
+				new ointeger\generator\operation\binary\addition(
+					new ointeger\any(PHP_INT_MAX),
+					new ointeger\any(1),
+					new functor(
+						function()
+						{
+							(new output\stderr)
+								->outputLineIs(
+									new ostring\any('Integer overflow!')
+								)
+							;
+						}
+					)
 				)
 			)
 		),

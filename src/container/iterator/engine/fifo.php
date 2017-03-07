@@ -11,10 +11,10 @@ class fifo
 		$controller
 	;
 
-	function __construct(engine\controller $controller = null, generator $generator = null)
+	function __construct(generator $generator = null, engine\controller $controller = null)
 	{
-		$this->controller = $controller ?: new controller\block;
 		$this->generator = $generator ?: new ointeger\generator\operation\binary\addition;
+		$this->controller = $controller ?: new controller\block;
 	}
 
 	function valuesForContainerIteratorPayloadIs(payload $payload, ... $values)

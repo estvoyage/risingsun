@@ -16,7 +16,7 @@ class fifo extends units\test
 
 	function testConstructor()
 	{
-		$this->object($this->newTestedInstance)->isEqualTo($this->newTestedInstance(new container\iterator\engine\controller\block, new ointeger\generator\operation\binary\addition));
+		$this->object($this->newTestedInstance)->isEqualTo($this->newTestedInstance(new ointeger\generator\operation\binary\addition, new container\iterator\engine\controller\block));
 	}
 
 	function testValuesForContainerIteratorPayloadIs()
@@ -31,11 +31,11 @@ class fifo extends units\test
 				$payloadValue3 = M_PI
 			)
 			->if(
-				$this->newTestedInstance($controller, $generator)
+				$this->newTestedInstance($generator, $controller)
 			)
 			->then
 				->object($this->testedInstance->valuesForContainerIteratorPayloadIs($payload, $payloadValue1, $payloadValue2, $payloadValue3))
-					->isEqualTo($this->newTestedInstance($controller, $generator))
+					->isEqualTo($this->newTestedInstance($generator, $controller))
 				->mock($payload)
 					->receive('containerIteratorEngineControllerOfValueAtPositionIs')
 						->never
@@ -52,7 +52,7 @@ class fifo extends units\test
 			)
 			->then
 				->object($this->testedInstance->valuesForContainerIteratorPayloadIs($payload, $payloadValue1, $payloadValue2, $payloadValue3))
-					->isEqualTo($this->newTestedInstance($controller, $generator))
+					->isEqualTo($this->newTestedInstance($generator, $controller))
 				->mock($payload)
 					->receive('containerIteratorEngineControllerOfValueAtPositionIs')
 						->never
@@ -76,7 +76,7 @@ class fifo extends units\test
 			)
 			->then
 				->object($this->testedInstance->valuesForContainerIteratorPayloadIs($payload, $payloadValue1, $payloadValue2, $payloadValue3))
-					->isEqualTo($this->newTestedInstance($controller, $generator))
+					->isEqualTo($this->newTestedInstance($generator, $controller))
 				->mock($payload)
 					->receive('containerIteratorEngineControllerOfValueAtPositionIs')
 						->withArguments($payloadValue1, $position1, $controllerForPaylaod)
@@ -105,7 +105,7 @@ class fifo extends units\test
 			)
 			->then
 				->object($this->testedInstance->valuesForContainerIteratorPayloadIs($payload, $payloadValue1, $payloadValue2, $payloadValue3))
-					->isEqualTo($this->newTestedInstance($controller, $generator))
+					->isEqualTo($this->newTestedInstance($generator, $controller))
 				->mock($payload)
 					->receive('containerIteratorEngineControllerOfValueAtPositionIs')
 						->withArguments($payloadValue1, $position1, $controllerForPaylaod)
