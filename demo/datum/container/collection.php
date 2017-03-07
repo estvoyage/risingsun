@@ -45,29 +45,20 @@ require __DIR__ . '/../../../vendor/autoload.php';
 			new datum\operation\binary\pair
 		)
 	)
-//	->payloadForDatumContainerIteratorIs(
-//		new lifo,
-//		new datum\container\payload\collection(
-//			new payload\output\line(
-//				new output\stdout,
-//				new datum\operation\binary\pair(
-//					new ostring\any('[ \''),
-//					new ostring\any('\' => \''),
-//					new ostring\any('\' ]')
-//				)
-//			),
-//			new position\comparator(new ointeger\comparison\unary\equal(new ointeger\any(3)))
-//		)
-//	)
-//	->payloadForDatumContainerIteratorIs(
-//		new lifo(new blackhole),
-//		new datum\container\payload\collection(
-//			new payload\output\line(
-//				new output\stdout,
-//				new datum\operation\binary\pair
-//			)
-//		)
-//	)
+	->payloadForDatumContainerIteratorIs(
+		new iterator(new iterator\engine\lifo),
+		new datum\container\payload\collection(
+			new payload\output\line(
+				new output\stdout,
+				new datum\operation\binary\pair(
+					new ostring\any('[ \''),
+					new ostring\any('\' => \''),
+					new ostring\any('\' ]')
+				)
+			),
+			new position\comparator(new ointeger\comparison\unary\equal(new ointeger\any(3)))
+		)
+	)
 	->payloadForDatumContainerIteratorIs(
 		new iterator(
 			new iterator\engine\fifo(
