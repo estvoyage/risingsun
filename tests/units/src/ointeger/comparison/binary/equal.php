@@ -2,8 +2,8 @@
 
 require __DIR__ . '/../../../../runner.php';
 
-use estvoyage\risingsun\{ tests\units, oboolean };
-use mock\estvoyage\risingsun\{ ointeger as mockOfOInteger, oboolean as mockOfOBoolean };
+use estvoyage\risingsun\{ tests\units, comparison };
+use mock\estvoyage\risingsun\{ ointeger as mockOfOInteger, oboolean as mockOfOBoolean, comparison as mockOfComparison };
 
 class equal extends units\test
 {
@@ -16,68 +16,57 @@ class equal extends units\test
 
 	function testWithNoValue()
 	{
-		$this->object($this->newTestedInstance)->isEqualTo($this->newTestedInstance(new oboolean\ok));
+		$this->object($this->newTestedInstance)->isEqualTo($this->newTestedInstance(new comparison\binary\equal));
 	}
 
 	function testRecipientOfOIntegerComparisonBetweenOIntegerIs()
 	{
 		$this
 			->given(
-				$oboolean = new mockOfOBoolean,
+				$equal = new mockOfComparison\binary\equal,
 				$firstOperand = new mockOfOInteger,
 				$secondOperand = new mockOfOInteger,
 				$recipient = new mockOfOBoolean\recipient
 			)
 			->if(
-				$this->newTestedInstance($oboolean)
+				$this->newTestedInstance($equal)
 			)
 			->then
 				->object($this->testedInstance->recipientOfOIntegerComparisonBetweenOIntegersIs($firstOperand, $secondOperand, $recipient))
-					->isEqualTo($this->newTestedInstance($oboolean))
-				->mock($recipient)
-					->receive('obooleanIs')
+					->isEqualTo($this->newTestedInstance($equal))
+				->mock($equal)
+					->receive('recipientOfComparisonBetweenValuesIs')
 						->never
 
+			->given(
+				$firstOperandValue = rand(- PHP_INT_MAX, PHP_INT_MAX)
+			)
 			->if(
-				$this->calling($firstOperand)->recipientOfNIntegerIs = function($recipient) {
-					$recipient->nintegerIs(2);
+				$this->calling($firstOperand)->recipientOfNIntegerIs = function($recipient) use ($firstOperandValue) {
+					$recipient->nintegerIs($firstOperandValue);
 				}
 			)
 			->then
 				->object($this->testedInstance->recipientOfOIntegerComparisonBetweenOIntegersIs($firstOperand, $secondOperand, $recipient))
-					->isEqualTo($this->newTestedInstance($oboolean))
-				->mock($recipient)
-					->receive('obooleanIs')
+					->isEqualTo($this->newTestedInstance($equal))
+				->mock($equal)
+					->receive('recipientOfComparisonBetweenValuesIs')
 						->never
 
+			->given(
+				$secondOperandValue = rand(- PHP_INT_MAX, PHP_INT_MAX)
+			)
 			->if(
-				$this->calling($secondOperand)->recipientOfNIntegerIs = function($recipient) {
-					$recipient->nintegerIs(2);
+				$this->calling($secondOperand)->recipientOfNIntegerIs = function($recipient) use ($secondOperandValue) {
+					$recipient->nintegerIs($secondOperandValue);
 				}
 			)
 			->then
 				->object($this->testedInstance->recipientOfOIntegerComparisonBetweenOIntegersIs($firstOperand, $secondOperand, $recipient))
-					->isEqualTo($this->newTestedInstance($oboolean))
-				->mock($recipient)
-					->receive('obooleanIs')
-						->never
-
-			->if(
-				$equal = new mockOfOBoolean,
-
-				$this->calling($oboolean)->recipientOfOBooleanWithValueIs = function($value, $recipient) use ($equal) {
-					if ($value)
-					{
-						$recipient->obooleanIs($equal);
-					}
-				}
-			)
-			->then
-				->object($this->testedInstance->recipientOfOIntegerComparisonBetweenOIntegersIs($firstOperand, $secondOperand, $recipient))
-					->isEqualTo($this->newTestedInstance($oboolean))
-				->mock($recipient)
-					->receive('obooleanIs')
-						->withArguments($equal)
+					->isEqualTo($this->newTestedInstance($equal))
+				->mock($equal)
+					->receive('recipientOfComparisonBetweenValuesIs')
+						->withArguments($firstOperandValue, $secondOperandValue, $recipient)
 							->once
 		;
 	}

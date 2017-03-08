@@ -2,10 +2,10 @@
 
 require __DIR__ . '/../../../../runner.php';
 
-use estvoyage\risingsun\{ tests\units, comparison };
-use mock\estvoyage\risingsun\{ ointeger as mockOfOInteger, oboolean as mockOfOBoolean, comparison as mockOfComparison };
+use estvoyage\risingsun\tests\units;
+use mock\estvoyage\risingsun\{ comparison as mockOfComparison, ointeger as mockOfOInteger, oboolean as mockOfOBoolean };
 
-class lessThanOrEqualTo extends units\test
+class any extends units\test
 {
 	function testClass()
 	{
@@ -14,27 +14,22 @@ class lessThanOrEqualTo extends units\test
 		;
 	}
 
-	function test__construct()
-	{
-		$this->object($this->newTestedInstance)->isEqualTo($this->newTestedInstance(new comparison\binary\lessThanOrEqualTo));
-	}
-
 	function testRecipientOfOIntegerComparisonBetweenOIntegerIs()
 	{
 		$this
 			->given(
-				$lessThanOrEqualTo = new mockOfComparison\binary\lessThanOrEqualTo,
-				$recipient = new mockOfOBoolean\recipient,
+				$comparison = new mockOfComparison\binary,
 				$firstOperand = new mockOfOInteger,
-				$secondOperand = new mockOfOInteger
+				$secondOperand = new mockOfOInteger,
+				$recipient = new mockOfOBoolean\recipient
 			)
 			->if(
-				$this->newTestedInstance($lessThanOrEqualTo)
+				$this->newTestedInstance($comparison)
 			)
 			->then
 				->object($this->testedInstance->recipientOfOIntegerComparisonBetweenOIntegersIs($firstOperand, $secondOperand, $recipient))
-					->isEqualTo($this->newTestedInstance($lessThanOrEqualTo))
-				->mock($lessThanOrEqualTo)
+					->isEqualTo($this->newTestedInstance($comparison))
+				->mock($comparison)
 					->receive('recipientOfComparisonBetweenValuesIs')
 						->never
 
@@ -42,14 +37,14 @@ class lessThanOrEqualTo extends units\test
 				$firstOperandValue = rand(- PHP_INT_MAX, PHP_INT_MAX)
 			)
 			->if(
-				$this->calling($firstOperand)->recipientOfNIntegerIs = function($recipient) use (& $firstOperandValue) {
+				$this->calling($firstOperand)->recipientOfNIntegerIs = function($recipient) use ($firstOperandValue) {
 					$recipient->nintegerIs($firstOperandValue);
 				}
 			)
 			->then
 				->object($this->testedInstance->recipientOfOIntegerComparisonBetweenOIntegersIs($firstOperand, $secondOperand, $recipient))
-					->isEqualTo($this->newTestedInstance($lessThanOrEqualTo))
-				->mock($lessThanOrEqualTo)
+					->isEqualTo($this->newTestedInstance($comparison))
+				->mock($comparison)
 					->receive('recipientOfComparisonBetweenValuesIs')
 						->never
 
@@ -57,14 +52,14 @@ class lessThanOrEqualTo extends units\test
 				$secondOperandValue = rand(- PHP_INT_MAX, PHP_INT_MAX)
 			)
 			->if(
-				$this->calling($secondOperand)->recipientOfNIntegerIs = function($recipient) use (& $secondOperandValue) {
+				$this->calling($secondOperand)->recipientOfNIntegerIs = function($recipient) use ($secondOperandValue) {
 					$recipient->nintegerIs($secondOperandValue);
 				}
 			)
 			->then
 				->object($this->testedInstance->recipientOfOIntegerComparisonBetweenOIntegersIs($firstOperand, $secondOperand, $recipient))
-					->isEqualTo($this->newTestedInstance($lessThanOrEqualTo))
-				->mock($lessThanOrEqualTo)
+					->isEqualTo($this->newTestedInstance($comparison))
+				->mock($comparison)
 					->receive('recipientOfComparisonBetweenValuesIs')
 						->withArguments($firstOperandValue, $secondOperandValue, $recipient)
 							->once

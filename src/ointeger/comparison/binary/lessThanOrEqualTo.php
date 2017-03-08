@@ -2,47 +2,10 @@
 
 use estvoyage\risingsun\{ ointeger, oboolean, block\functor, comparison };
 
-class lessThanOrEqualTo
-	implements
-		ointeger\comparison\binary
+class lessThanOrEqualTo extends any
 {
-	private
-		$ok,
-		$ko
-	;
-
-	function __construct(oboolean $ok = null, oboolean $ko = null)
+	function __construct(comparison\binary\lessThanOrEqualTo $lessThanOrEqualTo = null)
 	{
-		$this->ok = $ok ?: new oboolean\ok;
-		$this->ko = $ko ?: new oboolean\ko;
-	}
-
-	function recipientOfOIntegerComparisonBetweenOIntegersIs(ointeger $firstOperand, ointeger $secondOperand, oboolean\recipient $recipient)
-	{
-		$firstOperand
-			->recipientOfNIntegerIs(
-				new functor(
-					function($firstOperandValue) use ($secondOperand, $recipient) {
-						$secondOperand
-							->recipientOfNIntegerIs(
-								new functor(
-									function($secondOperandValue) use ($firstOperandValue, $recipient) {
-										(new comparison\binary\lessThanOrEqualTo($this->ok, $this->ko))
-											->recipientOfComparisonBetweenValuesIs(
-												$firstOperandValue,
-												$secondOperandValue,
-												$recipient
-											)
-										;
-									}
-								)
-							)
-						;
-					}
-				)
-			)
-		;
-
-		return $this;
+		parent::__construct($lessThanOrEqualTo ?: new comparison\binary\lessThanOrEqualTo);
 	}
 }
