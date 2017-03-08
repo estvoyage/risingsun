@@ -1,11 +1,11 @@
-<?php namespace estvoyage\risingsun\tests\units\comparison\unary;
+<?php namespace estvoyage\risingsun\tests\units\comparison\unary\with\true;
 
-require __DIR__ . '/../../../runner.php';
+require __DIR__ . '/../../../../../runner.php';
 
 use estvoyage\risingsun\{ tests\units, oboolean };
 use mock\estvoyage\risingsun\oboolean as mockOfOBoolean;
 
-class isFloat extends units\test
+class boolean extends units\test
 {
 	function testClass()
 	{
@@ -74,15 +74,16 @@ class isFloat extends units\test
 	protected function validValueProvider()
 	{
 		return [
-			0.,
-			1.,
-			M_PI
+			true
 		];
 	}
 
 	protected function invalidValueProvider()
 	{
 		return [
+			0.,
+			1.,
+			M_PI,
 			0,
 			'0',
 			rand(- PHP_INT_MAX, -1),
@@ -90,7 +91,6 @@ class isFloat extends units\test
 			rand(1, PHP_INT_MAX),
 			(string) rand(1, PHP_INT_MAX),
 			false,
-			true,
 			'foo',
 			new \stdClass,
 			(string) M_PI

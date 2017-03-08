@@ -2,8 +2,8 @@
 
 require __DIR__ . '/../../../../runner.php';
 
-use estvoyage\risingsun\{ tests\units, ninteger\operation };
-use mock\estvoyage\risingsun\ninteger as mockOfNInteger;
+use estvoyage\risingsun\{ tests\units, block };
+use mock\estvoyage\risingsun\{ ninteger as mockOfNInteger, block as mockOfBlock };
 
 class addition extends units\test
 {
@@ -16,7 +16,7 @@ class addition extends units\test
 
 	function test__construct()
 	{
-		$this->object($this->newTestedInstance)->isEqualTo($this->newTestedInstance(new operation\controller\blackhole));
+		$this->object($this->newTestedInstance)->isEqualTo($this->newTestedInstance(new block\blackhole));
 	}
 
 	function testRecipientOfOperationWithNIntegerIs()
@@ -64,8 +64,8 @@ class addition extends units\test
 
 			->given(
 				$recipient = new mockOfNInteger\recipient,
-				$controller = new mockOfNInteger\operation\controller,
-				$this->newTestedInstance($controller)
+				$overflow = new mockOfBlock,
+				$this->newTestedInstance($overflow)
 			)
 			->if(
 				$firstOperand = PHP_INT_MAX,
@@ -73,12 +73,12 @@ class addition extends units\test
 			)
 			->then
 				->object($this->testedInstance->recipientOfOperationWithNIntegersIs($firstOperand, $secondOperand, $recipient))
-					->isEqualTo($this->newTestedInstance($controller))
+					->isEqualTo($this->newTestedInstance($overflow))
 				->mock($recipient)
 					->receive('nintegerIs')
 						->never
-				->mock($controller)
-					->receive('nintegerOperationGenerateOverflow')
+				->mock($overflow)
+					->receive('blockArgumentsAre')
 						->once
 		;
 	}

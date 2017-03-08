@@ -1,8 +1,8 @@
-<?php namespace estvoyage\risingsun\comparison\unary;
+<?php namespace estvoyage\risingsun\comparison\unary\with\true;
 
 use estvoyage\risingsun\{ comparison, oboolean\recipient, oboolean };
 
-class isFloat
+class boolean
 	implements
 		comparison\unary
 {
@@ -19,7 +19,7 @@ class isFloat
 
 	function recipientOfComparisonWithValueIs($value, recipient $recipient)
 	{
-		$recipient->obooleanIs(is_float($value) ? $this->ok : $this->ko);
+		$recipient->obooleanIs($value === true ? $this->ok : $this->ko);
 
 		return $this;
 	}

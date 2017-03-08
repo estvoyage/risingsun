@@ -14,7 +14,7 @@ class addition extends units\test
 		;
 	}
 
-	function testWithoutArguments()
+	function test__construct()
 	{
 		$this->object($this->newTestedInstance)->isEqualTo($this->newTestedInstance(new block\blackhole));
 	}

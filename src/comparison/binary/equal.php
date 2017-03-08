@@ -19,7 +19,12 @@ class equal
 
 	function recipientOfComparisonBetweenValuesIs($firstOperand, $secondOperand, oboolean\recipient $recipient)
 	{
-		$recipient->obooleanIs($firstOperand == $secondOperand ? $this->ok : $this->ko);
+		(new comparison\unary\with\true\boolean($this->ok, $this->ko))
+			->recipientOfComparisonWithValueIs(
+				$firstOperand == $secondOperand,
+				$recipient
+			)
+		;
 
 		return $this;
 	}
