@@ -75,7 +75,7 @@ class micro
 		return $this;
 	}
 
-	function recipientOfDatumWithValueIs(string $value, datum\recipient $recipient)
+	function recipientOfDatumWithNStringIs(string $value, datum\recipient $recipient)
 	{
 		if (is_numeric($value) && (float) $value == $value && $value >= 0)
 		{

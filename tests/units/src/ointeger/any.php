@@ -168,7 +168,7 @@ class any extends units\test
 	/**
 	 * @dataProvider validNStringProvider
 	 */
-	function testRecipientOfDatumWitValueIs_withValidNString($nstring)
+	function testRecipientOfDatumWithNStringIs_withValidNString($nstring)
 	{
 		$this
 			->given(
@@ -178,7 +178,7 @@ class any extends units\test
 				$this->newTestedInstance
 			)
 			->then
-				->object($this->testedInstance->recipientOfDatumWithValueIs($nstring, $recipient))
+				->object($this->testedInstance->recipientOfDatumWithNStringIs($nstring, $recipient))
 					->isEqualTo($this->newTestedInstance)
 				->mock($recipient)
 					->receive('datumIs')
@@ -189,7 +189,7 @@ class any extends units\test
 				$testedInstance = new childOfTestedClass
 			)
 			->then
-				->object($testedInstance->recipientOfDatumWithValueIs($nstring, $recipient))
+				->object($testedInstance->recipientOfDatumWithNStringIs($nstring, $recipient))
 					->isEqualTo($testedInstance)
 				->mock($recipient)
 					->receive('datumIs')
@@ -201,7 +201,7 @@ class any extends units\test
 	/**
 	 * @dataProvider invalidNStringProvider
 	 */
-	function testRecipientOfDatumWitValueIs_withInvalidNString($nstring)
+	function testRecipientOfDatumWithNStringIs_withInvalidNString($nstring)
 	{
 		$this
 			->given(
@@ -211,7 +211,7 @@ class any extends units\test
 				$this->newTestedInstance
 			)
 			->then
-				->object($this->testedInstance->recipientOfDatumWithValueIs($nstring, $recipient))
+				->object($this->testedInstance->recipientOfDatumWithNStringIs($nstring, $recipient))
 					->isEqualTo($this->newTestedInstance)
 				->mock($recipient)
 					->receive('datumIs')

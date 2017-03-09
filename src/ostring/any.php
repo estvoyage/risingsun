@@ -20,7 +20,7 @@ class any
 		$recipient->nstringIs($this->value);
 	}
 
-	function recipientOfDatumWithValueIs(string $value, datum\recipient $recipient)
+	function recipientOfDatumWithNStringIs(string $value, datum\recipient $recipient)
 	{
 		$datum = clone $this;
 		$datum->value = $value;

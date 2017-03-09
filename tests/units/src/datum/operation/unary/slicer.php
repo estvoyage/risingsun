@@ -49,7 +49,7 @@ class slicer extends units\test
 				$this->calling($datum)->recipientOfNStringIs = function($recipient) use ($datumValue) {
 					$recipient->nstringIs($datumValue);
 				},
-				$this->calling($datum)->recipientOfDatumWithValueIs = function($value, $recipient) use ($datumValue, $slice) {
+				$this->calling($datum)->recipientOfDatumWithNStringIs = function($value, $recipient) use ($datumValue, $slice) {
 					oboolean\factory::areEquals($value, $datumValue)
 						->blockForTrueIs(
 							new functor(
@@ -72,7 +72,7 @@ class slicer extends units\test
 
 			->if(
 				$positionValue = 2,
-				$this->calling($datum)->recipientOfDatumWithValueIs = function($value, $recipient) use ($datumValue, $slice) {
+				$this->calling($datum)->recipientOfDatumWithNStringIs = function($value, $recipient) use ($datumValue, $slice) {
 					oboolean\factory::areEquals($value, 'cd')
 						->blockForTrueIs(
 							new functor(
@@ -95,7 +95,7 @@ class slicer extends units\test
 
 			->if(
 				$positionValue = 4,
-				$this->calling($datum)->recipientOfDatumWithValueIs = function($value, $recipient) use ($datumValue, $slice) {
+				$this->calling($datum)->recipientOfDatumWithNStringIs = function($value, $recipient) use ($datumValue, $slice) {
 					oboolean\factory::areEquals($value, '')
 						->blockForTrueIs(
 							new functor(

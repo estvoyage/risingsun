@@ -35,7 +35,7 @@ class right
 														if ($secondOperandValue != '')
 														{
 															$firstOperand
-																->recipientOfDatumWithValueIs(
+																->recipientOfDatumWithNStringIs(
 																	str_pad($firstOperandValue, $lengthValue, $secondOperandValue),
 																	$recipient
 																)

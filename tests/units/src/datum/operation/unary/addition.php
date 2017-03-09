@@ -51,7 +51,7 @@ class addition extends units\test
 				$addition = new mockOfDatum
 			)
 			->if(
-				$this->calling($datum)->recipientOfDatumWithValueIs = function($value, $recipient) use ($addition) {
+				$this->calling($datum)->recipientOfDatumWithNStringIs = function($value, $recipient) use ($addition) {
 					oboolean\factory::areEquals($value, 'foobar')
 						->blockForTrueIs(
 							new functor(

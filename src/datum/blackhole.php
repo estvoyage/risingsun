@@ -11,7 +11,7 @@ class blackhole
 		return $this;
 	}
 
-	function recipientOfDatumWithValueIs(string $value, datum\recipient $recipient)
+	function recipientOfDatumWithNStringIs(string $value, datum\recipient $recipient)
 	{
 		return $this;
 	}

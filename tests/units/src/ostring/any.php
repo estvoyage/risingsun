@@ -44,7 +44,7 @@ class any extends units\test
 	/**
 	 * @dataProvider validNStringProvider
 	 */
-	function testRecipientOfDatumWithValueIs($nstring)
+	function testRecipientOfDatumWithNStringIs($nstring)
 	{
 		$this
 			->given(
@@ -54,7 +54,7 @@ class any extends units\test
 				$this->newTestedInstance
 			)
 			->then
-				->object($this->testedInstance->recipientOfDatumWithValueIs($nstring, $recipient))
+				->object($this->testedInstance->recipientOfDatumWithNStringIs($nstring, $recipient))
 					->isEqualTo($this->newTestedInstance)
 				->mock($recipient)
 					->receive('datumIs')
@@ -65,7 +65,7 @@ class any extends units\test
 				$testedInstance = new childOfTestedClass
 			)
 			->then
-				->object($testedInstance->recipientOfDatumWithValueIs($nstring, $recipient))
+				->object($testedInstance->recipientOfDatumWithNStringIs($nstring, $recipient))
 					->isEqualTo($testedInstance)
 				->mock($recipient)
 					->receive('datumIs')

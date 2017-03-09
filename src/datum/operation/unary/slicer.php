@@ -35,7 +35,7 @@ class slicer
 													function($datumValue) use ($datum, $recipient, $positionValue, $lengthValue)
 													{
 														$datum
-															->recipientOfDatumWithValueIs(
+															->recipientOfDatumWithNStringIs(
 																substr($datumValue, $positionValue, $lengthValue),
 																$recipient
 															)

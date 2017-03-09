@@ -60,7 +60,7 @@ class right extends units\test
 			->if(
 				$secondOperandValue = 'a',
 
-				$this->calling($firstOperand)->recipientOfDatumWithValueIs = function($value, $recipient) use ($padded, $secondOperandValue) {
+				$this->calling($firstOperand)->recipientOfDatumWithNStringIs = function($value, $recipient) use ($padded, $secondOperandValue) {
 					oboolean\factory::areEquals($value, $secondOperandValue)
 						->blockForTrueIs(
 							new functor(
@@ -85,7 +85,7 @@ class right extends units\test
 				$secondOperandValue = 'aaaa',
 				$lengthValue = 8,
 
-				$this->calling($firstOperand)->recipientOfDatumWithValueIs = function($value, $recipient) use ($padded, $secondOperandValue) {
+				$this->calling($firstOperand)->recipientOfDatumWithNStringIs = function($value, $recipient) use ($padded, $secondOperandValue) {
 					oboolean\factory::areEquals($value, $secondOperandValue . $secondOperandValue)
 						->blockForTrueIs(
 							new functor(
@@ -109,7 +109,7 @@ class right extends units\test
 			->if(
 				$secondOperandValue = 'aaaaaaaa',
 
-				$this->calling($firstOperand)->recipientOfDatumWithValueIs = function($value, $recipient) use ($padded, $secondOperandValue) {
+				$this->calling($firstOperand)->recipientOfDatumWithNStringIs = function($value, $recipient) use ($padded, $secondOperandValue) {
 					oboolean\factory::areEquals($value, $secondOperandValue)
 						->blockForTrueIs(
 							new functor(
@@ -133,7 +133,7 @@ class right extends units\test
 			->if(
 				$secondOperandValue = '0',
 
-				$this->calling($firstOperand)->recipientOfDatumWithValueIs = function($value, $recipient) use ($padded, $secondOperandValue) {
+				$this->calling($firstOperand)->recipientOfDatumWithNStringIs = function($value, $recipient) use ($padded, $secondOperandValue) {
 					oboolean\factory::areEquals($value, $secondOperandValue)
 						->blockForTrueIs(
 							new functor(

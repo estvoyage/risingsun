@@ -16,7 +16,7 @@ class addition
 						new functor(
 							function($secondDatumValue) use ($firstDatum, $firstDatumValue, $recipient)
 							{
-								$firstDatum->recipientOfDatumWithValueIs(
+								$firstDatum->recipientOfDatumWithNStringIs(
 									$firstDatumValue . $secondDatumValue,
 									$recipient
 								);

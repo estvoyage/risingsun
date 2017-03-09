@@ -78,7 +78,7 @@ class micro extends units\test
 	/**
 	 * @dataProvider validNStringProvider
 	 */
-	function testRecipientOfDatumWithValueIs_withValidNString($nstring)
+	function testRecipientOfDatumWithNStringIs_withValidNString($nstring)
 	{
 		$this
 			->given(
@@ -88,7 +88,7 @@ class micro extends units\test
 				$this->newTestedInstance
 			)
 			->then
-				->object($this->testedInstance->recipientOfDatumWithValueIs($nstring, $recipient))
+				->object($this->testedInstance->recipientOfDatumWithNStringIs($nstring, $recipient))
 					->isEqualTo($this->newTestedInstance)
 				->mock($recipient)
 					->receive('datumIs')
@@ -100,7 +100,7 @@ class micro extends units\test
 	/**
 	 * @dataProvider invalidNStringProvider
 	 */
-	function testRecipientOfDatumWithValueIs_withInvalidNString($nstring)
+	function testRecipientOfDatumWithNStringIs_withInvalidNString($nstring)
 	{
 		$this
 			->given(
@@ -110,7 +110,7 @@ class micro extends units\test
 				$this->newTestedInstance
 			)
 			->then
-				->object($this->testedInstance->recipientOfDatumWithValueIs($nstring, $recipient))
+				->object($this->testedInstance->recipientOfDatumWithNStringIs($nstring, $recipient))
 					->isEqualTo($this->newTestedInstance)
 				->mock($recipient)
 					->receive('datumIs')

@@ -32,7 +32,7 @@ class blackhole extends units\test
 		;
 	}
 
-	function testRecipientOfDatumWitValueIs()
+	function testRecipientOfDatumWithNStringIs()
 	{
 		$this
 			->given(
@@ -43,7 +43,7 @@ class blackhole extends units\test
 				$this->newTestedInstance
 			)
 			->then
-				->object($this->testedInstance->recipientOfDatumWithValueIs($value, $recipient))
+				->object($this->testedInstance->recipientOfDatumWithNStringIs($value, $recipient))
 					->isEqualTo($this->newTestedInstance)
 				->mock($recipient)
 					->receive('datumIs')
