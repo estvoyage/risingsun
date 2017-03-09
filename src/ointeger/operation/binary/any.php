@@ -26,13 +26,13 @@ class any
 							function($secondOperandValue) use ($firstOperand, $firstOperandValue, $recipient)
 							{
 								$this->operation
-									->recipientOfOperationWithNIntegersIs(
+									->recipientOfOperationOnNIntegersIs(
 										$firstOperandValue,
 										$secondOperandValue,
 										new functor(
 											function($operation) use ($firstOperand, $recipient)
 											{
-												$firstOperand->recipientOfOIntegerWithValueIs(
+												$firstOperand->recipientOfOIntegerWithNIntegerIs(
 													$operation,
 													$recipient
 												);

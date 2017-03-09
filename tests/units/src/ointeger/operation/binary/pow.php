@@ -66,7 +66,7 @@ class pow extends units\test
 				$pow = new mockOfOInteger
 			)
 			->if(
-				$this->calling($firstOperand)->recipientOfOIntegerWithValueIs = function($value, $recipient) use ($pow) {
+				$this->calling($firstOperand)->recipientOfOIntegerWithNIntegerIs = function($value, $recipient) use ($pow) {
 					if ($value == 8)
 					{
 						$recipient->ointegerIs($pow);

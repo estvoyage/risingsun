@@ -15,7 +15,7 @@ class pow
 		$this->overflow = $overflow ?: new block\blackhole;
 	}
 
-	function recipientOfOperationWithNIntegersIs(int $firstOperand, int $secondOperand, ninteger\recipient $recipient)
+	function recipientOfOperationOnNIntegersIs(int $firstOperand, int $secondOperand, ninteger\recipient $recipient)
 	{
 		(new comparison\unary\with\float\type)
 			->recipientOfComparisonWithValueIs(

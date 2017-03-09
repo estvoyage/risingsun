@@ -19,7 +19,7 @@ class addition extends units\test
 		$this->object($this->newTestedInstance)->isEqualTo($this->newTestedInstance(new block\blackhole));
 	}
 
-	function testRecipientOfOperationWithNIntegerIs()
+	function testRecipientOfOperationOnNIntegerIs()
 	{
 		$this
 			->given(
@@ -31,7 +31,7 @@ class addition extends units\test
 				$secondOperand = 0
 			)
 			->then
-				->object($this->testedInstance->recipientOfOperationWithNIntegersIs($firstOperand, $secondOperand, $recipient))
+				->object($this->testedInstance->recipientOfOperationOnNIntegersIs($firstOperand, $secondOperand, $recipient))
 					->isEqualTo($this->newTestedInstance)
 				->mock($recipient)
 					->receive('nintegerIs')
@@ -43,7 +43,7 @@ class addition extends units\test
 				$secondOperand = 2
 			)
 			->then
-				->object($this->testedInstance->recipientOfOperationWithNIntegersIs($firstOperand, $secondOperand, $recipient))
+				->object($this->testedInstance->recipientOfOperationOnNIntegersIs($firstOperand, $secondOperand, $recipient))
 					->isEqualTo($this->newTestedInstance)
 				->mock($recipient)
 					->receive('nintegerIs')
@@ -55,7 +55,7 @@ class addition extends units\test
 				$secondOperand = -2
 			)
 			->then
-				->object($this->testedInstance->recipientOfOperationWithNIntegersIs($firstOperand, $secondOperand, $recipient))
+				->object($this->testedInstance->recipientOfOperationOnNIntegersIs($firstOperand, $secondOperand, $recipient))
 					->isEqualTo($this->newTestedInstance)
 				->mock($recipient)
 					->receive('nintegerIs')
@@ -72,7 +72,7 @@ class addition extends units\test
 				$secondOperand = 1
 			)
 			->then
-				->object($this->testedInstance->recipientOfOperationWithNIntegersIs($firstOperand, $secondOperand, $recipient))
+				->object($this->testedInstance->recipientOfOperationOnNIntegersIs($firstOperand, $secondOperand, $recipient))
 					->isEqualTo($this->newTestedInstance($overflow))
 				->mock($recipient)
 					->receive('nintegerIs')

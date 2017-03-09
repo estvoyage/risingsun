@@ -53,7 +53,7 @@ class any extends units\test
 		;
 	}
 
-	function testRecipientOfOIntegerWithValueIs()
+	function testRecipientOfOIntegerWithNIntegerIs()
 	{
 		$this
 			->given(
@@ -64,7 +64,7 @@ class any extends units\test
 				$this->newTestedInstance
 			)
 			->then
-				->object($this->testedInstance->recipientOfOIntegerWithValueIs($value, $recipient))
+				->object($this->testedInstance->recipientOfOIntegerWithNIntegerIs($value, $recipient))
 					->isEqualTo($this->newTestedInstance)
 				->mock($recipient)
 					->receive('ointegerIs')
@@ -75,7 +75,7 @@ class any extends units\test
 				$childOfTestedClass = new childOfTestedClass
 			)
 			->then
-				->object($childOfTestedClass->recipientOfOIntegerWithValueIs($value, $recipient))
+				->object($childOfTestedClass->recipientOfOIntegerWithNIntegerIs($value, $recipient))
 					->isEqualTo($childOfTestedClass)
 				->mock($recipient)
 					->receive('ointegerIs')

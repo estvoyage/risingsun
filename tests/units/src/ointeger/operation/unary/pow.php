@@ -60,7 +60,7 @@ class pow extends units\test
 				$operation = new mockOfOInteger
 			)
 			->if(
-				$this->calling($ointeger)->recipientOfOIntegerWithValueIs = function($value, $recipient) use ($operation) {
+				$this->calling($ointeger)->recipientOfOIntegerWithNIntegerIs = function($value, $recipient) use ($operation) {
 					oboolean\factory::areEquals($value, 9)
 						->blockForTrueIs(
 							new functor(

@@ -28,7 +28,7 @@ class pow
 									function($ointegerValue) use ($ointeger, $recipient, $powValue)
 									{
 										$ointeger
-											->recipientOfOIntegerWithValueIs(
+											->recipientOfOIntegerWithNIntegerIs(
 												pow($ointegerValue, $powValue),
 												$recipient
 											)

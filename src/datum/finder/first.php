@@ -41,7 +41,7 @@ class first
 													function() use ($recipient, $position)
 													{
 														$this->start
-															->recipientOfOIntegerWithValueIs(
+															->recipientOfOIntegerWithNIntegerIs(
 																$position,
 																new functor(
 																	function($position) use ($recipient)

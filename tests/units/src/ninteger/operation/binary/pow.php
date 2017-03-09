@@ -19,7 +19,7 @@ class pow extends units\test
 		$this->object($this->newTestedInstance)->isEqualTo($this->newTestedInstance(new block\blackhole));
 	}
 
-	function testRecipientOfOperationWithNIntegerIs()
+	function testRecipientOfOperationOnNIntegerIs()
 	{
 		$this
 			->given(
@@ -31,7 +31,7 @@ class pow extends units\test
 				$secondOperand = 3
 			)
 			->then
-				->object($this->testedInstance->recipientOfOperationWithNIntegersIs($firstOperand, $secondOperand, $recipient))
+				->object($this->testedInstance->recipientOfOperationOnNIntegersIs($firstOperand, $secondOperand, $recipient))
 					->isEqualTo($this->newTestedInstance)
 				->mock($recipient)
 					->receive('nintegerIs')
@@ -48,7 +48,7 @@ class pow extends units\test
 				$secondOperand = 2
 			)
 			->then
-				->object($this->testedInstance->recipientOfOperationWithNIntegersIs($firstOperand, $secondOperand, $recipient))
+				->object($this->testedInstance->recipientOfOperationOnNIntegersIs($firstOperand, $secondOperand, $recipient))
 					->isEqualTo($this->newTestedInstance($overflow))
 				->mock($recipient)
 					->receive('nintegerIs')

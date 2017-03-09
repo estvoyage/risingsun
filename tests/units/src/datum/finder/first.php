@@ -50,7 +50,7 @@ class first extends units\test
 				$this->calling($datum)->recipientOfNStringIs = function($recipient) use ($datumValue) {
 					$recipient->nstringIs($datumValue);
 				},
-				$this->calling($start)->recipientOfOIntegerWithValueIs = function($value, $recipient) use ($position) {
+				$this->calling($start)->recipientOfOIntegerWithNIntegerIs = function($value, $recipient) use ($position) {
 					oboolean\factory::areEquals($value, 2)
 						->blockForTrueIs(
 							new functor(

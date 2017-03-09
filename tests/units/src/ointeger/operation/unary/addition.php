@@ -81,7 +81,7 @@ class addition extends units\test
 				$addition = new mockOfOInteger
 			)
 			->if(
-				$this->calling($ointeger)->recipientOfOIntegerWithValueIs = function($value, $recipient) use ($addition) {
+				$this->calling($ointeger)->recipientOfOIntegerWithNIntegerIs = function($value, $recipient) use ($addition) {
 					if ($value == 3)
 					{
 						$recipient->ointegerIs($addition);

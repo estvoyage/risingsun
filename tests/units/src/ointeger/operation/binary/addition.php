@@ -64,7 +64,7 @@ class addition extends units\test
 
 			->if(
 				$addition = new mockOfOInteger,
-				$this->calling($firstOperand)->recipientOfOIntegerWithValueIs = function($ninteger, $recipient) use ($addition) {
+				$this->calling($firstOperand)->recipientOfOIntegerWithNIntegerIs = function($ninteger, $recipient) use ($addition) {
 					oboolean\factory::areEquals($ninteger, 3)
 						->blockForTrueIs(
 							new functor(

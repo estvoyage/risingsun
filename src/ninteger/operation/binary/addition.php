@@ -15,7 +15,7 @@ class addition
 		$this->overflow = $overflow ?: new block\blackhole;
 	}
 
-	function recipientOfOperationWithNIntegersIs(int $firstOperand, int $secondOperand, recipient $recipient)
+	function recipientOfOperationOnNIntegersIs(int $firstOperand, int $secondOperand, recipient $recipient)
 	{
 		(new comparison\unary\with\float\type)
 			->recipientOfComparisonWithValueIs(

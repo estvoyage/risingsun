@@ -67,7 +67,7 @@ class any extends units\test
 				$operationValue = rand(- PHP_INT_MAX, PHP_INT_MAX)
 			)
 			->if(
-				$this->calling($noperation)->recipientOfOperationWithNIntegersIs = function($firstOperand, $secondOperand, $recipient) use ($firstOperandValue, $secondOperandValue, $operationValue) {
+				$this->calling($noperation)->recipientOfOperationOnNIntegersIs = function($firstOperand, $secondOperand, $recipient) use ($firstOperandValue, $secondOperandValue, $operationValue) {
 					if ($firstOperand == $firstOperandValue && $secondOperand == $secondOperandValue)
 					{
 						$recipient->nintegerIs($operationValue);
@@ -85,7 +85,7 @@ class any extends units\test
 				$operation = new mockOfOInteger
 			)
 			->if(
-				$this->calling($firstOperand)->recipientOfOIntegerWithValueIs = function($value, $recipient) use ($operationValue, $operation) {
+				$this->calling($firstOperand)->recipientOfOIntegerWithNIntegerIs = function($value, $recipient) use ($operationValue, $operation) {
 					if ($value == $operationValue)
 					{
 						$recipient->ointegerIs($operation);

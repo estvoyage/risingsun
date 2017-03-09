@@ -30,7 +30,7 @@ class any
 		$recipient->nintegerIs($this->value);
 	}
 
-	function recipientOfOIntegerWithValueIs(int $value, recipient $recipient)
+	function recipientOfOIntegerWithNIntegerIs(int $value, recipient $recipient)
 	{
 		$ointeger = clone $this;
 		$ointeger->value = $value;
