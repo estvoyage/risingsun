@@ -14,7 +14,7 @@ class addition extends units\test
 		;
 	}
 
-	function testWithoutOverflow()
+	function test__construct()
 	{
 		$this
 			->given(
@@ -28,7 +28,7 @@ class addition extends units\test
 		;
 	}
 
-	function testRecipientOfOperationWithIntegerIs()
+	function testRecipientOfOperationWithOIntegerIs()
 	{
 		$this
 			->given(
@@ -43,9 +43,57 @@ class addition extends units\test
 			->then
 				->object($this->testedInstance->recipientOfOperationWithOIntegerIs($ointeger, $recipient))
 					->isEqualTo($this->newTestedInstance($addend, $overflow))
-				->mock($ointeger)
-					->receive('recipientOfOIntegerOperationWithOIntegerIs')
-						->withArguments(new ointeger\operation\binary\addition($overflow), $addend, $recipient)
+				->mock($recipient)
+					->receive('ointegerIs')
+						->never
+
+			->given(
+				$addendValue = 1
+			)
+			->if(
+				$this->calling($addend)->recipientOfNIntegerIs = function($recipient) use ($addendValue) {
+					$recipient->nintegerIs($addendValue);
+				}
+			)
+			->then
+				->object($this->testedInstance->recipientOfOperationWithOIntegerIs($ointeger, $recipient))
+					->isEqualTo($this->newTestedInstance($addend, $overflow))
+				->mock($recipient)
+					->receive('ointegerIs')
+						->never
+
+			->given(
+				$ointegerValue = 2
+			)
+			->if(
+				$this->calling($ointeger)->recipientOfNIntegerIs = function($recipient) use ($ointegerValue) {
+					$recipient->nintegerIs($ointegerValue);
+				}
+			)
+			->then
+				->object($this->testedInstance->recipientOfOperationWithOIntegerIs($ointeger, $recipient))
+					->isEqualTo($this->newTestedInstance($addend, $overflow))
+				->mock($recipient)
+					->receive('ointegerIs')
+						->never
+
+			->given(
+				$addition = new mockOfOInteger
+			)
+			->if(
+				$this->calling($ointeger)->recipientOfOIntegerWithValueIs = function($value, $recipient) use ($addition) {
+					if ($value == 3)
+					{
+						$recipient->ointegerIs($addition);
+					}
+				}
+			)
+			->then
+				->object($this->testedInstance->recipientOfOperationWithOIntegerIs($ointeger, $recipient))
+					->isEqualTo($this->newTestedInstance($addend, $overflow))
+				->mock($recipient)
+					->receive('ointegerIs')
+						->withArguments($addition)
 							->once
 		;
 	}

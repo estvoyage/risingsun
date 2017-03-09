@@ -1,10 +1,10 @@
 <?php namespace estvoyage\risingsun\ointeger\operation\unary;
 
-use estvoyage\risingsun\{ ointeger\operation, ointeger, block };
+use estvoyage\risingsun\{ ointeger, block };
 
 class addition
 	implements
-		operation\unary
+		ointeger\operation\unary
 {
 	private
 		$addend
@@ -18,9 +18,9 @@ class addition
 
 	function recipientOfOperationWithOIntegerIs(ointeger $ointeger, ointeger\recipient $recipient)
 	{
-		$ointeger
-			->recipientOfOIntegerOperationWithOIntegerIs(
-				new operation\binary\addition($this->overflow),
+		(new ointeger\operation\binary\addition($this->overflow))
+			->recipientOfOperationOnOIntegersIs(
+				$ointeger,
 				$this->addend,
 				$recipient
 			)
