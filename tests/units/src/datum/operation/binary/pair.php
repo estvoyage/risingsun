@@ -14,7 +14,7 @@ class pair extends units\test
 		;
 	}
 
-	function testWithoutValues()
+	function test__construct()
 	{
 		$this->object($this->newTestedInstance)->isEqualTo($this->newTestedInstance(new ostring\any('('), new ostring\any(':'), new ostring\any(')')));
 	}

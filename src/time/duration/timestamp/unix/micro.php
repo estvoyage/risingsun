@@ -32,37 +32,68 @@ class micro
 		$datum = new ostring\any($this->value);
 
 		(
-			new datum\finder\operation(
-				new datum\finder\first,
-				new ointeger\operation\unary\addition(new ointeger\any(1))
-			)
-		)
-			->recipientOfSearchOfDatumInDatumIs(
-				new ostring\any('.'),
-				$datum,
-				new datum\finder\recipient\proxy(
-					new functor(
-						function($position) use ($datum, $precision, $recipient)
-						{
-							$datum
-								->recipientOfDatumOperationIs(
-									new datum\operation\unary\pipe(
-										new datum\operation\unary\slicer($position, $precision),
-										new datum\operation\unary\padding\right($precision, new ostring\any('0'))
-									),
-									$recipient
-								)
-							;
-						}
-					),
-					new functor(
-						function() use ($datum, $recipient)
-						{
-							$recipient->datumIs($datum);
-						}
+			new class(new ostring\any($this->value), $precision)
+				implements
+					datum\finder\recipient,
+					datum\recipient
+			{
+				private
+					$datum,
+					$precision
+				;
+
+				function __construct(datum $defaultDatum, ointeger\unsigned $precision)
+				{
+					$this->datumIs($defaultDatum);
+					$this->precision = $precision;
+				}
+
+				function recipientIs(datum\recipient $recipient)
+				{
+					(
+						new datum\finder\operation(
+							new datum\finder\first,
+							new ointeger\operation\unary\addition(new ointeger\any(1))
+						)
 					)
-				)
-			)
+						->recipientOfSearchOfDatumInDatumIs(
+							new ostring\any('.'),
+							$this->datum,
+							$this
+						)
+					;
+
+					$recipient->datumIs($this->datum);
+				}
+
+				function datumIsAtPosition(ointeger\unsigned $position)
+				{
+					$this->datum
+						->recipientOfDatumOperationIs(
+							new datum\operation\unary\pipe(
+								new datum\operation\unary\container\collection(
+									new datum\operation\unary\slicer($position, $this->precision),
+									new datum\operation\unary\padding\right($this->precision, new ostring\any('0'))
+								)
+							),
+							$this
+						)
+					;
+				}
+
+				function datumIs(datum $datum)
+				{
+					$this->datum = $datum;
+
+					return $this;
+				}
+
+				function datumDoesNotExist()
+				{
+				}
+			}
+		)
+			->recipientIs($recipient)
 		;
 
 		return $this;

@@ -12,10 +12,12 @@ class iterator extends units\test
 		$this->testedClass
 			->implements('estvoyage\risingsun\datum\container\iterator')
 			->implements('estvoyage\risingsun\comparison\binary\container\iterator')
+			->implements('estvoyage\risingsun\datum\operation\unary\container\iterator')
+			->implements('estvoyage\risingsun\container\iterator\engine')
 		;
 	}
 
-	function testConstructor()
+	function test__construct()
 	{
 		$this->object($this->newTestedInstance)->isEqualTo($this->newTestedInstance(new container\iterator\engine\fifo));
 	}
@@ -60,7 +62,7 @@ class iterator extends units\test
 		;
 	}
 
-	function testBinaryComparisonsForPayloadWithControllerAre()
+	function testBinaryComparisonsForPayloadAre()
 	{
 		$this
 			->given(
@@ -84,10 +86,7 @@ class iterator extends units\test
 			)
 			->if(
 				$this->calling($engine)->valuesForContainerIteratorPayloadIs = function($payload, ... $values) use ($comparison, $position, $controller) {
-					if ($values[0] == $comparison)
-					{
-						$payload->containerIteratorEngineControllerOfValueAtPositionIs($values[0], $position, $controller);
-					}
+					$payload->containerIteratorEngineControllerOfValueAtPositionIs($values[0], $position, $controller);
 				}
 			)
 			->then
@@ -96,6 +95,65 @@ class iterator extends units\test
 				->mock($payload)
 					->receive('containerIteratorEngineControllerForBinaryComparisonAtPositionIs')
 						->withArguments($comparison, $position, $controller)
+							->once
+		;
+	}
+
+	function testUnaryDatumOperationForPayloadIs()
+	{
+		$this
+			->given(
+				$engine = new mockOfContainer\iterator\engine,
+				$payload = new mockOfDatum\operation\unary\container\payload,
+				$operation = new mockOfDatum\operation\unary
+			)
+			->if(
+				$this->newTestedInstance($engine)
+			)
+			->then
+				->object($this->testedInstance->unaryDatumOperationsForPayloadAre($payload, $operation))
+					->isEqualTo($this->newTestedInstance($engine))
+				->mock($payload)
+					->receive('containerIteratorEngineControllerForUnaryDatumOperationAtPositionIs')
+						->never
+
+			->given(
+				$position = new mockOfOInteger,
+				$controller = new mockOfContainer\iterator\engine\controller
+			)
+			->if(
+				$this->calling($engine)->valuesForContainerIteratorPayloadIs = function($payload, ... $values) use ($position, $controller) {
+					$payload->containerIteratorEngineControllerOfValueAtPositionIs($values[0], $position, $controller);
+				}
+			)
+			->then
+				->object($this->testedInstance->unaryDatumOperationsForPayloadAre($payload, $operation))
+					->isEqualTo($this->newTestedInstance($engine))
+				->mock($payload)
+					->receive('containerIteratorEngineControllerForUnaryDatumOperationAtPositionIs')
+						->withArguments($operation, $position, $controller)
+							->once
+		;
+	}
+
+	function testValuesForContainerIteratorPayloadIs()
+	{
+		$this
+			->given(
+				$engine = new mockOfContainer\iterator\engine,
+				$payload = new mockOfContainer\iterator\payload,
+				$value1 = uniqid(),
+				$value2 = true
+			)
+			->if(
+				$this->newTestedInstance($engine)
+			)
+			->then
+				->object($this->testedInstance->valuesForContainerIteratorPayloadIs($payload, $value1, $value2))
+					->isEqualTo($this->newTestedInstance($engine))
+				->mock($engine)
+					->receive('valuesForContainerIteratorPayloadIs')
+						->withArguments($payload, $value1, $value2)
 							->once
 		;
 	}

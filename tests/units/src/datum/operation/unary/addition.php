@@ -69,7 +69,7 @@ class addition extends units\test
 					->isEqualTo($this->newTestedInstance($suffix))
 				->mock($recipient)
 					->receive('datumIs')
-						->withIdenticalArguments($addition)
+						->withArguments($addition)
 							->once
 		;
 	}

@@ -19,9 +19,9 @@ class right
 
 	function recipientOfDatumOperationWithDatumIs(datum $datum, datum\recipient $recipient)
 	{
-		$datum
-			->recipientOfDatumOperationWithDatumIs(
-				new operation\binary\padding\right($this->length),
+		(new operation\binary\padding\right($this->length))
+			->recipientOfDatumOperationOnDataIs(
+				$datum,
 				$this->padding,
 				$recipient
 			)

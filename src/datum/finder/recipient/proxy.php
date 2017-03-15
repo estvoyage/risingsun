@@ -7,14 +7,14 @@ class proxy
 		finder\recipient
 {
 	private
-		$datumExists,
-		$datumNotExists
+		$recipient,
+		$block
 	;
 
-	function __construct(ointeger\recipient $recipient, block $datumNotExists)
+	function __construct(ointeger\recipient $recipient, block $block)
 	{
 		$this->recipient = $recipient;
-		$this->datumNotExists = $datumNotExists;
+		$this->block = $block;
 	}
 
 	function datumIsAtPosition(ointeger\unsigned $position)
@@ -26,7 +26,7 @@ class proxy
 
 	function datumDoesNotExist()
 	{
-		$this->datumNotExists->blockArgumentsAre();
+		$this->block->blockArgumentsAre();
 
 		return $this;
 	}

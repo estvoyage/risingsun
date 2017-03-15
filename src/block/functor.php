@@ -13,7 +13,8 @@ class functor
 		datum\container\payload,
 		comparison\recipient,
 		container\iterator\engine\controller\recipient,
-		container\iterator\payload
+		container\iterator\payload,
+		datum\operation\unary\container\payload
 {
 	private
 		$callable
@@ -79,5 +80,10 @@ class functor
 	function containerIteratorEngineControllerOfValueAtPositionIs($value, ointeger $position, iterator\engine\controller $controller)
 	{
 		return $this->blockArgumentsAre($value, $position, $controller);
+	}
+
+	function containerIteratorEngineControllerForUnaryDatumOperationAtPositionIs(datum\operation\unary $operation, ointeger $position, iterator\engine\controller $controller)
+	{
+		return $this->blockArgumentsAre($operation, $position, $controller);
 	}
 }

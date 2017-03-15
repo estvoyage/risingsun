@@ -14,7 +14,7 @@ class lifo extends units\test
 		;
 	}
 
-	function testConstructor()
+	function test__construct()
 	{
 		$this->object($this->newTestedInstance)->isEqualTo($this->newTestedInstance(new ointeger\generator\operation\binary\addition, new container\iterator\engine\controller\block));
 	}

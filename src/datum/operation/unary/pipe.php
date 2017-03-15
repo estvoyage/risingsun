@@ -1,36 +1,43 @@
 <?php namespace estvoyage\risingsun\datum\operation\unary;
 
-use estvoyage\risingsun\{ datum\operation, datum, ostring, block\functor };
+use estvoyage\risingsun\{ datum\operation, datum, ostring, block\functor, container\iterator };
 
 class pipe
 	implements
 		operation\unary
 {
 	private
-		$operations
+		$container
 	;
 
-	function __construct(operation\unary... $operations)
+	function __construct(operation\unary\container $container)
 	{
-		$this->operations = $operations;
+		$this->container = $container;
 	}
 
 	function recipientOfDatumOperationWithDatumIs(datum $datum, datum\recipient $recipient)
 	{
 		$currentDatum = $datum;
 
-		foreach ($this->operations as $operation)
-		{
-			$operation->recipientOfDatumOperationWithDatumIs(
-				$currentDatum,
+		$this->container
+			->payloadForUnaryDatumOperationContainerIteratorIs(
+				new iterator,
 				new functor(
-					function($datum) use (& $currentDatum)
+					function($operation) use (& $currentDatum)
 					{
-						$currentDatum = $datum;
+						$operation->recipientOfDatumOperationWithDatumIs(
+							$currentDatum,
+							new functor(
+								function($datum) use (& $currentDatum)
+								{
+									$currentDatum = $datum;
+								}
+							)
+						);
 					}
 				)
-			);
-		}
+			)
+		;
 
 		$recipient->datumIs($currentDatum);
 

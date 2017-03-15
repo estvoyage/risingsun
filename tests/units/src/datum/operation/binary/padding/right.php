@@ -78,7 +78,7 @@ class right extends units\test
 					->isEqualTo($this->newTestedInstance($length))
 				->mock($recipient)
 					->receive('datumIs')
-						->withIdenticalArguments($padded)
+						->withArguments($padded)
 							->once
 
 			->if(
@@ -86,7 +86,7 @@ class right extends units\test
 				$lengthValue = 8,
 
 				$this->calling($firstOperand)->recipientOfDatumWithNStringIs = function($value, $recipient) use ($padded, $secondOperandValue) {
-					oboolean\factory::areEquals($value, $secondOperandValue . $secondOperandValue)
+					oboolean\factory::areEquals($value, 'aaaaaaaa')
 						->blockForTrueIs(
 							new functor(
 								function() use ($recipient, $padded)
@@ -103,7 +103,7 @@ class right extends units\test
 					->isEqualTo($this->newTestedInstance($length))
 				->mock($recipient)
 					->receive('datumIs')
-						->withIdenticalArguments($padded)
+						->withArguments($padded)
 							->twice
 
 			->if(
@@ -127,14 +127,14 @@ class right extends units\test
 					->isEqualTo($this->newTestedInstance($length))
 				->mock($recipient)
 					->receive('datumIs')
-						->withIdenticalArguments($padded)
+						->withArguments($padded)
 							->thrice
 
 			->if(
 				$secondOperandValue = '0',
 
 				$this->calling($firstOperand)->recipientOfDatumWithNStringIs = function($value, $recipient) use ($padded, $secondOperandValue) {
-					oboolean\factory::areEquals($value, $secondOperandValue)
+					oboolean\factory::areEquals($value, '00000000')
 						->blockForTrueIs(
 							new functor(
 								function() use ($recipient, $padded)
@@ -151,7 +151,7 @@ class right extends units\test
 					->isEqualTo($this->newTestedInstance($length))
 				->mock($recipient)
 					->receive('datumIs')
-						->withIdenticalArguments($padded)
+						->withArguments($padded)
 							->{4}
 		;
 	}

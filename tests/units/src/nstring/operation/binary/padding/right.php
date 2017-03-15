@@ -81,6 +81,32 @@ class right extends units\test
 					->receive('nstringIs')
 						->withArguments('acdefcdefc')
 							->once
+
+			->given(
+				$recipient = new mockOfNString\recipient
+			)
+			->if(
+				$firstOperand = '',
+				$secondOperand = ''
+			)
+			->then
+				->object($this->testedInstance->recipientOfOperationOnNStringsIs($firstOperand, $secondOperand, $recipient))
+					->isEqualTo($this->newTestedInstance($length))
+				->mock($recipient)
+					->receive('nstringIs')
+						->never
+
+			->if(
+				$firstOperand = '',
+				$secondOperand = 0
+			)
+			->then
+				->object($this->testedInstance->recipientOfOperationOnNStringsIs($firstOperand, $secondOperand, $recipient))
+					->isEqualTo($this->newTestedInstance($length))
+				->mock($recipient)
+					->receive('nstringIs')
+						->withArguments('0000000000')
+							->once
 		;
 	}
 }

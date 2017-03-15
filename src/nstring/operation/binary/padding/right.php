@@ -22,13 +22,16 @@ class right
 				new functor(
 					function($length) use ($firstOperand, $secondOperand, $recipient)
 					{
-						$recipient->nstringIs(
-							str_pad(
-								$firstOperand,
-								$length,
-								$secondOperand
-							)
-						);
+						if ($secondOperand != '')
+						{
+							$recipient->nstringIs(
+								str_pad(
+									$firstOperand,
+									$length,
+									$secondOperand
+								)
+							);
+						}
 					}
 				)
 			)

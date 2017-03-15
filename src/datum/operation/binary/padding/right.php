@@ -1,59 +1,11 @@
 <?php namespace estvoyage\risingsun\datum\operation\binary\padding;
 
-use estvoyage\risingsun\{ datum\operation, datum, ointeger, block\functor };
+use estvoyage\risingsun\{ datum\operation, ointeger, nstring };
 
-class right
-	implements
-		operation\binary
+class right extends operation\binary\any
 {
-	private
-		$length
-	;
-
 	function __construct(ointeger\unsigned $length)
 	{
-		$this->length = $length;
-	}
-
-	function recipientOfDatumOperationOnDataIs(datum $firstOperand, datum $secondOperand, datum\recipient $recipient)
-	{
-		$this->length
-			->recipientOfNIntegerIs(
-				new functor(
-					function($lengthValue) use ($firstOperand, $secondOperand, $recipient)
-					{
-						$firstOperand
-							->recipientOfNStringIs(
-								new functor(
-									function($firstOperandValue) use ($firstOperand, $secondOperand, $recipient, $lengthValue)
-									{
-										$secondOperand
-											->recipientOfNStringIs(
-												new functor(
-													function($secondOperandValue) use ($firstOperand, $recipient, $lengthValue, $firstOperandValue)
-													{
-														if ($secondOperandValue != '')
-														{
-															$firstOperand
-																->recipientOfDatumWithNStringIs(
-																	str_pad($firstOperandValue, $lengthValue, $secondOperandValue),
-																	$recipient
-																)
-															;
-														}
-													}
-												)
-											)
-										;
-									}
-								)
-							)
-						;
-					}
-				)
-			)
-		;
-
-		return $this;
+		parent::__construct(new nstring\operation\binary\padding\right($length));
 	}
 }

@@ -5,7 +5,9 @@ use estvoyage\risingsun\{ container\iterator, block\functor, ointeger\generator,
 class iterator
 	implements
 		datum\container\iterator,
-		comparison\binary\container\iterator
+		comparison\binary\container\iterator,
+		datum\operation\unary\container\iterator,
+		iterator\engine
 {
 	private
 		$engine
@@ -18,7 +20,7 @@ class iterator
 
 	function dataForPayloadAre(datum\container\payload $payload, datum... $data)
 	{
-		$this->engine
+		return $this
 			->valuesForContainerIteratorPayloadIs(
 				new functor(
 					function($datum, $position, $controller) use ($payload)
@@ -35,7 +37,7 @@ class iterator
 
 	function binaryComparisonsForPayloadAre(comparison\binary\container\payload $payload, comparison\binary... $comparisons)
 	{
-		$this->engine
+		return $this
 			->valuesForContainerIteratorPayloadIs(
 				new functor(
 					function($comparison, $position, $controller) use ($payload)
@@ -44,6 +46,31 @@ class iterator
 					}
 				),
 				... $comparisons
+			)
+		;
+	}
+
+	function unaryDatumOperationsForPayloadAre(datum\operation\unary\container\payload $payload, datum\operation\unary... $operations)
+	{
+		return $this
+			->valuesForContainerIteratorPayloadIs(
+				new functor(
+					function($operation, $position, $controller) use ($payload)
+					{
+						$payload->containerIteratorEngineControllerForUnaryDatumOperationAtPositionIs($operation, $position, $controller);
+					}
+				),
+				... $operations
+			)
+		;
+	}
+
+	function valuesForContainerIteratorPayloadIs(iterator\payload $payload, ... $values)
+	{
+		$this->engine
+			->valuesForContainerIteratorPayloadIs(
+				$payload,
+				... $values
 			)
 		;
 

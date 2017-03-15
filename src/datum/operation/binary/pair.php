@@ -1,6 +1,6 @@
 <?php namespace estvoyage\risingsun\datum\operation\binary;
 
-use estvoyage\risingsun\{ datum, datum\operation, block\functor, ostring, datum\operation\unary\addition, datum\operation\unary\pipe };
+use estvoyage\risingsun\{ datum, datum\operation, block\functor, ostring, datum\operation\unary\addition, datum\operation\unary };
 
 class pair
 	implements
@@ -22,12 +22,14 @@ class pair
 	function recipientOfDatumOperationOnDataIs(datum $firstDatum, datum $secondDatum, datum\recipient $recipient)
 	{
 		(
-			new pipe(
-				new addition($this->prefix),
-				new addition($firstDatum),
-				new addition($this->separator),
-				new addition($secondDatum),
-				new addition($this->suffix)
+			new unary\pipe(
+				new unary\container\collection(
+					new addition($this->prefix),
+					new addition($firstDatum),
+					new addition($this->separator),
+					new addition($secondDatum),
+					new addition($this->suffix)
+				)
 			)
 		)
 			->recipientOfDatumOperationIs(
