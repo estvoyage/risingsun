@@ -17,7 +17,7 @@ class any
 			$value = (string) $value;
 		}
 
-		if (! is_numeric($value) || (int) $value != $value)
+		if (! self::check($value))
 		{
 			throw new \typeError('Value should be an integer');
 		}
@@ -49,7 +49,7 @@ class any
 
 	function recipientOfDatumWithNStringIs(string $value, datum\recipient $recipient)
 	{
-		if (is_numeric($value) && (int) $value == $value)
+		if (self::check($value))
 		{
 			$datum = clone $this;
 			$datum->value = (int) $value;
@@ -65,5 +65,10 @@ class any
 		$recipient->unsignedOIntegerIs(new ointeger\unsigned\any(strlen($this->value)));
 
 		return $this;
+	}
+
+	private static function check($value)
+	{
+		return is_numeric($value) && (int) $value == $value;
 	}
 }
