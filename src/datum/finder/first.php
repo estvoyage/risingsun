@@ -28,14 +28,6 @@ class first
 									function($datumValue) use ($searchValue, $recipient)
 									{
 										oboolean\factory::isFalse($position = strpos($datumValue, $searchValue))
-											->blockForTrueIs(
-												new functor(
-													function() use ($recipient)
-													{
-														$recipient->datumDoesNotExist();
-													}
-												)
-											)
 											->blockForFalseIs(
 												new functor(
 													function() use ($recipient, $position)

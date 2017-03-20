@@ -48,7 +48,7 @@ class micro extends units\test
 					->isEqualTo($this->newTestedInstance($value))
 				->mock($recipient)
 					->receive('nfloatIs')
-						->withIdenticalArguments((float) $value)
+						->withArguments((float) $value)
 							->once
 		;
 	}
@@ -70,7 +70,7 @@ class micro extends units\test
 					->isEqualTo($this->newTestedInstance($value))
 				->mock($recipient)
 					->receive('nstringIs')
-						->withIdenticalArguments((string) $value)
+						->withArguments((string) $value)
 							->once
 		;
 	}
@@ -193,81 +193,28 @@ class micro extends units\test
 		;
 	}
 
-	function testRecipientOfDatumOperationWithDatumIs()
+	/**
+	 * @dataProvider validValueProvider
+	 */
+	function testRecipientOfDatumLength($value)
 	{
 		$this
 			->given(
-				$operation = new mockOfDatum\operation\binary,
-				$datum = new mockOfDatum,
-				$recipient = new mockOfDatum\recipient
+				$recipient = new mockOfOInteger\unsigned\recipient
 			)
 			->if(
-				$this->newTestedInstance
+				$this->newTestedInstance($value)
 			)
 			->then
-				->object($this->testedInstance->recipientOfDatumOperationWithDatumIs($operation, $datum, $recipient))
-					->isEqualTo($this->newTestedInstance)
-				->mock($operation)
-					->receive('recipientOfDatumOperationOnDataIs')
-						->withArguments(
-							$this->testedInstance,
-							$datum,
-							$recipient
-						)
+				->object($this->testedInstance->recipientOfDatumLengthIs($recipient))
+					->isEqualTo($this->newTestedInstance($value))
+				->mock($recipient)
+					->receive('unsignedOIntegerIs')
+						->withArguments(new ointeger\unsigned\any(strlen($value)))
 							->once
 		;
 	}
 
-	function testRecipientOfDatumOperationIs()
-	{
-		$this
-			->given(
-				$operation = new mockOfDatum\operation\unary,
-				$recipient = new mockOfDatum\recipient
-			)
-			->if(
-				$this->newTestedInstance
-			)
-			->then
-				->object($this->testedInstance->recipientOfDatumOperationIs($operation, $recipient))
-					->isEqualTo($this->newTestedInstance)
-				->mock($operation)
-					->receive('recipientOfDatumOperationWithDatumIs')
-						->withArguments($this->testedInstance, $recipient)
-							->once
-		;
-	}
-
-	function testRecipientOfDatumLengthComparisonIs()
-	{
-		$this
-			->given(
-				$comparison = new mockOfDatum\length\comparison,
-				$recipient = new mockOfOBoolean\recipient
-			)
-			->if(
-				$this->newTestedInstance
-			)
-			->then
-				->object($this->testedInstance->recipientOfDatumLengthComparisonIs($comparison, $recipient))
-					->isEqualTo($this->newTestedInstance)
-				->mock($comparison)
-					->receive('recipientOfDatumLengthComparisonWithDatumLengthIs')
-						->withArguments(new ointeger\unsigned\any(1), $recipient)
-							->once
-
-			->if(
-				$this->newTestedInstance(M_PI)
-			)
-			->then
-				->object($this->testedInstance->recipientOfDatumLengthComparisonIs($comparison, $recipient))
-					->isEqualTo($this->newTestedInstance(M_PI))
-				->mock($comparison)
-					->receive('recipientOfDatumLengthComparisonWithDatumLengthIs')
-						->withArguments(new ointeger\unsigned\any(strlen(M_PI)), $recipient)
-							->once
-		;
-	}
 
 	protected function validValueProvider()
 	{

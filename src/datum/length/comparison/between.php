@@ -19,6 +19,27 @@ class between
 		$this->greater = $greater ?: new comparison\greaterThanOrEqualTo;
 	}
 
+	function recipientOfDatumLengthComparisonWithDatumIs(datum $datum, oboolean\recipient $recipient)
+	{
+		$datum
+			->recipientOfDatumLengthIs(
+				new functor(
+					function($length) use ($recipient)
+					{
+						$this
+							->recipientOfDatumLengthComparisonWithDatumLengthIs(
+								$length,
+								$recipient
+							)
+						;
+					}
+				)
+			)
+		;
+
+		return $this;
+	}
+
 	function recipientOfDatumLengthComparisonWithDatumLengthIs(ointeger\unsigned $length, oboolean\recipient $recipient)
 	{
 		$this->greater

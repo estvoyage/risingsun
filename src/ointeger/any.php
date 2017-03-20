@@ -40,27 +40,6 @@ class any
 		return $this;
 	}
 
-	function recipientOfOIntegerOperationIs(ointeger\operation\unary $operation, ointeger\recipient $recipient)
-	{
-		$operation->recipientOfOperationWithOIntegerIs($this, $recipient);
-
-		return $this;
-	}
-
-	function recipientOfOIntegerOperationWithOIntegerIs(ointeger\operation\binary $operation, ointeger $ointeger, ointeger\recipient $recipient)
-	{
-		$operation->recipientOfOperationOnOIntegersIs($this, $ointeger, $recipient);
-
-		return $this;
-	}
-
-	function recipientOfOIntegerComparisonWithOIntegerIs(ointeger\comparison\binary $comparison, ointeger $ointeger, oboolean\recipient $recipient)
-	{
-		$comparison->recipientOfOIntegerComparisonBetweenOIntegersIs($this, $ointeger, $recipient);
-
-		return $this;
-	}
-
 	function recipientOfNStringIs(nstring\recipient $recipient)
 	{
 		$recipient->nstringIs((string) $this->value);
@@ -81,48 +60,9 @@ class any
 		return $this;
 	}
 
-	function recipientOfDatumOperationWithDatumIs(datum\operation\binary $operation, datum $datum, datum\recipient $recipient)
+	function recipientOfDatumLengthIs(ointeger\unsigned\recipient $recipient)
 	{
-		$operation
-			->recipientOfDatumOperationOnDataIs(
-				$this,
-				$datum,
-				$recipient
-			)
-		;
-
-		return $this;
-	}
-
-	function recipientOfDatumOperationIs(datum\operation\unary $operation, datum\recipient $recipient)
-	{
-		$operation
-			->recipientOfDatumOperationWithDatumIs(
-				$this,
-				$recipient
-			)
-		;
-
-		return $this;
-	}
-
-	function recipientOfOIntegerComparisonIs(ointeger\comparison\unary $comparison, oboolean\recipient $recipient)
-	{
-		$comparison
-			->recipientOfOIntegerComparisonWithOIntegerIs(
-				$this,
-				$recipient
-			)
-		;
-
-		return $this;
-	}
-
-	function recipientOfDatumLengthComparisonIs(datum\length\comparison $comparison, oboolean\recipient $recipient)
-	{
-		$comparison
-			->recipientOfDatumLengthComparisonWithDatumLengthIs(new ointeger\unsigned\any(strlen($this->value)), $recipient)
-		;
+		$recipient->unsignedOIntegerIs(new ointeger\unsigned\any(strlen($this->value)));
 
 		return $this;
 	}

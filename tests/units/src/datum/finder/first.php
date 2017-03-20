@@ -78,7 +78,7 @@ class first extends units\test
 				->object($this->testedInstance->recipientOfSearchOfDatumInDatumIs($search, $datum, $recipient))
 					->isEqualTo($this->newTestedInstance($start))
 				->mock($recipient)
-					->receive('datumDoesNotExist')
+					->receive('datumIsAtPosition')
 						->once
 		;
 	}

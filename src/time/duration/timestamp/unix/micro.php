@@ -27,74 +27,53 @@ class micro
 		return $this;
 	}
 
+	function recipientOfDatumLengthIs(ointeger\unsigned\recipient $recipient)
+	{
+		$recipient->unsignedOIntegerIs(new ointeger\unsigned\any(strlen($this->value)));
+
+		return $this;
+	}
+
 	function recipientOfPartAtRightOfRadixWithPrecisionIs(ointeger\unsigned $precision, datum\recipient $recipient)
 	{
 		$datum = new ostring\any($this->value);
 
 		(
-			new class(new ostring\any($this->value), $precision)
-				implements
-					datum\finder\recipient,
-					datum\recipient
-			{
-				private
-					$datum,
-					$precision
-				;
-
-				function __construct(datum $defaultDatum, ointeger\unsigned $precision)
-				{
-					$this->datumIs($defaultDatum);
-					$this->precision = $precision;
-				}
-
-				function recipientIs(datum\recipient $recipient)
-				{
-					(
-						new datum\finder\operation(
-							new datum\finder\first,
-							new ointeger\operation\unary\addition(new ointeger\any(1))
-						)
-					)
-						->recipientOfSearchOfDatumInDatumIs(
-							new ostring\any('.'),
-							$this->datum,
-							$this
-						)
-					;
-
-					$recipient->datumIs($this->datum);
-				}
-
-				function datumIsAtPosition(ointeger\unsigned $position)
-				{
-					$this->datum
-						->recipientOfDatumOperationIs(
+			new datum\finder\operation(
+				new datum\finder\first,
+				new ointeger\operation\unary\addition(new ointeger\any(1))
+			)
+		)
+			->recipientOfSearchOfDatumInDatumIs(
+				new ostring\any('.'),
+				$datum,
+				new functor(
+					function($position) use ($precision, & $datum)
+					{
+						(
 							new datum\operation\unary\pipe(
 								new datum\operation\unary\container\collection(
-									new datum\operation\unary\slicer($position, $this->precision),
-									new datum\operation\unary\padding\right($this->precision, new ostring\any('0'))
+									new datum\operation\unary\slicer($position, $precision),
+									new datum\operation\unary\padding\right($precision, new ostring\any('0'))
 								)
-							),
-							$this
+							)
 						)
-					;
-				}
-
-				function datumIs(datum $datum)
-				{
-					$this->datum = $datum;
-
-					return $this;
-				}
-
-				function datumDoesNotExist()
-				{
-				}
-			}
-		)
-			->recipientIs($recipient)
+							->recipientOfDatumOperationWithDatumIs(
+								$datum,
+								new functor(
+									function($rightPart) use (& $datum)
+									{
+										$datum = $rightPart;
+									}
+								)
+							)
+						;
+					}
+				)
+			)
 		;
+
+		$recipient->datumIs($datum);
 
 		return $this;
 	}

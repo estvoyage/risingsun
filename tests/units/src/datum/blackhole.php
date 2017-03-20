@@ -3,7 +3,7 @@
 require __DIR__ . '/../../runner.php';
 
 use estvoyage\risingsun\tests\units;
-use mock\estvoyage\risingsun\{ nstring as mockOfNString, datum as mockOfDatum, oboolean as mockOfOBoolean };
+use mock\estvoyage\risingsun\{ nstring as mockOfNString, datum as mockOfDatum, ointeger as mockOfOInteger };
 
 class blackhole extends units\test
 {
@@ -51,60 +51,20 @@ class blackhole extends units\test
 		;
 	}
 
-	function testRecipientOfDatumOperationWithDatumIs()
+	function testRecipientOfDatumLengthIs()
 	{
 		$this
 			->given(
-				$operation = new mockOfDatum\operation\binary,
-				$datum = new mockOfDatum,
-				$recipient = new mockOfDatum\recipient
+				$recipient = new mockOfOInteger\unsigned\recipient
 			)
 			->if(
 				$this->newTestedInstance
 			)
 			->then
-				->object($this->testedInstance->recipientOfDatumOperationWithDatumIs($operation, $datum, $recipient))
+				->object($this->newTestedInstance->recipientOfDatumLengthIs($recipient))
 					->isEqualTo($this->newTestedInstance)
-				->mock($operation)
-					->receive('recipientOfDatumOperationOnDataIs')
-						->never
-		;
-	}
-
-	function testRecipientOfDatumOperationIs()
-	{
-		$this
-			->given(
-				$operation = new mockOfDatum\operation\unary,
-				$recipient = new mockOfDatum\recipient
-			)
-			->if(
-				$this->newTestedInstance
-			)
-			->then
-				->object($this->testedInstance->recipientOfDatumOperationIs($operation, $recipient))
-					->isEqualTo($this->newTestedInstance)
-				->mock($operation)
-					->receive('recipientOfDatumOperationWithDatumIs')
-						->never
-		;
-	}
-
-	function testRecipientOfDatumLengthComparisonIs()
-	{
-		$this
-			->given(
-				$comparison = new mockOfDatum\length\comparison,
-				$recipient = new mockOfOBoolean\recipient
-			)
-			->if(
-				$this->newTestedInstance
-			)
-			->then
-				->object($this->testedInstance->recipientOfDatumLengthComparisonIs($comparison, $recipient))
-					->isEqualTo($this->newTestedInstance)
-				->mock($comparison)
-					->receive('recipientOfDatumLengthComparisonWithDatumLengthIs')
+				->mock($recipient)
+					->receive('unsignedOIntegerIs')
 						->never
 		;
 	}

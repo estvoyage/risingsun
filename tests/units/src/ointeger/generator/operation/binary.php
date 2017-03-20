@@ -29,36 +29,17 @@ class binary extends units\test
 			->then
 				->object($this->testedInstance->recipientOfOIntegerIs($recipient))
 					->isEqualTo($this->newTestedInstance($start, $otherInteger, $operation))
-				->mock($start)
-					->receive('recipientOfOIntegerOperationWithOIntegerIs')
-						->withIdenticalArguments($operation, $otherInteger, $recipient)
-							->never
+				->mock($operation)
+					->receive('recipientOfOperationOnOIntegersIs')
+						->withArguments($start, $otherInteger)
+							->once
 
 			->given(
-				$nextInteger = new mockOfOInteger,
-				$nextInteger->id = uniqid()
+				$nextInteger = new mockOfOInteger
 			)
 			->if(
-				$this->calling($start)->recipientOfOIntegerOperationWithOIntegerIs = function($anOperation, $secondOperand, $recipient) use ($operation, $otherInteger, $nextInteger) {
-					factory::areEquals($anOperation, $operation)
-						->blockForTrueIs(
-							new functor(
-								function() use ($secondOperand, $recipient, $otherInteger, $nextInteger)
-								{
-									factory::areEquals($secondOperand, $otherInteger)
-										->blockForTrueIs(
-											new functor(
-												function() use ($recipient, $nextInteger)
-												{
-													$recipient->ointegerIs($nextInteger);
-												}
-											)
-										)
-									;
-								}
-							)
-						)
-					;
+				$this->calling($operation)->recipientOfOperationOnOIntegersIs = function($firstOperand, $secondOperand, $recipient) use ($nextInteger) {
+					$recipient->ointegerIs($nextInteger);
 				}
 			)
 			->then

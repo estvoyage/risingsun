@@ -49,38 +49,62 @@ class addition extends units\test
 				$overflow  =new mockOfBlock
 			)
 			->if(
-				$addition = new mockOfOInteger,
-				$this->calling($start)->recipientOfOIntegerOperationWithOIntegerIs = function($operation, $ointeger, $recipient) use ($increment, $addition, $overflow) {
-					factory::areEquals($operation, new operation\binary\addition($overflow))
-						->blockForTrueIs(
-							new functor(
-								function() use ($ointeger, $recipient, $increment, $addition)
-								{
-									factory::areEquals($ointeger, $increment)
-										->blockForTrueIs(
-											new functor(
-												function() use ($recipient, $addition)
-												{
-													$recipient->ointegerIs($addition);
-												}
-											)
-										)
-									;
-								}
-							)
-						)
-					;
-				},
-
 				$this->newTestedInstance($start, $increment, $overflow)
 			)
 			->then
 				->object($this->testedInstance->recipientOfOIntegerIs($recipient))
-					->isEqualTo($this->newTestedInstance($addition, $increment, $overflow))
+					->isEqualTo($this->newTestedInstance($start, $increment, $overflow))
 				->mock($recipient)
 					->receive('ointegerIs')
-						->withIdenticalArguments($start)
+						->never
+
+			->given(
+				$startValue = 1,
+				$incrementValue = 2,
+				$nextInteger = new mockOfOInteger
+			)
+			->if(
+				$this->calling($start)->recipientOfNIntegerIs = function($recipient) use ($startValue) {
+					$recipient->nintegerIs($startValue);
+				},
+				$this->calling($increment)->recipientOfNIntegerIs = function($recipient) use ($incrementValue) {
+					$recipient->nintegerIs($incrementValue);
+				},
+				$this->calling($start)->recipientOfOIntegerWithNIntegerIs = function($ninteger, $recipient) use ($nextInteger) {
+					$recipient->ointegerIs($nextInteger);
+				}
+			)
+			->then
+				->object($this->testedInstance->recipientOfOIntegerIs($recipient))
+					->isEqualTo($this->newTestedInstance($nextInteger, $increment, $overflow))
+				->mock($recipient)
+					->receive('ointegerIs')
+						->withArguments($start)
 							->once
+
+			->given(
+				$startValue = PHP_INT_MAX,
+				$incrementValue = 1,
+				$this->newTestedInstance($start, $increment, $overflow)
+			)
+			->if(
+				$this->calling($start)->recipientOfNIntegerIs = function($recipient) use ($startValue) {
+					$recipient->nintegerIs($startValue);
+				},
+				$this->calling($increment)->recipientOfNIntegerIs = function($recipient) use ($incrementValue) {
+					$recipient->nintegerIs($incrementValue);
+				}
+			)
+			->then
+				->object($this->testedInstance->recipientOfOIntegerIs($recipient))
+					->isEqualTo($this->newTestedInstance($start, $increment, $overflow))
+				->mock($recipient)
+					->receive('ointegerIs')
+						->withArguments($start)
+							->once
+				->mock($overflow)
+					->receive('blockArgumentsAre')
+						->once
 		;
 	}
 }

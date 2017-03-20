@@ -84,68 +84,6 @@ class any extends units\test
 		;
 	}
 
-	function testRecipientOfOIntegerOperationWithIntegerIs()
-	{
-		$this
-			->given(
-				$operation = new mockOfOInteger\operation\binary,
-				$ointeger = new mockOfOInteger,
-				$recipient = new mockOfOInteger\recipient
-			)
-			->if(
-				$this->newTestedInstance
-			)
-			->then
-				->object($this->testedInstance->recipientOfOIntegerOperationWithOIntegerIs($operation, $ointeger, $recipient))
-					->isEqualTo($this->newTestedInstance)
-				->mock($operation)
-					->receive('recipientOfOperationOnOIntegersIs')
-						->withArguments($this->testedInstance, $ointeger, $recipient)
-							->once
-		;
-	}
-
-	function testRecipientOfOIntegerOperationIs()
-	{
-		$this
-			->given(
-				$operation = new mockOfOInteger\operation\unary,
-				$recipient = new mockOfOInteger\recipient
-			)
-			->if(
-				$this->newTestedInstance
-			)
-			->then
-				->object($this->testedInstance->recipientOfOIntegerOperationIs($operation, $recipient))
-					->isEqualTo($this->newTestedInstance)
-				->mock($operation)
-					->receive('recipientOfOperationWithOIntegerIs')
-						->withArguments($this->testedInstance, $recipient)
-							->once
-		;
-	}
-
-	function testRecipientOfOIntegerComparisonWithOIntegerIs()
-	{
-		$this
-			->given(
-				$comparison = new mockOfOInteger\comparison\binary,
-				$ointeger = new mockOfOInteger,
-				$recipient = new mockOfOBoolean\recipient
-			)
-			->if(
-				$this->newTestedInstance
-			)
-			->then
-				->object($this->testedInstance->recipientOfOIntegerComparisonWithOIntegerIs($comparison, $ointeger, $recipient))
-					->isEqualTo($this->newTestedInstance)
-				->mock($comparison)
-					->receive('recipientOfOIntegerComparisonBetweenOIntegersIs')
-						->withArguments($this->testedInstance, $ointeger, $recipient)
-							->once
-		;
-	}
-
 	function testRecipientOfNStringIs()
 	{
 		$this
@@ -219,84 +157,24 @@ class any extends units\test
 		;
 	}
 
-	function testRecipientOfDatumOperationWithDatumIs()
+	/**
+	 * @dataProvider validNStringProvider
+	 */
+	function testRecipientOfDatumLengthIs($value)
 	{
 		$this
 			->given(
-				$operation = new mockOfDatum\operation\binary,
-				$datum = new mockOfDatum,
-				$recipient = new mockOfDatum\recipient
-			)
-			->if(
-				$this->newTestedInstance
-			)
-			->then
-				->object($this->testedInstance->recipientOfDatumOperationWithDatumIs($operation, $datum, $recipient))
-					->isEqualTo($this->newTestedInstance)
-				->mock($operation)
-					->receive('recipientOfDatumOperationOnDataIs')
-						->withArguments($this->testedInstance, $datum, $recipient)
-							->once
-		;
-	}
-
-	function testRecipientOfDatumOperationIs()
-	{
-		$this
-			->given(
-				$operation = new mockOfDatum\operation\unary,
-				$recipient = new mockOfDatum\recipient
-			)
-			->if(
-				$this->newTestedInstance
-			)
-			->then
-				->object($this->testedInstance->recipientOfDatumOperationIs($operation, $recipient))
-					->isEqualTo($this->newTestedInstance)
-				->mock($operation)
-					->receive('recipientOfDatumOperationWithDatumIs')
-						->withArguments($this->testedInstance, $recipient)
-							->once
-		;
-	}
-
-	function testRecipientOfOIntegerComparisonIs()
-	{
-		$this
-			->given(
-				$comparison = new mockOfOInteger\comparison\unary,
-				$recipient = new mockOfOBoolean\recipient
-			)
-			->if(
-				$this->newTestedInstance
-			)
-			->then
-				->object($this->testedInstance->recipientOfOIntegerComparisonIs($comparison, $recipient))
-					->isEqualTo($this->newTestedInstance)
-				->mock($comparison)
-					->receive('recipientOfOIntegerComparisonWithOIntegerIs')
-						->withArguments($this->testedInstance, $recipient)
-							->once
-		;
-	}
-
-	function testRecipientOfDatumLengthComparisonIs()
-	{
-		$this
-			->given(
-				$value = rand(- PHP_INT_MAX, PHP_INT_MAX),
-				$comparison = new mockOfDatum\length\comparison,
-				$recipient = new mockOfOBoolean\recipient
+				$recipient = new mockOfOInteger\unsigned\recipient
 			)
 			->if(
 				$this->newTestedInstance($value)
 			)
 			->then
-				->object($this->testedInstance->recipientOfDatumLengthComparisonIs($comparison, $recipient))
+				->object($this->testedInstance->recipientOfDatumLengthIs($recipient))
 					->isEqualTo($this->newTestedInstance($value))
-				->mock($comparison)
-					->receive('recipientOfDatumLengthComparisonWithDatumLengthIs')
-						->withArguments(new ointeger\unsigned\any(strlen($value)), $recipient)
+				->mock($recipient)
+					->receive('unsignedOIntegerIs')
+						->withArguments(new ointeger\unsigned\any(strlen($value)))
 							->once
 		;
 	}

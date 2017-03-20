@@ -1,6 +1,6 @@
 <?php namespace estvoyage\risingsun\ostring;
 
-use estvoyage\risingsun\{ nstring, ostring, datum, oboolean, ointeger };
+use estvoyage\risingsun\{ nstring, ostring, datum, ointeger };
 
 class any
 	implements
@@ -30,39 +30,9 @@ class any
 		return $this;
 	}
 
-	function recipientOfDatumOperationWithDatumIs(datum\operation\binary $operation, datum $datum, datum\recipient $recipient)
+	function recipientOfDatumLengthIs(ointeger\unsigned\recipient $recipient)
 	{
-		$operation
-			->recipientOfDatumOperationOnDataIs(
-				$this,
-				$datum,
-				$recipient
-			)
-		;
-
-		return $this;
-	}
-
-	function recipientOfDatumOperationIs(datum\operation\unary $operation, datum\recipient $recipient)
-	{
-		$operation
-			->recipientOfDatumOperationWithDatumIs(
-				$this,
-				$recipient
-			)
-		;
-
-		return $this;
-	}
-
-	function recipientOfDatumLengthComparisonIs(datum\length\comparison $comparison, oboolean\recipient $recipient)
-	{
-		$comparison
-			->recipientOfDatumLengthComparisonWithDatumLengthIs(
-				new ointeger\unsigned\any(strlen($this->value)),
-				$recipient
-			)
-		;
+		$recipient->unsignedOIntegerIs(new ointeger\unsigned\any(strlen($this->value)));
 
 		return $this;
 	}

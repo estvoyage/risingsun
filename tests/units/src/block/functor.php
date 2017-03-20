@@ -21,6 +21,9 @@ class functor extends units\test
 			->implements('estvoyage\risingsun\container\iterator\engine\controller\recipient')
 			->implements('estvoyage\risingsun\container\iterator\payload')
 			->implements('estvoyage\risingsun\datum\operation\unary\container\payload')
+			->implements('estvoyage\risingsun\datum\finder\recipient')
+			->implements('estvoyage\risingsun\nfloat\recipient')
+			->implements('estvoyage\risingsun\ointeger\unsigned\recipient')
 		;
 	}
 
@@ -283,6 +286,69 @@ class functor extends units\test
 					->isEqualTo($this->newTestedInstance($callable))
 				->array($arguments)
 					->isEqualTo([ $operation, $position, $controller ])
+		;
+	}
+
+	function testDatumIsAtPosition()
+	{
+		$this
+			->given(
+				$position = new mockOfOInteger\unsigned,
+
+				$callable = function() use (& $arguments) {
+					$arguments = func_get_args();
+				}
+			)
+			->if(
+				$this->newTestedInstance($callable)
+			)
+			->then
+				->object($this->testedInstance->datumIsAtPosition($position))
+					->isEqualTo($this->newTestedInstance($callable))
+				->array($arguments)
+					->isEqualTo([ $position ])
+		;
+	}
+
+	function testNFloatIs()
+	{
+		$this
+			->given(
+				$nfloat = (float) rand(- PHP_INT_MAX, PHP_INT_MAX),
+
+				$callable = function() use (& $arguments) {
+					$arguments = func_get_args();
+				}
+			)
+			->if(
+				$this->newTestedInstance($callable)
+			)
+			->then
+				->object($this->testedInstance->nfloatIs($nfloat))
+					->isEqualTo($this->newTestedInstance($callable))
+				->array($arguments)
+					->isEqualTo([ $nfloat ])
+		;
+	}
+
+	function testUnsignedOIntegerIs()
+	{
+		$this
+			->given(
+				$ointeger = new mockOfOInteger\unsigned,
+
+				$callable = function() use (& $arguments) {
+					$arguments = func_get_args();
+				}
+			)
+			->if(
+				$this->newTestedInstance($callable)
+			)
+			->then
+				->object($this->testedInstance->unsignedOIntegerIs($ointeger))
+					->isEqualTo($this->newTestedInstance($callable))
+				->array($arguments)
+					->isEqualTo([ $ointeger ])
 		;
 	}
 }

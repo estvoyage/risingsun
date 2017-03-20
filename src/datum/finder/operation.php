@@ -23,48 +23,40 @@ class operation
 			->recipientOfSearchOfDatumInDatumIs(
 				$search,
 				$datum,
-				new datum\finder\recipient\proxy(
-					new functor(
-						function($position) use ($datum, $recipient)
-						{
-							$this->operation
-								->recipientOfOperationWithOIntegerIs(
-									$position,
-									new functor(
-										function($position) use ($datum, $recipient)
-										{
-											$datum
-												->recipientOfDatumLengthComparisonIs(
-													new datum\length\comparison\between($position),
-													new functor(
-														function($comparison) use ($position, $recipient)
-														{
-															$comparison
-																->blockForTrueIs(
-																	new functor(
-																		function() use ($position, $recipient)
-																		{
-																			$recipient->datumIsAtPosition($position);
-																		}
-																	)
+				new functor(
+					function($position) use ($datum, $recipient)
+					{
+						$this->operation
+							->recipientOfOperationWithOIntegerIs(
+								$position,
+								new functor(
+									function($position) use ($datum, $recipient)
+									{
+										(new datum\length\comparison\between($position))
+											->recipientOfDatumLengthComparisonWithDatumIs(
+												$datum,
+												new functor(
+													function($comparison) use ($position, $recipient)
+													{
+														$comparison
+															->blockForTrueIs(
+																new functor(
+																	function() use ($position, $recipient)
+																	{
+																		$recipient->datumIsAtPosition($position);
+																	}
 																)
-															;
-														}
-													)
+															)
+														;
+													}
 												)
-											;
-										}
-									)
+											)
+										;
+									}
 								)
-							;
-						}
-					),
-					new functor(
-						function() use ($recipient)
-						{
-							$recipient->datumDoesNotExist();
-						}
-					)
+							)
+						;
+					}
 				)
 			)
 		;

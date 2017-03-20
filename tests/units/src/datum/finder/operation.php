@@ -33,8 +33,6 @@ class operation extends units\test
 				->mock($recipient)
 					->receive('datumIsAtPosition')
 						->never
-					->receive('datumDoesNotExist')
-						->never
 
 			->given(
 				$position = new mockOfOInteger\unsigned
@@ -68,8 +66,6 @@ class operation extends units\test
 				->mock($recipient)
 					->receive('datumIsAtPosition')
 						->never
-					->receive('datumDoesNotExist')
-						->never
 
 			->given(
 				$positionAfterOperation = new mockOfOInteger\unsigned
@@ -94,21 +90,21 @@ class operation extends units\test
 				->mock($recipient)
 					->receive('datumIsAtPosition')
 						->never
-					->receive('datumDoesNotExist')
-						->never
 
+			->given(
+				$datumLength = new mockOfOInteger\unsigned
+			)
 			->if(
-				$this->calling($datum)->recipientOfDatumLengthComparisonIs = function($aComparison, $aRecipient) use ($positionAfterOperation) {
-					oboolean\factory::areEquals($aComparison, new datum\length\comparison\between($positionAfterOperation))
-						->blockForTrueIs(
-							new functor(
-								function() use ($aRecipient)
-								{
-									$aRecipient->obooleanIs(new oboolean\ok);
-								}
-							)
-						)
-					;
+				$this->calling($datumLength)->recipientOfNIntegerIs = function($recipient) {
+					$recipient->nintegerIs(0);
+				},
+
+				$this->calling($positionAfterOperation)->recipientOfNIntegerIs = function($recipient) {
+					$recipient->nintegerIs(0);
+				},
+
+				$this->calling($datum)->recipientOfDatumLengthIs = function($recipient) use ($datumLength) {
+					$recipient->unsignedOIntegerIs($datumLength);
 				}
 			)
 			->then
@@ -116,23 +112,12 @@ class operation extends units\test
 					->isEqualTo($this->newTestedInstance($finder, $operation))
 				->mock($recipient)
 					->receive('datumIsAtPosition')
-						->withIdenticalArguments($positionAfterOperation)
+						->withArguments($positionAfterOperation)
 							->once
-					->receive('datumDoesNotExist')
-						->never
 
 			->if(
-				$this->calling($datum)->recipientOfDatumLengthComparisonIs = function($aComparison, $aRecipient) use ($positionAfterOperation) {
-					oboolean\factory::areEquals($aComparison, new datum\length\comparison\between($positionAfterOperation))
-						->blockForTrueIs(
-							new functor(
-								function() use ($aRecipient)
-								{
-									$aRecipient->obooleanIs(new oboolean\ko);
-								}
-							)
-						)
-					;
+				$this->calling($positionAfterOperation)->recipientOfNIntegerIs = function($recipient) {
+					$recipient->nintegerIs(1);
 				}
 			)
 			->then
@@ -140,10 +125,34 @@ class operation extends units\test
 					->isEqualTo($this->newTestedInstance($finder, $operation))
 				->mock($recipient)
 					->receive('datumIsAtPosition')
-						->withIdenticalArguments($positionAfterOperation)
+						->withArguments($positionAfterOperation)
 							->once
-					->receive('datumDoesNotExist')
-						->never
+
+			->if(
+				$this->calling($datumLength)->recipientOfNIntegerIs = function($recipient) {
+					$recipient->nintegerIs(2);
+				}
+			)
+			->then
+				->object($this->testedInstance->recipientOfSearchOfDatumInDatumIs($search, $datum, $recipient))
+					->isEqualTo($this->newTestedInstance($finder, $operation))
+				->mock($recipient)
+					->receive('datumIsAtPosition')
+						->withArguments($positionAfterOperation)
+							->twice
+
+			->if(
+				$this->calling($positionAfterOperation)->recipientOfNIntegerIs = function($recipient) {
+					$recipient->nintegerIs(2);
+				}
+			)
+			->then
+				->object($this->testedInstance->recipientOfSearchOfDatumInDatumIs($search, $datum, $recipient))
+					->isEqualTo($this->newTestedInstance($finder, $operation))
+				->mock($recipient)
+					->receive('datumIsAtPosition')
+						->withArguments($positionAfterOperation)
+							->thrice
 		;
 	}
 }
