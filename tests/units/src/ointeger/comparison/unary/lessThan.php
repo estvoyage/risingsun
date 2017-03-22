@@ -5,7 +5,7 @@ require __DIR__ . '/../../../../runner.php';
 use estvoyage\risingsun\{ tests\units, oboolean, ointeger };
 use mock\estvoyage\risingsun\{ ointeger as mockOfOInteger, oboolean as mockOfOBoolean, block as mockOfBlock };
 
-class lessThanOrEqualTo extends units\test
+class lessThan extends units\test
 {
 	function testClass()
 	{
@@ -14,7 +14,7 @@ class lessThanOrEqualTo extends units\test
 		;
 	}
 
-	function test__construct()
+	function testWithNoArgument()
 	{
 		$this->object($this->newTestedInstance)->isEqualTo($this->newTestedInstance(new ointeger\any));
 	}
@@ -65,7 +65,7 @@ class lessThanOrEqualTo extends units\test
 					->isEqualTo($this->newTestedInstance($reference))
 				->mock($recipient)
 					->receive('obooleanIs')
-						->withArguments(new oboolean\ok)
+						->withArguments(new oboolean\ko)
 							->once
 
 			->if(
@@ -77,7 +77,7 @@ class lessThanOrEqualTo extends units\test
 				->mock($recipient)
 					->receive('obooleanIs')
 						->withArguments(new oboolean\ok)
-							->twice
+							->once
 
 			->if(
 				$ointegerValue = rand(1, PHP_INT_MAX)
@@ -88,7 +88,7 @@ class lessThanOrEqualTo extends units\test
 				->mock($recipient)
 					->receive('obooleanIs')
 						->withArguments(new oboolean\ko)
-							->once
+							->twice
 		;
 	}
 }

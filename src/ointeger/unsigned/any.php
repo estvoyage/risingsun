@@ -1,6 +1,6 @@
 <?php namespace estvoyage\risingsun\ointeger\unsigned;
 
-use estvoyage\risingsun\{ ointeger, block\functor, block\error, oboolean };
+use estvoyage\risingsun\{ ointeger, block\functor, block\error, oboolean, comparison };
 
 class any extends ointeger\any
 	implements
@@ -12,18 +12,21 @@ class any extends ointeger\any
 		{
 			parent::__construct($value);
 
-			$this->recipientOfNIntegerIs(
-				new functor(
-					function($value)
-					{
-						oboolean\factory::isTrue($value < 0)
-							->blockForTrueIs(
-								new error(new \typeError)
-							)
-						;
-					}
+			(new ointeger\comparison\unary\lessThan)
+				->recipientOfOIntegerComparisonWithOIntegerIs(
+					$this,
+					new functor(
+						function($comparison)
+						{
+							$comparison
+								->blockForTrueIs(
+									new error(new \typeError)
+								)
+							;
+						}
+					)
 				)
-			);
+			;
 		}
 		catch (\typeError $error)
 		{

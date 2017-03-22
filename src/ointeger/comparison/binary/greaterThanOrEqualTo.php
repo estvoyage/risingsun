@@ -4,8 +4,8 @@ use estvoyage\risingsun\{ ointeger, oboolean, block, block\functor, comparison }
 
 class greaterThanOrEqualTo extends any
 {
-	function __construct(comparison\binary\greaterThanOrEqualTo $greaterThanOrEqualTo = null)
+	function __construct(oboolean $ok = null, oboolean $ko = null)
 	{
-		parent::__construct($greaterThanOrEqualTo ?: new comparison\binary\greaterThanOrEqualTo);
+		parent::__construct(new comparison\binary\greaterThanOrEqualTo($ok ?: new oboolean\ok, $ko ?: new oboolean\ko));
 	}
 }

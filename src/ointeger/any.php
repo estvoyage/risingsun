@@ -32,10 +32,7 @@ class any
 
 	function recipientOfOIntegerWithNIntegerIs(int $value, recipient $recipient)
 	{
-		$ointeger = clone $this;
-		$ointeger->value = $value;
-
-		$recipient->ointegerIs($ointeger);
+		$recipient->ointegerIs($this->cloneWithValue($value));
 
 		return $this;
 	}
@@ -51,10 +48,7 @@ class any
 	{
 		if (self::check($value))
 		{
-			$datum = clone $this;
-			$datum->value = (int) $value;
-
-			$recipient->datumIs($datum);
+			$recipient->datumIs(self::cloneWithValue($value));
 		}
 
 		return $this;
@@ -65,6 +59,14 @@ class any
 		$recipient->unsignedOIntegerIs(new ointeger\unsigned\any(strlen($this->value)));
 
 		return $this;
+	}
+
+	private function cloneWithValue($value)
+	{
+		$ointeger = clone $this;
+		$ointeger->value = $value;
+
+		return $ointeger;
 	}
 
 	private static function check($value)

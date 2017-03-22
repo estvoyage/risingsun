@@ -4,5 +4,4 @@ use estvoyage\risingsun\ointeger;
 
 interface unsigned extends ointeger
 {
-
 }

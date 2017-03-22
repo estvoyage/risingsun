@@ -15,7 +15,7 @@ class any extends units\test
 		;
 	}
 
-	function testWithNoValue()
+	function test__construct()
 	{
 		$this->object($this->newTestedInstance)->isEqualTo($this->newTestedInstance(0));
 	}

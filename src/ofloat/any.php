@@ -30,10 +30,7 @@ class any
 
 	function recipientOfOFloatWithNFloatIs(float $nfloat, ofloat\recipient $recipient)
 	{
-		$ofloat = clone $this;
-		$ofloat->value = $nfloat;
-
-		$recipient->ofloatIs($ofloat);
+		$recipient->ofloatIs($this->cloneWithValue($nfloat));
 
 		return $this;
 	}
@@ -42,10 +39,7 @@ class any
 	{
 		if (self::check($value))
 		{
-			$datum = clone $this;
-			$datum->value = $value;
-
-			$recipient->datumIs($datum);
+			$recipient->datumIs($this->cloneWithValue($value));
 		}
 
 		return $this;
@@ -63,6 +57,14 @@ class any
 		$recipient->nstringIs((string) $this->value);
 
 		return $this;
+	}
+
+	private function cloneWithValue($value)
+	{
+		$ofloat = clone $this;
+		$ofloat->value = $value;
+
+		return $ofloat;
 	}
 
 	private static function check($value)
