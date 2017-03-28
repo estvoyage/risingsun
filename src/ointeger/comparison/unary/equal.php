@@ -1,32 +1,11 @@
 <?php namespace estvoyage\risingsun\ointeger\comparison\unary;
 
-use estvoyage\risingsun\{ ointeger, oboolean, block\functor };
+use estvoyage\risingsun\{ ointeger, oboolean };
 
-class equal
-	implements
-		ointeger\comparison\unary
+class equal extends any
 {
-	private
-		$reference,
-		$comparison
-	;
-
-	function __construct(ointeger $reference, ointeger\comparison\binary\equal $comparison = null)
+	function __construct(ointeger $reference = null, oboolean $ok = null, oboolean $ko = null)
 	{
-		$this->reference = $reference;
-		$this->comparison = $comparison ?: new ointeger\comparison\binary\equal;
-	}
-
-	function recipientOfOIntegerComparisonWithOIntegerIs(ointeger $ointeger, oboolean\recipient $recipient)
-	{
-		$this->comparison
-			->recipientOfOIntegerComparisonBetweenOIntegersIs(
-				$this->reference,
-				$ointeger,
-				$recipient
-			)
-		;
-
-		return $this;
+		parent::__construct(new ointeger\comparison\binary\equal($ok, $ko), $reference);
 	}
 }

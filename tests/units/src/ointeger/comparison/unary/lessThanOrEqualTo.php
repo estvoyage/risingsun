@@ -3,7 +3,7 @@
 require __DIR__ . '/../../../../runner.php';
 
 use estvoyage\risingsun\{ tests\units, oboolean, ointeger };
-use mock\estvoyage\risingsun\{ ointeger as mockOfOInteger, oboolean as mockOfOBoolean, block as mockOfBlock };
+use mock\estvoyage\risingsun\{ ointeger as mockOfOInteger, oboolean as mockOfOBoolean };
 
 class lessThanOrEqualTo extends units\test
 {
@@ -16,7 +16,7 @@ class lessThanOrEqualTo extends units\test
 
 	function test__construct()
 	{
-		$this->object($this->newTestedInstance)->isEqualTo($this->newTestedInstance(new ointeger\any));
+		$this->object($this->newTestedInstance)->isEqualTo($this->newTestedInstance(new ointeger\any, new oboolean\ok, new oboolean\ko));
 	}
 
 	function testRecipientOfOIntegerComparisonWithOIntegerIs()
@@ -24,48 +24,50 @@ class lessThanOrEqualTo extends units\test
 		$this
 			->given(
 				$reference = new mockOfOInteger,
+				$ok = new mockOfOBoolean,
+				$ko = new mockOfOBoolean,
 				$ointeger = new mockOfOInteger,
 				$recipient = new mockOfOBoolean\recipient
 			)
 			->if(
-				$this->newTestedInstance($reference)
+				$this->newTestedInstance($reference, $ok, $ko)
 			)
 			->then
 				->object($this->testedInstance->recipientOfOIntegerComparisonWithOIntegerIs($ointeger, $recipient))
-					->isEqualTo($this->newTestedInstance($reference))
+					->isEqualTo($this->newTestedInstance($reference, $ok, $ko))
 				->mock($recipient)
 					->receive('obooleanIs')
 						->never
 
 			->given(
-				$referenceValue = 0
-			)
-			->if(
 				$this->calling($reference)->recipientOfNIntegerIs = function($recipient) use (& $referenceValue) {
 					$recipient->nintegerIs($referenceValue);
 				}
 			)
+			->if(
+				$referenceValue = 0
+			)
 			->then
 				->object($this->testedInstance->recipientOfOIntegerComparisonWithOIntegerIs($ointeger, $recipient))
-					->isEqualTo($this->newTestedInstance($reference))
+					->isEqualTo($this->newTestedInstance($reference, $ok, $ko))
 				->mock($recipient)
 					->receive('obooleanIs')
 						->never
 
 			->given(
-				$ointegerValue = 0
-			)
-			->if(
 				$this->calling($ointeger)->recipientOfNIntegerIs = function($recipient) use (& $ointegerValue) {
 					$recipient->nintegerIs($ointegerValue);
 				}
 			)
+			->if(
+				$ointegerValue = 0
+			)
 			->then
 				->object($this->testedInstance->recipientOfOIntegerComparisonWithOIntegerIs($ointeger, $recipient))
-					->isEqualTo($this->newTestedInstance($reference))
+					->isEqualTo($this->newTestedInstance($reference, $ok, $ko))
 				->mock($recipient)
 					->receive('obooleanIs')
-						->withArguments(new oboolean\ok)
+						->withArguments($ok)
 							->once
 
 			->if(
@@ -73,10 +75,10 @@ class lessThanOrEqualTo extends units\test
 			)
 			->then
 				->object($this->testedInstance->recipientOfOIntegerComparisonWithOIntegerIs($ointeger, $recipient))
-					->isEqualTo($this->newTestedInstance($reference))
+					->isEqualTo($this->newTestedInstance($reference, $ok, $ko))
 				->mock($recipient)
 					->receive('obooleanIs')
-						->withArguments(new oboolean\ok)
+						->withArguments($ok)
 							->twice
 
 			->if(
@@ -84,10 +86,10 @@ class lessThanOrEqualTo extends units\test
 			)
 			->then
 				->object($this->testedInstance->recipientOfOIntegerComparisonWithOIntegerIs($ointeger, $recipient))
-					->isEqualTo($this->newTestedInstance($reference))
+					->isEqualTo($this->newTestedInstance($reference, $ok, $ko))
 				->mock($recipient)
 					->receive('obooleanIs')
-						->withArguments(new oboolean\ko)
+						->withArguments($ko)
 							->once
 		;
 	}

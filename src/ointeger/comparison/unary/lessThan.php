@@ -4,8 +4,8 @@ use estvoyage\risingsun\{ ointeger, block\functor, oboolean, block };
 
 class lessThan extends any
 {
-	function __construct(ointeger $reference = null)
+	function __construct(ointeger $reference = null, oboolean $ok = null, oboolean $ko = null)
 	{
-		parent::__construct($reference ?: new ointeger\any, new ointeger\comparison\binary\lessThan);
+		parent::__construct(new ointeger\comparison\binary\lessThan($ok, $ko), $reference);
 	}
 }

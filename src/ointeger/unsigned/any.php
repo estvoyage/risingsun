@@ -15,16 +15,7 @@ class any extends ointeger\any
 			(new ointeger\comparison\unary\lessThan)
 				->recipientOfOIntegerComparisonWithOIntegerIs(
 					$this,
-					new functor(
-						function($comparison)
-						{
-							$comparison
-								->blockForTrueIs(
-									new error(new \typeError)
-								)
-							;
-						}
-					)
+					new error(new \typeError)
 				)
 			;
 		}

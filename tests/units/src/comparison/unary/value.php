@@ -34,19 +34,19 @@ class value extends units\test
 		$this
 			->given(
 				$comparison = new mockOfComparison\binary,
-				$firstOperand = uniqid(),
-				$secondOperand = uniqid(),
+				$reference = uniqid(),
+				$value = uniqid(),
 				$recipient = new mockOfOBoolean\recipient
 			)
 			->if(
-				$this->newTestedInstance($firstOperand, $comparison)
+				$this->newTestedInstance($reference, $comparison)
 			)
 			->then
-				->object($this->testedInstance->recipientOfComparisonWithValueIs($secondOperand, $recipient))
-					->isEqualTo($this->newTestedInstance($firstOperand, $comparison))
+				->object($this->testedInstance->recipientOfComparisonWithValueIs($value, $recipient))
+					->isEqualTo($this->newTestedInstance($reference, $comparison))
 				->mock($comparison)
 					->receive('recipientOfComparisonBetweenValuesIs')
-						->withArguments($firstOperand, $secondOperand, $recipient)
+						->withArguments($value, $reference, $recipient)
 							->once
 		;
 	}

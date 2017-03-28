@@ -2,41 +2,10 @@
 
 use estvoyage\risingsun\{ ointeger, block\functor, oboolean, block };
 
-class greaterThanOrEqualTo
-	implements
-		ointeger\comparison\unary
+class greaterThanOrEqualTo extends any
 {
-	private
-		$reference
-	;
-
-	function __construct(ointeger $reference = null)
+	function __construct(ointeger $reference = null, oboolean $ok = null, oboolean $ko = null)
 	{
-		$this->reference = $reference ?: new ointeger\any;
-	}
-
-	function recipientOfOIntegerComparisonWithOIntegerIs(ointeger $ointeger, oboolean\recipient $recipient)
-	{
-		$this->reference
-			->recipientOfNIntegerIs(
-				new functor(
-					function($referenceValue) use ($ointeger, $recipient)
-					{
-						$ointeger
-							->recipientOfNIntegerIs(
-								new functor(
-									function($ointegerValue) use ($referenceValue, $recipient)
-									{
-										$recipient->obooleanIs(oboolean\factory::isTrue($ointegerValue >= $referenceValue));
-									}
-								)
-							)
-						;
-					}
-				)
-			)
-		;
-
-		return $this;
+		parent::__construct(new ointeger\comparison\binary\greaterThanOrEqualTo($ok, $ko), $reference);
 	}
 }

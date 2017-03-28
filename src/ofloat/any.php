@@ -1,6 +1,6 @@
 <?php namespace estvoyage\risingsun\ofloat;
 
-use estvoyage\risingsun\{ ofloat, nfloat, datum, ointeger, nstring };
+use estvoyage\risingsun\{ ofloat, nfloat, datum, ointeger, nstring, block\error, oboolean, comparison, block\functor, ostring };
 
 class any
 	implements
@@ -13,10 +13,12 @@ class any
 
 	function __construct($value = 0.)
 	{
-		if (! self::check($value))
-		{
-			throw new \typeError('Value should be a float');
-		}
+		$this
+			->recipientOfNumericComparisonOnValueIs(
+				$value,
+				new error(new \typeError('Value should be a float'))
+			)
+		;
 
 		$this->value = $value;
 	}
@@ -37,12 +39,19 @@ class any
 
 	function recipientOfDatumWithNStringIs(string $value, datum\recipient $recipient)
 	{
-		if (self::check($value))
-		{
-			$recipient->datumIs($this->cloneWithValue($value));
-		}
-
-		return $this;
+		return $this
+			->recipientOfNumericComparisonOnValueIs(
+				$value,
+				new oboolean\recipient\false\block(
+					new functor(
+						function() use ($recipient, $value)
+						{
+							$recipient->datumIs($this->cloneWithValue($value));
+						}
+					)
+				)
+			)
+		;
 	}
 
 	function recipientOfDatumLengthIs(ointeger\unsigned\recipient $recipient)
@@ -59,6 +68,58 @@ class any
 		return $this;
 	}
 
+	function recipientOfPartAtRightOfRadixWithPrecisionIs(ointeger\unsigned $precision, datum\recipient $recipient)
+	{
+		(new datum\converter\any)
+			->recipientOfDatumIs(
+				$this,
+				new functor(
+					function($datum) use ($precision, $recipient)
+					{
+						(
+							new datum\finder\operation(
+								new datum\finder\first,
+								new ointeger\operation\unary\addition(new ointeger\any(1))
+							)
+						)
+							->recipientOfSearchOfDatumInDatumIs(
+								new ostring\any('.'),
+								$datum,
+								new functor(
+									function($position) use ($precision, & $datum)
+									{
+										(
+											new datum\operation\unary\pipe(
+												new datum\operation\unary\container\collection(
+													new datum\operation\unary\slicer($position, $precision),
+													new datum\operation\unary\padding\right($precision, new ostring\any('0'))
+												)
+											)
+										)
+											->recipientOfDatumOperationWithDatumIs(
+												$datum,
+												new functor(
+													function($rightPart) use (& $datum)
+													{
+														$datum = $rightPart;
+													}
+												)
+											)
+										;
+									}
+								)
+							)
+						;
+
+						$recipient->datumIs($datum);
+					}
+				)
+			)
+		;
+
+		return $this;
+	}
+
 	private function cloneWithValue($value)
 	{
 		$ofloat = clone $this;
@@ -67,8 +128,15 @@ class any
 		return $ofloat;
 	}
 
-	private static function check($value)
+	private function recipientOfNumericComparisonOnValueIs($value, oboolean\recipient $recipient)
 	{
-		return is_numeric($value) && (float) $value == $value;
+		(new comparison\unary\notNumeric)
+			->recipientOfComparisonWithValueIs(
+				$value,
+				$recipient
+			)
+		;
+
+		return $this;
 	}
 }

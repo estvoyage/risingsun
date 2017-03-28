@@ -7,14 +7,14 @@ class any
 		comparison\unary
 {
 	private
-		$reference,
-		$comparison
+		$comparison,
+		$reference
 	;
 
-	function __construct(ointeger $reference, comparison\binary $comparison)
+	function __construct(comparison\binary $comparison, ointeger $reference = null)
 	{
-		$this->reference = $reference;
 		$this->comparison = $comparison;
+		$this->reference = $reference ?: new ointeger\any;
 	}
 
 	function recipientOfOIntegerComparisonWithOIntegerIs(ointeger $ointeger, oboolean\recipient $recipient)

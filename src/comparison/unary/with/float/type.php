@@ -3,8 +3,6 @@
 use estvoyage\risingsun\{ comparison, oboolean\recipient, oboolean };
 
 class type extends comparison\unary\with\true\boolean
-	implements
-		comparison\unary
 {
 	function recipientOfComparisonWithValueIs($value, recipient $recipient)
 	{

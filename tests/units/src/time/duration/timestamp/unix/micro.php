@@ -11,10 +11,11 @@ class micro extends units\test
 	{
 		$this->testedClass
 			->implements('estvoyage\risingsun\datum')
+			->implements('estvoyage\risingsun\ofloat\unsigned')
 		;
 	}
 
-	function testWithNoValue()
+	function test__construct()
 	{
 		$this->object($this->newTestedInstance)->isEqualTo($this->newTestedInstance(0));
 	}
@@ -118,7 +119,7 @@ class micro extends units\test
 		;
 	}
 
-	function testRecipientOfPartAtRightOfRadixIs()
+	function testRecipientOfPartAtRightOfRadixWithPrecisionIs()
 	{
 		$this
 			->given(
@@ -214,7 +215,6 @@ class micro extends units\test
 							->once
 		;
 	}
-
 
 	protected function validValueProvider()
 	{

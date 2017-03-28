@@ -2,7 +2,7 @@
 
 require __DIR__ . '/../../runner.php';
 
-use estvoyage\risingsun\{ tests\units, ointeger };
+use estvoyage\risingsun\{ tests\units, ointeger, ostring };
 use mock\estvoyage\risingsun\{ nfloat as mockOfNFloat, ofloat as mockOfOFloat, datum as mockOfDatum, ointeger as mockOfOInteger, nstring as mockOfNString };
 
 class any extends units\test
@@ -183,24 +183,100 @@ class any extends units\test
 		;
 	}
 
+	function testRecipientOfPartAtRightOfRadixWithPrecisionIs()
+	{
+		$this
+			->given(
+				$recipient = new mockOfDatum\recipient,
+				$precision = new mockOfOInteger\unsigned
+			)
+			->if(
+				$this->newTestedInstance
+			)
+			->then
+				->object($this->testedInstance->recipientOfPartAtRightOfRadixWithPrecisionIs($precision, $recipient))
+					->isEqualTo($this->newTestedInstance)
+				->mock($recipient)
+					->receive('datumIs')
+						->withArguments(new ostring\any('0'))
+							->once
+
+			->if(
+				$this->calling($precision)->recipientOfNIntegerIs = function($recipient) {
+					$recipient->nintegerIs(3);
+				},
+				$this->newTestedInstance(1.345)
+			)
+			->then
+				->object($this->testedInstance->recipientOfPartAtRightOfRadixWithPrecisionIs($precision, $recipient))
+					->isEqualTo($this->newTestedInstance(1.345))
+				->mock($recipient)
+					->receive('datumIs')
+						->withArguments(new ostring\any('345'))
+							->once
+
+			->if(
+				$this->newTestedInstance(1.3456)
+			)
+			->then
+				->object($this->testedInstance->recipientOfPartAtRightOfRadixWithPrecisionIs($precision, $recipient))
+					->isEqualTo($this->newTestedInstance(1.3456))
+				->mock($recipient)
+					->receive('datumIs')
+						->withArguments(new ostring\any('345'))
+							->twice
+
+			->if(
+				$this->calling($precision)->recipientOfNIntegerIs = function($recipient) {
+					$recipient->nintegerIs(5);
+				},
+
+				$this->newTestedInstance(1.2468)
+			)
+			->then
+				->object($this->testedInstance->recipientOfPartAtRightOfRadixWithPrecisionIs($precision, $recipient))
+					->isEqualTo($this->newTestedInstance(1.2468))
+				->mock($recipient)
+					->receive('datumIs')
+						->withArguments(new ostring\any('24680'))
+							->once
+
+			->if(
+				$this->calling($precision)->recipientOfNIntegerIs = function($recipient) {
+					$recipient->nintegerIs(3);
+				},
+
+				$this->newTestedInstance(1e-5)
+			)
+			->then
+				->object($this->testedInstance->recipientOfPartAtRightOfRadixWithPrecisionIs($precision, $recipient))
+					->isEqualTo($this->newTestedInstance(1e-5))
+				->mock($recipient)
+					->receive('datumIs')
+						->withArguments(new ostring\any('000'))
+							->once
+		;
+	}
+
 	protected function validValueProvider()
 	{
 		return [
 			0,
+			'0',
 			0.,
+			'0.',
 			rand(1, PHP_INT_MAX),
+			(string) rand(1, PHP_INT_MAX),
 			rand(- PHP_INT_MAX, -1),
 			(string) rand(- PHP_INT_MAX, -1),
 			M_PI,
+			(string) M_PI,
 			- M_PI,
 			(string) - M_PI
 			- 1e9,
+			'-1e9',
 			1e9,
-			'0',
-			'0.',
-			(string) rand(1, PHP_INT_MAX),
-			(string) M_PI,
-			'1e9',
+			'1e9'
 		];
 	}
 
@@ -225,7 +301,11 @@ class any extends units\test
 			(string) M_PI,
 			(string) - M_PI,
 			'1e9',
-			'-1e9'
+			'-1e9',
+			0x539,
+			02471,
+			'02471',
+			0b10100111001
 		];
 	}
 

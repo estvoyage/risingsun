@@ -6,6 +6,6 @@ class lessThanOrEqualTo extends any
 {
 	function __construct(oboolean $ok = null, oboolean $ko = null)
 	{
-		parent::__construct(new comparison\binary\lessThanOrEqualTo($ok ?: new oboolean\ok, $ko ?: new oboolean\ko));
+		parent::__construct(new comparison\binary\lessThanOrEqualTo($ok, $ko));
 	}
 }

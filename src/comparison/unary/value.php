@@ -7,13 +7,13 @@ class value
 		comparison\unary
 {
 	private
-		$value,
+		$reference,
 		$comparison
 	;
 
-	function __construct($value = 0, comparison\binary $comparison = null)
+	function __construct($reference = 0, comparison\binary $comparison = null)
 	{
-		$this->value = $value;
+		$this->reference = $reference;
 		$this->comparison = $comparison ?: new comparison\binary\equal;
 	}
 
@@ -21,8 +21,8 @@ class value
 	{
 		$this->comparison
 			->recipientOfComparisonBetweenValuesIs(
-				$this->value,
 				$value,
+				$this->reference,
 				$recipient
 			)
 		;
