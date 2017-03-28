@@ -7,7 +7,6 @@ class functor
 		block,
 		datum\container\payload,
 		datum\operation\unary\container\payload,
-		nfloat\recipient,
 		ointeger\unsigned\recipient
 {
 	private
@@ -34,11 +33,6 @@ class functor
 	function containerIteratorEngineControllerForUnaryDatumOperationAtPositionIs(datum\operation\unary $operation, ointeger $position, iterator\engine\controller $controller)
 	{
 		return $this->blockArgumentsAre($operation, $position, $controller);
-	}
-
-	function nfloatIs(float $float)
-	{
-		return $this->blockArgumentsAre($float);
 	}
 
 	function unsignedOIntegerIs(ointeger\unsigned $ointeger)

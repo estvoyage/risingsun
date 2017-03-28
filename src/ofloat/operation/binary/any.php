@@ -1,6 +1,6 @@
 <?php namespace estvoyage\risingsun\ofloat\operation\binary;
 
-use estvoyage\risingsun\{ ofloat\operation, ofloat, nfloat, block\functor };
+use estvoyage\risingsun\{ ofloat\operation, ofloat, nfloat };
 
 class any
 	implements
@@ -19,19 +19,19 @@ class any
 	{
 		$firstOperand
 			->recipientOfNFloatIs(
-				new functor(
+				new nfloat\recipient\functor(
 					function($firstOperandValue) use ($firstOperand, $secondOperand, $recipient)
 					{
 						$secondOperand
 							->recipientOfNFloatIs(
-								new functor(
+								new nfloat\recipient\functor(
 									function($secondOperandValue) use ($firstOperand, $firstOperandValue, $recipient)
 									{
 										$this->operation
 											->recipientOfOperationOnNFloatsIs(
 												$firstOperandValue,
 												$secondOperandValue,
-												new functor(
+												new nfloat\recipient\functor(
 													function($operationValue) use ($firstOperand, $recipient)
 													{
 														$firstOperand

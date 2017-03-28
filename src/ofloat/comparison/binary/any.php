@@ -1,6 +1,6 @@
 <?php namespace estvoyage\risingsun\ofloat\comparison\binary;
 
-use estvoyage\risingsun\{ ofloat, oboolean, comparison, block\functor };
+use estvoyage\risingsun\{ ofloat, oboolean, comparison, nfloat };
 
 class any
 	implements
@@ -19,12 +19,12 @@ class any
 	{
 		$firstOperand
 			->recipientOfNFloatIs(
-				new functor(
+				new nfloat\recipient\functor(
 					function($firstOperandValue) use ($secondOperand, $recipient)
 					{
 						$secondOperand
 							->recipientOfNFloatIs(
-								new functor(
+								new nfloat\recipient\functor(
 									function($secondOperandValue) use ($firstOperandValue, $recipient)
 									{
 										$this->comparison

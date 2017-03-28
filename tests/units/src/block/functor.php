@@ -12,7 +12,6 @@ class functor extends units\test
 		$this->testedClass
 			->implements('estvoyage\risingsun\block')
 			->implements('estvoyage\risingsun\datum\operation\unary\container\payload')
-			->implements('estvoyage\risingsun\nfloat\recipient')
 			->implements('estvoyage\risingsun\ointeger\unsigned\recipient')
 		;
 	}
@@ -89,27 +88,6 @@ class functor extends units\test
 					->isEqualTo($this->newTestedInstance($callable))
 				->array($arguments)
 					->isEqualTo([ $operation, $position, $controller ])
-		;
-	}
-
-	function testNFloatIs()
-	{
-		$this
-			->given(
-				$nfloat = (float) rand(- PHP_INT_MAX, PHP_INT_MAX),
-
-				$callable = function() use (& $arguments) {
-					$arguments = func_get_args();
-				}
-			)
-			->if(
-				$this->newTestedInstance($callable)
-			)
-			->then
-				->object($this->testedInstance->nfloatIs($nfloat))
-					->isEqualTo($this->newTestedInstance($callable))
-				->array($arguments)
-					->isEqualTo([ $nfloat ])
 		;
 	}
 
