@@ -1,6 +1,6 @@
 <?php namespace estvoyage\risingsun\datum\length\comparison;
 
-use estvoyage\risingsun\{ ointeger, oboolean, oboolean\recipient\functor, datum, ointeger\comparison\binary as comparison };
+use estvoyage\risingsun\{ ointeger, oboolean, datum, ointeger\comparison\binary as comparison };
 
 class between
 	implements
@@ -23,7 +23,7 @@ class between
 	{
 		$datum
 			->recipientOfDatumLengthIs(
-				new functor(
+				new ointeger\unsigned\recipient\functor(
 					function($length) use ($recipient)
 					{
 						$this
@@ -46,12 +46,12 @@ class between
 			->recipientOfOIntegerComparisonBetweenOIntegersIs(
 				$this->ointeger,
 				new ointeger\any,
-				new functor(
+				new oboolean\recipient\functor(
 					function($greater) use ($length, $recipient)
 					{
 						$greater
 							->blockForFalseIs(
-								new functor(
+								new oboolean\recipient\functor(
 									function() use ($recipient)
 									{
 										$recipient->obooleanIs(new oboolean\ko);
@@ -59,7 +59,7 @@ class between
 								)
 							)
 							->blockForTrueIs(
-								new functor(
+								new oboolean\recipient\functor(
 									function() use ($length, $recipient)
 									{
 										$this->less
