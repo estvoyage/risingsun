@@ -1,6 +1,6 @@
 <?php namespace estvoyage\risingsun\ofloat;
 
-use estvoyage\risingsun\{ ofloat, nfloat, datum, ointeger, nstring, block\error, oboolean, comparison, ostring, block };
+use estvoyage\risingsun\{ ofloat, nfloat, datum, ointeger, nstring, oboolean, comparison, ostring, block };
 
 class any
 	implements
@@ -16,7 +16,7 @@ class any
 		$this
 			->recipientOfNumericComparisonOnValueIs(
 				$value,
-				new error(new \typeError('Value should be a float'))
+				new block\error(new \typeError('Value should be a float'))
 			)
 		;
 
@@ -85,7 +85,7 @@ class any
 							->recipientOfSearchOfDatumInDatumIs(
 								new ostring\any('.'),
 								$datum,
-								new datum\recipient\functor(
+								new datum\finder\recipient\functor(
 									function($position) use ($precision, & $datum)
 									{
 										(

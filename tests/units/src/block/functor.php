@@ -11,7 +11,6 @@ class functor extends units\test
 	{
 		$this->testedClass
 			->implements('estvoyage\risingsun\block')
-			->implements('estvoyage\risingsun\datum\finder\recipient')
 			->implements('estvoyage\risingsun\datum\operation\unary\container\payload')
 			->implements('estvoyage\risingsun\nfloat\recipient')
 			->implements('estvoyage\risingsun\ointeger\unsigned\recipient')
@@ -91,27 +90,6 @@ class functor extends units\test
 					->isEqualTo($this->newTestedInstance($callable))
 				->array($arguments)
 					->isEqualTo([ $operation, $position, $controller ])
-		;
-	}
-
-	function testDatumIsAtPosition()
-	{
-		$this
-			->given(
-				$position = new mockOfOInteger\unsigned,
-
-				$callable = function() use (& $arguments) {
-					$arguments = func_get_args();
-				}
-			)
-			->if(
-				$this->newTestedInstance($callable)
-			)
-			->then
-				->object($this->testedInstance->datumIsAtPosition($position))
-					->isEqualTo($this->newTestedInstance($callable))
-				->array($arguments)
-					->isEqualTo([ $position ])
 		;
 	}
 

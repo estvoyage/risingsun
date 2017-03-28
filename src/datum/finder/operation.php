@@ -23,7 +23,7 @@ class operation
 			->recipientOfSearchOfDatumInDatumIs(
 				$search,
 				$datum,
-				new ointeger\recipient\functor(
+				new datum\finder\recipient\functor(
 					function($position) use ($datum, $recipient)
 					{
 						$this->operation
