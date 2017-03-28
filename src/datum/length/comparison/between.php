@@ -1,6 +1,6 @@
 <?php namespace estvoyage\risingsun\datum\length\comparison;
 
-use estvoyage\risingsun\{ ointeger, oboolean, block\functor, datum, ointeger\comparison\binary as comparison, block\proxy };
+use estvoyage\risingsun\{ ointeger, oboolean, oboolean\recipient\functor, datum, ointeger\comparison\binary as comparison };
 
 class between
 	implements

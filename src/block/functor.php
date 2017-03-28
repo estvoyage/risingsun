@@ -1,11 +1,10 @@
 <?php namespace estvoyage\risingsun\block;
 
-use estvoyage\risingsun\{ block, nstring, oboolean, container\iterator, ointeger, ninteger, datum, comparison, container, nfloat, ofloat };
+use estvoyage\risingsun\{ block, nstring, container\iterator, ointeger, ninteger, datum, comparison, container, nfloat, ofloat };
 
 class functor
 	implements
 		block,
-		oboolean\recipient,
 		ointeger\recipient,
 		ninteger\recipient,
 		datum\recipient,
@@ -33,11 +32,6 @@ class functor
 		call_user_func_array($this->callable, $arguments);
 
 		return $this;
-	}
-
-	function obooleanIs(oboolean $oboolean)
-	{
-		return $this->blockArgumentsAre($oboolean);
 	}
 
 	function ointegerIs(ointeger $ointeger)

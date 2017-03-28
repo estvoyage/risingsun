@@ -1,6 +1,6 @@
 <?php namespace estvoyage\risingsun\container\iterator\position;
 
-use estvoyage\risingsun\{ ointeger\comparison, ointeger, container\iterator\engine\controller, block\functor, datum };
+use estvoyage\risingsun\{ ointeger\comparison, ointeger, container\iterator\engine\controller, oboolean\recipient\functor, datum };
 
 class comparator
 	implements

@@ -2,7 +2,7 @@
 
 require __DIR__ . '/../../../runner.php';
 
-use estvoyage\risingsun\{ tests\units, oboolean, block\functor, datum };
+use estvoyage\risingsun\{ tests\units, oboolean, oboolean\recipient\functor, datum };
 use mock\estvoyage\risingsun\{ datum as mockOfDatum, ointeger as mockOfOInteger };
 
 class operation extends units\test

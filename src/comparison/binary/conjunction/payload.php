@@ -1,6 +1,6 @@
 <?php namespace estvoyage\risingsun\comparison\binary\conjunction;
 
-use estvoyage\risingsun\{ comparison, container, ointeger, oboolean, block\functor };
+use estvoyage\risingsun\{ comparison, container, ointeger, oboolean, oboolean\recipient\functor };
 
 class payload
 	implements
