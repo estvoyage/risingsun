@@ -1,6 +1,6 @@
 <?php namespace estvoyage\risingsun\output;
 
-use estvoyage\risingsun\{ output, nstring\recipient\functor, datum, ostring };
+use estvoyage\risingsun\{ output, nstring, datum, ostring };
 
 class stdout
 	implements
@@ -18,7 +18,7 @@ class stdout
 	function datumIs(datum $datum)
 	{
 		$datum->recipientOfNStringIs(
-			new functor(
+			new nstring\recipient\functor(
 				function($nstring)
 				{
 					echo $nstring;
@@ -49,7 +49,7 @@ class stdout
 		$operation->recipientOfDatumOperationOnDataIs(
 			$firstDatum,
 			$secondDatum,
-			new functor(
+			new datum\recipient\functor(
 				function($operation)
 				{
 					$this->outputLineIs($operation);

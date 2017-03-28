@@ -1,6 +1,6 @@
 <?php namespace estvoyage\risingsun\ofloat\unsigned;
 
-use estvoyage\risingsun\{ ofloat, block\error, datum, block\functor, oboolean };
+use estvoyage\risingsun\{ ofloat, datum, oboolean, block };
 
 class any extends ofloat\any
 	implements
@@ -14,7 +14,7 @@ class any extends ofloat\any
 
 			self::recipientOfLessThanZeroComparisonOnOFloatIs(
 				$this,
-				new error(new \typeError)
+				new block\error(new \typeError)
 			);
 		}
 		catch (\typeError $exception)
@@ -27,13 +27,13 @@ class any extends ofloat\any
 	{
 		parent::recipientOfDatumWithNStringIs(
 			$string,
-			new functor(
+			new datum\recipient\functor(
 				function($ofloat) use ($recipient)
 				{
 					self::recipientOfLessThanZeroComparisonOnOFloatIs(
 						$ofloat,
 						new oboolean\recipient\false\block(
-							new functor(
+							new block\functor(
 								function() use ($ofloat, $recipient)
 								{
 									$recipient->datumIs($ofloat);

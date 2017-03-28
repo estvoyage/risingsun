@@ -11,7 +11,6 @@ class functor extends units\test
 	{
 		$this->testedClass
 			->implements('estvoyage\risingsun\block')
-			->implements('estvoyage\risingsun\datum\recipient')
 			->implements('estvoyage\risingsun\datum\container\payload')
 			->implements('estvoyage\risingsun\comparison\recipient')
 			->implements('estvoyage\risingsun\container\iterator\engine\controller\recipient')
@@ -50,27 +49,6 @@ class functor extends units\test
 					->isEqualTo($this->newTestedInstance($callable))
 				->array($arguments)
 					->isEqualTo([ $firstArg, $secondArg ])
-		;
-	}
-
-	function testDatumIs()
-	{
-		$this
-			->given(
-				$datum = new mockOfDatum,
-
-				$callable = function() use (& $arguments) {
-					$arguments = func_get_args();
-				}
-			)
-			->if(
-				$this->newTestedInstance($callable)
-			)
-			->then
-				->object($this->testedInstance->datumIs($datum))
-					->isEqualTo($this->newTestedInstance($callable))
-				->array($arguments)
-					->isEqualTo([ $datum ])
 		;
 	}
 

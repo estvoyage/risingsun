@@ -5,7 +5,6 @@ use estvoyage\risingsun\{ block, nstring, container\iterator, ointeger, ninteger
 class functor
 	implements
 		block,
-		datum\recipient,
 		datum\container\payload,
 		comparison\recipient,
 		container\iterator\engine\controller\recipient,
@@ -30,11 +29,6 @@ class functor
 		call_user_func_array($this->callable, $arguments);
 
 		return $this;
-	}
-
-	function datumIs(datum $datum)
-	{
-		return $this->blockArgumentsAre($datum);
 	}
 
 	function containerIteratorEngineControllerForDatumAtPositionIs(datum $datum, ointeger $position, iterator\engine\controller $controller)

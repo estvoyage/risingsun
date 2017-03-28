@@ -1,6 +1,6 @@
 <?php namespace estvoyage\risingsun\ofloat;
 
-use estvoyage\risingsun\{ ofloat, nfloat, datum, ointeger, nstring, block\error, oboolean, comparison, block\functor, ostring };
+use estvoyage\risingsun\{ ofloat, nfloat, datum, ointeger, nstring, block\error, oboolean, comparison, ostring, block };
 
 class any
 	implements
@@ -43,7 +43,7 @@ class any
 			->recipientOfNumericComparisonOnValueIs(
 				$value,
 				new oboolean\recipient\false\block(
-					new functor(
+					new block\functor(
 						function() use ($recipient, $value)
 						{
 							$recipient->datumIs($this->cloneWithValue($value));
@@ -73,7 +73,7 @@ class any
 		(new datum\converter\any)
 			->recipientOfDatumIs(
 				$this,
-				new functor(
+				new datum\recipient\functor(
 					function($datum) use ($precision, $recipient)
 					{
 						(
@@ -85,7 +85,7 @@ class any
 							->recipientOfSearchOfDatumInDatumIs(
 								new ostring\any('.'),
 								$datum,
-								new functor(
+								new datum\recipient\functor(
 									function($position) use ($precision, & $datum)
 									{
 										(
@@ -98,7 +98,7 @@ class any
 										)
 											->recipientOfDatumOperationWithDatumIs(
 												$datum,
-												new functor(
+												new datum\recipient\functor(
 													function($rightPart) use (& $datum)
 													{
 														$datum = $rightPart;

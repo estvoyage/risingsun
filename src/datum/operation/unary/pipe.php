@@ -1,6 +1,6 @@
 <?php namespace estvoyage\risingsun\datum\operation\unary;
 
-use estvoyage\risingsun\{ datum\operation, datum, ostring, block\functor, container\iterator };
+use estvoyage\risingsun\{ datum\operation, datum, ostring, container\iterator };
 
 class pipe
 	implements
@@ -22,12 +22,12 @@ class pipe
 		$this->container
 			->payloadForUnaryDatumOperationContainerIteratorIs(
 				new iterator,
-				new functor(
+				new datum\recipient\functor(
 					function($operation) use (& $currentDatum)
 					{
 						$operation->recipientOfDatumOperationWithDatumIs(
 							$currentDatum,
-							new functor(
+							new datum\recipient\functor(
 								function($datum) use (& $currentDatum)
 								{
 									$currentDatum = $datum;
