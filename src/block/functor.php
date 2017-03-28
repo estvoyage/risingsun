@@ -5,7 +5,6 @@ use estvoyage\risingsun\{ block, container\iterator, ointeger, datum, container 
 class functor
 	implements
 		block,
-		datum\container\payload,
 		datum\operation\unary\container\payload
 {
 	private
@@ -22,11 +21,6 @@ class functor
 		call_user_func_array($this->callable, $arguments);
 
 		return $this;
-	}
-
-	function containerIteratorEngineControllerForDatumAtPositionIs(datum $datum, ointeger $position, iterator\engine\controller $controller)
-	{
-		return $this->blockArgumentsAre($datum, $position, $controller);
 	}
 
 	function containerIteratorEngineControllerForUnaryDatumOperationAtPositionIs(datum\operation\unary $operation, ointeger $position, iterator\engine\controller $controller)

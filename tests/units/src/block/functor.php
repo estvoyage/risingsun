@@ -44,29 +44,6 @@ class functor extends units\test
 		;
 	}
 
-	function testContainerIteratorEngineControllerForDatumAtPositionIs()
-	{
-		$this
-			->given(
-				$datum = new mockOfDatum,
-				$position = new mockOfContainer\iterator\position,
-				$controller = new mockOfContainer\iterator\engine\controller,
-
-				$callable = function() use (& $arguments) {
-					$arguments = func_get_args();
-				}
-			)
-			->if(
-				$this->newTestedInstance($callable)
-			)
-			->then
-				->object($this->testedInstance->containerIteratorEngineControllerForDatumAtPositionIs($datum, $position, $controller))
-					->isEqualTo($this->newTestedInstance($callable))
-				->array($arguments)
-					->isEqualTo([ $datum, $position, $controller ])
-		;
-	}
-
 	function testContainerIteratorEngineControllerForUnaryDatumOperationAtPositionIs()
 	{
 		$this
