@@ -14,7 +14,6 @@ class functor extends units\test
 			->implements('estvoyage\risingsun\datum\operation\unary\container\payload')
 			->implements('estvoyage\risingsun\nfloat\recipient')
 			->implements('estvoyage\risingsun\ointeger\unsigned\recipient')
-			->implements('estvoyage\risingsun\ofloat\recipient')
 		;
 	}
 
@@ -132,27 +131,6 @@ class functor extends units\test
 					->isEqualTo($this->newTestedInstance($callable))
 				->array($arguments)
 					->isEqualTo([ $ointeger ])
-		;
-	}
-
-	function testOFloatIs()
-	{
-		$this
-			->given(
-				$ofloat = new mockOfOFloat,
-
-				$callable = function() use (& $arguments) {
-					$arguments = func_get_args();
-				}
-			)
-			->if(
-				$this->newTestedInstance($callable)
-			)
-			->then
-				->object($this->testedInstance->ofloatIs($ofloat))
-					->isEqualTo($this->newTestedInstance($callable))
-				->array($arguments)
-					->isEqualTo([ $ofloat ])
 		;
 	}
 }

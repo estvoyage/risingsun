@@ -1,6 +1,6 @@
 <?php namespace estvoyage\risingsun\time\duration\timestamp\unix\micro;
 
-use estvoyage\risingsun\{ time\duration\timestamp\unix\micro, ofloat, block\functor };
+use estvoyage\risingsun\{ time\duration\timestamp\unix\micro, ofloat };
 
 class any extends ofloat\unsigned\any
 	implements
@@ -11,7 +11,7 @@ class any extends ofloat\unsigned\any
 		$this
 			->recipientOfOFloatWithNFloatIs(
 				$float,
-				new functor(
+				new ofloat\recipient\functor(
 					function($timestamp) use ($recipient)
 					{
 						$recipient->microUnixTimestampIs($timestamp);

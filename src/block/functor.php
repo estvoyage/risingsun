@@ -8,8 +8,7 @@ class functor
 		datum\container\payload,
 		datum\operation\unary\container\payload,
 		nfloat\recipient,
-		ointeger\unsigned\recipient,
-		ofloat\recipient
+		ointeger\unsigned\recipient
 {
 	private
 		$callable
@@ -45,10 +44,5 @@ class functor
 	function unsignedOIntegerIs(ointeger\unsigned $ointeger)
 	{
 		return $this->blockArgumentsAre($ointeger);
-	}
-
-	function ofloatIs(ofloat $ofloat)
-	{
-		return $this->blockArgumentsAre($ofloat);
 	}
 }
