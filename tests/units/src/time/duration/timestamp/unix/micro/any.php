@@ -1,17 +1,18 @@
-<?php namespace estvoyage\risingsun\tests\units\time\duration\timestamp\unix;
+<?php namespace estvoyage\risingsun\tests\units\time\duration\timestamp\unix\micro;
 
-require __DIR__ . '/../../../../../runner.php';
+require __DIR__ . '/../../../../../../runner.php';
 
 use estvoyage\risingsun\{ tests\units, ostring, ointeger };
-use mock\estvoyage\risingsun\{ nfloat as mockOfNFloat, ostring as mockOfOString, ointeger as mockOfOInteger, datum as mockOfDatum, nstring as mockOfNString, oboolean as mockOfOBoolean };
+use mock\estvoyage\risingsun\{ nfloat as mockOfNFloat, ointeger as mockOfOInteger, datum as mockOfDatum, nstring as mockOfNString, time\duration\timestamp\unix as mockOfUnix };
 
-class micro extends units\test
+class any extends units\test
 {
 	function testClass()
 	{
 		$this->testedClass
 			->implements('estvoyage\risingsun\datum')
 			->implements('estvoyage\risingsun\ofloat\unsigned')
+			->implements('estvoyage\risingsun\time\duration\timestamp\unix\micro')
 		;
 	}
 
@@ -212,6 +213,37 @@ class micro extends units\test
 				->mock($recipient)
 					->receive('unsignedOIntegerIs')
 						->withArguments(new ointeger\unsigned\any(strlen($value)))
+							->once
+		;
+	}
+
+	function testRecipientOfMicroUnixTimestampWithNFloatIs()
+	{
+		$this
+			->given(
+				$nfloat = M_PI,
+				$recipient = new mockOfUnix\micro\recipient
+			)
+			->if(
+				$this->newTestedInstance(0.)
+			)
+			->then
+				->object($this->testedInstance->recipientOfMicroUnixTimestampWithNFloatIs($nfloat, $recipient))
+					->isEqualTo($this->newTestedInstance(0.))
+				->mock($recipient)
+					->receive('microUnixTimestampIs')
+						->withArguments($this->newTestedInstance(M_PI))
+							->once
+
+			->if(
+				$testedInstance = new childOfTestedClass(0.)
+			)
+			->then
+				->object($testedInstance->recipientOfMicroUnixTimestampWithNFloatIs($nfloat, $recipient))
+					->isEqualTo(new childOfTestedClass(0.))
+				->mock($recipient)
+					->receive('microUnixTimestampIs')
+						->withArguments(new childOfTestedClass(M_PI))
 							->once
 		;
 	}

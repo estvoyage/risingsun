@@ -18,39 +18,39 @@ class unix extends units\test
 	{
 		$this
 			->given(
-				$operation = new mockOfOFloat\operation\unary,
+				$template = new mockOfUnix\micro,
 				$recipient = new mockOfUnix\micro\recipient,
 				$now = M_PI
 			)
 			->if(
 				$this->function->microtime = $now,
-				$this->newTestedInstance($operation)
+				$this->newTestedInstance($template)
 			)
 			->then
 				->object($this->testedInstance->recipientOfMicroUnixTimestampIs($recipient))
-					->isEqualTo($this->newTestedInstance($operation))
+					->isEqualTo($this->newTestedInstance($template))
 				->mock($recipient)
 					->receive('microUnixTimestampIs')
 						->never
 				->function('microtime')
 					->wasCalledWithArguments(true)
 						->once
-				->mock($operation)
-					->receive('recipientOfOperationWithOFloatIs')
-						->withArguments(new timestamp\unix\micro($now))
+				->mock($template)
+					->receive('recipientOfMicroUnixTimestampWithNFloatIs')
+						->withArguments($now)
 							->once
 
 			->given(
 				$timestamp = new mockOfUnix\micro
 			)
 			->if(
-				$this->calling($operation)->recipientOfOperationWithOFloatIs = function($operand, $recipient) use ($timestamp) {
-					$recipient->ofloatIs($timestamp);
+				$this->calling($template)->recipientOfMicroUnixTimestampWithNFloatIs = function($nfloat, $recipient) use ($timestamp) {
+					$recipient->microUnixTimestampIs($timestamp);
 				}
 			)
 			->then
 				->object($this->testedInstance->recipientOfMicroUnixTimestampIs($recipient))
-					->isEqualTo($this->newTestedInstance($operation))
+					->isEqualTo($this->newTestedInstance($template))
 				->mock($recipient)
 					->receive('microUnixTimestampIs')
 						->withArguments($timestamp)
@@ -58,9 +58,9 @@ class unix extends units\test
 				->function('microtime')
 					->wasCalledWithArguments(true)
 						->twice
-				->mock($operation)
-					->receive('recipientOfOperationWithOFloatIs')
-						->withArguments(new timestamp\unix\micro($now))
+				->mock($template)
+					->receive('recipientOfMicroUnixTimestampWithNFloatIs')
+						->withArguments($now)
 							->twice
 		;
 	}

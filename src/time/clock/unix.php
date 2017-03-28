@@ -1,29 +1,29 @@
 <?php namespace estvoyage\risingsun\time\clock;
 
-use estvoyage\risingsun\{ time, time\duration\timestamp, ofloat, block\functor };
+use estvoyage\risingsun\{ time, time\duration\timestamp, ofloat };
 
 class unix
 	implements
 		time\clock
 {
 	private
-		$operation
+		$template
 	;
 
-	function __construct(ofloat\operation\unary $operation)
+	function __construct(timestamp\unix\micro $template)
 	{
-		$this->operation = $operation;
+		$this->template = $template;
 	}
 
 	function recipientOfMicroUnixTimestampIs(timestamp\unix\micro\recipient $recipient)
 	{
-		$this->operation
-			->recipientOfOperationWithOFloatIs(
-				new timestamp\unix\micro(microtime(true)),
-				new functor(
-					function($micro) use ($recipient)
+		$this->template
+			->recipientOfMicroUnixTimestampWithNFloatIs(
+				microtime(true),
+				new timestamp\unix\micro\recipient\functor(
+					function($timestamp) use ($recipient)
 					{
-						$recipient->microUnixTimestampIs($micro);
+						$recipient->microUnixTimestampIs($timestamp);
 					}
 				)
 			)

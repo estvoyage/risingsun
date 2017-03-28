@@ -1,7 +1,8 @@
 <?php namespace estvoyage\risingsun\time\duration\timestamp\unix;
 
-use estvoyage\risingsun\{ ostring, ointeger, block\functor, datum, ofloat };
+use estvoyage\risingsun\ofloat;
 
-class micro extends ofloat\unsigned\any
+interface micro
 {
+	function recipientOfMicroUnixTimestampWithNFloatIs(float $float, micro\recipient $recipient);
 }
