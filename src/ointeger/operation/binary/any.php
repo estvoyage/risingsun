@@ -1,6 +1,6 @@
 <?php namespace estvoyage\risingsun\ointeger\operation\binary;
 
-use estvoyage\risingsun\{ ointeger\operation, ointeger, ninteger, block\functor };
+use estvoyage\risingsun\{ ointeger\operation, ointeger, ninteger, ninteger\recipient\functor };
 
 class any
 	implements

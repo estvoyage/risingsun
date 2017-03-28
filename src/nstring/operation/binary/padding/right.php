@@ -1,6 +1,6 @@
 <?php namespace estvoyage\risingsun\nstring\operation\binary\padding;
 
-use estvoyage\risingsun\{ nstring, ointeger, block\functor };
+use estvoyage\risingsun\{ nstring, ointeger, ninteger\recipient\functor };
 
 class right
 	implements

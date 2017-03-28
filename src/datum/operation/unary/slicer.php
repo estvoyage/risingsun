@@ -1,6 +1,6 @@
 <?php namespace estvoyage\risingsun\datum\operation\unary;
 
-use estvoyage\risingsun\{ datum\operation, datum, ointeger, nstring\recipient\functor };
+use estvoyage\risingsun\{ datum\operation, datum, ointeger, nstring, ninteger };
 
 class slicer
 	implements
@@ -21,17 +21,17 @@ class slicer
 	{
 		$this->position
 			->recipientOfNIntegerIs(
-				new functor(
+				new ninteger\recipient\functor(
 					function($positionValue) use ($datum, $recipient)
 					{
 						$this->length
 							->recipientOfNIntegerIs(
-								new functor(
+								new ninteger\recipient\functor(
 									function($lengthValue) use ($datum, $recipient, $positionValue)
 									{
 										$datum
 											->recipientOfNStringIs(
-												new functor(
+												new nstring\recipient\functor(
 													function($datumValue) use ($datum, $recipient, $positionValue, $lengthValue)
 													{
 														$datum

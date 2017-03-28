@@ -1,6 +1,6 @@
 <?php namespace estvoyage\risingsun\ointeger\operation\unary;
 
-use estvoyage\risingsun\{ ointeger\operation, ointeger, block\functor };
+use estvoyage\risingsun\{ ointeger\operation, ointeger, ninteger\recipient\functor };
 
 class pow
 	implements

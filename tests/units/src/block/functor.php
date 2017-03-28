@@ -11,7 +11,6 @@ class functor extends units\test
 	{
 		$this->testedClass
 			->implements('estvoyage\risingsun\block')
-			->implements('estvoyage\risingsun\ninteger\recipient')
 			->implements('estvoyage\risingsun\datum\recipient')
 			->implements('estvoyage\risingsun\datum\container\payload')
 			->implements('estvoyage\risingsun\comparison\recipient')
@@ -51,27 +50,6 @@ class functor extends units\test
 					->isEqualTo($this->newTestedInstance($callable))
 				->array($arguments)
 					->isEqualTo([ $firstArg, $secondArg ])
-		;
-	}
-
-	function testNIntegerIs()
-	{
-		$this
-			->given(
-				$ninteger = rand(- PHP_INT_MAX, PHP_INT_MAX),
-
-				$callable = function() use (& $arguments) {
-					$arguments = func_get_args();
-				}
-			)
-			->if(
-				$this->newTestedInstance($callable)
-			)
-			->then
-				->object($this->testedInstance->nintegerIs($ninteger))
-					->isEqualTo($this->newTestedInstance($callable))
-				->array($arguments)
-					->isEqualTo([ $ninteger ])
 		;
 	}
 

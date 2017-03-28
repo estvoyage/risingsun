@@ -1,6 +1,6 @@
 <?php namespace estvoyage\risingsun\ointeger\comparison\binary;
 
-use estvoyage\risingsun\{ ointeger, oboolean, comparison\binary as comparison, block\functor };
+use estvoyage\risingsun\{ ointeger, oboolean, comparison\binary as comparison, ninteger\recipient\functor };
 
 class any
 	implements
