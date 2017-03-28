@@ -11,7 +11,6 @@ class functor extends units\test
 	{
 		$this->testedClass
 			->implements('estvoyage\risingsun\block')
-			->implements('estvoyage\risingsun\comparison\recipient')
 			->implements('estvoyage\risingsun\container\iterator\payload')
 			->implements('estvoyage\risingsun\datum\operation\unary\container\payload')
 			->implements('estvoyage\risingsun\datum\finder\recipient')
@@ -70,44 +69,6 @@ class functor extends units\test
 					->isEqualTo($this->newTestedInstance($callable))
 				->array($arguments)
 					->isEqualTo([ $datum, $position, $controller ])
-		;
-	}
-
-	function testComparisonIsTrue()
-	{
-		$this
-			->given(
-				$callable = function() use (& $arguments) {
-					$arguments = func_get_args();
-				}
-			)
-			->if(
-				$this->newTestedInstance($callable)
-			)
-			->then
-				->object($this->testedInstance->comparisonIsTrue())
-					->isEqualTo($this->newTestedInstance($callable))
-				->array($arguments)
-					->isEqualTo([])
-		;
-	}
-
-	function testComparisonIsFalse()
-	{
-		$this
-			->given(
-				$callable = function() use (& $arguments) {
-					$arguments = func_get_args();
-				}
-			)
-			->if(
-				$this->newTestedInstance($callable)
-			)
-			->then
-				->object($this->testedInstance->comparisonIsFalse())
-					->isEqualTo($this->newTestedInstance($callable))
-				->variable($arguments)
-					->isNull
 		;
 	}
 
