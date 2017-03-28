@@ -11,7 +11,6 @@ class functor extends units\test
 	{
 		$this->testedClass
 			->implements('estvoyage\risingsun\block')
-			->implements('estvoyage\risingsun\nstring\recipient')
 			->implements('estvoyage\risingsun\oboolean\recipient')
 			->implements('estvoyage\risingsun\ointeger\recipient')
 			->implements('estvoyage\risingsun\ninteger\recipient')
@@ -54,27 +53,6 @@ class functor extends units\test
 					->isEqualTo($this->newTestedInstance($callable))
 				->array($arguments)
 					->isEqualTo([ $firstArg, $secondArg ])
-		;
-	}
-
-	function testNstringIs()
-	{
-		$this
-			->given(
-				$nstring = uniqid(),
-
-				$callable = function() use (& $arguments) {
-					$arguments = func_get_args();
-				}
-			)
-			->if(
-				$this->newTestedInstance($callable)
-			)
-			->then
-				->object($this->testedInstance->nstringIs($nstring))
-					->isEqualTo($this->newTestedInstance($callable))
-				->array($arguments)
-					->isEqualTo([ $nstring ])
 		;
 	}
 

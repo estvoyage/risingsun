@@ -1,6 +1,6 @@
 <?php namespace estvoyage\risingsun\datum\finder;
 
-use estvoyage\risingsun\{ ointeger, datum, block\functor, oboolean };
+use estvoyage\risingsun\{ ointeger, datum, nstring\recipient\functor, oboolean };
 
 class first
 	implements

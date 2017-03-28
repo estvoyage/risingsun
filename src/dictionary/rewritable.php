@@ -1,6 +1,6 @@
 <?php namespace estvoyage\risingsun\dictionary;
 
-use estvoyage\risingsun\{ dictionary, block\functor };
+use estvoyage\risingsun\{ dictionary, nstring\recipient\functor };
 
 class rewritable
 	implements

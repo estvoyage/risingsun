@@ -1,6 +1,6 @@
 <?php namespace estvoyage\risingsun\datum\operation\binary;
 
-use estvoyage\risingsun\{ datum\operation, datum, nstring, block\functor };
+use estvoyage\risingsun\{ datum\operation, datum, nstring, nstring\recipient\functor };
 
 class any
 	implements

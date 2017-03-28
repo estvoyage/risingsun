@@ -1,6 +1,6 @@
 <?php namespace estvoyage\risingsun\http\method\comparison;
 
-use estvoyage\risingsun\{ http\method, oboolean, block\functor };
+use estvoyage\risingsun\{ http\method, oboolean, nstring\recipient\functor };
 
 class equal
 	implements

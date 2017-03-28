@@ -1,6 +1,6 @@
 <?php namespace estvoyage\risingsun\output;
 
-use estvoyage\risingsun\{ output, datum, datum\operation, block\functor, ostring };
+use estvoyage\risingsun\{ output, datum, datum\operation, nstring\recipient\functor, ostring };
 
 class stderr extends stdout
 {

@@ -1,6 +1,6 @@
 <?php namespace estvoyage\risingsun\datum\converter;
 
-use estvoyage\risingsun\{ datum, block\functor, ostring };
+use estvoyage\risingsun\{ datum, nstring\recipient\functor, ostring };
 
 class any
 	implements

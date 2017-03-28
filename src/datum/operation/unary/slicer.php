@@ -1,6 +1,6 @@
 <?php namespace estvoyage\risingsun\datum\operation\unary;
 
-use estvoyage\risingsun\{ datum\operation, datum, ointeger, block\functor };
+use estvoyage\risingsun\{ datum\operation, datum, ointeger, nstring\recipient\functor };
 
 class slicer
 	implements

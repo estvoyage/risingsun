@@ -1,6 +1,6 @@
 <?php namespace estvoyage\risingsun\output;
 
-use estvoyage\risingsun\{ output, block\functor, datum, ostring };
+use estvoyage\risingsun\{ output, nstring\recipient\functor, datum, ostring };
 
 class stdout
 	implements

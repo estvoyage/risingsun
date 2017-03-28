@@ -5,7 +5,6 @@ use estvoyage\risingsun\{ block, nstring, oboolean, container\iterator, ointeger
 class functor
 	implements
 		block,
-		nstring\recipient,
 		oboolean\recipient,
 		ointeger\recipient,
 		ninteger\recipient,
@@ -34,11 +33,6 @@ class functor
 		call_user_func_array($this->callable, $arguments);
 
 		return $this;
-	}
-
-	function nstringIs(string $nstring)
-	{
-		return $this->blockArgumentsAre($nstring);
 	}
 
 	function obooleanIs(oboolean $oboolean)
