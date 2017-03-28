@@ -1,6 +1,6 @@
 <?php namespace estvoyage\risingsun\ointeger\generator\operation;
 
-use estvoyage\risingsun\{ ointeger, ointeger\generator, ointeger\recipient, block\functor };
+use estvoyage\risingsun\{ ointeger, ointeger\generator, ointeger\recipient };
 
 class binary
 	implements
@@ -25,7 +25,7 @@ class binary
 			->recipientOfOperationOnOIntegersIs(
 				$this->current,
 				$this->secondOperand,
-				new functor(
+				new ointeger\recipient\functor(
 					function($newCurrent) use ($recipient)
 					{
 						$recipient->ointegerIs($this->current);

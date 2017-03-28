@@ -11,7 +11,6 @@ class functor extends units\test
 	{
 		$this->testedClass
 			->implements('estvoyage\risingsun\block')
-			->implements('estvoyage\risingsun\ointeger\recipient')
 			->implements('estvoyage\risingsun\ninteger\recipient')
 			->implements('estvoyage\risingsun\datum\recipient')
 			->implements('estvoyage\risingsun\datum\container\payload')
@@ -52,27 +51,6 @@ class functor extends units\test
 					->isEqualTo($this->newTestedInstance($callable))
 				->array($arguments)
 					->isEqualTo([ $firstArg, $secondArg ])
-		;
-	}
-
-	function testOIntegerIs()
-	{
-		$this
-			->given(
-				$ointeger = new mockOfOInteger,
-
-				$callable = function() use (& $arguments) {
-					$arguments = func_get_args();
-				}
-			)
-			->if(
-				$this->newTestedInstance($callable)
-			)
-			->then
-				->object($this->testedInstance->ointegerIs($ointeger))
-					->isEqualTo($this->newTestedInstance($callable))
-				->array($arguments)
-					->isEqualTo([ $ointeger ])
 		;
 	}
 

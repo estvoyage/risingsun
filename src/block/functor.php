@@ -5,7 +5,6 @@ use estvoyage\risingsun\{ block, nstring, container\iterator, ointeger, ninteger
 class functor
 	implements
 		block,
-		ointeger\recipient,
 		ninteger\recipient,
 		datum\recipient,
 		datum\container\payload,
@@ -32,11 +31,6 @@ class functor
 		call_user_func_array($this->callable, $arguments);
 
 		return $this;
-	}
-
-	function ointegerIs(ointeger $ointeger)
-	{
-		return $this->blockArgumentsAre($ointeger);
 	}
 
 	function nintegerIs(int $ninteger)

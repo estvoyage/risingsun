@@ -1,6 +1,6 @@
 <?php namespace estvoyage\risingsun\container\iterator\engine;
 
-use estvoyage\risingsun\{ container\iterator\engine, container\iterator\payload, ointeger\generator, block\functor, ointeger, oboolean };
+use estvoyage\risingsun\{ container\iterator\engine, container\iterator\payload, ointeger\generator, ointeger\recipient\functor, ointeger, oboolean };
 
 class fifo
 	implements

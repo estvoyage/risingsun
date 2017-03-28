@@ -1,6 +1,6 @@
 <?php namespace estvoyage\risingsun\datum\finder;
 
-use estvoyage\risingsun\{ datum, ointeger, oboolean\recipient\functor };
+use estvoyage\risingsun\{ datum, ointeger, oboolean };
 
 class operation
 	implements
@@ -23,24 +23,24 @@ class operation
 			->recipientOfSearchOfDatumInDatumIs(
 				$search,
 				$datum,
-				new functor(
+				new ointeger\recipient\functor(
 					function($position) use ($datum, $recipient)
 					{
 						$this->operation
 							->recipientOfOperationWithOIntegerIs(
 								$position,
-								new functor(
+								new ointeger\recipient\functor(
 									function($position) use ($datum, $recipient)
 									{
 										(new datum\length\comparison\between($position))
 											->recipientOfDatumLengthComparisonWithDatumIs(
 												$datum,
-												new functor(
+												new oboolean\recipient\functor(
 													function($comparison) use ($position, $recipient)
 													{
 														$comparison
 															->blockForTrueIs(
-																new functor(
+																new oboolean\recipient\functor(
 																	function() use ($position, $recipient)
 																	{
 																		$recipient->datumIsAtPosition($position);
