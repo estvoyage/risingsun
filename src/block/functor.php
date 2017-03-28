@@ -7,7 +7,6 @@ class functor
 		block,
 		datum\container\payload,
 		comparison\recipient,
-		container\iterator\engine\controller\recipient,
 		container\iterator\payload,
 		datum\operation\unary\container\payload,
 		datum\finder\recipient,
@@ -44,11 +43,6 @@ class functor
 	function comparisonIsFalse()
 	{
 		return $this;
-	}
-
-	function containerIteratorEngineControllerIs(iterator\engine\controller $controller)
-	{
-		return $this->blockArgumentsAre($controller);
 	}
 
 	function containerIteratorEngineControllerOfValueAtPositionIs($value, ointeger $position, iterator\engine\controller $controller)

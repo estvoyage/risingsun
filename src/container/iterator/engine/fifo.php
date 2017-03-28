@@ -1,6 +1,6 @@
 <?php namespace estvoyage\risingsun\container\iterator\engine;
 
-use estvoyage\risingsun\{ container\iterator\engine, container\iterator\payload, ointeger\generator, ointeger\recipient\functor, ointeger, oboolean };
+use estvoyage\risingsun\{ container\iterator\engine, container\iterator\payload, ointeger\generator, ointeger, block };
 
 class fifo
 	implements
@@ -21,20 +21,20 @@ class fifo
 	{
 		$this->controller
 			->recipientOfContainerIteratorEngineControllerWithBlockIs(
-				new functor(
+				new block\functor(
 					function() use (& $break)
 					{
 						$break = true;
 					}
 				),
-				new functor(
+				new engine\controller\recipient\functor(
 					function($controller) use ($payload, $values, & $break)
 					{
 						foreach ($values as $value)
 						{
 							$this->generator
 								->recipientOfOIntegerIs(
-									new functor(
+									new ointeger\recipient\functor(
 										function($position) use ($payload, $value, $controller)
 										{
 											$payload->containerIteratorEngineControllerOfValueAtPositionIs($value, $position, $controller);
