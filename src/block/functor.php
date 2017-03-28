@@ -6,7 +6,6 @@ class functor
 	implements
 		block,
 		datum\container\payload,
-		container\iterator\payload,
 		datum\operation\unary\container\payload,
 		datum\finder\recipient,
 		nfloat\recipient,
@@ -32,11 +31,6 @@ class functor
 	function containerIteratorEngineControllerForDatumAtPositionIs(datum $datum, ointeger $position, iterator\engine\controller $controller)
 	{
 		return $this->blockArgumentsAre($datum, $position, $controller);
-	}
-
-	function containerIteratorEngineControllerOfValueAtPositionIs($value, ointeger $position, iterator\engine\controller $controller)
-	{
-		return $this->blockArgumentsAre($value, $position, $controller);
 	}
 
 	function containerIteratorEngineControllerForUnaryDatumOperationAtPositionIs(datum\operation\unary $operation, ointeger $position, iterator\engine\controller $controller)

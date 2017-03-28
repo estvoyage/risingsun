@@ -1,6 +1,6 @@
 <?php namespace estvoyage\risingsun\container;
 
-use estvoyage\risingsun\{ container\iterator, block\functor, ointeger\generator, datum, comparison, block };
+use estvoyage\risingsun\{ container\iterator, datum, comparison };
 
 class iterator
 	implements
@@ -22,7 +22,7 @@ class iterator
 	{
 		return $this
 			->valuesForContainerIteratorPayloadIs(
-				new functor(
+				new iterator\payload\functor(
 					function($datum, $position, $controller) use ($payload)
 					{
 						$payload->containerIteratorEngineControllerForDatumAtPositionIs($datum, $position, $controller);
@@ -39,7 +39,7 @@ class iterator
 	{
 		return $this
 			->valuesForContainerIteratorPayloadIs(
-				new functor(
+				new iterator\payload\functor(
 					function($comparison, $position, $controller) use ($payload)
 					{
 						$payload->containerIteratorEngineControllerForBinaryComparisonAtPositionIs($comparison, $position, $controller);
@@ -54,7 +54,7 @@ class iterator
 	{
 		return $this
 			->valuesForContainerIteratorPayloadIs(
-				new functor(
+				new iterator\payload\functor(
 					function($operation, $position, $controller) use ($payload)
 					{
 						$payload->containerIteratorEngineControllerForUnaryDatumOperationAtPositionIs($operation, $position, $controller);
