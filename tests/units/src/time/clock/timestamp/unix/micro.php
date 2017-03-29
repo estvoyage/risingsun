@@ -1,17 +1,22 @@
-<?php namespace estvoyage\risingsun\tests\units\time\clock;
+<?php namespace estvoyage\risingsun\tests\units\time\clock\timestamp\unix;
 
-require __DIR__ . '/../../../runner.php';
+require __DIR__ . '/../../../../../runner.php';
 
 use estvoyage\risingsun\{ tests\units, time\duration\timestamp };
 use mock\estvoyage\risingsun\{ time\duration\timestamp\unix as mockOfUnix, ofloat as mockOfOFloat };
 
-class unix extends units\test
+class micro extends units\test
 {
 	function testClass()
 	{
 		$this->testedClass
 			->implements('estvoyage\risingsun\time\clock')
 		;
+	}
+
+	function test__construct()
+	{
+		$this->object($this->newTestedInstance)->isEqualTo($this->newTestedInstance(new timestamp\unix\micro\any));
 	}
 
 	function testRecipientOfMicroUnixTimestampIs()
