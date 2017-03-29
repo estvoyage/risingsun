@@ -1,11 +1,10 @@
 <?php namespace estvoyage\risingsun\block;
 
-use estvoyage\risingsun\{ block, container\iterator, ointeger, datum, container };
+use estvoyage\risingsun\block;
 
 class functor
 	implements
-		block,
-		datum\operation\unary\container\payload
+		block
 {
 	private
 		$callable
@@ -21,10 +20,5 @@ class functor
 		call_user_func_array($this->callable, $arguments);
 
 		return $this;
-	}
-
-	function containerIteratorEngineControllerForUnaryDatumOperationAtPositionIs(datum\operation\unary $operation, ointeger $position, iterator\engine\controller $controller)
-	{
-		return $this->blockArgumentsAre($operation, $position, $controller);
 	}
 }
