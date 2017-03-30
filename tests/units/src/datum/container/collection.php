@@ -7,6 +7,13 @@ use mock\estvoyage\risingsun\datum as mockOfDatum;
 
 class collection extends units\test
 {
+	function testClass()
+	{
+		$this->testedClass
+			->implements('estvoyage\risingsun\datum\container')
+		;
+	}
+
 	function testPayloadForDatumContainerIteratorIs()
 	{
 		$this

@@ -3,6 +3,8 @@
 use estvoyage\risingsun\datum;
 
 class collection
+	implements
+		datum\container
 {
 	private
 		$data

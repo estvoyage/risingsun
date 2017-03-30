@@ -11,7 +11,6 @@ class any extends units\test
 	{
 		$this->testedClass
 			->implements('estvoyage\risingsun\datum')
-			->implements('estvoyage\risingsun\ofloat\unsigned')
 			->implements('estvoyage\risingsun\time\duration\timestamp\unix\micro')
 		;
 	}
