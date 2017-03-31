@@ -2,7 +2,7 @@
 
 use estvoyage\risingsun\{ oboolean, block };
 
-class switching
+class switcher
 	implements
 		oboolean\recipient
 {
@@ -13,8 +13,8 @@ class switching
 
 	function __construct(block $ok, block $ko)
 	{
-		$this->ok = $ok;
 		$this->ko = $ko;
+		$this->ok = $ok;
 	}
 
 	function obooleanIs(oboolean $oboolean)

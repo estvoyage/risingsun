@@ -20,7 +20,7 @@ class addition
 		(new comparison\unary\with\float\type)
 			->recipientOfComparisonWithValueIs(
 				$addition = $firstOperand + $secondOperand,
-				new oboolean\recipient\switching(
+				new oboolean\recipient\switcher(
 					new functor(
 						function()
 						{

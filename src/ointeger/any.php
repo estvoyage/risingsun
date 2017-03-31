@@ -1,6 +1,6 @@
 <?php namespace estvoyage\risingsun\ointeger;
 
-use estvoyage\risingsun\{ ointeger, ninteger, oboolean, block, nstring, datum };
+use estvoyage\risingsun\{ ointeger, ninteger, oboolean, block, nstring, datum, comparison };
 
 class any
 	implements
@@ -46,10 +46,19 @@ class any
 
 	function recipientOfDatumWithNStringIs(string $value, datum\recipient $recipient)
 	{
-		if (self::check($value))
-		{
-			$recipient->datumIs(self::cloneWithValue($value));
-		}
+		(new comparison\unary\with\integer\type)
+			->recipientOfComparisonWithValueIs(
+				$value,
+				new oboolean\recipient\true\block(
+					new block\functor(
+						function() use ($value, $recipient)
+						{
+							$recipient->datumIs(self::cloneWithValue($value));
+						}
+					)
+				)
+			)
+		;
 
 		return $this;
 	}
