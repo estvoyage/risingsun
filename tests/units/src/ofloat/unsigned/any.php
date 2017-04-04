@@ -2,8 +2,8 @@
 
 require __DIR__ . '/../../../runner.php';
 
-use estvoyage\risingsun\{ tests\units, ointeger };
-use mock\estvoyage\risingsun\{ datum as mockOfDatum, ointeger as mockOfOInteger };
+use estvoyage\risingsun\{ tests\units, datum };
+use mock\estvoyage\risingsun\{ datum as mockOfDatum };
 
 class any extends units\test
 {
@@ -94,7 +94,7 @@ class any extends units\test
 	{
 		$this
 			->given(
-				$recipient = new mockOfOInteger\unsigned\recipient
+				$recipient = new mockOfDatum\length\recipient
 			)
 			->if(
 				$this->newTestedInstance($value)
@@ -103,8 +103,8 @@ class any extends units\test
 				->object($this->testedInstance->recipientOfDatumLengthIs($recipient))
 					->isEqualTo($this->newTestedInstance($value))
 				->mock($recipient)
-					->receive('unsignedOIntegerIs')
-						->withArguments(new ointeger\unsigned\any(strlen($value)))
+					->receive('datumLengthIs')
+						->withArguments(new datum\length(strlen($value)))
 							->once
 		;
 	}

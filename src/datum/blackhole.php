@@ -1,6 +1,6 @@
 <?php namespace estvoyage\risingsun\datum;
 
-use estvoyage\risingsun\{ datum, nstring, ointeger };
+use estvoyage\risingsun\{ datum, nstring };
 
 class blackhole
 	implements
@@ -16,7 +16,7 @@ class blackhole
 		return $this;
 	}
 
-	function recipientOfDatumLengthIs(ointeger\unsigned\recipient $recipient)
+	function recipientOfDatumLengthIs(datum\length\recipient $recipient)
 	{
 		return $this;
 	}

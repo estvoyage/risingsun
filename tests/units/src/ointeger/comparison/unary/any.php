@@ -3,7 +3,7 @@
 require __DIR__ . '/../../../../runner.php';
 
 use estvoyage\risingsun\{ tests\units, ointeger };
-use mock\estvoyage\risingsun\{ oboolean as mockOfOBoolean, ointeger as mockOfOInteger };
+use mock\estvoyage\risingsun\ointeger as mockOfOInteger;
 
 class any extends units\test
 {
@@ -28,24 +28,23 @@ class any extends units\test
 		;
 	}
 
-	function testRecipientOfOIntegerComparisonWithOIntegerIs()
+	function testOIntegerForComparisonIs()
 	{
 		$this
 			->given(
 				$comparison = new mockOfOInteger\comparison\binary,
 				$reference = new mockOfOInteger,
-				$ointeger = new mockOfOInteger,
-				$recipient = new mockOfOBoolean\recipient
+				$ointeger = new mockOfOInteger
 			)
 			->if(
 				$this->newTestedInstance($comparison, $reference)
 			)
 			->then
-				->object($this->testedInstance->recipientOfOIntegerComparisonWithOIntegerIs($ointeger, $recipient))
+				->object($this->testedInstance->oIntegerForComparisonIs($ointeger))
 					->isEqualTo($this->newTestedInstance($comparison, $reference))
 				->mock($comparison)
-					->receive('recipientOfOIntegerComparisonBetweenOIntegersIs')
-						->withArguments($ointeger, $reference, $recipient)
+					->receive('referenceForComparisonWithOIntegerIs')
+						->withArguments($ointeger, $reference)
 							->once
 		;
 	}

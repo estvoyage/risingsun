@@ -1,6 +1,6 @@
 <?php namespace estvoyage\risingsun\ofloat\comparison\unary;
 
-use estvoyage\risingsun\{ ofloat, oboolean };
+use estvoyage\risingsun\ofloat;
 
 class any
 	implements
@@ -17,13 +17,12 @@ class any
 		$this->reference = $reference ?: new ofloat\any;
 	}
 
-	function recipientOfOFloatComparisonWithOFloatIs(ofloat $ofloat, oboolean\recipient $recipient)
+	function oFloatForComparisonIs(ofloat $ofloat)
 	{
 		$this->comparison
-			->recipientOfOFloatComparisonBetweenOFloatsIs(
+			->referenceForComparisonWithOFloatIs(
 				$ofloat,
-				$this->reference,
-				$recipient
+				$this->reference
 			)
 		;
 

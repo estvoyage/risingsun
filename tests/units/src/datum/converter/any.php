@@ -57,16 +57,20 @@ class any extends units\test
 			)
 			->if(
 				$this->calling($template)->recipientOfDatumWithNStringIs = function($nstring, $recipient) use ($datumValue, $convertedDatum) {
-					(new comparison\binary\equal)
-						->recipientOfComparisonBetweenValuesIs(
-							$nstring,
-							$datumValue,
+					(
+						new comparison\binary\equal
+						(
 							new functor(
 								function() use ($recipient, $convertedDatum)
 								{
 									$recipient->datumIs($convertedDatum);
 								}
 							)
+						)
+					)
+						->referenceForComparisonWithOperandIs(
+							$nstring,
+							$datumValue
 						)
 					;
 				}

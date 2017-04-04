@@ -3,7 +3,7 @@
 require __DIR__ . '/../../../../runner.php';
 
 use estvoyage\risingsun\tests\units;
-use mock\estvoyage\risingsun\{ ofloat as mockOfOFloat, comparison as mockOfComparison, oboolean as mockOfOBoolean };
+use mock\estvoyage\risingsun\{ ofloat as mockOfOFloat, comparison as mockOfComparison };
 
 class any extends units\test
 {
@@ -14,54 +14,53 @@ class any extends units\test
 		;
 	}
 
-	function testRecipientOfOFloatComparisonBetweenOFloatsIs()
+	function testReferenceForComparisonWithOFloatIs()
 	{
 		$this
 			->given(
 				$comparison = new mockOfComparison\binary,
-				$firstOperand = new mockOfOFloat,
-				$secondOperand = new mockOfOFloat,
-				$recipient = new mockOfOBoolean\recipient
+				$ofloat = new mockOfOFloat,
+				$reference = new mockOfOFloat
 			)
 			->if(
 				$this->newTestedInstance($comparison)
 			)
 			->then
-				->object($this->testedInstance->recipientOfOFloatComparisonBetweenOFloatsIs($firstOperand, $secondOperand, $recipient))
+				->object($this->testedInstance->referenceForComparisonWithOFloatIs($ofloat, $reference))
 					->isEqualTo($this->newTestedInstance($comparison))
 				->mock($comparison)
-					->receive('recipientOfComparisonBetweenValuesIs')
+					->receive('referenceForComparisonWithOperandIs')
 						->never
 
 			->given(
-				$firstOperandValue = 1.2
+				$ofloatValue = 1.2
 			)
 			->if(
-				$this->calling($firstOperand)->recipientOfNFloatIs = function($recipient) use ($firstOperandValue) {
-					$recipient->nfloatIs($firstOperandValue);
+				$this->calling($ofloat)->recipientOfNFloatIs = function($recipient) use ($ofloatValue) {
+					$recipient->nfloatIs($ofloatValue);
 				}
 			)
 			->then
-				->object($this->testedInstance->recipientOfOFloatComparisonBetweenOFloatsIs($firstOperand, $secondOperand, $recipient))
+				->object($this->testedInstance->referenceForComparisonWithOFloatIs($ofloat, $reference))
 					->isEqualTo($this->newTestedInstance($comparison))
 				->mock($comparison)
-					->receive('recipientOfComparisonBetweenValuesIs')
+					->receive('referenceForComparisonWithOperandIs')
 						->never
 
 			->given(
-				$secondOperandValue = 8.5
+				$referenceValue = 8.5
 			)
 			->if(
-				$this->calling($secondOperand)->recipientOfNFloatIs = function($recipient) use ($secondOperandValue) {
-					$recipient->nfloatIs($secondOperandValue);
+				$this->calling($reference)->recipientOfNFloatIs = function($recipient) use ($referenceValue) {
+					$recipient->nfloatIs($referenceValue);
 				}
 			)
 			->then
-				->object($this->testedInstance->recipientOfOFloatComparisonBetweenOFloatsIs($firstOperand, $secondOperand, $recipient))
+				->object($this->testedInstance->referenceForComparisonWithOFloatIs($ofloat, $reference))
 					->isEqualTo($this->newTestedInstance($comparison))
 				->mock($comparison)
-					->receive('recipientOfComparisonBetweenValuesIs')
-						->withArguments($firstOperandValue, $secondOperandValue, $recipient)
+					->receive('referenceForComparisonWithOperandIs')
+						->withArguments($ofloatValue, $referenceValue)
 							->once
 		;
 	}

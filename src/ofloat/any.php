@@ -1,6 +1,6 @@
 <?php namespace estvoyage\risingsun\ofloat;
 
-use estvoyage\risingsun\{ ofloat, nfloat, datum, ointeger, nstring, oboolean, comparison, ostring, block };
+use estvoyage\risingsun\{ ofloat, nfloat, datum, ointeger, nstring, comparison, ostring, block };
 
 class any
 	implements
@@ -13,11 +13,13 @@ class any
 
 	function __construct($value = 0.)
 	{
-		$this
-			->recipientOfNumericComparisonOnValueIs(
-				$value,
+		(
+			new comparison\unary\notNumeric
+			(
 				new block\error(new \typeError('Value should be a float'))
 			)
+		)
+			->operandForComparisonIs($value)
 		;
 
 		$this->value = $value;
@@ -39,24 +41,26 @@ class any
 
 	function recipientOfDatumWithNStringIs(string $value, datum\recipient $recipient)
 	{
-		return $this
-			->recipientOfNumericComparisonOnValueIs(
-				$value,
-				new oboolean\recipient\false\block(
-					new block\functor(
-						function() use ($recipient, $value)
-						{
-							$recipient->datumIs($this->cloneWithValue($value));
-						}
-					)
+		(
+			new comparison\unary\numeric
+			(
+				new block\functor(
+					function() use ($recipient, $value)
+					{
+						$recipient->datumIs($this->cloneWithValue($value));
+					}
 				)
 			)
+		)
+			->operandForComparisonIs($value)
 		;
+
+		return $this;
 	}
 
-	function recipientOfDatumLengthIs(ointeger\unsigned\recipient $recipient)
+	function recipientOfDatumLengthIs(datum\length\recipient $recipient)
 	{
-		$recipient->unsignedOIntegerIs(new ointeger\unsigned\any(strlen($this->value)));
+		$recipient->datumLengthIs(new datum\length(strlen($this->value)));
 
 		return $this;
 	}
@@ -128,13 +132,15 @@ class any
 		return $ofloat;
 	}
 
-	private function recipientOfNumericComparisonOnValueIs($value, oboolean\recipient $recipient)
+	private function blockForValueIs($value, block $block)
 	{
-		(new comparison\unary\notNumeric)
-			->recipientOfComparisonWithValueIs(
-				$value,
-				$recipient
+		(
+			new comparison\unary\notNumeric
+			(
+				$block
 			)
+		)
+			->operandForComparisonIs($value)
 		;
 
 		return $this;

@@ -1,6 +1,6 @@
 <?php namespace estvoyage\risingsun\comparison\binary;
 
-use estvoyage\risingsun\{ comparison, oboolean };
+use estvoyage\risingsun\{ comparison, block };
 
 class equal
 	implements
@@ -11,18 +11,22 @@ class equal
 		$ko
 	;
 
-	function __construct(oboolean $ok = null, oboolean $ko = null)
+	function __construct(block $ok, block $ko = null)
 	{
-		$this->ok = $ok ?: new oboolean\ok;
-		$this->ko = $ko ?: new oboolean\ko;
+		$this->ok = $ok;
+		$this->ko = $ko ?: new block\blackhole;
 	}
 
-	function recipientOfComparisonBetweenValuesIs($firstOperand, $secondOperand, oboolean\recipient $recipient)
+	function referenceForComparisonWithOperandIs($operand, $reference)
 	{
-		(new comparison\unary\with\true\boolean($this->ok, $this->ko))
-			->recipientOfComparisonWithValueIs(
-				$firstOperand == $secondOperand,
-				$recipient
+		(
+			new comparison\unary\with\true\boolean(
+				$this->ok,
+				$this->ko
+			)
+		)
+			->operandForComparisonIs(
+				$operand == $reference
 			)
 		;
 

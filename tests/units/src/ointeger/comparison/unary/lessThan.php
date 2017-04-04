@@ -2,8 +2,8 @@
 
 require __DIR__ . '/../../../../runner.php';
 
-use estvoyage\risingsun\{ tests\units, oboolean, ointeger };
-use mock\estvoyage\risingsun\{ ointeger as mockOfOInteger, oboolean as mockOfOBoolean };
+use estvoyage\risingsun\{ tests\units, ointeger, block };
+use mock\estvoyage\risingsun\{ ointeger as mockOfOInteger, block as mockOfBlock };
 
 class lessThan extends units\test
 {
@@ -16,27 +16,37 @@ class lessThan extends units\test
 
 	function test__construct()
 	{
-		$this->object($this->newTestedInstance)->isEqualTo($this->newTestedInstance(new ointeger\any, new oboolean\ok, new oboolean\ko));
+		$this
+			->given(
+				$ok = new mockOfBlock
+			)
+			->if(
+				$this->newTestedInstance($ok)
+			)
+			->then
+				->object($this->testedInstance)->isEqualTo($this->newTestedInstance($ok, new ointeger\any, new block\blackhole));
 	}
 
-	function testRecipientOfOIntegerComparisonWithOIntegerIs()
+	function testOIntegerForComparisonIs()
 	{
 		$this
 			->given(
 				$reference = new mockOfOInteger,
-				$ok = new mockOfOBoolean,
-				$ko = new mockOfOBoolean,
-				$ointeger = new mockOfOInteger,
-				$recipient = new mockOfOBoolean\recipient
+				$ok = new mockOfBlock,
+				$ko = new mockOfBlock,
+				$ointeger = new mockOfOInteger
 			)
 			->if(
-				$this->newTestedInstance($reference, $ok, $ko)
+				$this->newTestedInstance($ok, $reference, $ko)
 			)
 			->then
-				->object($this->testedInstance->recipientOfOIntegerComparisonWithOIntegerIs($ointeger, $recipient))
-					->isEqualTo($this->newTestedInstance($reference, $ok, $ko))
-				->mock($recipient)
-					->receive('obooleanIs')
+				->object($this->testedInstance->oIntegerForComparisonIs($ointeger))
+					->isEqualTo($this->newTestedInstance($ok, $reference, $ko))
+				->mock($ok)
+					->receive('blockArgumentsAre')
+						->never
+				->mock($ko)
+					->receive('blockArgumentsAre')
 						->never
 
 			->given(
@@ -48,10 +58,13 @@ class lessThan extends units\test
 				$referenceValue = 0
 			)
 			->then
-				->object($this->testedInstance->recipientOfOIntegerComparisonWithOIntegerIs($ointeger, $recipient))
-					->isEqualTo($this->newTestedInstance($reference, $ok, $ko))
-				->mock($recipient)
-					->receive('obooleanIs')
+				->object($this->testedInstance->oIntegerForComparisonIs($ointeger))
+					->isEqualTo($this->newTestedInstance($ok, $reference, $ko))
+				->mock($ok)
+					->receive('blockArgumentsAre')
+						->never
+				->mock($ko)
+					->receive('blockArgumentsAre')
 						->never
 
 			->given(
@@ -63,34 +76,40 @@ class lessThan extends units\test
 				$ointegerValue = 0
 			)
 			->then
-				->object($this->testedInstance->recipientOfOIntegerComparisonWithOIntegerIs($ointeger, $recipient))
-					->isEqualTo($this->newTestedInstance($reference, $ok, $ko))
-				->mock($recipient)
-					->receive('obooleanIs')
-						->withArguments($ko)
-							->once
+				->object($this->testedInstance->oIntegerForComparisonIs($ointeger))
+					->isEqualTo($this->newTestedInstance($ok, $reference, $ko))
+				->mock($ok)
+					->receive('blockArgumentsAre')
+						->never
+				->mock($ko)
+					->receive('blockArgumentsAre')
+						->once
 
 			->if(
 				$ointegerValue = - rand(1, PHP_INT_MAX)
 			)
 			->then
-				->object($this->testedInstance->recipientOfOIntegerComparisonWithOIntegerIs($ointeger, $recipient))
-					->isEqualTo($this->newTestedInstance($reference, $ok, $ko))
-				->mock($recipient)
-					->receive('obooleanIs')
-						->withArguments($ko)
-							->once
+				->object($this->testedInstance->oIntegerForComparisonIs($ointeger))
+					->isEqualTo($this->newTestedInstance($ok, $reference, $ko))
+				->mock($ok)
+					->receive('blockArgumentsAre')
+						->once
+				->mock($ko)
+					->receive('blockArgumentsAre')
+						->once
 
 			->if(
 				$ointegerValue = rand(1, PHP_INT_MAX)
 			)
 			->then
-				->object($this->testedInstance->recipientOfOIntegerComparisonWithOIntegerIs($ointeger, $recipient))
-					->isEqualTo($this->newTestedInstance($reference, $ok, $ko))
-				->mock($recipient)
-					->receive('obooleanIs')
-						->withArguments($ko)
-							->twice
+				->object($this->testedInstance->oIntegerForComparisonIs($ointeger))
+					->isEqualTo($this->newTestedInstance($ok, $reference, $ko))
+				->mock($ok)
+					->receive('blockArgumentsAre')
+						->once
+				->mock($ko)
+					->receive('blockArgumentsAre')
+						->twice
 		;
 	}
 }

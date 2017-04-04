@@ -1,11 +1,9 @@
 <?php namespace estvoyage\risingsun\comparison\binary;
 
-use estvoyage\risingsun\{ comparison, oboolean };
-
 class lessThanOrEqualTo extends equal
 {
-	function recipientOfComparisonBetweenValuesIs($firstOperand, $secondOperand, oboolean\recipient $recipient)
+	function referenceForComparisonWithOperandIs($operand, $reference)
 	{
-		return parent::recipientOfComparisonBetweenValuesIs($firstOperand <= $secondOperand, true, $recipient);
+		return parent::referenceForComparisonWithOperandIs($operand <= $reference, true);
 	}
 }

@@ -2,8 +2,8 @@
 
 require __DIR__ . '/../../../../runner.php';
 
-use estvoyage\risingsun\{ tests\units, oboolean };
-use mock\estvoyage\risingsun\{ oboolean as mockOfOBoolean, ofloat as mockOfOFloat };
+use estvoyage\risingsun\{ tests\units, block };
+use mock\estvoyage\risingsun\{ block as mockOfBlock, ofloat as mockOfOFloat };
 
 class lessThan extends units\test
 {
@@ -16,81 +16,100 @@ class lessThan extends units\test
 
 	function test__construct()
 	{
-		$this->object($this->newTestedInstance)->isEqualTo($this->newTestedInstance(new oboolean\ok, new oboolean\ko));
+		$this
+			->given(
+				$ok = new mockOfBlock
+			)
+			->if(
+				$this->newTestedInstance($ok)
+			)
+			->then
+				->object($this->testedInstance)->isEqualTo($this->newTestedInstance($ok, new block\blackhole));
 	}
 
-	function testRecipientOfOFloatComparisonBetweenOFloatsIs()
+	function testReferenceForComparisonWithOFloatIs()
 	{
 		$this
 			->given(
-				$ok = new mockOfOBoolean,
-				$ko = new mockOfOBoolean,
-				$firstOperand = new mockOfOFloat,
-				$secondOperand = new mockOfOFloat,
-				$recipient = new mockOfOBoolean\recipient
+				$ok = new mockOfBlock,
+				$ko = new mockOfBlock,
+				$ofloat = new mockOfOFloat,
+				$reference = new mockOfOFloat
 			)
 			->if(
 				$this->newTestedInstance($ok, $ko)
 			)
 			->then
-				->object($this->testedInstance->recipientOfOFloatComparisonBetweenOFloatsIs($firstOperand, $secondOperand, $recipient))
+				->object($this->testedInstance->referenceForComparisonWithOFloatIs($ofloat, $reference))
 					->isEqualTo($this->newTestedInstance($ok, $ko))
-				->mock($recipient)
-					->receive('obooleanIs')
+				->mock($ok)
+					->receive('blockArgumentsAre')
+						->never
+				->mock($ko)
+					->receive('blockArgumentsAre')
 						->never
 
 		->given(
-				$this->calling($firstOperand)->recipientOfNFloatIs = function($recipient) use (& $firstOperandValue) {
-					$recipient->nfloatIs($firstOperandValue);
+				$this->calling($ofloat)->recipientOfNFloatIs = function($recipient) use (& $ofloatValue) {
+					$recipient->nfloatIs($ofloatValue);
 				}
 			)
 			->if(
-				$firstOperandValue = 1.2
+				$ofloatValue = 1.2
 			)
 			->then
-				->object($this->testedInstance->recipientOfOFloatComparisonBetweenOFloatsIs($firstOperand, $secondOperand, $recipient))
+				->object($this->testedInstance->referenceForComparisonWithOFloatIs($ofloat, $reference))
 					->isEqualTo($this->newTestedInstance($ok, $ko))
-				->mock($recipient)
-					->receive('obooleanIs')
+				->mock($ok)
+					->receive('blockArgumentsAre')
+						->never
+				->mock($ko)
+					->receive('blockArgumentsAre')
 						->never
 
 			->given(
-				$this->calling($secondOperand)->recipientOfNFloatIs = function($recipient) use (& $secondOperandValue) {
-					$recipient->nfloatIs($secondOperandValue);
+				$this->calling($reference)->recipientOfNFloatIs = function($recipient) use (& $referenceValue) {
+					$recipient->nfloatIs($referenceValue);
 				}
 			)
 			->if(
-				$secondOperandValue = 0.3
+				$referenceValue = 0.3
 			)
 			->then
-				->object($this->testedInstance->recipientOfOFloatComparisonBetweenOFloatsIs($firstOperand, $secondOperand, $recipient))
+				->object($this->testedInstance->referenceForComparisonWithOFloatIs($ofloat, $reference))
 					->isEqualTo($this->newTestedInstance($ok, $ko))
-				->mock($recipient)
-					->receive('obooleanIs')
-						->withArguments($ko)
-							->once
+				->mock($ok)
+					->receive('blockArgumentsAre')
+						->never
+				->mock($ko)
+					->receive('blockArgumentsAre')
+						->once
 
 			->if(
-				$secondOperandValue = $firstOperandValue
+				$ofloatValue = $referenceValue
 			)
 			->then
-				->object($this->testedInstance->recipientOfOFloatComparisonBetweenOFloatsIs($firstOperand, $secondOperand, $recipient))
+				->object($this->testedInstance->referenceForComparisonWithOFloatIs($ofloat, $reference))
 					->isEqualTo($this->newTestedInstance($ok, $ko))
-				->mock($recipient)
-					->receive('obooleanIs')
-						->withArguments($ko)
-							->twice
+				->mock($ok)
+					->receive('blockArgumentsAre')
+						->never
+				->mock($ko)
+					->receive('blockArgumentsAre')
+						->twice
 
 			->if(
-				$secondOperandValue = 2.5
+				$referenceValue = 2.5
 			)
 			->then
-				->object($this->testedInstance->recipientOfOFloatComparisonBetweenOFloatsIs($firstOperand, $secondOperand, $recipient))
+				->object($this->testedInstance->referenceForComparisonWithOFloatIs($ofloat, $reference))
 					->isEqualTo($this->newTestedInstance($ok, $ko))
-				->mock($recipient)
-					->receive('obooleanIs')
-						->withArguments($ok)
-							->once
+				->mock($ok)
+					->receive('blockArgumentsAre')
+						->once
+				->mock($ko)
+					->receive('blockArgumentsAre')
+						->twice
 		;
 	}
 }

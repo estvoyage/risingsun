@@ -1,11 +1,10 @@
 <?php namespace estvoyage\risingsun\block;
 
-use estvoyage\risingsun\{ block, oboolean };
+use estvoyage\risingsun\block;
 
 class error
 	implements
-		block,
-		oboolean\recipient
+		block
 {
 	private
 		$error
@@ -19,12 +18,5 @@ class error
 	function blockArgumentsAre(... $arguments)
 	{
 		throw $this->error;
-	}
-
-	function obooleanIs(oboolean $oboolean)
-	{
-		$oboolean->blockForTrueIs($this);
-
-		return $this;
 	}
 }

@@ -14,39 +14,23 @@ class value extends units\test
 		;
 	}
 
-	function test__construct()
-	{
-		$this
-			->given(
-				$value = uniqid()
-			)
-			->if(
-				$this->newTestedInstance
-			)
-			->then
-				->object($this->testedInstance)
-					->isEqualTo($this->newTestedInstance(0, new comparison\binary\equal))
-		;
-	}
-
-	function testRecipientOfComparisonWithValueIs()
+	function testOperandForComparisonIs()
 	{
 		$this
 			->given(
 				$comparison = new mockOfComparison\binary,
 				$reference = uniqid(),
-				$value = uniqid(),
-				$recipient = new mockOfOBoolean\recipient
+				$value = uniqid()
 			)
 			->if(
 				$this->newTestedInstance($reference, $comparison)
 			)
 			->then
-				->object($this->testedInstance->recipientOfComparisonWithValueIs($value, $recipient))
+				->object($this->testedInstance->operandForComparisonIs($value))
 					->isEqualTo($this->newTestedInstance($reference, $comparison))
 				->mock($comparison)
-					->receive('recipientOfComparisonBetweenValuesIs')
-						->withArguments($value, $reference, $recipient)
+					->receive('referenceForComparisonWithOperandIs')
+						->withArguments($value, $reference)
 							->once
 		;
 	}

@@ -2,8 +2,8 @@
 
 require __DIR__ . '/../../../../../runner.php';
 
-use estvoyage\risingsun\{ tests\units, oboolean };
-use mock\estvoyage\risingsun\oboolean as mockOfOBoolean;
+use estvoyage\risingsun\{ tests\units, block };
+use mock\estvoyage\risingsun\block as mockOfBlock;
 
 class boolean extends units\test
 {
@@ -16,58 +16,64 @@ class boolean extends units\test
 
 	function test__construct()
 	{
-		$this->object($this->newTestedInstance)->isEqualTo($this->newTestedInstance(new oboolean\ok, new oboolean\ko));
+		$this
+			->given(
+				$ok = new mockOfBlock
+			)
+			->if(
+				$this->newTestedInstance($ok)
+			)
+			->object($this->testedInstance)->isEqualTo($this->newTestedInstance($ok, new block\blackhole))
+		;
 	}
 
 	/**
 	 * @dataProvider invalidValueProvider
 	 */
-	function testRecipientOfComparisonWithValueIs_withInvalidValue($value)
+	function testOperandForComparisonIs_withInvalidValue($value)
 	{
 		$this
 			->given(
-				$ok = new mockOfOBoolean,
-				$ko = new mockOfOBoolean,
-				$recipient = new mockOfOBoolean\recipient
+				$ok = new mockOfBlock,
+				$ko = new mockOfBlock
 			)
 			->if(
 				$this->newTestedInstance($ok, $ko)
 			)
 			->then
-				->object($this->testedInstance->recipientOfComparisonWithValueIs($value, $recipient))
+				->object($this->testedInstance->operandForComparisonIs($value))
 					->isEqualTo($this->newTestedInstance($ok, $ko))
-				->mock($recipient)
-					->receive('obooleanIs')
-						->withArguments($ko)
-							->once
-						->withArguments($ok)
-							->never
+				->mock($ok)
+					->receive('blockArgumentsAre')
+						->never
+				->mock($ko)
+					->receive('blockArgumentsAre')
+						->once
 		;
 	}
 
 	/**
 	 * @dataProvider validValueProvider
 	 */
-	function testRecipientOfComparisonWithValueIs_withValidValue($value)
+	function testOperandForComparisonIs_withValidValue($value)
 	{
 		$this
 			->given(
-				$ok = new mockOfOBoolean,
-				$ko = new mockOfOBoolean,
-				$recipient = new mockOfOBoolean\recipient
+				$ok = new mockOfBlock,
+				$ko = new mockOfBlock
 			)
 			->if(
 				$this->newTestedInstance($ok, $ko)
 			)
 			->then
-				->object($this->testedInstance->recipientOfComparisonWithValueIs($value, $recipient))
+				->object($this->testedInstance->operandForComparisonIs($value))
 					->isEqualTo($this->newTestedInstance($ok, $ko))
-				->mock($recipient)
-					->receive('obooleanIs')
-						->withArguments($ok)
-							->once
-						->withArguments($ko)
-							->never
+				->mock($ok)
+					->receive('blockArgumentsAre')
+						->once
+				->mock($ko)
+					->receive('blockArgumentsAre')
+						->never
 		;
 	}
 

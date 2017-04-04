@@ -1,6 +1,6 @@
 <?php namespace estvoyage\risingsun\comparison\unary;
 
-use estvoyage\risingsun\{ comparison, oboolean };
+use estvoyage\risingsun\comparison;
 
 class value
 	implements
@@ -14,16 +14,15 @@ class value
 	function __construct($reference = 0, comparison\binary $comparison = null)
 	{
 		$this->reference = $reference;
-		$this->comparison = $comparison ?: new comparison\binary\equal;
+		$this->comparison = $comparison;
 	}
 
-	function recipientOfComparisonWithValueIs($value, oboolean\recipient $recipient)
+	function operandForComparisonIs($value)
 	{
 		$this->comparison
-			->recipientOfComparisonBetweenValuesIs(
+			->referenceForComparisonWithOperandIs(
 				$value,
-				$this->reference,
-				$recipient
+				$this->reference
 			)
 		;
 

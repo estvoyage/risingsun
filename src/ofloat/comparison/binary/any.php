@@ -1,6 +1,6 @@
 <?php namespace estvoyage\risingsun\ofloat\comparison\binary;
 
-use estvoyage\risingsun\{ ofloat, oboolean, comparison, nfloat };
+use estvoyage\risingsun\{ ofloat, comparison, nfloat };
 
 class any
 	implements
@@ -15,23 +15,22 @@ class any
 		$this->comparison = $comparison;
 	}
 
-	function recipientOfOFloatComparisonBetweenOFloatsIs(ofloat $firstOperand, ofloat $secondOperand, oboolean\recipient $recipient)
+	function referenceForComparisonWithOFloatIs(ofloat $ofloat, ofloat $reference)
 	{
-		$firstOperand
+		$ofloat
 			->recipientOfNFloatIs(
 				new nfloat\recipient\functor(
-					function($firstOperandValue) use ($secondOperand, $recipient)
+					function($ofloatValue) use ($reference)
 					{
-						$secondOperand
+						$reference
 							->recipientOfNFloatIs(
 								new nfloat\recipient\functor(
-									function($secondOperandValue) use ($firstOperandValue, $recipient)
+									function($referenceValue) use ($ofloatValue)
 									{
 										$this->comparison
-											->recipientOfComparisonBetweenValuesIs(
-												$firstOperandValue,
-												$secondOperandValue,
-												$recipient
+											->referenceForComparisonWithOperandIs(
+												$ofloatValue,
+												$referenceValue
 											)
 										;
 									}

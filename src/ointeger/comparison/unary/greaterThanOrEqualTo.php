@@ -1,10 +1,10 @@
 <?php namespace estvoyage\risingsun\ointeger\comparison\unary;
 
-use estvoyage\risingsun\{ ointeger, block\functor, oboolean, block };
+use estvoyage\risingsun\{ ointeger, block };
 
 class greaterThanOrEqualTo extends any
 {
-	function __construct(ointeger $reference = null, oboolean $ok = null, oboolean $ko = null)
+	function __construct(block $ok, ointeger $reference = null, block $ko = null)
 	{
 		parent::__construct(new ointeger\comparison\binary\greaterThanOrEqualTo($ok, $ko), $reference);
 	}

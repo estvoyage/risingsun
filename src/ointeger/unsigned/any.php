@@ -1,6 +1,6 @@
 <?php namespace estvoyage\risingsun\ointeger\unsigned;
 
-use estvoyage\risingsun\{ ointeger, block\functor, block\error, oboolean, comparison };
+use estvoyage\risingsun\{ ointeger, block\error };
 
 class any extends ointeger\any
 	implements
@@ -12,10 +12,16 @@ class any extends ointeger\any
 		{
 			parent::__construct($value);
 
-			(new ointeger\comparison\unary\lessThan)
-				->recipientOfOIntegerComparisonWithOIntegerIs(
-					$this,
-					new error(new \typeError)
+			(
+				new ointeger\comparison\unary\lessThan(
+					new error
+					(
+						new \typeError
+					)
+				)
+			)
+				->oIntegerForComparisonIs(
+					$this
 				)
 			;
 		}

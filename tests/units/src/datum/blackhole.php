@@ -3,7 +3,7 @@
 require __DIR__ . '/../../runner.php';
 
 use estvoyage\risingsun\tests\units;
-use mock\estvoyage\risingsun\{ nstring as mockOfNString, datum as mockOfDatum, ointeger as mockOfOInteger };
+use mock\estvoyage\risingsun\{ nstring as mockOfNString, datum as mockOfDatum };
 
 class blackhole extends units\test
 {
@@ -55,7 +55,7 @@ class blackhole extends units\test
 	{
 		$this
 			->given(
-				$recipient = new mockOfOInteger\unsigned\recipient
+				$recipient = new mockOfDatum\length\recipient
 			)
 			->if(
 				$this->newTestedInstance
@@ -64,7 +64,7 @@ class blackhole extends units\test
 				->object($this->newTestedInstance->recipientOfDatumLengthIs($recipient))
 					->isEqualTo($this->newTestedInstance)
 				->mock($recipient)
-					->receive('unsignedOIntegerIs')
+					->receive('datumLengthIs')
 						->never
 		;
 	}

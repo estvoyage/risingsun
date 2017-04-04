@@ -28,24 +28,23 @@ class any extends units\test
 		;
 	}
 
-	function testRecipientOfOFloatComarisonWithOFloatIs()
+	function testOFloatForComparisonIs()
 	{
 		$this
 			->given(
 				$comparison = new mockOfOFloat\comparison\binary,
 				$reference = new mockOfOFloat,
-				$ofloat = new mockOfOFloat,
-				$recipient = new mockOfOBoolean\recipient
+				$ofloat = new mockOfOFloat
 			)
 			->if(
 				$this->newTestedInstance($comparison, $reference)
 			)
 			->then
-				->object($this->testedInstance->recipientOfOFloatComparisonWithOFloatIs($ofloat, $recipient))
+				->object($this->testedInstance->oFloatForComparisonIs($ofloat))
 					->isEqualTo($this->newTestedInstance($comparison, $reference))
 				->mock($comparison)
-					->receive('recipientOfOFloatComparisonBetweenOFloatsIs')
-						->withArguments($ofloat, $reference, $recipient)
+					->receive('referenceForComparisonWithOFloatIs')
+						->withArguments($ofloat, $reference)
 							->once
 		;
 	}

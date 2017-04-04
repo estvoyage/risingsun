@@ -2,8 +2,8 @@
 
 require __DIR__ . '/../../../../../runner.php';
 
-use estvoyage\risingsun\tests\units;
-use mock\estvoyage\risingsun\oboolean as mockOfOBoolean;
+use estvoyage\risingsun\{ tests\units, block };
+use mock\estvoyage\risingsun\block as mockOfBlock;
 
 class type extends units\test
 {
@@ -14,27 +14,42 @@ class type extends units\test
 		;
 	}
 
-	/**
-	 * @dataProvider validValueProvider
-	 */
-	function testRecipientOfComparisonWithValueIs_withValidValue($value)
+	function test__construct()
 	{
 		$this
 			->given(
-				$ok = new mockOfOBoolean,
-				$ko = new mockOfOBoolean,
-				$recipient = new mockOfOBoolean\recipient
+				$ok = new mockOfBlock
+			)
+			->if(
+				$this->newTestedInstance($ok)
+			)
+			->then
+				->object($this->testedInstance)->isEqualTo($this->newTestedInstance($ok, new block\blackhole))
+		;
+	}
+
+	/**
+	 * @dataProvider validValueProvider
+	 */
+	function testOperandForComparisonIs_withValidValue($value)
+	{
+		$this
+			->given(
+				$ok = new mockOfBlock,
+				$ko = new mockOfBlock
 			)
 			->if(
 				$this->newTestedInstance($ok, $ko)
 			)
 			->then
-				->object($this->testedInstance->recipientOfComparisonWithValueIs($value, $recipient))
+				->object($this->testedInstance->operandForComparisonIs($value))
 					->isEqualTo($this->newTestedInstance($ok, $ko))
-				->mock($recipient)
-					->receive('obooleanIs')
-						->withArguments($ok)
-							->once
+				->mock($ok)
+					->receive('blockArgumentsAre')
+						->once
+				->mock($ko)
+					->receive('blockArgumentsAre')
+						->never
 		;
 	}
 

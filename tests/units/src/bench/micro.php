@@ -2,7 +2,7 @@
 
 require __DIR__ . '/../../runner.php';
 
-use estvoyage\risingsun\{ tests\units, comparison, oboolean, time };
+use estvoyage\risingsun\{ tests\units, comparison, time, block };
 use mock\estvoyage\risingsun\{ time as mockOfTime, block as mockOfBlock };
 
 class micro extends units\test
@@ -53,16 +53,20 @@ class micro extends units\test
 					$recipient->nfloatIs(2.);
 				},
 				$this->calling($stop)->recipientOfMicroUnixTimestampWithNFloatIs = function($float, $recipient) use ($duration) {
-					(new comparison\binary\equal)
-						->recipientOfComparisonBetweenValuesIs(
-							$float,
-							1.,
-							new oboolean\recipient\functor(
+					(
+						new comparison\binary\equal
+						(
+							new block\functor(
 								function() use ($recipient, $duration)
 								{
 									$recipient->microUnixTimestampIs($duration);
 								}
 							)
+						)
+					)
+						->referenceForComparisonWithOperandIs(
+							$float,
+							1.
 						)
 					;
 				},

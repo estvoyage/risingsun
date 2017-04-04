@@ -1,6 +1,6 @@
 <?php namespace estvoyage\risingsun\comparison\unary\with\true;
 
-use estvoyage\risingsun\{ comparison, oboolean\recipient, oboolean };
+use estvoyage\risingsun\{ comparison, block };
 
 class boolean
 	implements
@@ -11,15 +11,15 @@ class boolean
 		$ko
 	;
 
-	function __construct(oboolean $ok = null, oboolean $ko = null)
+	function __construct(block $ok, block $ko = null)
 	{
-		$this->ok = $ok ?: new oboolean\ok;
-		$this->ko = $ko ?: new oboolean\ko;
+		$this->ok = $ok;
+		$this->ko = $ko ?: new block\blackhole;
 	}
 
-	function recipientOfComparisonWithValueIs($value, recipient $recipient)
+	function operandForComparisonIs($value)
 	{
-		$recipient->obooleanIs($value === true ? $this->ok : $this->ko);
+		($value === true ? $this->ok : $this->ko)->blockArgumentsAre();
 
 		return $this;
 	}

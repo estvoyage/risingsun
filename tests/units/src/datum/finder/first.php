@@ -2,7 +2,7 @@
 
 require __DIR__ . '/../../../runner.php';
 
-use estvoyage\risingsun\{ tests\units, oboolean, block\functor, ointeger };
+use estvoyage\risingsun\{ tests\units, oboolean, block\functor, ointeger, datum };
 use mock\estvoyage\risingsun\{ datum as mockOfDatum, ointeger as mockOfOInteger };
 
 class first extends units\test
@@ -14,9 +14,9 @@ class first extends units\test
 		;
 	}
 
-	function testWithNoArguments()
+	function test__construct()
 	{
-		$this->object($this->newTestedInstance)->isEqualTo($this->newTestedInstance(new ointeger\unsigned\any));
+		$this->object($this->newTestedInstance)->isEqualTo($this->newTestedInstance(new datum\length));
 	}
 
 	function testRecipientOfSearchOfDatumInDatumIs()
@@ -26,7 +26,7 @@ class first extends units\test
 				$search = new mockOfDatum,
 				$datum = new mockOfDatum,
 				$recipient = new mockOfDatum\finder\recipient,
-				$start = new mockOfOInteger\unsigned
+				$start = new datum\length
 			)
 			->if(
 				$this->newTestedInstance($start)
@@ -40,8 +40,7 @@ class first extends units\test
 
 			->given(
 				$searchValue = 'c',
-				$datumValue = 'abcdeabcde',
-				$position = new mockOfOInteger\unsigned
+				$datumValue = 'abcdeabcde'
 			)
 			->if(
 				$this->calling($search)->recipientOfNStringIs = function($recipient) use (& $searchValue) {
@@ -49,18 +48,6 @@ class first extends units\test
 				},
 				$this->calling($datum)->recipientOfNStringIs = function($recipient) use ($datumValue) {
 					$recipient->nstringIs($datumValue);
-				},
-				$this->calling($start)->recipientOfOIntegerWithNIntegerIs = function($value, $recipient) use ($position) {
-					oboolean\factory::areEquals($value, 2)
-						->blockForTrueIs(
-							new functor(
-								function() use ($recipient, $position)
-								{
-									$recipient->ointegerIs($position);
-								}
-							)
-						)
-					;
 				}
 			)
 			->then
@@ -68,7 +55,7 @@ class first extends units\test
 					->isEqualTo($this->newTestedInstance($start))
 				->mock($recipient)
 					->receive('datumIsAtPosition')
-						->withIdenticalArguments($position)
+						->withArguments(new datum\length(2))
 							->once
 
 			->if(

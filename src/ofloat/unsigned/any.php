@@ -1,6 +1,6 @@
 <?php namespace estvoyage\risingsun\ofloat\unsigned;
 
-use estvoyage\risingsun\{ ofloat, datum, oboolean, block };
+use estvoyage\risingsun\{ ofloat, datum, block };
 
 class any extends ofloat\any
 	implements
@@ -12,10 +12,16 @@ class any extends ofloat\any
 		{
 			parent::__construct($value);
 
-			self::recipientOfLessThanZeroComparisonOnOFloatIs(
-				$this,
-				new block\error(new \typeError)
-			);
+			(
+				new ofloat\comparison\unary\lessThan
+				(
+					new block\error(new \typeError)
+				)
+			)
+				->oFloatForComparisonIs(
+					$this
+				)
+			;
 		}
 		catch (\typeError $exception)
 		{
@@ -30,9 +36,9 @@ class any extends ofloat\any
 			new datum\recipient\functor(
 				function($ofloat) use ($recipient)
 				{
-					self::recipientOfLessThanZeroComparisonOnOFloatIs(
-						$ofloat,
-						new oboolean\recipient\false\block(
+					(
+						new ofloat\comparison\unary\greaterThanOrEqualTo
+						(
 							new block\functor(
 								function() use ($ofloat, $recipient)
 								{
@@ -40,7 +46,11 @@ class any extends ofloat\any
 								}
 							)
 						)
-					);
+					)
+						->oFloatForComparisonIs(
+							$ofloat
+						)
+					;
 				}
 			)
 		);
@@ -48,13 +58,7 @@ class any extends ofloat\any
 		return $this;
 	}
 
-	private static function recipientOfLessThanZeroComparisonOnOFloatIs(ofloat $ofloat, oboolean\recipient $recipient)
+	private function blockForOFloatIs(ofloat $ofloat, block $block)
 	{
-		(new ofloat\comparison\unary\lessThan)
-			->recipientOfOFloatComparisonWithOFloatIs(
-				$ofloat,
-				$recipient
-			)
-		;
 	}
 }

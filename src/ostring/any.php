@@ -30,9 +30,9 @@ class any
 		return $this;
 	}
 
-	function recipientOfDatumLengthIs(ointeger\unsigned\recipient $recipient)
+	function recipientOfDatumLengthIs(datum\length\recipient $recipient)
 	{
-		$recipient->unsignedOIntegerIs(new ointeger\unsigned\any(strlen($this->value)));
+		$recipient->datumLengthIs(new datum\length(strlen($this->value)));
 
 		return $this;
 	}

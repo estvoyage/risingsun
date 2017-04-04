@@ -1,11 +1,11 @@
 <?php namespace estvoyage\risingsun\comparison\binary;
 
-use estvoyage\risingsun\{ comparison, oboolean };
+use estvoyage\risingsun\block;
 
-class greaterThanOrEqualTo extends equal
+class greaterThanOrEqualTo extends lessThan
 {
-	function recipientOfComparisonBetweenValuesIs($firstOperand, $secondOperand, oboolean\recipient $recipient)
+	function __construct(block $ok, block $ko = null)
 	{
-		return parent::recipientOfComparisonBetweenValuesIs($firstOperand >= $secondOperand, true, $recipient);
+		parent::__construct($ko ?: new block\blackhole, $ok);
 	}
 }

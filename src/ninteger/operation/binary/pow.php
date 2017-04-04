@@ -1,6 +1,6 @@
 <?php namespace estvoyage\risingsun\ninteger\operation\binary;
 
-use estvoyage\risingsun\{ ninteger, comparison, block\functor, block, oboolean };
+use estvoyage\risingsun\{ ninteger, comparison, block\functor, block };
 
 class pow
 	implements
@@ -17,23 +17,25 @@ class pow
 
 	function recipientOfOperationOnNIntegersIs(int $firstOperand, int $secondOperand, ninteger\recipient $recipient)
 	{
-		(new comparison\unary\with\float\type)
-			->recipientOfComparisonWithValueIs(
-				$pow = pow($firstOperand, $secondOperand),
-				new oboolean\recipient\switcher(
-					new functor(
-						function()
-						{
-							$this->overflow->blockArgumentsAre();
-						}
-					),
-					new functor(
-						function() use ($pow, $recipient)
-						{
-							$recipient->nintegerIs($pow);
-						}
-					)
+		(
+			new comparison\unary\with\float\type
+			(
+				new functor(
+					function()
+					{
+						$this->overflow->blockArgumentsAre();
+					}
+				),
+				new functor(
+					function() use (& $pow, $recipient)
+					{
+						$recipient->nintegerIs($pow);
+					}
 				)
+			)
+		)
+			->operandForComparisonIs(
+				$pow = pow($firstOperand, $secondOperand)
 			)
 		;
 

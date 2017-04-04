@@ -1,12 +1,12 @@
 <?php namespace estvoyage\risingsun\datum\finder\recipient;
 
-use estvoyage\risingsun\{ datum\finder, ointeger, block };
+use estvoyage\risingsun\{ datum, block };
 
 class functor extends block\functor
 	implements
-		finder\recipient
+		datum\finder\recipient
 {
-	function datumIsAtPosition(ointeger\unsigned $position)
+	function datumIsAtPosition(datum\length $position)
 	{
 		return $this->blockArgumentsAre($position);
 	}

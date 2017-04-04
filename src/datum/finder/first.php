@@ -1,6 +1,6 @@
 <?php namespace estvoyage\risingsun\datum\finder;
 
-use estvoyage\risingsun\{ ointeger, datum, nstring, oboolean };
+use estvoyage\risingsun\{ ointeger, datum, nstring, comparison, block };
 
 class first
 	implements
@@ -10,9 +10,9 @@ class first
 		$start
 	;
 
-	function __construct(ointeger\unsigned $start = null)
+	function __construct(datum\length $start = null)
 	{
-		$this->start = $start ?: new ointeger\unsigned\any;
+		$this->start = $start ?: new datum\length;
 	}
 
 	function recipientOfSearchOfDatumInDatumIs(datum $search, datum $datum, recipient $recipient)
@@ -27,10 +27,10 @@ class first
 								new nstring\recipient\functor(
 									function($datumValue) use ($searchValue, $recipient)
 									{
-										oboolean\factory::isFalse($position = strpos($datumValue, $searchValue))
-											->blockForFalseIs(
-												new oboolean\recipient\functor(
-													function() use ($recipient, $position)
+										(
+											new comparison\unary\numeric(
+												new block\functor(
+													function() use ($recipient, & $position)
 													{
 														$this->start
 															->recipientOfOIntegerWithNIntegerIs(
@@ -46,6 +46,8 @@ class first
 													}
 												)
 											)
+										)
+											->operandForComparisonIs($position = strpos($datumValue, $searchValue))
 										;
 									}
 								)

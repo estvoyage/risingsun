@@ -1,6 +1,6 @@
 <?php namespace estvoyage\risingsun\ointeger\comparison\unary;
 
-use estvoyage\risingsun\{ ointeger, ointeger\comparison, oboolean };
+use estvoyage\risingsun\{ ointeger, ointeger\comparison };
 
 class any
 	implements
@@ -17,13 +17,12 @@ class any
 		$this->reference = $reference ?: new ointeger\any;
 	}
 
-	function recipientOfOIntegerComparisonWithOIntegerIs(ointeger $ointeger, oboolean\recipient $recipient)
+	function oIntegerForComparisonIs(ointeger $ointeger)
 	{
 		$this->comparison
-			->recipientOfOIntegerComparisonBetweenOIntegersIs(
+			->referenceForComparisonWithOIntegerIs(
 				$ointeger,
-				$this->reference,
-				$recipient
+				$this->reference
 			)
 		;
 

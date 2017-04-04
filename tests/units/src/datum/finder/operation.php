@@ -18,11 +18,11 @@ class operation extends units\test
 	{
 		$this
 			->given(
+				$finder = new mockOfDatum\finder,
+				$operation = new mockOfOInteger\operation\unary,
 				$search = new mockOfDatum,
 				$datum = new mockOfDatum,
-				$recipient = new mockOfDatum\finder\recipient,
-				$finder = new mockOfDatum\finder,
-				$operation = new mockOfOInteger\operation\unary
+				$recipient = new mockOfDatum\finder\recipient
 			)
 			->if(
 				$this->newTestedInstance($finder, $operation)
@@ -35,7 +35,7 @@ class operation extends units\test
 						->never
 
 			->given(
-				$position = new mockOfOInteger\unsigned
+				$position = new datum\length
 			)
 			->if(
 				$this->calling($finder)->recipientOfSearchOfDatumInDatumIs = function($aSearch, $aDatum, $aRecipient) use ($search, $datum, $position) {
@@ -68,7 +68,7 @@ class operation extends units\test
 						->never
 
 			->given(
-				$positionAfterOperation = new mockOfOInteger\unsigned
+				$positionAfterOperation = new datum\length(1)
 			)
 			->if(
 				$this->calling($operation)->recipientOfOperationWithOIntegerIs = function($anOInteger, $aRecipient) use ($position, $positionAfterOperation) {
@@ -92,19 +92,11 @@ class operation extends units\test
 						->never
 
 			->given(
-				$datumLength = new mockOfOInteger\unsigned
+				$datumLength = new datum\length(2)
 			)
 			->if(
-				$this->calling($datumLength)->recipientOfNIntegerIs = function($recipient) {
-					$recipient->nintegerIs(0);
-				},
-
-				$this->calling($positionAfterOperation)->recipientOfNIntegerIs = function($recipient) {
-					$recipient->nintegerIs(0);
-				},
-
 				$this->calling($datum)->recipientOfDatumLengthIs = function($recipient) use ($datumLength) {
-					$recipient->unsignedOIntegerIs($datumLength);
+					$recipient->datumLengthIs($datumLength);
 				}
 			)
 			->then
@@ -114,45 +106,6 @@ class operation extends units\test
 					->receive('datumIsAtPosition')
 						->withArguments($positionAfterOperation)
 							->once
-
-			->if(
-				$this->calling($positionAfterOperation)->recipientOfNIntegerIs = function($recipient) {
-					$recipient->nintegerIs(1);
-				}
-			)
-			->then
-				->object($this->testedInstance->recipientOfSearchOfDatumInDatumIs($search, $datum, $recipient))
-					->isEqualTo($this->newTestedInstance($finder, $operation))
-				->mock($recipient)
-					->receive('datumIsAtPosition')
-						->withArguments($positionAfterOperation)
-							->once
-
-			->if(
-				$this->calling($datumLength)->recipientOfNIntegerIs = function($recipient) {
-					$recipient->nintegerIs(2);
-				}
-			)
-			->then
-				->object($this->testedInstance->recipientOfSearchOfDatumInDatumIs($search, $datum, $recipient))
-					->isEqualTo($this->newTestedInstance($finder, $operation))
-				->mock($recipient)
-					->receive('datumIsAtPosition')
-						->withArguments($positionAfterOperation)
-							->twice
-
-			->if(
-				$this->calling($positionAfterOperation)->recipientOfNIntegerIs = function($recipient) {
-					$recipient->nintegerIs(2);
-				}
-			)
-			->then
-				->object($this->testedInstance->recipientOfSearchOfDatumInDatumIs($search, $datum, $recipient))
-					->isEqualTo($this->newTestedInstance($finder, $operation))
-				->mock($recipient)
-					->receive('datumIsAtPosition')
-						->withArguments($positionAfterOperation)
-							->thrice
 		;
 	}
 }

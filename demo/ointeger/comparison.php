@@ -12,28 +12,23 @@ use estvoyage\risingsun\
 
 require __DIR__ . '/../../vendor/autoload.php';
 
-(new ointeger\comparison\binary\greaterThanOrEqualTo)
-	->recipientOfOIntegerComparisonBetweenOIntegersIs(
-		new ointeger\any,
-		new ointeger\any,
+(
+	new ointeger\comparison\binary\greaterThanOrEqualTo
+	(
 		new functor(
-			function($oboolean)
+			function()
 			{
-				$oboolean
-					->blockForTrueIs(
-						new functor(
-							function()
-							{
-								(new output\stdout)
-									->outputLineIs(
-										new ostring\any('0 is greater than or equal to 0')
-									)
-								;
-							}
-						)
+				(new output\stdout)
+					->outputLineIs(
+						new ostring\any('0 is greater than or equal to 0')
 					)
 				;
 			}
 		)
+	)
+)
+	->referenceForComparisonWithOIntegerIs(
+		new ointeger\any,
+		new ointeger\any
 	)
 ;

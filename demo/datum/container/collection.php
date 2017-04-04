@@ -56,7 +56,27 @@ require __DIR__ . '/../../../vendor/autoload.php';
 					new ostring\any('\' ]')
 				)
 			),
-			new position\comparator(new ointeger\comparison\unary\equal(new ointeger\any(3)))
+			new datum\container\payload\functor(
+				function($value, $position, $controller)
+				{
+					(
+						new ointeger\comparison\unary\equal
+						(
+							new functor(
+								function() use ($controller)
+								{
+									$controller->remainingIterationsInContainerIteratorEngineAreUseless();
+								}
+							),
+							new ointeger\any(3)
+						)
+					)
+						->oIntegerForComparisonIs(
+							$position
+						)
+					;
+				}
+			)
 		)
 	)
 	->payloadForDatumContainerIteratorIs(

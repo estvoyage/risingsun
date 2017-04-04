@@ -2,8 +2,8 @@
 
 require __DIR__ . '/../../../runner.php';
 
-use estvoyage\risingsun\{ tests\units, oboolean };
-use mock\estvoyage\risingsun\oboolean as mockOfOBoolean;
+use estvoyage\risingsun\{ tests\units, block };
+use mock\estvoyage\risingsun\block as mockOfBlock;
 
 class numeric extends units\test
 {
@@ -16,30 +16,36 @@ class numeric extends units\test
 
 	function test__construct()
 	{
-		$this->object($this->newTestedInstance)->isEqualTo($this->newTestedInstance(new oboolean\ok, new oboolean\ko));
+		$this
+			->given(
+				$ok = new mockOfBlock
+			)
+			->if(
+				$this->newTestedInstance($ok)
+			)
+			->object($this->testedInstance)->isEqualTo($this->newTestedInstance($ok, new block\blackhole))
+		;
 	}
 
 	/**
 	 * @dataProvider numericProvider
 	 */
-	function testRecipientOfComparisonWithValueIs_withNumeric($value)
+	function testOperandForComparisonIs($value)
 	{
 		$this
 			->given(
-				$ok = new mockOfOBoolean,
-				$ko = new mockOfOBoolean,
-				$recipient = new mockOfOBoolean\recipient
+				$ok = new mockOfBlock,
+				$ko = new mockOfBlock
 			)
 			->if(
 				$this->newTestedInstance($ok, $ko)
 			)
 			->then
-				->object($this->testedInstance->recipientOfComparisonWithValueIs($value, $recipient))
+				->object($this->testedInstance->operandForComparisonIs($value))
 					->isEqualTo($this->newTestedInstance($ok, $ko))
-				->mock($recipient)
-					->receive('obooleanIs')
-						->withArguments($ok)
-							->once
+				->mock($ok)
+					->receive('blockArgumentsAre')
+						->once
 		;
 	}
 
@@ -50,20 +56,18 @@ class numeric extends units\test
 	{
 		$this
 			->given(
-				$ok = new mockOfOBoolean,
-				$ko = new mockOfOBoolean,
-				$recipient = new mockOfOBoolean\recipient
+				$ok = new mockOfBlock,
+				$ko = new mockOfBlock
 			)
 			->if(
 				$this->newTestedInstance($ok, $ko)
 			)
 			->then
-				->object($this->testedInstance->recipientOfComparisonWithValueIs($value, $recipient))
+				->object($this->testedInstance->operandForComparisonIs($value))
 					->isEqualTo($this->newTestedInstance($ok, $ko))
-				->mock($recipient)
-					->receive('obooleanIs')
-						->withArguments($ko)
-							->once
+				->mock($ko)
+					->receive('blockArgumentsAre')
+						->once
 		;
 	}
 

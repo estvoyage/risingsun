@@ -1,11 +1,11 @@
 <?php namespace estvoyage\risingsun\comparison\unary\with\float;
 
-use estvoyage\risingsun\{ comparison, oboolean\recipient, oboolean };
+use estvoyage\risingsun\comparison;
 
 class type extends comparison\unary\with\true\boolean
 {
-	function recipientOfComparisonWithValueIs($value, recipient $recipient)
+	function operandForComparisonIs($value)
 	{
-		return parent::recipientOfComparisonWithValueIs(is_float($value), $recipient);
+		return parent::operandForComparisonIs(is_float($value));
 	}
 }

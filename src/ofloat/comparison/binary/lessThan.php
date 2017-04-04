@@ -1,10 +1,10 @@
 <?php namespace estvoyage\risingsun\ofloat\comparison\binary;
 
-use estvoyage\risingsun\{ ofloat, oboolean, comparison };
+use estvoyage\risingsun\{ block, comparison };
 
 class lessThan extends any
 {
-	function __construct(oboolean $ok = null, oboolean $ko = null)
+	function __construct(block $ok, block $ko = null)
 	{
 		parent::__construct(new comparison\binary\lessThan($ok, $ko));
 	}

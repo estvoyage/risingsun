@@ -12,7 +12,7 @@ class test extends \atoum
 	{
 		$testedClassName = $this->getTestedClassName();
 
-		if (class_exists($testedClassName) && ! class_exists($this->getClassNamespace() . '\childOfTestedClass'))
+		if (class_exists($testedClassName) && ! class_exists($this->getClassNamespace() . '\childOfTestedClass') && ! (new \reflectionClass($testedClassName))->isFinal())
 		{
 			eval('namespace ' . $this->getClassNamespace() . ' { class childOfTestedClass extends \\' . $testedClassName . ' {} }');
 		}

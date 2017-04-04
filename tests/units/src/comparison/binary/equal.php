@@ -2,8 +2,8 @@
 
 require __DIR__ . '/../../../runner.php';
 
-use estvoyage\risingsun\{ tests\units, oboolean };
-use mock\estvoyage\risingsun\oboolean as mockOfOBoolean;
+use estvoyage\risingsun\{ tests\units, block };
+use mock\estvoyage\risingsun\block as mockOfBlock;
 
 class equal extends units\test
 {
@@ -16,59 +16,66 @@ class equal extends units\test
 
 	function test__construct()
 	{
-		$this->object($this->newTestedInstance)->isEqualTo($this->newTestedInstance(new oboolean\ok, new oboolean\ko));
+		$this
+			->given(
+				$ok = new mockOfBlock
+			)
+			->if(
+				$this->newTestedInstance($ok)
+			)
+			->then
+				->object($this->testedInstance)->isEqualTo($this->newTestedInstance($ok, new block\blackhole));
 	}
 
-	function testRecipientOfComparisonBetweenValuesIs()
+	function testReferenceForComparisonWithOperandIs()
 	{
 		$this
 			->given(
-				$ok = new mockOfOBoolean,
-				$ko = new mockOfOBoolean,
-				$recipient = new mockOfOBoolean\recipient,
+				$ok = new mockOfBlock,
+				$ko = new mockOfBlock,
 				$this->newTestedInstance($ok, $ko)
 			)
 			->if(
-				$firstOperand = uniqid(),
-				$secondOperand = uniqid()
+				$operand = uniqid(),
+				$reference = uniqid()
 			)
 			->then
-				->object($this->testedInstance->recipientOfComparisonBetweenValuesIs($firstOperand, $secondOperand,$recipient))
+				->object($this->testedInstance->referenceForComparisonWithOperandIs($operand, $reference))
 					->isEqualTo($this->newTestedInstance($ok, $ko))
-				->mock($recipient)
-					->receive('obooleanIs')
-						->withArguments($ok)
-							->never
-						->withArguments($ko)
-							->once
+				->mock($ok)
+					->receive('blockArgumentsAre')
+						->never
+				->mock($ko)
+					->receive('blockArgumentsAre')
+						->once
 
 			->if(
-				$firstOperand = rand(- PHP_INT_MAX, PHP_INT_MAX),
-				$secondOperand = (string) $firstOperand
+				$operand = rand(- PHP_INT_MAX, PHP_INT_MAX),
+				$reference = (string) $operand
 			)
 			->then
-				->object($this->testedInstance->recipientOfComparisonBetweenValuesIs($firstOperand, $secondOperand, $recipient))
+				->object($this->testedInstance->referenceForComparisonWithOperandIs($operand, $reference))
 					->isEqualTo($this->newTestedInstance($ok, $ko))
-				->mock($recipient)
-					->receive('obooleanIs')
-						->withArguments($ok)
-							->once
-						->withArguments($ko)
-							->once
+				->mock($ok)
+					->receive('blockArgumentsAre')
+						->once
+				->mock($ko)
+					->receive('blockArgumentsAre')
+						->once
 
 			->if(
-				$firstOperand = rand(- PHP_INT_MAX, PHP_INT_MAX),
-				$secondOperand = $firstOperand
+				$operand = rand(- PHP_INT_MAX, PHP_INT_MAX),
+				$reference = $operand
 			)
 			->then
-				->object($this->testedInstance->recipientOfComparisonBetweenValuesIs($firstOperand, $secondOperand, $recipient))
+				->object($this->testedInstance->referenceForComparisonWithOperandIs($operand, $reference))
 					->isEqualTo($this->newTestedInstance($ok, $ko))
-				->mock($recipient)
-					->receive('obooleanIs')
-						->withArguments($ok)
-							->twice
-						->withArguments($ko)
-							->once
+				->mock($ok)
+					->receive('blockArgumentsAre')
+						->twice
+				->mock($ko)
+					->receive('blockArgumentsAre')
+						->once
 		;
 	}
 }

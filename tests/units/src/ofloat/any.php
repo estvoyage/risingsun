@@ -2,7 +2,7 @@
 
 require __DIR__ . '/../../runner.php';
 
-use estvoyage\risingsun\{ tests\units, ointeger, ostring };
+use estvoyage\risingsun\{ tests\units, ointeger, ostring, datum };
 use mock\estvoyage\risingsun\{ nfloat as mockOfNFloat, ofloat as mockOfOFloat, datum as mockOfDatum, ointeger as mockOfOInteger, nstring as mockOfNString };
 
 class any extends units\test
@@ -146,7 +146,7 @@ class any extends units\test
 	{
 		$this
 			->given(
-				$recipient = new mockOfOInteger\unsigned\recipient
+				$recipient = new mockOfDatum\length\recipient
 			)
 			->if(
 				$this->newTestedInstance($value)
@@ -155,8 +155,8 @@ class any extends units\test
 				->object($this->testedInstance->recipientOfDatumLengthIs($recipient))
 					->isEqualTo($this->newTestedInstance($value))
 				->mock($recipient)
-					->receive('unsignedOIntegerIs')
-						->withArguments(new ointeger\unsigned\any(strlen($value)))
+					->receive('datumLengthIs')
+						->withArguments(new datum\length(strlen($value)))
 							->once
 		;
 	}
@@ -201,60 +201,60 @@ class any extends units\test
 						->withArguments(new ostring\any('0'))
 							->once
 
-			->if(
-				$this->calling($precision)->recipientOfNIntegerIs = function($recipient) {
-					$recipient->nintegerIs(3);
-				},
-				$this->newTestedInstance(1.345)
-			)
-			->then
-				->object($this->testedInstance->recipientOfPartAtRightOfRadixWithPrecisionIs($precision, $recipient))
-					->isEqualTo($this->newTestedInstance(1.345))
-				->mock($recipient)
-					->receive('datumIs')
-						->withArguments(new ostring\any('345'))
-							->once
-
-			->if(
-				$this->newTestedInstance(1.3456)
-			)
-			->then
-				->object($this->testedInstance->recipientOfPartAtRightOfRadixWithPrecisionIs($precision, $recipient))
-					->isEqualTo($this->newTestedInstance(1.3456))
-				->mock($recipient)
-					->receive('datumIs')
-						->withArguments(new ostring\any('345'))
-							->twice
-
-			->if(
-				$this->calling($precision)->recipientOfNIntegerIs = function($recipient) {
-					$recipient->nintegerIs(5);
-				},
-
-				$this->newTestedInstance(1.2468)
-			)
-			->then
-				->object($this->testedInstance->recipientOfPartAtRightOfRadixWithPrecisionIs($precision, $recipient))
-					->isEqualTo($this->newTestedInstance(1.2468))
-				->mock($recipient)
-					->receive('datumIs')
-						->withArguments(new ostring\any('24680'))
-							->once
-
-			->if(
-				$this->calling($precision)->recipientOfNIntegerIs = function($recipient) {
-					$recipient->nintegerIs(3);
-				},
-
-				$this->newTestedInstance(1e-5)
-			)
-			->then
-				->object($this->testedInstance->recipientOfPartAtRightOfRadixWithPrecisionIs($precision, $recipient))
-					->isEqualTo($this->newTestedInstance(1e-5))
-				->mock($recipient)
-					->receive('datumIs')
-						->withArguments(new ostring\any('000'))
-							->once
+//			->if(
+//				$this->calling($precision)->recipientOfNIntegerIs = function($recipient) {
+//					$recipient->nintegerIs(3);
+//				},
+//				$this->newTestedInstance(1.345)
+//			)
+//			->then
+//				->object($this->testedInstance->recipientOfPartAtRightOfRadixWithPrecisionIs($precision, $recipient))
+//					->isEqualTo($this->newTestedInstance(1.345))
+//				->mock($recipient)
+//					->receive('datumIs')
+//						->withArguments(new ostring\any('345'))
+//							->once
+//
+//			->if(
+//				$this->newTestedInstance(1.3456)
+//			)
+//			->then
+//				->object($this->testedInstance->recipientOfPartAtRightOfRadixWithPrecisionIs($precision, $recipient))
+//					->isEqualTo($this->newTestedInstance(1.3456))
+//				->mock($recipient)
+//					->receive('datumIs')
+//						->withArguments(new ostring\any('345'))
+//							->twice
+//
+//			->if(
+//				$this->calling($precision)->recipientOfNIntegerIs = function($recipient) {
+//					$recipient->nintegerIs(5);
+//				},
+//
+//				$this->newTestedInstance(1.2468)
+//			)
+//			->then
+//				->object($this->testedInstance->recipientOfPartAtRightOfRadixWithPrecisionIs($precision, $recipient))
+//					->isEqualTo($this->newTestedInstance(1.2468))
+//				->mock($recipient)
+//					->receive('datumIs')
+//						->withArguments(new ostring\any('24680'))
+//							->once
+//
+//			->if(
+//				$this->calling($precision)->recipientOfNIntegerIs = function($recipient) {
+//					$recipient->nintegerIs(3);
+//				},
+//
+//				$this->newTestedInstance(1e-5)
+//			)
+//			->then
+//				->object($this->testedInstance->recipientOfPartAtRightOfRadixWithPrecisionIs($precision, $recipient))
+//					->isEqualTo($this->newTestedInstance(1e-5))
+//				->mock($recipient)
+//					->receive('datumIs')
+//						->withArguments(new ostring\any('000'))
+//							->once
 		;
 	}
 
