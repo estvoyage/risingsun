@@ -2,7 +2,7 @@
 
 require __DIR__ . '/../../../runner.php';
 
-use estvoyage\risingsun\{ tests\units, comparison, oboolean\recipient\functor, ostring };
+use estvoyage\risingsun\{ tests\units, comparison, block, ostring };
 use mock\estvoyage\risingsun\datum as mockOfDatum;
 
 class any extends units\test
@@ -60,7 +60,7 @@ class any extends units\test
 					(
 						new comparison\binary\equal
 						(
-							new functor(
+							new block\functor(
 								function() use ($recipient, $convertedDatum)
 								{
 									$recipient->datumIs($convertedDatum);

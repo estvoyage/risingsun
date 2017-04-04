@@ -2,7 +2,7 @@
 
 require __DIR__ . '/../../../runner.php';
 
-use estvoyage\risingsun\{ tests\units, oboolean, oboolean\recipient\functor, datum };
+use estvoyage\risingsun\{ tests\units, oboolean, block, datum };
 use mock\estvoyage\risingsun\{ datum as mockOfDatum, ointeger as mockOfOInteger };
 
 class operation extends units\test
@@ -41,12 +41,12 @@ class operation extends units\test
 				$this->calling($finder)->recipientOfSearchOfDatumInDatumIs = function($aSearch, $aDatum, $aRecipient) use ($search, $datum, $position) {
 					oboolean\factory::areEquals($search, $aSearch)
 						->blockForTrueIs(
-							new functor(
+							new block\functor(
 								function() use ($aDatum, $aRecipient, $datum, $position)
 								{
 									oboolean\factory::areEquals($datum, $aDatum)
 										->blockForTrueIs(
-											new functor(
+											new block\functor(
 												function() use ($aRecipient, $position)
 												{
 													$aRecipient->datumIsAtPosition($position);
@@ -74,7 +74,7 @@ class operation extends units\test
 				$this->calling($operation)->recipientOfOperationWithOIntegerIs = function($anOInteger, $aRecipient) use ($position, $positionAfterOperation) {
 					oboolean\factory::areIdenticals($anOInteger, $position)
 						->blockForTrueIs(
-							new functor(
+							new block\functor(
 								function() use ($aRecipient, $positionAfterOperation)
 								{
 									$aRecipient->ointegerIs($positionAfterOperation);
