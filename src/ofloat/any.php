@@ -14,7 +14,7 @@ class any
 	function __construct($value = 0.)
 	{
 		(
-			new comparison\unary\notNumeric
+			new comparison\unary\not\numeric
 			(
 				new block\error(new \typeError('Value should be a float'))
 			)

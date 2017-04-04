@@ -1,11 +1,11 @@
-<?php namespace estvoyage\risingsun\tests\units\comparison\unary;
+<?php namespace estvoyage\risingsun\tests\units\comparison\unary\not;
 
-require __DIR__ . '/../../../runner.php';
+require __DIR__ . '/../../../../runner.php';
 
 use estvoyage\risingsun\{ tests\units, block };
 use mock\estvoyage\risingsun\block as mockOfBlock;
 
-class notNumeric extends units\test
+class numeric extends units\test
 {
 	function testClass()
 	{
