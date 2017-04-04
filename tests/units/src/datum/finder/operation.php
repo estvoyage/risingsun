@@ -2,7 +2,7 @@
 
 require __DIR__ . '/../../../runner.php';
 
-use estvoyage\risingsun\{ tests\units, oboolean, block, datum };
+use estvoyage\risingsun\{ tests\units, block, datum, comparison };
 use mock\estvoyage\risingsun\{ datum as mockOfDatum, ointeger as mockOfOInteger };
 
 class operation extends units\test
@@ -39,13 +39,13 @@ class operation extends units\test
 			)
 			->if(
 				$this->calling($finder)->recipientOfSearchOfDatumInDatumIs = function($aSearch, $aDatum, $aRecipient) use ($search, $datum, $position) {
-					oboolean\factory::areEquals($search, $aSearch)
-						->blockForTrueIs(
+					(
+						new comparison\binary\equal(
 							new block\functor(
 								function() use ($aDatum, $aRecipient, $datum, $position)
 								{
-									oboolean\factory::areEquals($datum, $aDatum)
-										->blockForTrueIs(
+									(
+										new comparison\binary\equal(
 											new block\functor(
 												function() use ($aRecipient, $position)
 												{
@@ -53,10 +53,14 @@ class operation extends units\test
 												}
 											)
 										)
+									)
+										->referenceForComparisonWithOperandIs($datum, $aDatum)
 									;
 								}
 							)
 						)
+					)
+						->referenceForComparisonWithOperandIs($search, $aSearch)
 					;
 				}
 			)
@@ -72,8 +76,8 @@ class operation extends units\test
 			)
 			->if(
 				$this->calling($operation)->recipientOfOperationWithOIntegerIs = function($anOInteger, $aRecipient) use ($position, $positionAfterOperation) {
-					oboolean\factory::areIdenticals($anOInteger, $position)
-						->blockForTrueIs(
+					(
+						new comparison\binary\identical(
 							new block\functor(
 								function() use ($aRecipient, $positionAfterOperation)
 								{
@@ -81,6 +85,8 @@ class operation extends units\test
 								}
 							)
 						)
+					)
+						->referenceForComparisonWithOperandIs($anOInteger, $position)
 					;
 				}
 			)

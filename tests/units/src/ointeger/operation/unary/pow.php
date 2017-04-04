@@ -2,7 +2,7 @@
 
 require __DIR__ . '/../../../../runner.php';
 
-use estvoyage\risingsun\{ tests\units, oboolean, block\functor };
+use estvoyage\risingsun\{ tests\units, comparison, block };
 use mock\estvoyage\risingsun\ointeger as mockOfOInteger;
 
 class pow extends units\test
@@ -61,15 +61,17 @@ class pow extends units\test
 			)
 			->if(
 				$this->calling($ointeger)->recipientOfOIntegerWithNIntegerIs = function($value, $recipient) use ($operation) {
-					oboolean\factory::areEquals($value, 9)
-						->blockForTrueIs(
-							new functor(
+					(
+						new comparison\binary\equal(
+							new block\functor(
 								function() use ($recipient, $operation)
 								{
 									$recipient->ointegerIs($operation);
 								}
 							)
 						)
+					)
+						->referenceForComparisonWithOperandIs($value, 9)
 					;
 				}
 			)

@@ -2,7 +2,7 @@
 
 require __DIR__ . '/../../../../../runner.php';
 
-use estvoyage\risingsun\{ tests\units, datum\operation, oboolean, block\functor };
+use estvoyage\risingsun\{ tests\units, datum\operation, comparison, block };
 use mock\estvoyage\risingsun\{ ointeger as mockOfOInteger, datum as mockOfDatum };
 
 class right extends units\test
@@ -63,15 +63,17 @@ class right extends units\test
 				$paddingValue = 'a',
 
 				$this->calling($datum)->recipientOfDatumWithNStringIs = function($value, $recipient) use ($padded, $paddingValue) {
-					oboolean\factory::areEquals($value, 'a')
-						->blockForTrueIs(
-							new functor(
+					(
+						new comparison\binary\equal(
+							new block\functor(
 								function() use ($recipient, $padded)
 								{
 									$recipient->datumIs($padded);
 								}
 							)
 						)
+					)
+						->referenceForComparisonWithOperandIs($value, 'a')
 					;
 				}
 			)
@@ -88,15 +90,17 @@ class right extends units\test
 				$lengthValue = 8,
 
 				$this->calling($datum)->recipientOfDatumWithNStringIs = function($value, $recipient) use ($padded) {
-					oboolean\factory::areEquals($value, 'aaaaaaaa')
-						->blockForTrueIs(
-							new functor(
+					(
+						new comparison\binary\equal(
+							new block\functor(
 								function() use ($recipient, $padded)
 								{
 									$recipient->datumIs($padded);
 								}
 							)
 						)
+					)
+						->referenceForComparisonWithOperandIs($value, 'aaaaaaaa')
 					;
 				}
 			)
@@ -123,15 +127,17 @@ class right extends units\test
 				$paddingValue = '0',
 
 				$this->calling($datum)->recipientOfDatumWithNStringIs = function($value, $recipient) use ($padded) {
-					oboolean\factory::areEquals($value, '00000000')
-						->blockForTrueIs(
-							new functor(
+					(
+						new comparison\binary\equal(
+							new block\functor(
 								function() use ($recipient, $padded)
 								{
 									$recipient->datumIs($padded);
 								}
 							)
 						)
+					)
+						->referenceForComparisonWithOperandIs($value, '00000000')
 					;
 				}
 			)

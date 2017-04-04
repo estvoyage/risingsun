@@ -2,8 +2,8 @@
 
 require __DIR__ . '/../../runner.php';
 
-use estvoyage\risingsun\{ tests\units, oboolean, block\functor };
-use mock\estvoyage\risingsun\{ output as mockOfOutput, ostring as mockOfOString, datum as mockOfDatum };
+use estvoyage\risingsun\{ tests\units, comparison, block };
+use mock\estvoyage\risingsun\datum as mockOfDatum;
 
 class stderr extends units\test
 {
@@ -22,24 +22,28 @@ class stderr extends units\test
 			)
 			->if(
 				$this->function->file_put_contents = function($filename, $data, $flags = 0) {
-					oboolean\factory::areEquals($filename, 'php://stderr')
-						->blockForTrueIs(
-							new functor(
+					(
+						new comparison\binary\equal(
+							new block\functor(
 								function() use ($data, $flags)
 								{
-									oboolean\factory::areEquals($flags, FILE_APPEND|LOCK_EX)
-										->blockForTrueIs(
-											new functor(
+									(
+										new comparison\binary\equal(
+											new block\functor(
 												function() use ($data)
 												{
 													echo $data;
 												}
 											)
 										)
+									)
+										->referenceForComparisonWithOperandIs($flags, FILE_APPEND|LOCK_EX)
 									;
 								}
 							)
 						)
+					)
+						->referenceForComparisonWithOperandIs($filename, 'php://stderr')
 					;
 				},
 				$this->newTestedInstance
@@ -79,24 +83,28 @@ class stderr extends units\test
 				$eol = new mockOfDatum,
 
 				$this->function->file_put_contents = function($filename, $data, $flags = 0) {
-					oboolean\factory::areEquals($filename, 'php://stderr')
-						->blockForTrueIs(
-							new functor(
+					(
+						new comparison\binary\equal(
+							new block\functor(
 								function() use ($data, $flags)
 								{
-									oboolean\factory::areEquals($flags, FILE_APPEND|LOCK_EX)
-										->blockForTrueIs(
-											new functor(
+									(
+										new comparison\binary\equal(
+											new block\functor(
 												function() use ($data)
 												{
 													echo $data;
 												}
 											)
 										)
+									)
+										->referenceForComparisonWithOperandIs($flags, FILE_APPEND|LOCK_EX)
 									;
 								}
 							)
 						)
+					)
+						->referenceForComparisonWithOperandIs($filename, 'php://stderr')
 					;
 				}
 			)
@@ -140,24 +148,28 @@ class stderr extends units\test
 			)
 			->if(
 				$this->function->file_put_contents = function($filename, $data, $flags = 0) {
-					oboolean\factory::areEquals($filename, 'php://stderr')
-						->blockForTrueIs(
-							new functor(
+					(
+						new comparison\binary\equal(
+							new block\functor(
 								function() use ($data, $flags)
 								{
-									oboolean\factory::areEquals($flags, FILE_APPEND|LOCK_EX)
-										->blockForTrueIs(
-											new functor(
+									(
+										new comparison\binary\equal(
+											new block\functor(
 												function() use ($data)
 												{
 													echo $data;
 												}
 											)
 										)
+									)
+										->referenceForComparisonWithOperandIs($flags, FILE_APPEND|LOCK_EX)
 									;
 								}
 							)
 						)
+					)
+						->referenceForComparisonWithOperandIs($filename, 'php://stderr')
 					;
 				},
 				$this->newTestedInstance($eol)
@@ -206,24 +218,28 @@ class stderr extends units\test
 			)
 			->if(
 				$this->function->file_put_contents = function($filename, $data, $flags = 0) {
-					oboolean\factory::areEquals($filename, 'php://stderr')
-						->blockForTrueIs(
-							new functor(
+					(
+						new comparison\binary\equal(
+							new block\functor(
 								function() use ($data, $flags)
 								{
-									oboolean\factory::areEquals($flags, FILE_APPEND|LOCK_EX)
-										->blockForTrueIs(
-											new functor(
+									(
+										new comparison\binary\equal(
+											new block\functor(
 												function() use ($data)
 												{
 													echo $data;
 												}
 											)
 										)
+									)
+										->referenceForComparisonWithOperandIs($flags, FILE_APPEND|LOCK_EX)
 									;
 								}
 							)
 						)
+					)
+						->referenceForComparisonWithOperandIs($filename, 'php://stderr')
 					;
 				},
 				$this->newTestedInstance($eol)
@@ -252,24 +268,28 @@ class stderr extends units\test
 				},
 
 				$this->calling($operation)->recipientOfDatumOperationOnDataIs = function($aFirstDatum, $aSecondDatum, $recipient) use ($firstDatum, $secondDatum, $datum) {
-					oboolean\factory::areEquals($aFirstDatum, $firstDatum)
-						->blockForTrueIs(
-							new functor(
+					(
+						new comparison\binary\equal(
+							new block\functor(
 								function() use ($aSecondDatum, $secondDatum, $recipient, $datum)
 								{
-									oboolean\factory::areEquals($aSecondDatum, $secondDatum)
-										->blockForTrueIs(
-											new functor(
+									(
+										new comparison\binary\equal(
+											new block\functor(
 												function() use ($recipient, $datum)
 												{
 													$recipient->datumIs($datum);
 												}
 											)
 										)
+									)
+										->referenceForComparisonWithOperandIs($aSecondDatum, $secondDatum)
 									;
 								}
 							)
 						)
+					)
+						->referenceForComparisonWithOperandIs($aFirstDatum, $firstDatum)
 					;
 				}
 			)

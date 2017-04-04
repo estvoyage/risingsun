@@ -17,12 +17,19 @@ class any
 			$value = (string) $value;
 		}
 
-		if (! self::check($value))
-		{
-			throw new \typeError('Value should be an integer');
-		}
-
-		$this->value = (int) (string) $value;
+		(
+			new comparison\unary\with\integer\type(
+				new block\functor(
+					function() use ($value)
+					{
+						$this->value = (int) (string) $value;
+					}
+				),
+				new block\error(new \typeError('Value should be an integer'))
+			)
+		)
+			->operandForComparisonIs($value)
+		;
 	}
 
 	function recipientOfNIntegerIs(ninteger\recipient $recipient)
@@ -78,10 +85,5 @@ class any
 		$ointeger->value = $value;
 
 		return $ointeger;
-	}
-
-	private static function check($value)
-	{
-		return is_numeric($value) && (int) $value == $value;
 	}
 }

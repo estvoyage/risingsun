@@ -1,6 +1,6 @@
 <?php namespace estvoyage\risingsun\nstring\operation\binary\padding;
 
-use estvoyage\risingsun\{ nstring, ointeger, ninteger\recipient\functor };
+use estvoyage\risingsun\{ nstring, ointeger, ninteger, comparison, block };
 
 class right
 	implements
@@ -19,19 +19,27 @@ class right
 	{
 		$this->length
 			->recipientOfNIntegerIs(
-				new functor(
+				new ninteger\recipient\functor(
 					function($length) use ($firstOperand, $secondOperand, $recipient)
 					{
-						if ($secondOperand != '')
-						{
-							$recipient->nstringIs(
-								str_pad(
-									$firstOperand,
-									$length,
-									$secondOperand
+						(
+							new comparison\unary\not\blank(
+								new block\functor(
+									function() use ($recipient, $firstOperand, $length, $secondOperand)
+									{
+										$recipient->nstringIs(
+											str_pad(
+												$firstOperand,
+												$length,
+												$secondOperand
+											)
+										);
+									}
 								)
-							);
-						}
+							)
+						)
+							->operandForComparisonIs($secondOperand)
+						;
 					}
 				)
 			)

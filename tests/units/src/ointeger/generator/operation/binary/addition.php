@@ -2,7 +2,7 @@
 
 require __DIR__ . '/../../../../../runner.php';
 
-use estvoyage\risingsun\{ tests\units, oboolean\factory, block\functor, ointeger\operation, ointeger };
+use estvoyage\risingsun\{ tests\units, ointeger };
 use mock\estvoyage\risingsun\{ ointeger as mockOfOInteger, block as mockOfBlock };
 
 class addition extends units\test
@@ -14,21 +14,7 @@ class addition extends units\test
 		;
 	}
 
-	function testWithNoIncrement()
-	{
-		$this
-			->given(
-				$start = new mockOfOInteger
-			)
-			->if(
-				$this->newTestedInstance($start)
-			)
-			->then
-				->object($this->testedInstance)->isEqualTo($this->newTestedInstance($start, new ointeger\any(1)))
-		;
-	}
-
-	function testWithNoStart()
+	function test__construct()
 	{
 		$this
 			->if(

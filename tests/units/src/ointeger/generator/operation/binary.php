@@ -2,7 +2,7 @@
 
 require __DIR__ . '/../../../../runner.php';
 
-use estvoyage\risingsun\{ tests\units, oboolean\factory, block\functor };
+use estvoyage\risingsun\{ tests\units, block };
 use mock\estvoyage\risingsun\ointeger as mockOfOInteger;
 
 class binary extends units\test

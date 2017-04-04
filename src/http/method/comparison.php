@@ -1,8 +1,8 @@
 <?php namespace estvoyage\risingsun\http\method;
 
-use estvoyage\risingsun\{ http\method, oboolean };
+use estvoyage\risingsun\http\method;
 
 interface comparison
 {
-	function recipientOfComparisonBetweenHttpMethodsIs(method $firstOperand, method $secondOperand, oboolean\recipient $recipient);
+	function referenceForComparisonWithHttpMethodIs(method $httpMethod, method $reference);
 }

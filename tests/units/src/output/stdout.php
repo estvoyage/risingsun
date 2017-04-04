@@ -2,8 +2,8 @@
 
 require __DIR__ . '/../../runner.php';
 
-use estvoyage\risingsun\{ tests\units, oboolean, block\functor, ostring };
-use mock\estvoyage\risingsun\{ output as mockOfOutput, ostring as mockOfOString, datum as mockOfDatum };
+use estvoyage\risingsun\{ tests\units, comparison, block, ostring };
+use mock\estvoyage\risingsun\datum as mockOfDatum;
 
 class stdout extends units\test
 {
@@ -14,7 +14,7 @@ class stdout extends units\test
 		;
 	}
 
-	function testWithoutArguments()
+	function test__construct()
 	{
 		$this->object($this->newTestedInstance)->isEqualTo($this->newTestedInstance(new ostring\any(PHP_EOL)));
 	}
@@ -171,24 +171,28 @@ class stdout extends units\test
 				},
 
 				$this->calling($operation)->recipientOfDatumOperationOnDataIs = function($aFirstDatum, $aSecondDatum, $recipient) use ($firstDatum, $secondDatum, $datum) {
-					oboolean\factory::areEquals($aFirstDatum, $firstDatum)
-						->blockForTrueIs(
-							new functor(
+					(
+						new comparison\binary\equal(
+							new block\functor(
 								function() use ($aSecondDatum, $secondDatum, $recipient, $datum)
 								{
-									oboolean\factory::areEquals($aSecondDatum, $secondDatum)
-										->blockForTrueIs(
-											new functor(
+									(
+										new comparison\binary\equal(
+											new block\functor(
 												function() use ($recipient, $datum)
 												{
 													$recipient->datumIs($datum);
 												}
 											)
 										)
+									)
+										->referenceForComparisonWithOperandIs($aSecondDatum, $secondDatum)
 									;
 								}
 							)
 						)
+					)
+						->referenceForComparisonWithOperandIs($aFirstDatum, $firstDatum)
 					;
 				}
 			)

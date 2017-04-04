@@ -2,7 +2,7 @@
 
 require __DIR__ . '/../../../../runner.php';
 
-use estvoyage\risingsun\{ tests\units, oboolean, block\functor };
+use estvoyage\risingsun\{ tests\units, comparison, block };
 use mock\estvoyage\risingsun\datum as mockOfDatum;
 
 class addition extends units\test
@@ -52,15 +52,17 @@ class addition extends units\test
 			)
 			->if(
 				$this->calling($datum)->recipientOfDatumWithNStringIs = function($value, $recipient) use ($addition) {
-					oboolean\factory::areEquals($value, 'foobar')
-						->blockForTrueIs(
-							new functor(
+					(
+						new comparison\binary\equal(
+							new block\functor(
 								function() use ($recipient, $addition)
 								{
 									$recipient->datumIs($addition);
 								}
 							)
 						)
+					)
+						->referenceForComparisonWithOperandIs($value, 'foobar')
 					;
 				}
 			)

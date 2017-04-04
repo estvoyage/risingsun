@@ -2,7 +2,7 @@
 
 require __DIR__ . '/../../../../../runner.php';
 
-use estvoyage\risingsun\{ tests\units, oboolean, block\functor };
+use estvoyage\risingsun\{ tests\units, comparison, block };
 use mock\estvoyage\risingsun\{ datum as mockOfDatum, ointeger as mockOfOInteger };
 
 class right extends units\test
@@ -61,15 +61,17 @@ class right extends units\test
 				$secondOperandValue = 'a',
 
 				$this->calling($firstOperand)->recipientOfDatumWithNStringIs = function($value, $recipient) use ($padded, $secondOperandValue) {
-					oboolean\factory::areEquals($value, $secondOperandValue)
-						->blockForTrueIs(
-							new functor(
+					(
+						new comparison\binary\equal(
+							new block\functor(
 								function() use ($recipient, $padded)
 								{
 									$recipient->datumIs($padded);
 								}
 							)
 						)
+					)
+						->referenceForComparisonWithOperandIs($value, $secondOperandValue)
 					;
 				}
 			)
@@ -86,15 +88,17 @@ class right extends units\test
 				$lengthValue = 8,
 
 				$this->calling($firstOperand)->recipientOfDatumWithNStringIs = function($value, $recipient) use ($padded, $secondOperandValue) {
-					oboolean\factory::areEquals($value, 'aaaaaaaa')
-						->blockForTrueIs(
-							new functor(
+					(
+						new comparison\binary\equal(
+							new block\functor(
 								function() use ($recipient, $padded)
 								{
 									$recipient->datumIs($padded);
 								}
 							)
 						)
+					)
+						->referenceForComparisonWithOperandIs($value, 'aaaaaaaa')
 					;
 				}
 			)
@@ -110,15 +114,17 @@ class right extends units\test
 				$secondOperandValue = 'aaaaaaaa',
 
 				$this->calling($firstOperand)->recipientOfDatumWithNStringIs = function($value, $recipient) use ($padded, $secondOperandValue) {
-					oboolean\factory::areEquals($value, $secondOperandValue)
-						->blockForTrueIs(
-							new functor(
+					(
+						new comparison\binary\equal(
+							new block\functor(
 								function() use ($recipient, $padded)
 								{
 									$recipient->datumIs($padded);
 								}
 							)
 						)
+					)
+						->referenceForComparisonWithOperandIs($value, $secondOperandValue)
 					;
 				}
 			)
@@ -134,15 +140,17 @@ class right extends units\test
 				$secondOperandValue = '0',
 
 				$this->calling($firstOperand)->recipientOfDatumWithNStringIs = function($value, $recipient) use ($padded, $secondOperandValue) {
-					oboolean\factory::areEquals($value, '00000000')
-						->blockForTrueIs(
-							new functor(
+					(
+						new comparison\binary\equal(
+							new block\functor(
 								function() use ($recipient, $padded)
 								{
 									$recipient->datumIs($padded);
 								}
 							)
 						)
+					)
+						->referenceForComparisonWithOperandIs($value, '00000000')
 					;
 				}
 			)

@@ -131,18 +131,4 @@ class any
 
 		return $ofloat;
 	}
-
-	private function blockForValueIs($value, block $block)
-	{
-		(
-			new comparison\unary\notNumeric
-			(
-				$block
-			)
-		)
-			->operandForComparisonIs($value)
-		;
-
-		return $this;
-	}
 }

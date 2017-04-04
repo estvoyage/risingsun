@@ -2,7 +2,7 @@
 
 require __DIR__ . '/../../../../runner.php';
 
-use estvoyage\risingsun\{ tests\units, oboolean, block\functor };
+use estvoyage\risingsun\{ tests\units, comparison, block };
 use mock\estvoyage\risingsun\{ ointeger as mockOfOInteger, datum as mockOfDatum };
 
 class slicer extends units\test
@@ -50,15 +50,17 @@ class slicer extends units\test
 					$recipient->nstringIs($datumValue);
 				},
 				$this->calling($datum)->recipientOfDatumWithNStringIs = function($value, $recipient) use ($datumValue, $slice) {
-					oboolean\factory::areEquals($value, $datumValue)
-						->blockForTrueIs(
-							new functor(
+					(
+						new comparison\binary\equal(
+							new block\functor(
 								function() use ($recipient, $slice)
 								{
 									$recipient->datumIs($slice);
 								}
 							)
 						)
+					)
+						->referenceForComparisonWithOperandIs($value, $datumValue)
 					;
 				}
 			)
@@ -73,15 +75,17 @@ class slicer extends units\test
 			->if(
 				$positionValue = 2,
 				$this->calling($datum)->recipientOfDatumWithNStringIs = function($value, $recipient) use ($datumValue, $slice) {
-					oboolean\factory::areEquals($value, 'cd')
-						->blockForTrueIs(
-							new functor(
+					(
+						new comparison\binary\equal(
+							new block\functor(
 								function() use ($recipient, $slice)
 								{
 									$recipient->datumIs($slice);
 								}
 							)
 						)
+					)
+						->referenceForComparisonWithOperandIs($value, 'cd')
 					;
 				}
 			)
@@ -96,15 +100,17 @@ class slicer extends units\test
 			->if(
 				$positionValue = 4,
 				$this->calling($datum)->recipientOfDatumWithNStringIs = function($value, $recipient) use ($datumValue, $slice) {
-					oboolean\factory::areEquals($value, '')
-						->blockForTrueIs(
-							new functor(
+					(
+						new comparison\binary\equal(
+							new block\functor(
 								function() use ($recipient, $slice)
 								{
 									$recipient->datumIs($slice);
 								}
 							)
 						)
+					)
+						->referenceForComparisonWithOperandIs($value, '')
 					;
 				}
 			)

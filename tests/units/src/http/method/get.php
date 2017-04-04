@@ -32,25 +32,4 @@ class get extends units\test
 							->once
 		;
 	}
-
-	function testRecipientOfComparisonWithHttpMethodIs()
-	{
-		$this
-			->given(
-				$comparison = new mockOfHttp\method\comparison,
-				$method = new mockOfHttp\method,
-				$recipient = new mockOfOBoolean\recipient
-			)
-			->if(
-				$this->newTestedInstance
-			)
-			->then
-				->object($this->testedInstance->recipientOfComparisonWithHttpMethodIs($comparison, $method, $recipient))
-					->isEqualTo($this->newTestedInstance)
-				->mock($comparison)
-					->receive('recipientOfComparisonBetweenHttpMethodsIs')
-						->withArguments($this->testedInstance, $method, $recipient)
-							->once
-		;
-	}
 }

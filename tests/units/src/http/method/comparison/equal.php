@@ -3,7 +3,7 @@
 require __DIR__ . '/../../../../runner.php';
 
 use estvoyage\risingsun\{ tests\units, oboolean };
-use mock\estvoyage\risingsun\{ http as mockOfHttp, oboolean as mockOfOBoolean };
+use mock\estvoyage\risingsun\{ http as mockOfHttp, block as mockOfBlock };
 
 class equal extends units\test
 {
@@ -14,60 +14,76 @@ class equal extends units\test
 		;
 	}
 
-	function testRecipientOfComparisonBetweenHttpMethodsIs()
+	function testReferenceForComparisonWithHttpMethodIs()
 	{
 		$this
 			->given(
-				$firstOperand = new mockOfHttp\method,
-				$secondOperand = new mockOfHttp\method,
-				$recipient = new mockOfOBoolean\recipient
+				$ok = new mockOfBlock,
+				$ko = new mockOfBlock,
+				$method = new mockOfHttp\method,
+				$reference = new mockOfHttp\method
 			)
 			->if(
-				$this->newTestedInstance
+				$this->newTestedInstance($ok, $ko)
 			)
 			->then
-				->object($this->testedInstance->recipientOfComparisonBetweenHttpMethodsIs($firstOperand, $secondOperand, $recipient))
-					->isEqualTo($this->newTestedInstance)
-				->mock($recipient)
-					->receive('obooleanIs')
+				->object($this->testedInstance->referenceForComparisonWithHttpMethodIs($method, $reference))
+					->isEqualTo($this->newTestedInstance($ok, $ko))
+				->mock($ok)
+					->receive('blockArgumentsAre')
+						->never
+				->mock($ko)
+					->receive('blockArgumentsAre')
+						->never
+
+			->given(
+				$this->calling($method)->recipientOfHttpMethodValueIs = function($recipient) use (& $methodValue) {
+					$recipient->nstringIs($methodValue);
+				}
+			)
+			->if(
+				$methodValue = uniqid()
+			)
+			->then
+				->object($this->testedInstance->referenceForComparisonWithHttpMethodIs($method, $reference))
+					->isEqualTo($this->newTestedInstance($ok, $ko))
+				->mock($ok)
+					->receive('blockArgumentsAre')
+						->never
+				->mock($ko)
+					->receive('blockArgumentsAre')
+						->never
+
+			->given(
+				$this->calling($reference)->recipientOfHttpMethodValueIs = function($recipient) use (& $referenceValue) {
+					$recipient->nstringIs($referenceValue);
+				}
+			)
+			->if(
+				$referenceValue = $methodValue
+			)
+			->then
+				->object($this->testedInstance->referenceForComparisonWithHttpMethodIs($method, $reference))
+					->isEqualTo($this->newTestedInstance($ok, $ko))
+				->mock($ok)
+					->receive('blockArgumentsAre')
+						->once
+				->mock($ko)
+					->receive('blockArgumentsAre')
 						->never
 
 			->if(
-				$this->calling($firstOperand)->recipientOfHttpMethodValueIs = function($recipient) {
-					$recipient->nstringIs('foo');
-				}
+				$referenceValue = uniqid()
 			)
 			->then
-				->object($this->testedInstance->recipientOfComparisonBetweenHttpMethodsIs($firstOperand, $secondOperand, $recipient))
-					->isEqualTo($this->newTestedInstance)
-				->mock($recipient)
-					->receive('obooleanIs')
-						->never
-
-			->if(
-				$this->calling($secondOperand)->recipientOfHttpMethodValueIs = function($recipient) {
-					$recipient->nstringIs('foo');
-				}
-			)
-			->then
-				->object($this->testedInstance->recipientOfComparisonBetweenHttpMethodsIs($firstOperand, $secondOperand, $recipient))
-					->isEqualTo($this->newTestedInstance)
-				->mock($recipient)
-					->receive('obooleanIs')
-						->withArguments(new oboolean\ok)
-							->once
-
-			->if(
-				$this->calling($secondOperand)->recipientOfHttpMethodValueIs = function($recipient) {
-					$recipient->nstringIs('bar');
-				}
-			)
-				->object($this->testedInstance->recipientOfComparisonBetweenHttpMethodsIs($firstOperand, $secondOperand, $recipient))
-					->isEqualTo($this->newTestedInstance)
-				->mock($recipient)
-					->receive('obooleanIs')
-						->withArguments(new oboolean\ko)
-							->once
+				->object($this->testedInstance->referenceForComparisonWithHttpMethodIs($method, $reference))
+					->isEqualTo($this->newTestedInstance($ok, $ko))
+				->mock($ok)
+					->receive('blockArgumentsAre')
+						->once
+				->mock($ko)
+					->receive('blockArgumentsAre')
+						->once
 		;
 	}
 }

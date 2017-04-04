@@ -1,24 +1,42 @@
 <?php namespace estvoyage\risingsun\http\method\comparison;
 
-use estvoyage\risingsun\{ http\method, oboolean, nstring\recipient\functor };
+use estvoyage\risingsun\{ http, block, nstring, comparison };
 
 class equal
 	implements
-		method\comparison
+		http\method\comparison
 {
-	function recipientOfComparisonBetweenHttpMethodsIs(method $firstOperand, method $secondOperand, oboolean\recipient $recipient)
+	private
+		$ok,
+		$ko
+	;
+
+	function __construct(block $ok, block $ko)
 	{
-		$firstOperand
+		$this->ok = $ok;
+		$this->ko = $ko;
+	}
+
+	function referenceForComparisonWithHttpMethodIs(http\method $httpMethod, http\method $reference)
+	{
+		$httpMethod
 			->recipientOfHttpMethodValueIs(
-				new functor(
-					function($firstOperandValue) use ($secondOperand, $recipient)
+				new nstring\recipient\functor(
+					function($httpMethodValue) use ($reference)
 					{
-						$secondOperand
+						$reference
 							->recipientOfHttpMethodValueIs(
-								new functor(
-									function($secondOperandValue) use ($firstOperandValue, $recipient)
+								new nstring\recipient\functor(
+									function($referenceValue) use ($httpMethodValue)
 									{
-										$recipient->obooleanIs(oboolean\factory::areIdenticals($firstOperandValue, $secondOperandValue));
+										(
+											new comparison\binary\equal(
+												$this->ok,
+												$this->ko
+											)
+										)
+											->referenceForComparisonWithOperandIs($httpMethodValue, $referenceValue)
+										;
 									}
 								)
 							)

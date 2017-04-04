@@ -2,7 +2,7 @@
 
 require __DIR__ . '/../../../../runner.php';
 
-use estvoyage\risingsun\{ tests\units, oboolean, block\functor, ostring };
+use estvoyage\risingsun\{ tests\units, comparison, block, ostring };
 use mock\estvoyage\risingsun\{ datum as mockOfDatum, nstring as mockOfNString };
 
 class pipe extends units\test
@@ -43,15 +43,17 @@ class pipe extends units\test
 				},
 
 				$this->calling($operation)->recipientOfDatumOperationWithDatumIs = function($aDatum, $recipient) use ($datum, $datumOfOperation) {
-					oboolean\factory::areIdenticals($aDatum, $datum)
-						->blockForTrueIs(
-							new functor(
+					(
+						new comparison\binary\equal(
+							new block\functor(
 								function() use ($recipient, $datumOfOperation)
 								{
 									$recipient->datumIs($datumOfOperation);
 								}
 							)
 						)
+					)
+						->referenceForComparisonWithOperandIs($aDatum, $datum)
 					;
 				}
 			)
@@ -93,15 +95,17 @@ class pipe extends units\test
 				},
 
 				$this->calling($operation)->recipientOfDatumOperationWithDatumIs = function($aDatum, $recipient) use ($datumOfOperation) {
-					oboolean\factory::areEquals($aDatum, new ostring\any)
-						->blockForTrueIs(
-							new functor(
+					(
+						new comparison\binary\equal(
+							new block\functor(
 								function() use ($recipient, $datumOfOperation)
 								{
 									$recipient->datumIs($datumOfOperation);
 								}
 							)
 						)
+					)
+						->referenceForComparisonWithOperandIs($aDatum, new ostring\any)
 					;
 				}
 			)
