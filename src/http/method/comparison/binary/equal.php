@@ -1,22 +1,11 @@
-<?php namespace estvoyage\risingsun\http\method\comparison;
+<?php namespace estvoyage\risingsun\http\method\comparison\binary;
 
 use estvoyage\risingsun\{ http, block, nstring, comparison };
 
-class equal
+class equal extends comparison\binary\equal
 	implements
-		http\method\comparison
+		http\method\comparison\binary
 {
-	private
-		$ok,
-		$ko
-	;
-
-	function __construct(block $ok, block $ko)
-	{
-		$this->ok = $ok;
-		$this->ko = $ko;
-	}
-
 	function referenceForComparisonWithHttpMethodIs(http\method $httpMethod, http\method $reference)
 	{
 		$httpMethod
@@ -29,14 +18,10 @@ class equal
 								new nstring\recipient\functor(
 									function($referenceValue) use ($httpMethodValue)
 									{
-										(
-											new comparison\binary\equal(
-												$this->ok,
-												$this->ko
-											)
-										)
-											->referenceForComparisonWithOperandIs($httpMethodValue, $referenceValue)
-										;
+										parent::referenceForComparisonWithOperandIs(
+											$httpMethodValue,
+											$referenceValue
+										);
 									}
 								)
 							)

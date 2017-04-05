@@ -1,8 +1,8 @@
-<?php namespace estvoyage\risingsun\tests\units\http\method\comparison;
+<?php namespace estvoyage\risingsun\tests\units\http\method\comparison\binary;
 
-require __DIR__ . '/../../../../runner.php';
+require __DIR__ . '/../../../../../runner.php';
 
-use estvoyage\risingsun\{ tests\units, oboolean };
+use estvoyage\risingsun\tests\units;
 use mock\estvoyage\risingsun\{ http as mockOfHttp, block as mockOfBlock };
 
 class equal extends units\test
@@ -10,7 +10,7 @@ class equal extends units\test
 	function testClass()
 	{
 		$this->testedClass
-			->implements('estvoyage\risingsun\http\method\comparison')
+			->implements('estvoyage\risingsun\http\method\comparison\binary')
 		;
 	}
 
