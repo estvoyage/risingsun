@@ -1,4 +1,4 @@
-<?php namespace estvoyage\risingsun\comparison\unary\with\not\integer;
+<?php namespace estvoyage\risingsun\comparison\unary\not\with\integer;
 
 use estvoyage\risingsun\{ comparison, block };
 

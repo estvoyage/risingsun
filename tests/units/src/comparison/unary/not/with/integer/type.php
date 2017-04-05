@@ -1,4 +1,4 @@
-<?php namespace estvoyage\risingsun\tests\units\comparison\unary\with\not\integer;
+<?php namespace estvoyage\risingsun\tests\units\comparison\unary\not\with\integer;
 
 require __DIR__ . '/../../../../../../runner.php';
 
