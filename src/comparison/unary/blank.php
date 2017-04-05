@@ -6,6 +6,6 @@ class blank extends equal
 {
 	function __construct(block $ok, block $ko = null)
 	{
-		parent::__construct('', $ok, $ko ?: new block\blackhole);
+		parent::__construct('', $ok, $ko);
 	}
 }

@@ -1,8 +1,8 @@
-<?php namespace estvoyage\risingsun\comparison\unary;
+<?php namespace estvoyage\risingsun\comparison\unary\with\numeric;
 
 use estvoyage\risingsun\{ comparison, block };
 
-class numeric extends with\true\boolean
+class type extends comparison\unary\with\true\boolean
 {
 	function operandForComparisonIs($value)
 	{

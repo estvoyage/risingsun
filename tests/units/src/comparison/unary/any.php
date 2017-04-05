@@ -5,7 +5,7 @@ require __DIR__ . '/../../../runner.php';
 use estvoyage\risingsun\{ tests\units, comparison };
 use mock\estvoyage\risingsun\{ comparison as mockOfComparison, oboolean as mockOfOBoolean };
 
-class value extends units\test
+class any extends units\test
 {
 	function testClass()
 	{

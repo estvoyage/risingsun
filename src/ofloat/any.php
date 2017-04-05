@@ -14,7 +14,7 @@ class any
 	function __construct($value = 0.)
 	{
 		(
-			new comparison\unary\not\numeric
+			new comparison\unary\not\with\numeric\type
 			(
 				new block\error(new \typeError('Value should be a float'))
 			)
@@ -42,7 +42,7 @@ class any
 	function recipientOfDatumWithNStringIs(string $value, datum\recipient $recipient)
 	{
 		(
-			new comparison\unary\numeric
+			new comparison\unary\with\numeric\type
 			(
 				new block\functor(
 					function() use ($recipient, $value)

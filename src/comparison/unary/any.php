@@ -2,7 +2,7 @@
 
 use estvoyage\risingsun\comparison;
 
-class value
+class any
 	implements
 		comparison\unary
 {

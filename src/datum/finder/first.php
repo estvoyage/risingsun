@@ -28,7 +28,7 @@ class first
 									function($datumValue) use ($searchValue, $recipient)
 									{
 										(
-											new comparison\unary\numeric(
+											new comparison\unary\with\numeric\type(
 												new block\functor(
 													function() use ($recipient, & $position)
 													{

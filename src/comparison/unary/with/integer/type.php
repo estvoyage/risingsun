@@ -20,7 +20,7 @@ class type
 	function operandForComparisonIs($value)
 	{
 		(
-			new comparison\unary\numeric
+			new comparison\unary\with\numeric\type
 			(
 				new block\functor(
 					function() use ($value)

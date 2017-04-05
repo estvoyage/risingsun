@@ -12,10 +12,18 @@ class any
 
 	function __construct($value = 0)
 	{
-		if (is_object($value) && method_exists($value, '__toString'))
-		{
-			$value = (string) $value;
-		}
+		(
+			new comparison\unary\with\magic\toString(
+				new block\functor(
+					function() use (& $value)
+					{
+						$value = (string) $value;
+					}
+				)
+			)
+		)
+			->operandForComparisonIs($value)
+		;
 
 		(
 			new comparison\unary\with\integer\type(

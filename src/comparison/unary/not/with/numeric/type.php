@@ -1,8 +1,8 @@
-<?php namespace estvoyage\risingsun\comparison\unary\not;
+<?php namespace estvoyage\risingsun\comparison\unary\not\with\numeric;
 
 use estvoyage\risingsun\{ comparison, block };
 
-class numeric extends comparison\unary\numeric
+class type extends comparison\unary\with\numeric\type
 {
 	function __construct(block $ok, block $ko = null)
 	{
