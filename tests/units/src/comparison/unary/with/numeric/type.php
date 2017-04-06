@@ -28,9 +28,9 @@ class type extends units\test
 	}
 
 	/**
-	 * @dataProvider numericProvider
+	 * @dataProvider okProvider
 	 */
-	function testOperandForComparisonIs($value)
+	function testOperandForComparisonIs_withNumeric($value)
 	{
 		$this
 			->given(
@@ -50,7 +50,7 @@ class type extends units\test
 	}
 
 	/**
-	 * @dataProvider notNumericProvider
+	 * @dataProvider koProvider
 	 */
 	function testRecipientOfComparisonWithValueIs_withNotNumeric($value)
 	{
@@ -71,7 +71,7 @@ class type extends units\test
 		;
 	}
 
-	protected function numericProvider()
+	protected function okProvider()
 	{
 		return [
 			0,
@@ -93,7 +93,7 @@ class type extends units\test
 		];
 	}
 
-	protected function notNumericProvider()
+	protected function koProvider()
 	{
 		return [
 			'- 1e9',
