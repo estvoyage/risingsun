@@ -1,6 +1,6 @@
 <?php namespace estvoyage\risingsun\time\duration\timestamp\unix\micro;
 
-use estvoyage\risingsun\{ time\duration\timestamp\unix\micro, ofloat };
+use estvoyage\risingsun\{ time\duration\timestamp\unix\micro, ofloat, ointeger };
 
 class any extends ofloat\unsigned\any
 	implements
@@ -21,5 +21,25 @@ class any extends ofloat\unsigned\any
 		;
 
 		return $this;
+	}
+
+	function recipientOfNumberOfDayIs(ointeger\unsigned\recipient $recipient)
+	{
+	}
+
+	function recipientOfNumberOfHourIs(ointeger\unsigned\recipient $recipient)
+	{
+	}
+
+	function recipientOfNumberOfMinuteIs(ointeger\unsigned\recipient $recipient)
+	{
+	}
+
+	function recipientOfNumberOfSecondIs(ointeger\unsigned\recipient $recipient)
+	{
+	}
+
+	function recipientOfNumberOfMicroSecondIs(ointeger\unsigned\recipient $recipient)
+	{
 	}
 }

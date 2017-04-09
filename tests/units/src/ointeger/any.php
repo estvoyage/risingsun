@@ -84,6 +84,41 @@ class any extends units\test
 		;
 	}
 
+	function testRecipientOfOIntegerWithOIntegerIs()
+	{
+		$this
+			->given(
+				$ointeger = new mockOfOInteger,
+				$recipient = new mockOfOInteger\recipient
+			)
+			->if(
+				$this->newTestedInstance(0)
+			)
+			->then
+				->object($this->testedInstance->recipientOfOIntegerWithOIntegerIs($ointeger, $recipient))
+					->isEqualTo($this->newTestedInstance(0))
+				->mock($recipient)
+					->receive('ointegerIs')
+						->never
+
+			->given(
+				$this->calling($ointeger)->recipientOfNIntegerIs = function($recipient) use (& $ointegerValue) {
+					$recipient->nintegerIs($ointegerValue);
+				}
+			)
+			->if(
+				$ointegerValue = rand(PHP_INT_MIN, PHP_INT_MAX)
+			)
+			->then
+				->object($this->testedInstance->recipientOfOIntegerWithOIntegerIs($ointeger, $recipient))
+					->isEqualTo($this->newTestedInstance(0))
+				->mock($recipient)
+					->receive('ointegerIs')
+						->withArguments($this->newTestedInstance($ointegerValue))
+							->once
+		;
+	}
+
 	function testRecipientOfNStringIs()
 	{
 		$this
@@ -175,6 +210,28 @@ class any extends units\test
 				->mock($recipient)
 					->receive('datumLengthIs')
 						->withArguments(new datum\length(strlen($value)))
+							->once
+		;
+	}
+
+	/**
+	 * @dataProvider validValueProvider
+	 */
+	function testRecipientOfNIntegerIs($value)
+	{
+		$this
+			->given(
+				$recipient = new mockOfNInteger\recipient
+			)
+			->if(
+				$this->newTestedInstance($value)
+			)
+			->then
+				->object($this->testedInstance->recipientOfNIntegerIs($recipient))
+					->isEqualTo($this->newTestedInstance($value))
+				->mock($recipient)
+					->receive('nintegerIs')
+						->withIdenticalArguments((int) (string) $value)
 							->once
 		;
 	}

@@ -2,10 +2,17 @@
 
 use estvoyage\risingsun\{ comparison, block };
 
-class type extends comparison\unary\with\true\boolean
+class type extends comparison\unary\switcher\boolean
+	implements
+		comparison\unary
 {
 	function operandForComparisonIs($value)
 	{
-		return parent::operandForComparisonIs(is_numeric($value));
+		return $this
+			->booleanForValueIs(
+				$value,
+				is_numeric($value)
+			)
+		;
 	}
 }

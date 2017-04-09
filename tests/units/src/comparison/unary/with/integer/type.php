@@ -53,6 +53,31 @@ class type extends units\test
 		;
 	}
 
+	/**
+	 * @dataProvider invalidValueProvider
+	 */
+	function testOperandForComparisonIs_withInvalidValue($value)
+	{
+		$this
+			->given(
+				$ok = new mockOfBlock,
+				$ko = new mockOfBlock
+			)
+			->if(
+				$this->newTestedInstance($ok, $ko)
+			)
+			->then
+				->object($this->testedInstance->operandForComparisonIs($value))
+					->isEqualTo($this->newTestedInstance($ok, $ko))
+				->mock($ok)
+					->receive('blockArgumentsAre')
+						->never
+				->mock($ko)
+					->receive('blockArgumentsAre')
+						->once
+		;
+	}
+
 	protected function validValueProvider()
 	{
 		return [

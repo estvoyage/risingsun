@@ -27,17 +27,43 @@ class equal extends units\test
 				->object($this->testedInstance)->isEqualTo($this->newTestedInstance($ok, new block\blackhole));
 	}
 
-	function testReferenceForComparisonWithOperandIs()
+	/**
+	 * @dataProvider okProvider
+	 */
+	function testReferenceForComparisonWithOperandIs_withOkOperandForReference($operand, $reference)
 	{
 		$this
 			->given(
 				$ok = new mockOfBlock,
-				$ko = new mockOfBlock,
-				$this->newTestedInstance($ok, $ko)
+				$ko = new mockOfBlock
 			)
 			->if(
-				$operand = uniqid(),
-				$reference = uniqid()
+				$this->newTestedInstance($ok, $ko)
+			)
+			->then
+				->object($this->testedInstance->referenceForComparisonWithOperandIs($operand, $reference))
+					->isEqualTo($this->newTestedInstance($ok, $ko))
+				->mock($ok)
+					->receive('blockArgumentsAre')
+						->once
+				->mock($ko)
+					->receive('blockArgumentsAre')
+						->never
+		;
+	}
+
+	/**
+	 * @dataProvider koProvider
+	 */
+	function testReferenceForComparisonWithOperandIs_withKoOperandForReference($operand, $reference)
+	{
+		$this
+			->given(
+				$ok = new mockOfBlock,
+				$ko = new mockOfBlock
+			)
+			->if(
+				$this->newTestedInstance($ok, $ko)
 			)
 			->then
 				->object($this->testedInstance->referenceForComparisonWithOperandIs($operand, $reference))
@@ -48,34 +74,40 @@ class equal extends units\test
 				->mock($ko)
 					->receive('blockArgumentsAre')
 						->once
-
-			->if(
-				$operand = rand(- PHP_INT_MAX, PHP_INT_MAX),
-				$reference = (string) $operand
-			)
-			->then
-				->object($this->testedInstance->referenceForComparisonWithOperandIs($operand, $reference))
-					->isEqualTo($this->newTestedInstance($ok, $ko))
-				->mock($ok)
-					->receive('blockArgumentsAre')
-						->once
-				->mock($ko)
-					->receive('blockArgumentsAre')
-						->once
-
-			->if(
-				$operand = rand(- PHP_INT_MAX, PHP_INT_MAX),
-				$reference = $operand
-			)
-			->then
-				->object($this->testedInstance->referenceForComparisonWithOperandIs($operand, $reference))
-					->isEqualTo($this->newTestedInstance($ok, $ko))
-				->mock($ok)
-					->receive('blockArgumentsAre')
-						->twice
-				->mock($ko)
-					->receive('blockArgumentsAre')
-						->once
 		;
+	}
+
+	protected function okProvider()
+	{
+		return [
+			[ 'foo', 'foo' ],
+			[ 0, 0, ],
+			[ 0., 0, ],
+			[ 0, 0., ],
+			[ '0', '0', ],
+			[ '0.', '0', ],
+			[ '0', '0.', ],
+			[ null, null, ],
+			[ null, 0, ],
+			[ 0, null, ],
+			[ null, '', ],
+			[ '', null, ],
+			[ false, false, ],
+			[ false, 0, ],
+			[ 0, false, ],
+			[ true, true, ],
+			[ 1, true, ],
+			[ true, 1, ],
+			[ true, uniqid(), ],
+			[ uniqid(), true, ],
+			[ M_PI, M_PI, ]
+		];
+	}
+
+	protected function koProvider()
+	{
+		return [
+			[ 'bar', 'foo' ]
+		];
 	}
 }

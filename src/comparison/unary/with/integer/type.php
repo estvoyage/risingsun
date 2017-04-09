@@ -2,45 +2,46 @@
 
 use estvoyage\risingsun\{ comparison, block };
 
-class type
+class type extends comparison\unary\switcher
 	implements
 		comparison\unary
 {
-	private
-		$ok,
-		$ko
-	;
-
-	function __construct(block $ok = null, block $ko = null)
-	{
-		$this->ok = $ok;
-		$this->ko = $ko ?: new block\blackhole;
-	}
-
 	function operandForComparisonIs($value)
 	{
-		(
-			new comparison\unary\with\numeric\type
-			(
+		return $this
+			->blockIs(
 				new block\functor(
-					function() use ($value)
+					function($ok, $ko) use ($value)
 					{
-						(new comparison\binary\equal($this->ok, $this->ko))
-							->referenceForComparisonWithOperandIs(
-								$value,
-								(int) $value
+						(
+							new comparison\unary\with\numeric\type
+							(
+								new block\functor(
+									function($value) use ($ok, $ko, $value)
+									{
+										(
+											new comparison\binary\equal(
+												$ok,
+												$ko
+											)
+										)
+											->referenceForComparisonWithOperandIs(
+												$value,
+												(int) $value
+											)
+										;
+									}
+								),
+								$ko
+							)
+						)
+							->operandForComparisonIs(
+								$value
 							)
 						;
 					}
-				),
-				$this->ko
-			)
-		)
-			->operandForComparisonIs(
-				$value
+				)
 			)
 		;
-
-		return $this;
 	}
 }

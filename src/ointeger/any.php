@@ -43,11 +43,34 @@ class any
 	function recipientOfNIntegerIs(ninteger\recipient $recipient)
 	{
 		$recipient->nintegerIs($this->value);
+
+		return $this;
 	}
 
 	function recipientOfOIntegerWithNIntegerIs(int $value, recipient $recipient)
 	{
 		$recipient->ointegerIs($this->cloneWithValue($value));
+
+		return $this;
+	}
+
+	function recipientOfOIntegerWithOIntegerIs(ointeger $ointeger, recipient $recipient)
+	{
+		$ointeger
+			->recipientOfNIntegerIs(
+				new ninteger\recipient\functor(
+					function($ninteger) use ($recipient)
+					{
+						$this
+							->recipientOfOIntegerWithNIntegerIs(
+								$ninteger,
+								$recipient
+							)
+						;
+					}
+				)
+			)
+		;
 
 		return $this;
 	}

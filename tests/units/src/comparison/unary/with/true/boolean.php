@@ -48,7 +48,8 @@ class boolean extends units\test
 						->never
 				->mock($ko)
 					->receive('blockArgumentsAre')
-						->once
+						->withArguments($value)
+							->once
 		;
 	}
 
@@ -70,7 +71,8 @@ class boolean extends units\test
 					->isEqualTo($this->newTestedInstance($ok, $ko))
 				->mock($ok)
 					->receive('blockArgumentsAre')
-						->once
+						->withArguments($value)
+							->once
 				->mock($ko)
 					->receive('blockArgumentsAre')
 						->never

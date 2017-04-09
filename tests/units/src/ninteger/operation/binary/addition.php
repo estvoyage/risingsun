@@ -24,49 +24,10 @@ class addition extends units\test
 		$this
 			->given(
 				$recipient = new mockOfNInteger\recipient,
-				$this->newTestedInstance
-			)
-			->if(
-				$firstOperand = 0,
-				$secondOperand = 0
-			)
-			->then
-				->object($this->testedInstance->recipientOfOperationOnNIntegersIs($firstOperand, $secondOperand, $recipient))
-					->isEqualTo($this->newTestedInstance)
-				->mock($recipient)
-					->receive('nintegerIs')
-						->withArguments(0)
-							->once
-
-			->if(
-				$firstOperand = 1,
-				$secondOperand = 2
-			)
-			->then
-				->object($this->testedInstance->recipientOfOperationOnNIntegersIs($firstOperand, $secondOperand, $recipient))
-					->isEqualTo($this->newTestedInstance)
-				->mock($recipient)
-					->receive('nintegerIs')
-						->withArguments(3)
-							->once
-
-			->if(
-				$firstOperand = -1,
-				$secondOperand = -2
-			)
-			->then
-				->object($this->testedInstance->recipientOfOperationOnNIntegersIs($firstOperand, $secondOperand, $recipient))
-					->isEqualTo($this->newTestedInstance)
-				->mock($recipient)
-					->receive('nintegerIs')
-						->withArguments(-3)
-							->once
-
-			->given(
-				$recipient = new mockOfNInteger\recipient,
 				$overflow = new mockOfBlock,
 				$this->newTestedInstance($overflow)
 			)
+
 			->if(
 				$firstOperand = PHP_INT_MAX,
 				$secondOperand = 1
@@ -77,6 +38,51 @@ class addition extends units\test
 				->mock($recipient)
 					->receive('nintegerIs')
 						->never
+				->mock($overflow)
+					->receive('blockArgumentsAre')
+						->once
+
+			->if(
+				$firstOperand = 0,
+				$secondOperand = 0
+			)
+			->then
+				->object($this->testedInstance->recipientOfOperationOnNIntegersIs($firstOperand, $secondOperand, $recipient))
+					->isEqualTo($this->newTestedInstance($overflow))
+				->mock($recipient)
+					->receive('nintegerIs')
+						->withArguments(0)
+							->once
+				->mock($overflow)
+					->receive('blockArgumentsAre')
+						->once
+
+			->if(
+				$firstOperand = 1,
+				$secondOperand = 2
+			)
+			->then
+				->object($this->testedInstance->recipientOfOperationOnNIntegersIs($firstOperand, $secondOperand, $recipient))
+					->isEqualTo($this->newTestedInstance($overflow))
+				->mock($recipient)
+					->receive('nintegerIs')
+						->withArguments(3)
+							->once
+				->mock($overflow)
+					->receive('blockArgumentsAre')
+						->once
+
+			->if(
+				$firstOperand = -1,
+				$secondOperand = -2
+			)
+			->then
+				->object($this->testedInstance->recipientOfOperationOnNIntegersIs($firstOperand, $secondOperand, $recipient))
+					->isEqualTo($this->newTestedInstance($overflow))
+				->mock($recipient)
+					->receive('nintegerIs')
+						->withArguments(-3)
+							->once
 				->mock($overflow)
 					->receive('blockArgumentsAre')
 						->once

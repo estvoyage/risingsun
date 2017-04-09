@@ -6,11 +6,7 @@ use estvoyage\risingsun\{ bench, time\duration, block, time };
 
 (new bench\micro)
 	->recipientOfDurationForBlockIs(
-		new block\functor(
-			function()
-			{
-			}
-		),
+		new block\blackhole,
 		new time\duration\recipient\functor(
 			function($duration)
 			{

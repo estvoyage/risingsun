@@ -45,7 +45,8 @@ class type extends units\test
 					->isEqualTo($this->newTestedInstance($ok, $ko))
 				->mock($ok)
 					->receive('blockArgumentsAre')
-						->once
+						->withArguments($value)
+							->once
 		;
 	}
 
@@ -67,7 +68,8 @@ class type extends units\test
 					->isEqualTo($this->newTestedInstance($ok, $ko))
 				->mock($ko)
 					->receive('blockArgumentsAre')
-						->once
+						->withArguments($value)
+							->once
 		;
 	}
 
