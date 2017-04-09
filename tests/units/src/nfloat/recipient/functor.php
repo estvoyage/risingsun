@@ -17,7 +17,7 @@ class functor extends units\test
 	{
 		$this
 			->given(
-				$nfloat = (float) rand(- PHP_INT_MAX, PHP_INT_MAX),
+				$nfloat = (float) rand(PHP_INT_MIN, PHP_INT_MAX),
 
 				$callable = function() use (& $arguments) {
 					$arguments = func_get_args();

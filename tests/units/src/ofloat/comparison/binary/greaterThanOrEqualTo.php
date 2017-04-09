@@ -100,7 +100,7 @@ class greaterThanOrEqualTo extends units\test
 						->never
 
 			->if(
-				$ofloatValue = rand(- PHP_INT_MAX, -1)
+				$ofloatValue = rand(PHP_INT_MIN, -1)
 			)
 			->then
 				->object($this->testedInstance->referenceForComparisonWithOFloatIs($ofloat, $reference))

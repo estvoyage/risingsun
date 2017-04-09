@@ -271,8 +271,8 @@ class any extends units\test
 			false,
 			'foobar',
 			new \stdclass,
-			rand(- PHP_INT_MAX, -1),
-			(string) rand(- PHP_INT_MAX, -1),
+			rand(PHP_INT_MIN, -1),
+			(string) rand(PHP_INT_MIN, -1),
 			- M_PI,
 			(string) - M_PI
 			- 1e9
@@ -295,7 +295,7 @@ class any extends units\test
 		return [
 			'',
 			'foobar',
-			(string) rand(- PHP_INT_MAX, -1),
+			(string) rand(PHP_INT_MIN, -1),
 			(string) - M_PI,
 			'-1e9'
 		];

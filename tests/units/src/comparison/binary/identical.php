@@ -51,7 +51,7 @@ class identical extends units\test
 						->once
 
 			->if(
-				$operand = rand(- PHP_INT_MAX, PHP_INT_MAX),
+				$operand = rand(PHP_INT_MIN, PHP_INT_MAX),
 				$reference = (string) $operand
 			)
 			->then
@@ -65,7 +65,7 @@ class identical extends units\test
 						->twice
 
 			->if(
-				$operand = rand(- PHP_INT_MAX, PHP_INT_MAX),
+				$operand = rand(PHP_INT_MIN, PHP_INT_MAX),
 				$reference = $operand
 			)
 			->then

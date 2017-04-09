@@ -74,7 +74,7 @@ class lessThanOrEqualTo extends units\test
 				}
 			)
 			->if(
-				$referenceValue = rand(0, - PHP_INT_MAX)
+				$referenceValue = rand(0, PHP_INT_MIN)
 			)
 			->then
 				->object($this->testedInstance->referenceForComparisonWithOIntegerIs($ointeger, $reference))

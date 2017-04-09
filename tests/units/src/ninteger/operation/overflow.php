@@ -103,7 +103,7 @@ class overflow extends units\test
 	{
 		return [
 			PHP_INT_MAX + 1,
-			- PHP_INT_MAX - PHP_INT_MAX
+			PHP_INT_MIN - PHP_INT_MAX
 		];
 	}
 

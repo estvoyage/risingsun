@@ -100,10 +100,10 @@ class any extends units\test
 	{
 		return [
 			0,
-			-PHP_INT_MAX,
+			PHP_INT_MIN,
 			PHP_INT_MAX,
 			'0',
-			(string) - PHP_INT_MAX,
+			(string) PHP_INT_MIN,
 			(string) PHP_INT_MAX,
 			'',
 			uniqid(),
@@ -115,7 +115,7 @@ class any extends units\test
 	{
 		return [
 			'0',
-			(string) - PHP_INT_MAX,
+			(string) PHP_INT_MIN,
 			(string) PHP_INT_MAX,
 			'',
 			uniqid()

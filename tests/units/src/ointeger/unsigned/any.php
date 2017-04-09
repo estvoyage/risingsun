@@ -76,8 +76,8 @@ class any extends units\test
 			true,
 			null,
 			new \stdClass,
-			rand(- PHP_INT_MAX, -1),
-			(string) rand(- PHP_INT_MAX, -1),
+			rand(PHP_INT_MIN, -1),
+			(string) rand(PHP_INT_MIN, -1),
 			new objectWith__toStringAsInvalidInteger
 		];
 	}
@@ -86,7 +86,7 @@ class any extends units\test
 	{
 		return [
 			'0',
-			(string) - PHP_INT_MAX,
+			(string) PHP_INT_MIN,
 			(string) PHP_INT_MAX,
 			new objectWith__toStringAsInteger
 		];

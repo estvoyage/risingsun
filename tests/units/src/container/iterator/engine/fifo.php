@@ -27,7 +27,7 @@ class fifo extends units\test
 				$controller = new mockOfContainer\iterator\engine\controller,
 				$payload = new mockOfContainer\iterator\payload,
 				$payloadValue1 = uniqid(),
-				$payloadValue2 = rand(- PHP_INT_MAX, PHP_INT_MAX),
+				$payloadValue2 = rand(PHP_INT_MIN, PHP_INT_MAX),
 				$payloadValue3 = M_PI
 			)
 			->if(

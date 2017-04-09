@@ -33,7 +33,7 @@ class any extends units\test
 						->never
 
 			->given(
-				$ointegerValue = rand(- PHP_INT_MAX, PHP_INT_MAX)
+				$ointegerValue = rand(PHP_INT_MIN, PHP_INT_MAX)
 			)
 			->if(
 				$this->calling($ointeger)->recipientOfNIntegerIs = function($recipient) use ($ointegerValue) {
@@ -48,7 +48,7 @@ class any extends units\test
 						->never
 
 			->given(
-				$referenceValue = rand(- PHP_INT_MAX, PHP_INT_MAX)
+				$referenceValue = rand(PHP_INT_MIN, PHP_INT_MAX)
 			)
 			->if(
 				$this->calling($reference)->recipientOfNIntegerIs = function($recipient) use ($referenceValue) {

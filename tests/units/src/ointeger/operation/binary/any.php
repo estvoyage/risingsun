@@ -34,7 +34,7 @@ class any extends units\test
 						->never
 
 			->given(
-				$firstOperandValue = rand(- PHP_INT_MAX, PHP_INT_MAX)
+				$firstOperandValue = rand(PHP_INT_MIN, PHP_INT_MAX)
 			)
 			->if(
 				$this->calling($firstOperand)->recipientOfNIntegerIs = function($recipient) use ($firstOperandValue) {
@@ -49,7 +49,7 @@ class any extends units\test
 						->never
 
 			->given(
-				$secondOperandValue = rand(- PHP_INT_MAX, PHP_INT_MAX)
+				$secondOperandValue = rand(PHP_INT_MIN, PHP_INT_MAX)
 			)
 			->if(
 				$this->calling($secondOperand)->recipientOfNIntegerIs = function($recipient) use ($secondOperandValue) {
@@ -64,7 +64,7 @@ class any extends units\test
 						->never
 
 			->given(
-				$operationValue = rand(- PHP_INT_MAX, PHP_INT_MAX)
+				$operationValue = rand(PHP_INT_MIN, PHP_INT_MAX)
 			)
 			->if(
 				$this->calling($noperation)->recipientOfOperationOnNIntegersIs = function($firstOperand, $secondOperand, $recipient) use ($firstOperandValue, $secondOperandValue, $operationValue) {

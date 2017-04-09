@@ -24,7 +24,7 @@ class any extends units\test
 	{
 		$this
 			->given(
-				$value = (float) rand(- PHP_INT_MAX, PHP_INT_MAX),
+				$value = (float) rand(PHP_INT_MIN, PHP_INT_MAX),
 				$recipient = new mockOfOFloat\recipient
 			)
 			->if(
@@ -267,8 +267,8 @@ class any extends units\test
 			'0.',
 			rand(1, PHP_INT_MAX),
 			(string) rand(1, PHP_INT_MAX),
-			rand(- PHP_INT_MAX, -1),
-			(string) rand(- PHP_INT_MAX, -1),
+			rand(PHP_INT_MIN, -1),
+			(string) rand(PHP_INT_MIN, -1),
 			M_PI,
 			(string) M_PI,
 			- M_PI,

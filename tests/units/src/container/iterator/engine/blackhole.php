@@ -20,7 +20,7 @@ class blackhole extends units\test
 			->given(
 				$payload = new mockOfContainer\iterator\payload,
 				$value1 = uniqid(),
-				$value2 = rand(- PHP_INT_MAX, PHP_INT_MAX),
+				$value2 = rand(PHP_INT_MIN, PHP_INT_MAX),
 				$value3 = new \stdClass
 			)
 			->if(
