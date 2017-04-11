@@ -1,9 +1,7 @@
 <?php namespace estvoyage\risingsun\time\duration;
 
-use estvoyage\risingsun\ointeger;
+use estvoyage\risingsun\time\duration;
 
-interface seconde
+interface seconde extends duration
 {
-	function recipientOfOIntegerIs(ointeger\recipient $recipient);
-	function recipientOfSecondeWithOIntegerIs(ointeger $ointeger, seconde\recipient $recipient);
 }

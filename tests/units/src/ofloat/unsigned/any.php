@@ -54,14 +54,14 @@ class any extends units\test
 							->once
 
 			->if(
-				$testedInstance = new childOfTestedClass
+				$testedInstance = $this->childOfTestedClass()
 			)
 			->then
 				->object($testedInstance->recipientOfDatumWithNStringIs($nstring, $recipient))
-					->isEqualTo(new childOfTestedClass)
+					->isEqualTo($this->childOfTestedClass())
 				->mock($recipient)
 					->receive('datumIs')
-						->withArguments(new childOfTestedClass($nstring))
+						->withArguments($this->childOfTestedClass($nstring))
 							->once
 		;
 	}

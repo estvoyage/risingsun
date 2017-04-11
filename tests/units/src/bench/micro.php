@@ -49,29 +49,29 @@ class micro extends units\test
 				$this->calling($clock)->recipientOfMicroUnixTimestampIs[3] = function($recipient) use ($stop) {
 					$recipient->microUnixTimestampIs($stop);
 				},
-				$this->calling($start)->recipientOfNFloatIs = function($recipient) {
-					$recipient->nfloatIs(2.);
+				$this->calling($start)->recipientOfNIntegerIs = function($recipient) {
+					$recipient->nintegerIs(2);
 				},
-				$this->calling($stop)->recipientOfMicroUnixTimestampWithNFloatIs = function($float, $recipient) use ($duration) {
+				$this->calling($stop)->recipientOfNIntegerIs = function($recipient) {
+					$recipient->nintegerIs(3);
+				},
+				$this->calling($stop)->recipientOfOIntegerWithNIntegerIs = function($ninteger, $recipient) use ($duration) {
 					(
 						new comparison\binary\equal
 						(
 							new block\functor(
 								function() use ($recipient, $duration)
 								{
-									$recipient->microUnixTimestampIs($duration);
+									$recipient->ointegerIs($duration);
 								}
 							)
 						)
 					)
 						->referenceForComparisonWithOperandIs(
-							$float,
-							1.
+							$ninteger,
+							1
 						)
 					;
-				},
-				$this->calling($stop)->recipientOfNFloatIs = function($recipient) {
-					$recipient->nfloatIs(3.);
 				}
 			)
 			->then

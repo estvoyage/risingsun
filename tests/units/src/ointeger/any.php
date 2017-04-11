@@ -72,14 +72,14 @@ class any extends units\test
 							->once
 
 			->if(
-				$childOfTestedClass = new childOfTestedClass
+				$childOfTestedClass = $this->childOfTestedClass()
 			)
 			->then
 				->object($childOfTestedClass->recipientOfOIntegerWithNIntegerIs($value, $recipient))
-					->isEqualTo($childOfTestedClass)
+					->isEqualTo($this->childOfTestedClass())
 				->mock($recipient)
 					->receive('ointegerIs')
-						->withArguments(new childOfTestedClass($value))
+						->withArguments($this->childOfTestedClass($value))
 							->once
 		;
 	}
@@ -159,14 +159,14 @@ class any extends units\test
 							->once
 
 			->if(
-				$testedInstance = new childOfTestedClass
+				$testedInstance = $this->childOfTestedClass()
 			)
 			->then
 				->object($testedInstance->recipientOfDatumWithNStringIs($nstring, $recipient))
-					->isEqualTo($testedInstance)
+					->isEqualTo($this->childOfTestedClass())
 				->mock($recipient)
 					->receive('datumIs')
-						->withArguments(new childOfTestedClass($nstring))
+						->withArguments($this->childOfTestedClass($nstring))
 							->once
 		;
 	}

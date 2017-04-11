@@ -3,7 +3,7 @@
 require __DIR__ . '/../../../../../runner.php';
 
 use estvoyage\risingsun\tests\units;
-use mock\estvoyage\risingsun\{ ointeger as mockOfOInteger, time as mockOfTime };
+use mock\estvoyage\risingsun\{ ninteger as mockOfNInteger, time as mockOfTime };
 
 class any extends units\test
 {
@@ -19,57 +19,53 @@ class any extends units\test
 		$this->object($this->newTestedInstance)->isEqualTo($this->newTestedInstance(0));
 	}
 
-	function testRecipientOfOIntegerIs()
+	function testRecipientOfNIntegerIs()
 	{
 		$this
 			->given(
-				$recipient = new mockOfOInteger\recipient
+				$recipient = new mockOfNInteger\recipient
 			)
 			->if(
 				$this->newTestedInstance
 			)
 			->then
-				->object($this->testedInstance->recipientOfOIntegerIs($recipient))
+				->object($this->testedInstance->recipientOfNIntegerIs($recipient))
 					->isEqualTo($this->newTestedInstance)
 				->mock($recipient)
-					->receive('ointegerIs')
-						->withArguments($this->testedInstance)
+					->receive('nintegerIs')
+						->withArguments(0)
 							->once
 		;
 	}
 
-	function testRecipientOfMicroSecondWithOIntegerIs()
+	/**
+	 * @dataProvider okProvider
+	 */
+	function testRecipientOfMicroSecondWithNIntegerIs($ninteger)
 	{
 		$this
 			->given(
-				$ointeger = new mockOfOInteger,
 				$recipient = new mockOfTime\duration\seconde\micro\recipient
 			)
 			->if(
 				$this->newTestedInstance(0)
 			)
 			->then
-				->object($this->testedInstance->recipientOfMicroSecondeWithOIntegerIs($ointeger, $recipient))
+				->object($this->testedInstance->recipientOfMicroSecondeWithNIntegerIs($ninteger, $recipient))
 					->isEqualTo($this->newTestedInstance(0))
 				->mock($recipient)
 					->receive('microSecondeIs')
-						->never
-
-			->given(
-				$this->calling($ointeger)->recipientOfNIntegerIs = function($recipient) use (& $ointegerValue) {
-					$recipient->nintegerIs($ointegerValue);
-				}
-			)
-			->if(
-				$ointegerValue = rand(PHP_INT_MIN, PHP_INT_MAX)
-			)
-			->then
-				->object($this->testedInstance->recipientOfMicroSecondeWithOIntegerIs($ointeger, $recipient))
-					->isEqualTo($this->newTestedInstance(0))
-				->mock($recipient)
-					->receive('microSecondeIs')
-						->withArguments($this->newTestedInstance($ointegerValue))
+						->withArguments($this->newTestedInstance($ninteger))
 							->once
 		;
+	}
+
+	protected function okProvider()
+	{
+		return [
+			rand(PHP_INT_MIN, -1),
+			0,
+			rand(1, PHP_INT_MAX)
+		];
 	}
 }

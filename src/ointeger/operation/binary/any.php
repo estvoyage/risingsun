@@ -17,35 +17,19 @@ class any
 
 	function recipientOfOperationOnOIntegersIs(ointeger $firstOperand, ointeger $secondOperand, ointeger\recipient $recipient)
 	{
-		$firstOperand->recipientOfNIntegerIs(
-			new functor(
-				function($firstOperandValue) use ($firstOperand, $secondOperand, $recipient)
-				{
-					$secondOperand->recipientOfNIntegerIs(
-						new functor(
-							function($secondOperandValue) use ($firstOperand, $firstOperandValue, $recipient)
-							{
-								$this->operation
-									->recipientOfOperationOnNIntegersIs(
-										$firstOperandValue,
-										$secondOperandValue,
-										new functor(
-											function($operation) use ($firstOperand, $recipient)
-											{
-												$firstOperand->recipientOfOIntegerWithNIntegerIs(
-													$operation,
-													$recipient
-												);
-											}
-										)
-									)
-								;
-							}
-						)
-					);
-				}
+		(new ointeger\ninteger\operation\binary($firstOperand, $secondOperand, $this->operation))
+			->recipientOfNIntegerIs(
+				new ninteger\recipient\functor(
+					function($ninteger) use ($firstOperand, $recipient)
+					{
+						$firstOperand->recipientOfOIntegerWithNIntegerIs(
+							$ninteger,
+							$recipient
+						);
+					}
+				)
 			)
-		);
+		;
 
 		return $this;
 	}

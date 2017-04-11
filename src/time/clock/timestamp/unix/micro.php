@@ -1,6 +1,6 @@
 <?php namespace estvoyage\risingsun\time\clock\timestamp\unix;
 
-use estvoyage\risingsun\{ time, time\duration\timestamp, ofloat };
+use estvoyage\risingsun\{ time, time\duration\timestamp, ointeger };
 
 class micro
 	implements
@@ -18,9 +18,9 @@ class micro
 	function recipientOfMicroUnixTimestampIs(timestamp\unix\micro\recipient $recipient)
 	{
 		$this->template
-			->recipientOfMicroUnixTimestampWithNFloatIs(
-				microtime(true),
-				new timestamp\unix\micro\recipient\functor(
+			->recipientOfOIntegerWithNIntegerIs(
+				microtime(true) * 1000000,
+				new ointeger\recipient\functor(
 					function($timestamp) use ($recipient)
 					{
 						$recipient->microUnixTimestampIs($timestamp);

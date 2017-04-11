@@ -5,10 +5,12 @@ require __DIR__ . '/../../../../runner.php';
 use estvoyage\risingsun\{ tests\units, time, comparison, block };
 use mock\estvoyage\risingsun\time as mockOfTime;
 
-class any extends units\test
+class any extends units\time\duration\any
 {
-	function test__construct()
+	function testClass()
 	{
-		$this->object($this->newTestedInstance)->isEqualTo($this->newTestedInstance(0));
+		$this->testedClass
+			->implements('estvoyage\risingsun\time\duration\seconde')
+		;
 	}
 }

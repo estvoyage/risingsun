@@ -2,6 +2,8 @@
 
 use estvoyage\risingsun\{ ointeger, ninteger, time\duration };
 
-class any extends ointeger\unsigned\any
+class any extends duration\any
+	implements
+		duration\seconde
 {
 }

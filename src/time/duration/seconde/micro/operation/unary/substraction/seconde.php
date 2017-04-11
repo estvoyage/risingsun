@@ -1,6 +1,6 @@
 <?php namespace estvoyage\risingsun\time\duration\seconde\micro\operation\unary\substraction;
 
-use estvoyage\risingsun\{ time\duration, ointeger };
+use estvoyage\risingsun\{ time\duration, ninteger };
 
 class seconde
 {
@@ -16,31 +16,31 @@ class seconde
 	function microSecondeRecipientForOperationWithMicroSecondeIs(duration\seconde\micro $micro, duration\seconde\micro\recipient $recipient)
 	{
 		$micro
-			->recipientOfOIntegerIs(
-				new ointeger\recipient\functor(
+			->recipientOfNIntegerIs(
+				new ninteger\recipient\functor(
 					function($microValue) use ($micro, $recipient)
 					{
 						$this->seconde
-							->recipientOfOIntegerIs(
-								new ointeger\recipient\functor(
+							->recipientOfNIntegerIs(
+								new ninteger\recipient\functor(
 									function($secondeValue) use ($micro, $microValue, $recipient)
 									{
-										(new ointeger\operation\binary\multiplication)
-											->recipientOfOperationOnOIntegersIs(
+										(new ninteger\operation\binary\multiplication)
+											->recipientOfOperationOnNIntegersIs(
 												$secondeValue,
-												new ointeger\any(1000000),
-												new ointeger\recipient\functor(
+												1000000,
+												new ninteger\recipient\functor(
 													function($secondAsMicro) use ($micro, $microValue, $recipient)
 													{
-														(new ointeger\operation\binary\substraction)
-															->recipientOfOperationOnOIntegersIs(
+														(new ninteger\operation\binary\substraction)
+															->recipientOfOperationOnNIntegersIs(
 																$secondAsMicro,
 																$microValue,
-																new ointeger\recipient\functor(
+																new ninteger\recipient\functor(
 																	function($substraction) use ($micro, $recipient)
 																	{
 																		$micro
-																			->recipientOfMicroSecondeWithOIntegerIs(
+																			->recipientOfMicroSecondeWithNIntegerIs(
 																				$substraction,
 																				$recipient
 																			)

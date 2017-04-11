@@ -1,6 +1,6 @@
 <?php namespace estvoyage\risingsun\time\duration\seconde\micro\operation\unary\division\euclidean;
 
-use estvoyage\risingsun\{ time\duration, ointeger };
+use estvoyage\risingsun\{ time\duration, ninteger, ointeger };
 
 class seconde
 {
@@ -8,29 +8,34 @@ class seconde
 		$template
 	;
 
-	function __construct(duration\seconde $template)
+	function __construct(duration\seconde $template = null)
 	{
-		$this->template = $template;
+		$this->template = $template ?: new duration\seconde\any;
 	}
 
 	function secondeRecipientForOperationWithMicroSecondeIs(duration\seconde\micro $micro, duration\seconde\recipient $recipient)
 	{
 		$micro
-			->recipientOfOIntegerIs(
-				new ointeger\recipient\functor(
-					function($microAsOInteger) use ($recipient)
+			->recipientOfNIntegerIs(
+				new ninteger\recipient\functor(
+					function($ninteger) use ($recipient)
 					{
-						(new ointeger\operation\binary\division)
-							->recipientOfOperationOnOIntegersIs(
-								$microAsOInteger,
-								new ointeger\any(1000000),
-								new ointeger\recipient\functor(
-									function($secondeInMicroAsOInteger) use ($recipient)
+						(new ninteger\operation\binary\division)
+							->recipientOfOperationOnNIntegersIs(
+								$ninteger,
+								1000000,
+								new ninteger\recipient\functor(
+									function($ninteger) use ($recipient)
 									{
 										$this->template
-											->recipientOfSecondeWithOIntegerIs(
-												$secondeInMicroAsOInteger,
-												$recipient
+											->recipientOfOIntegerWithNIntegerIs(
+												$ninteger,
+												new ointeger\recipient\functor(
+													function($seconde) use ($recipient)
+													{
+														$recipient->secondeIs($seconde);
+													}
+												)
 											)
 										;
 									}

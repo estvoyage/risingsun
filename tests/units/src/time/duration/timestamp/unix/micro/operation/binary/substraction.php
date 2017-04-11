@@ -2,8 +2,8 @@
 
 require __DIR__ . '/../../../../../../../../runner.php';
 
-use estvoyage\risingsun\tests\units;
-use mock\estvoyage\risingsun\{ nfloat as mockOfNFloat, time\duration\timestamp\unix\micro as mockOfTimestamp };
+use estvoyage\risingsun\{ tests\units, comparison, block };
+use mock\estvoyage\risingsun\{ ninteger as mockOfNInteger, time\duration\timestamp\unix\micro as mockOfTimestamp };
 
 class substraction extends units\test
 {
@@ -33,19 +33,31 @@ class substraction extends units\test
 						->never
 
 			->given(
-				$firstOperandValue = 3.2,
-				$secondOperandValue = 1.2,
 				$microUnixTimestamp = new mockOfTimestamp
 			)
 			->if(
-				$this->calling($firstOperand)->recipientOfNFloatIs = function($recipient) use ($firstOperandValue) {
-					$recipient->nfloatIs($firstOperandValue);
+				$this->calling($firstOperand)->recipientOfNIntegerIs = function($recipient) {
+					$recipient->nintegerIs(3);
 				},
-				$this->calling($firstOperand)->recipientOfMicroUnixTimestampWithNFloatIs = function($nfloat, $recipient) use ($microUnixTimestamp) {
-					$recipient->microUnixTimestampIs($microUnixTimestamp);
+				$this->calling($secondOperand)->recipientOfNIntegerIs = function($recipient) {
+					$recipient->nintegerIs(2);
 				},
-				$this->calling($secondOperand)->recipientOfNFloatIs = function($recipient) use ($secondOperandValue) {
-					$recipient->nfloatIs($secondOperandValue);
+				$this->calling($firstOperand)->recipientOfOIntegerWithNIntegerIs = function($ninteger, $recipient) use ($microUnixTimestamp) {
+					(
+						new comparison\binary\equal(
+							new block\functor(
+								function() use ($recipient, $microUnixTimestamp)
+								{
+									$recipient->ointegerIs($microUnixTimestamp);
+								}
+							)
+						)
+					)
+						->referenceForComparisonWithOperandIs(
+							$ninteger,
+							1
+						)
+					;
 				}
 			)
 			->then
@@ -54,10 +66,6 @@ class substraction extends units\test
 				->mock($recipient)
 					->receive('microUnixTimestampIs')
 						->withArguments($microUnixTimestamp)
-							->once
-				->mock($firstOperand)
-					->receive('recipientOfMicroUnixTimestampWithNFloatIs')
-						->withArguments(2.)
 							->once
 		;
 	}

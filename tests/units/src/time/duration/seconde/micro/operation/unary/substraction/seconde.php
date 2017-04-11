@@ -2,12 +2,12 @@
 
 require __DIR__ . '/../../../../../../../../runner.php';
 
-use estvoyage\risingsun\{ tests\units, ointeger, comparison, block };
+use estvoyage\risingsun\{ tests\units, ninteger, comparison, block };
 use mock\estvoyage\risingsun\time as mockOfTime;
 
 class seconde extends units\test
 {
-	function testMicroSecondRecipientForOperationWithMicroSecondeIs()
+	function testMicroSecondRecipientForOperationWithMicroSecondeIs_withBlackhole()
 	{
 		$this
 			->given(
@@ -24,51 +24,31 @@ class seconde extends units\test
 				->mock($recipient)
 					->receive('microSecondeIs')
 						->never
+		;
+	}
 
-			->if(
-				$this->calling($micro)->recipientOfOIntegerIs = function($recipient) {
-					$recipient->ointegerIs(new ointeger\any);
-				},
-
-				$microFromOperation = new mockOfTime\duration\seconde\micro,
-
-				$this->calling($micro)->recipientOfMicroSecondeWithOIntegerIs = function($ointeger, $recipient) use ($microFromOperation) {
-					(
-						new ointeger\comparison\binary\equal(
-							new block\functor(
-								function() use ($microFromOperation, $recipient)
-								{
-									$recipient->microSecondeIs($microFromOperation);
-								}
-							)
-						)
-					)
-						->referenceForComparisonWithOIntegerIs($ointeger, new ointeger\any)
-					;
-				},
-
-				$this->calling($seconde)->recipientOfOIntegerIs = function($recipient) {
-					$recipient->ointegerIs(new ointeger\any);
-				}
+	/**
+	 * @dataProvider substractionProvider
+	 */
+	function testMicroSecondRecipientForOperationWithMicroSecondeIs($microValue, $secondeValue, $substraction)
+	{
+		$this
+			->given(
+				$seconde = new mockOfTime\duration\seconde,
+				$recipient = new mockOfTime\duration\seconde\micro\recipient,
+				$micro = new mockOfTime\duration\seconde\micro,
+				$this->newTestedInstance($seconde)
 			)
-			->then
-				->object($this->testedInstance->microSecondeRecipientForOperationWithMicroSecondeIs($micro, $recipient))
-					->isEqualTo($this->newTestedInstance($seconde))
-				->mock($recipient)
-					->receive('microSecondeIs')
-						->withArguments($microFromOperation)
-							->once
-
 			->if(
-				$this->calling($micro)->recipientOfOIntegerIs = function($recipient) {
-					$recipient->ointegerIs(new ointeger\any(1000000));
+				$this->calling($micro)->recipientOfNIntegerIs = function($recipient) use ($microValue) {
+					$recipient->nintegerIs($microValue);
 				},
 
 				$microFromOperation = new mockOfTime\duration\seconde\micro,
 
-				$this->calling($micro)->recipientOfMicroSecondeWithOIntegerIs = function($ointeger, $recipient) use ($microFromOperation) {
+				$this->calling($micro)->recipientOfMicroSecondeWithNIntegerIs = function($ninteger, $recipient) use ($microFromOperation, $substraction) {
 					(
-						new ointeger\comparison\binary\equal(
+						new comparison\binary\equal(
 							new block\functor(
 								function() use ($microFromOperation, $recipient)
 								{
@@ -77,80 +57,12 @@ class seconde extends units\test
 							)
 						)
 					)
-						->referenceForComparisonWithOIntegerIs($ointeger, new ointeger\any(-1000000))
+						->referenceForComparisonWithOperandIs($ninteger, $substraction)
 					;
 				},
 
-				$this->calling($seconde)->recipientOfOIntegerIs = function($recipient) {
-					$recipient->ointegerIs(new ointeger\any);
-				}
-			)
-			->then
-				->object($this->testedInstance->microSecondeRecipientForOperationWithMicroSecondeIs($micro, $recipient))
-					->isEqualTo($this->newTestedInstance($seconde))
-				->mock($recipient)
-					->receive('microSecondeIs')
-						->withArguments($microFromOperation)
-							->once
-
-			->if(
-				$this->calling($micro)->recipientOfOIntegerIs = function($recipient) {
-					$recipient->ointegerIs(new ointeger\any(1000000));
-				},
-
-				$microFromOperation = new mockOfTime\duration\seconde\micro,
-
-				$this->calling($micro)->recipientOfMicroSecondeWithOIntegerIs = function($ointeger, $recipient) use ($microFromOperation) {
-					(
-						new ointeger\comparison\binary\equal(
-							new block\functor(
-								function() use ($microFromOperation, $recipient)
-								{
-									$recipient->microSecondeIs($microFromOperation);
-								}
-							)
-						)
-					)
-						->referenceForComparisonWithOIntegerIs($ointeger, new ointeger\any)
-					;
-				},
-
-				$this->calling($seconde)->recipientOfOIntegerIs = function($recipient) {
-					$recipient->ointegerIs(new ointeger\any(1));
-				}
-			)
-			->then
-				->object($this->testedInstance->microSecondeRecipientForOperationWithMicroSecondeIs($micro, $recipient))
-					->isEqualTo($this->newTestedInstance($seconde))
-				->mock($recipient)
-					->receive('microSecondeIs')
-						->withArguments($microFromOperation)
-							->once
-
-			->if(
-				$this->calling($micro)->recipientOfOIntegerIs = function($recipient) {
-					$recipient->ointegerIs(new ointeger\any(1600000));
-				},
-
-				$microFromOperation = new mockOfTime\duration\seconde\micro,
-
-				$this->calling($micro)->recipientOfMicroSecondeWithOIntegerIs = function($ointeger, $recipient) use ($microFromOperation) {
-					(
-						new ointeger\comparison\binary\equal(
-							new block\functor(
-								function() use ($microFromOperation, $recipient)
-								{
-									$recipient->microSecondeIs($microFromOperation);
-								}
-							)
-						)
-					)
-						->referenceForComparisonWithOIntegerIs($ointeger, new ointeger\any(400000))
-					;
-				},
-
-				$this->calling($seconde)->recipientOfOIntegerIs = function($recipient) {
-					$recipient->ointegerIs(new ointeger\any(2));
+				$this->calling($seconde)->recipientOfNIntegerIs = function($recipient) use ($secondeValue) {
+					$recipient->nintegerIs($secondeValue);
 				}
 			)
 			->then
@@ -161,5 +73,15 @@ class seconde extends units\test
 						->withArguments($microFromOperation)
 							->once
 		;
+	}
+
+	protected function substractionProvider()
+	{
+		return [
+			[ 0, 0, 0 ],
+			[ 1000000, 0, - 1000000 ],
+			[ 1000000, 1, 0 ],
+			[ 1600000, 2, 400000 ]
+		];
 	}
 }

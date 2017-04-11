@@ -2,8 +2,8 @@
 
 require __DIR__ . '/../../../../../../../../runner.php';
 
-use estvoyage\risingsun\tests\units;
-use mock\estvoyage\risingsun\{ nfloat as mockOfNFloat, time\duration\timestamp\unix\micro as mockOfTimestamp };
+use estvoyage\risingsun\{ tests\units, comparison, block };
+use mock\estvoyage\risingsun\{ ninteger as mockOfNInteger, time\duration\timestamp\unix\micro as mockOfTimestamp };
 
 class any extends units\test
 {
@@ -18,7 +18,7 @@ class any extends units\test
 	{
 		$this
 			->given(
-				$operation = new mockOfNFloat\operation\binary,
+				$operation = new mockOfNInteger\operation\binary,
 				$firstOperand = new mockOfTimestamp,
 				$secondOperand = new mockOfTimestamp,
 				$recipient = new mockOfTimestamp\recipient
@@ -29,87 +29,74 @@ class any extends units\test
 			->then
 				->object($this->testedInstance->recipientOfOperationOnMicroUnixTimestampsIs($firstOperand, $secondOperand, $recipient))
 					->isEqualTo($this->newTestedInstance($operation))
-				->mock($operation)
-					->receive('recipientOfOperationOnNFloatsIs')
+				->mock($recipient)
+					->receive('microUnixTimestampIs')
 						->never
+
+			->if(
+				$this->calling($firstOperand)->recipientOfNIntegerIs = function($recipient) {
+					$recipient->nintegerIs(1);
+				}
+			)
+			->then
+				->object($this->testedInstance->recipientOfOperationOnMicroUnixTimestampsIs($firstOperand, $secondOperand, $recipient))
+					->isEqualTo($this->newTestedInstance($operation))
+				->mock($recipient)
+					->receive('microUnixTimestampIs')
+						->never
+
+			->if(
+				$this->calling($secondOperand)->recipientOfNIntegerIs = function($recipient) {
+					$recipient->nintegerIs(2);
+				}
+			)
+			->then
+				->object($this->testedInstance->recipientOfOperationOnMicroUnixTimestampsIs($firstOperand, $secondOperand, $recipient))
+					->isEqualTo($this->newTestedInstance($operation))
+				->mock($recipient)
+					->receive('microUnixTimestampIs')
+						->never
+
+			->if(
+				$this->calling($operation)->recipientOfOperationOnNIntegersIs = function($firstOperand, $secondOperand, $recipient) {
+					$recipient->nintegerIs(3);
+				}
+			)
+			->then
+				->object($this->testedInstance->recipientOfOperationOnMicroUnixTimestampsIs($firstOperand, $secondOperand, $recipient))
+					->isEqualTo($this->newTestedInstance($operation))
 				->mock($recipient)
 					->receive('microUnixTimestampIs')
 						->never
 
 			->given(
-				$this->calling($firstOperand)->recipientOfNFloatIs = function($recipient) use (& $firstOperandValue) {
-					$recipient->nfloatIs($firstOperandValue);
-				}
+				$timestamp = new mockOfTimestamp
 			)
 			->if(
-				$firstOperandValue = 1.2
+				$this->calling($firstOperand)->recipientOfOIntegerWithNIntegerIs = function($ninteger, $recipient) use ($timestamp) {
+					(
+						new comparison\binary\equal(
+							new block\functor(
+								function() use ($recipient, $timestamp)
+								{
+									$recipient->ointegerIs($timestamp);
+								}
+							)
+						)
+					)
+						->referenceForComparisonWithOperandIs(
+							$ninteger,
+							3
+						)
+					;
+				}
 			)
 			->then
 				->object($this->testedInstance->recipientOfOperationOnMicroUnixTimestampsIs($firstOperand, $secondOperand, $recipient))
 					->isEqualTo($this->newTestedInstance($operation))
-				->mock($operation)
-					->receive('recipientOfOperationOnNFloatsIs')
-						->never
 				->mock($recipient)
 					->receive('microUnixTimestampIs')
-						->never
-
-			->given(
-				$this->calling($secondOperand)->recipientOfNFloatIs = function($recipient) use (& $secondOperandValue) {
-					$recipient->nfloatIs($secondOperandValue);
-				}
-			)
-			->if(
-				$secondOperandValue = 3.6
-			)
-			->then
-				->object($this->testedInstance->recipientOfOperationOnMicroUnixTimestampsIs($firstOperand, $secondOperand, $recipient))
-					->isEqualTo($this->newTestedInstance($operation))
-				->mock($operation)
-					->receive('recipientOfOperationOnNFloatsIs')
-						->withArguments($firstOperandValue, $secondOperandValue)
-							->once
-				->mock($recipient)
-					->receive('microUnixTimestampIs')
-						->never
-
-			->given(
-				$this->calling($operation)->recipientOfOperationOnNFloatsIs = function($firstOperand, $secondOperand, $recipient) use (& $operationValue) {
-					$recipient->nfloatIs($operationValue);
-				}
-			)
-			->if(
-				$operationValue = M_PI
-			)
-			->then
-				->object($this->testedInstance->recipientOfOperationOnMicroUnixTimestampsIs($firstOperand, $secondOperand, $recipient))
-					->isEqualTo($this->newTestedInstance($operation))
-				->mock($operation)
-					->receive('recipientOfOperationOnNFloatsIs')
-						->withArguments($firstOperandValue, $secondOperandValue)
-							->twice
-				->mock($recipient)
-					->receive('microUnixTimestampIs')
-						->never
-
-			->given(
-				$this->calling($firstOperand)->recipientOfMicroUnixTimestampWithNFloatIs = function($float, $recipient) use (& $timestampFromFloat) {
-					$recipient->microUnixTimestampIs($timestampFromFloat);
-				}
-			)
-			->if(
-				$timestampFromFloat = new mockOfTimestamp
-			)
-			->then
-				->object($this->testedInstance->recipientOfOperationOnMicroUnixTimestampsIs($firstOperand, $secondOperand, $recipient))
-					->isEqualTo($this->newTestedInstance($operation))
-				->mock($operation)
-					->receive('recipientOfOperationOnNFloatsIs')
-						->withArguments($firstOperandValue, $secondOperandValue)
-							->thrice
-				->mock($recipient)
-					->receive('microUnixTimestampIs')
-						->withArguments($timestampFromFloat)
+						->withArguments($timestamp)
 							->once
 		;
 	}

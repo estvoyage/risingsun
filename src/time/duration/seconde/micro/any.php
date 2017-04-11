@@ -6,18 +6,11 @@ class any extends ointeger\any
 	implements
 		duration\seconde\micro
 {
-	function recipientOfOIntegerIs(ointeger\recipient $recipient)
-	{
-		$recipient->ointegerIs($this);
-
-		return $this;
-	}
-
-	function recipientOfMicroSecondeWithOIntegerIs(ointeger $ointeger, duration\seconde\micro\recipient $recipient)
+	function recipientOfMicroSecondeWithNIntegerIs(int $ninteger, duration\seconde\micro\recipient $recipient)
 	{
 		return $this
-			->recipientOfOIntegerWithOIntegerIs(
-				$ointeger,
+			->recipientOfOIntegerWithNIntegerIs(
+				$ninteger,
 				new ointeger\recipient\functor(
 					function($microSeconde) use ($recipient)
 					{

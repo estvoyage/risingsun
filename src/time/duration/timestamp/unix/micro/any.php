@@ -1,45 +1,9 @@
 <?php namespace estvoyage\risingsun\time\duration\timestamp\unix\micro;
 
-use estvoyage\risingsun\{ time\duration\timestamp\unix\micro, ofloat, ointeger };
+use estvoyage\risingsun\time\duration;
 
-class any extends ofloat\unsigned\any
+class any extends duration\any
 	implements
-		micro
+		duration\timestamp\unix\micro
 {
-	function recipientOfMicroUnixTimestampWithNFloatIs(float $float, micro\recipient $recipient)
-	{
-		$this
-			->recipientOfOFloatWithNFloatIs(
-				$float,
-				new ofloat\recipient\functor(
-					function($timestamp) use ($recipient)
-					{
-						$recipient->microUnixTimestampIs($timestamp);
-					}
-				)
-			)
-		;
-
-		return $this;
-	}
-
-	function recipientOfNumberOfDayIs(ointeger\unsigned\recipient $recipient)
-	{
-	}
-
-	function recipientOfNumberOfHourIs(ointeger\unsigned\recipient $recipient)
-	{
-	}
-
-	function recipientOfNumberOfMinuteIs(ointeger\unsigned\recipient $recipient)
-	{
-	}
-
-	function recipientOfNumberOfSecondIs(ointeger\unsigned\recipient $recipient)
-	{
-	}
-
-	function recipientOfNumberOfMicroSecondIs(ointeger\unsigned\recipient $recipient)
-	{
-	}
 }

@@ -4,6 +4,4 @@ use estvoyage\risingsun\{ ofloat, nfloat, time\duration };
 
 interface micro extends duration
 {
-	function recipientOfNFloatIs(nfloat\recipient $recipient);
-	function recipientOfMicroUnixTimestampWithNFloatIs(float $float, micro\recipient $recipient);
 }

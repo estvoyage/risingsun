@@ -1,9 +1,9 @@
 <?php namespace estvoyage\risingsun\time\duration\seconde;
 
-use estvoyage\risingsun\ointeger;
+use estvoyage\risingsun\ninteger;
 
 interface micro
 {
-	function recipientOfOIntegerIs(ointeger\recipient $recipient);
-	function recipientOfMicroSecondeWithOIntegerIs(ointeger $ointeger, micro\recipient $recipient);
+	function recipientOfNIntegerIs(ninteger\recipient $recipient);
+	function recipientOfMicroSecondeWithNIntegerIs(int $ninteger, micro\recipient $recipient);
 }

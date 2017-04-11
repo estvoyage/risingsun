@@ -64,14 +64,14 @@ class rewritable extends units\test
 							->once
 
 			->if(
-				$childOfTestedClass = new childOfTestedClass
+				$childOfTestedClass = $this->childOfTestedClass()
 			)
 			->then
 				->object($childOfTestedClass->recipientOfDictionaryWithPairIs($pair, $recipient))
-					->isEqualTo($childOfTestedClass)
+					->isEqualTo($this->childOfTestedClass())
 				->mock($recipient)
 					->receive('dictionaryIs')
-						->withArguments(new childOfTestedClass($pair))
+						->withArguments($this->childOfTestedClass($pair))
 							->once
 		;
 	}

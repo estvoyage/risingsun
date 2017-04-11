@@ -2,7 +2,7 @@
 
 require __DIR__ . '/../../../../../runner.php';
 
-use estvoyage\risingsun\{ tests\units, time\duration\timestamp };
+use estvoyage\risingsun\{ tests\units, comparison, block, time\duration\timestamp };
 use mock\estvoyage\risingsun\{ time\duration\timestamp\unix as mockOfUnix, ofloat as mockOfOFloat };
 
 class micro extends units\test
@@ -25,10 +25,12 @@ class micro extends units\test
 			->given(
 				$template = new mockOfUnix\micro,
 				$recipient = new mockOfUnix\micro\recipient,
-				$now = M_PI
+				$now = microtime(true)
 			)
 			->if(
-				$this->function->microtime = $now,
+				$this->function->microtime = function($float) use ($now) {
+					return $float ? $now : 0.145677877 . ' ' .  rand(0, PHP_INT_MAX);
+				},
 				$this->newTestedInstance($template)
 			)
 			->then
@@ -37,20 +39,27 @@ class micro extends units\test
 				->mock($recipient)
 					->receive('microUnixTimestampIs')
 						->never
-				->function('microtime')
-					->wasCalledWithArguments(true)
-						->once
-				->mock($template)
-					->receive('recipientOfMicroUnixTimestampWithNFloatIs')
-						->withArguments($now)
-							->once
 
 			->given(
 				$timestamp = new mockOfUnix\micro
 			)
 			->if(
-				$this->calling($template)->recipientOfMicroUnixTimestampWithNFloatIs = function($nfloat, $recipient) use ($timestamp) {
-					$recipient->microUnixTimestampIs($timestamp);
+				$this->calling($template)->recipientOfOIntegerWithNIntegerIs = function($ninteger, $recipient) use ($now, $timestamp) {
+					(
+						new comparison\binary\equal(
+							new block\functor(
+								function() use ($recipient, $timestamp)
+								{
+									$recipient->ointegerIs($timestamp);
+								}
+							)
+						)
+					)
+						->referenceForComparisonWithOperandIs(
+							$ninteger,
+							$now * 1000000
+						)
+					;
 				}
 			)
 			->then
@@ -60,13 +69,6 @@ class micro extends units\test
 					->receive('microUnixTimestampIs')
 						->withArguments($timestamp)
 							->once
-				->function('microtime')
-					->wasCalledWithArguments(true)
-						->twice
-				->mock($template)
-					->receive('recipientOfMicroUnixTimestampWithNFloatIs')
-						->withArguments($now)
-							->twice
 		;
 	}
 }

@@ -38,14 +38,14 @@ class block extends units\test
 						->withArguments($this->newTestedInstance($otherBlock))
 							->once
 			->if(
-				$testedInstance = new childOfTestedClass($block)
+				$testedInstance = $this->childOfTestedClass($block)
 			)
 			->then
 				->object($testedInstance->recipientOfContainerIteratorEngineControllerWithBlockIs($otherBlock, $recipient))
-					->isEqualTo(new childOfTestedClass($block))
+					->isEqualTo($this->childOfTestedClass($block))
 				->mock($recipient)
 					->receive('containerIteratorEngineControllerIs')
-						->withArguments(new childOfTestedClass($otherBlock))
+						->withArguments($this->childOfTestedClass($otherBlock))
 							->once
 		;
 	}

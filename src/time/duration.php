@@ -1,7 +1,7 @@
 <?php namespace estvoyage\risingsun\time;
 
-use estvoyage\risingsun\{ datum, ointeger };
+use estvoyage\risingsun\ointeger;
 
-interface duration extends datum
+interface duration extends ointeger
 {
 }

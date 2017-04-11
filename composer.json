@@ -20,7 +20,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "estvoyage\\risingsun\\tests\\units\\": "tests/units"
+            "estvoyage\\risingsun\\tests\\units\\": "tests/units/src"
         }
     }
 }

@@ -2,11 +2,16 @@
 
 require __DIR__ . '/../../../../../../../../../runner.php';
 
-use estvoyage\risingsun\{ tests\units, comparison, block, ointeger };
+use estvoyage\risingsun\{ tests\units, comparison, block, ointeger, time };
 use mock\estvoyage\risingsun\{ time as mockOfTime, ointeger as mockOfOInteger };
 
 class seconde extends units\test
 {
+	function test__construct()
+	{
+		$this->object($this->newTestedInstance)->isEqualTo($this->newTestedInstance(new time\duration\seconde\any));
+	}
+
 	function testRecipientOfOperationWithMicroSecondIs()
 	{
 		$this
@@ -26,34 +31,24 @@ class seconde extends units\test
 						->never
 
 			->given(
-				$microAsOInteger = new mockOfOInteger,
-
-				$this->calling($microAsOInteger)->recipientOfNIntegerIs = function($recipient) use (& $microValue) {
+				$this->calling($micro)->recipientOfNIntegerIs = function($recipient) use (& $microValue) {
 					$recipient->nintegerIs($microValue);
-				},
-
-				$this->calling($microAsOInteger)->recipientOfOIntegerWithNIntegerIs = function($ninteger, $recipient) use (& $microValue) {
-					$recipient->ointegerIs(new ointeger\any($microValue / 1000000));
-				},
-
-				$this->calling($micro)->recipientOfOIntegerIs = function($recipient) use ($microAsOInteger) {
-					$recipient->ointegerIs($microAsOInteger);
 				},
 
 				$secondeInMicro = new mockOfTime\duration\seconde,
 
-				$this->calling($seconde)->recipientOfSecondeWithOIntegerIs = function($ointeger, $recipient) use ($secondeInMicro, & $microValue) {
+				$this->calling($seconde)->recipientOfOIntegerWithNIntegerIs = function($ninteger, $recipient) use ($secondeInMicro, & $microValue) {
 					(
 						new comparison\binary\equal(
 							new block\functor(
 								function() use ($secondeInMicro, $recipient)
 								{
-									$recipient->secondeIs($secondeInMicro);
+									$recipient->ointegerIs($secondeInMicro);
 								}
 							)
 						)
 					)
-						->referenceForComparisonWithOperandIs($ointeger, new ointeger\any($microValue / 1000000))
+						->referenceForComparisonWithOperandIs($ninteger, $microValue / 1000000)
 					;
 				}
 			)
