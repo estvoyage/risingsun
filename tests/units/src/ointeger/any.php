@@ -123,13 +123,14 @@ class any extends units\test
 	{
 		$this
 			->given(
+				$this->newTestedInstance,
 				$recipient = new mockOfNString\recipient
 			)
 			->if(
-				$this->newTestedInstance
+				$this->testedInstance->recipientOfNStringIs($recipient)
 			)
 			->then
-				->object($this->testedInstance->recipientOfNStringIs($recipient))
+				->object($this->testedInstance)
 					->isEqualTo($this->newTestedInstance)
 				->mock($recipient)
 					->receive('nstringIs')
@@ -145,24 +146,28 @@ class any extends units\test
 	{
 		$this
 			->given(
+				$this->newTestedInstance,
 				$recipient = new mockOfDatum\recipient
 			)
 			->if(
-				$this->newTestedInstance
+				$this->testedInstance->recipientOfDatumWithNStringIs($nstring, $recipient)
 			)
 			->then
-				->object($this->testedInstance->recipientOfDatumWithNStringIs($nstring, $recipient))
+				->object($this->testedInstance)
 					->isEqualTo($this->newTestedInstance)
 				->mock($recipient)
 					->receive('datumIs')
 						->withArguments($this->newTestedInstance($nstring))
 							->once
 
-			->if(
+			->given(
 				$testedInstance = $this->childOfTestedClass()
 			)
+			->if(
+				$testedInstance->recipientOfDatumWithNStringIs($nstring, $recipient)
+			)
 			->then
-				->object($testedInstance->recipientOfDatumWithNStringIs($nstring, $recipient))
+				->object($testedInstance)
 					->isEqualTo($this->childOfTestedClass())
 				->mock($recipient)
 					->receive('datumIs')
@@ -178,13 +183,14 @@ class any extends units\test
 	{
 		$this
 			->given(
+				$this->newTestedInstance,
 				$recipient = new mockOfDatum\recipient
 			)
 			->if(
-				$this->newTestedInstance
+				$this->testedInstance->recipientOfDatumWithNStringIs($nstring, $recipient)
 			)
 			->then
-				->object($this->testedInstance->recipientOfDatumWithNStringIs($nstring, $recipient))
+				->object($this->testedInstance)
 					->isEqualTo($this->newTestedInstance)
 				->mock($recipient)
 					->receive('datumIs')
@@ -199,13 +205,14 @@ class any extends units\test
 	{
 		$this
 			->given(
+				$this->newTestedInstance($value),
 				$recipient = new mockOfDatum\length\recipient
 			)
 			->if(
-				$this->newTestedInstance($value)
+				$this->testedInstance->recipientOfDatumLengthIs($recipient)
 			)
 			->then
-				->object($this->testedInstance->recipientOfDatumLengthIs($recipient))
+				->object($this->testedInstance)
 					->isEqualTo($this->newTestedInstance($value))
 				->mock($recipient)
 					->receive('datumLengthIs')

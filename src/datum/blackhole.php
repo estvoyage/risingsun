@@ -6,18 +6,15 @@ class blackhole
 	implements
 		datum
 {
-	function recipientOfNStringIs(nstring\recipient $recipient)
+	function recipientOfNStringIs(nstring\recipient $recipient) :void
 	{
-		return $this;
 	}
 
-	function recipientOfDatumWithNStringIs(string $value, datum\recipient $recipient)
+	function recipientOfDatumWithNStringIs(string $value, datum\recipient $recipient) :void
 	{
-		return $this;
 	}
 
-	function recipientOfDatumLengthIs(datum\length\recipient $recipient)
+	function recipientOfDatumLengthIs(datum\length\recipient $recipient) :void
 	{
-		return $this;
 	}
 }

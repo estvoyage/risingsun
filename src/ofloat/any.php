@@ -39,7 +39,7 @@ class any
 		return $this;
 	}
 
-	function recipientOfDatumWithNStringIs(string $value, datum\recipient $recipient)
+	function recipientOfDatumWithNStringIs(string $value, datum\recipient $recipient) :void
 	{
 		(new comparison\unary\with\numeric\type)
 			->recipientOfComparisonWithOperandIs(
@@ -52,22 +52,16 @@ class any
 				)
 			)
 		;
-
-		return $this;
 	}
 
-	function recipientOfDatumLengthIs(datum\length\recipient $recipient)
+	function recipientOfDatumLengthIs(datum\length\recipient $recipient) :void
 	{
 		$recipient->datumLengthIs(new datum\length(strlen($this->value)));
-
-		return $this;
 	}
 
-	function recipientOfNStringIs(nstring\recipient $recipient)
+	function recipientOfNStringIs(nstring\recipient $recipient) :void
 	{
 		$recipient->nstringIs((string) $this->value);
-
-		return $this;
 	}
 
 	function recipientOfPartAtRightOfRadixWithPrecisionIs(ointeger\unsigned $precision, datum\recipient $recipient)

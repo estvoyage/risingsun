@@ -18,13 +18,14 @@ class blackhole extends units\test
 	{
 		$this
 			->given(
+				$this->newTestedInstance,
 				$recipient = new mockOfNString\recipient
 			)
 			->if(
-				$this->newTestedInstance
+				$this->testedInstance->recipientOfNStringIs($recipient)
 			)
 			->then
-				->object($this->testedInstance->recipientOfNStringIs($recipient))
+				->object($this->testedInstance)
 					->isEqualTo($this->newTestedInstance)
 				->mock($recipient)
 					->receive('nstringIs')
@@ -36,14 +37,15 @@ class blackhole extends units\test
 	{
 		$this
 			->given(
+				$this->newTestedInstance,
 				$value = uniqid(),
 				$recipient = new mockOfDatum\recipient
 			)
 			->if(
-				$this->newTestedInstance
+				$this->testedInstance->recipientOfDatumWithNStringIs($value, $recipient)
 			)
 			->then
-				->object($this->testedInstance->recipientOfDatumWithNStringIs($value, $recipient))
+				->object($this->testedInstance)
 					->isEqualTo($this->newTestedInstance)
 				->mock($recipient)
 					->receive('datumIs')
@@ -55,13 +57,14 @@ class blackhole extends units\test
 	{
 		$this
 			->given(
+				$this->newTestedInstance,
 				$recipient = new mockOfDatum\length\recipient
 			)
 			->if(
-				$this->newTestedInstance
+				$this->newTestedInstance->recipientOfDatumLengthIs($recipient)
 			)
 			->then
-				->object($this->newTestedInstance->recipientOfDatumLengthIs($recipient))
+				->object($this->newTestedInstance)
 					->isEqualTo($this->newTestedInstance)
 				->mock($recipient)
 					->receive('datumLengthIs')

@@ -6,17 +6,16 @@ class get
 	implements
 		http\method
 {
-	function recipientOfNStringIs(nstring\recipient $recipient)
+	function recipientOfNStringIs(nstring\recipient $recipient) :void
 	{
 		$recipient->nstringIs('GET');
 	}
 
-	function recipientOfDatumWithNStringIs(string $nstring, datum\recipient $recipient)
+	function recipientOfDatumWithNStringIs(string $nstring, datum\recipient $recipient) :void
 	{
-		return $this;
 	}
 
-	function recipientOfDatumLengthIs(datum\length\recipient $recipient)
+	function recipientOfDatumLengthIs(datum\length\recipient $recipient) :void
 	{
 		$recipient->datumLengthIs(new datum\length(3));
 	}

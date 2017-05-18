@@ -27,7 +27,7 @@ class any extends ofloat\any
 		}
 	}
 
-	function recipientOfDatumWithNStringIs(string $string, datum\recipient $recipient)
+	function recipientOfDatumWithNStringIs(string $string, datum\recipient $recipient) :void
 	{
 		parent::recipientOfDatumWithNStringIs(
 			$string,
@@ -48,7 +48,5 @@ class any extends ofloat\any
 				}
 			)
 		);
-
-		return $this;
 	}
 }
