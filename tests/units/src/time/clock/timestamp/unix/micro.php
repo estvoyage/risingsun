@@ -45,19 +45,16 @@ class micro extends units\test
 			)
 			->if(
 				$this->calling($template)->recipientOfOIntegerWithNIntegerIs = function($ninteger, $recipient) use ($now, $timestamp) {
-					(
-						new comparison\binary\equal(
-							new block\functor(
+					(new comparison\binary\equal)
+						->recipientOfComparisonBetweenOperandAndReferenceIs(
+							$ninteger,
+							$now * 1000000,
+							new comparison\recipient\functor\ok(
 								function() use ($recipient, $timestamp)
 								{
 									$recipient->ointegerIs($timestamp);
 								}
 							)
-						)
-					)
-						->referenceForComparisonWithOperandIs(
-							$ninteger,
-							$now * 1000000
 						)
 					;
 				}

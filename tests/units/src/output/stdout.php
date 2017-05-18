@@ -171,28 +171,28 @@ class stdout extends units\test
 				},
 
 				$this->calling($operation)->recipientOfDatumOperationOnDataIs = function($aFirstDatum, $aSecondDatum, $recipient) use ($firstDatum, $secondDatum, $datum) {
-					(
-						new comparison\binary\equal(
-							new block\functor(
+					(new comparison\binary\equal)
+						->recipientOfComparisonBetweenOperandAndReferenceIs(
+							$aFirstDatum,
+							$firstDatum,
+							new comparison\recipient\functor\ok(
 								function() use ($aSecondDatum, $secondDatum, $recipient, $datum)
 								{
-									(
-										new comparison\binary\equal(
-											new block\functor(
+									(new comparison\binary\equal)
+										->recipientOfComparisonBetweenOperandAndReferenceIs(
+											$aSecondDatum,
+											$secondDatum,
+											new comparison\recipient\functor\ok(
 												function() use ($recipient, $datum)
 												{
 													$recipient->datumIs($datum);
 												}
 											)
 										)
-									)
-										->referenceForComparisonWithOperandIs($aSecondDatum, $secondDatum)
 									;
 								}
 							)
 						)
-					)
-						->referenceForComparisonWithOperandIs($aFirstDatum, $firstDatum)
 					;
 				}
 			)

@@ -4,8 +4,8 @@ use estvoyage\risingsun\{ block, comparison };
 
 class equal extends any
 {
-	function __construct(block $ok, block $ko = null)
+	function __construct()
 	{
-		parent::__construct(new comparison\binary\equal($ok, $ko));
+		parent::__construct(new comparison\binary\equal);
 	}
 }

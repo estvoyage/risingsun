@@ -1,18 +1,13 @@
 <?php namespace estvoyage\risingsun\comparison\unary\with\float;
 
-use estvoyage\risingsun\{ comparison, block };
+use estvoyage\risingsun\comparison;
 
-class type extends comparison\unary\switcher\boolean
+class type
 	implements
 		comparison\unary
 {
-	function operandForComparisonIs($value)
+	function recipientOfComparisonWithOperandIs($operand, comparison\recipient $recipient)
 	{
-		return $this
-			->booleanForValueIs(
-				$value,
-				is_float($value)
-			)
-		;
+		$recipient->nbooleanIs(is_float($operand));
 	}
 }

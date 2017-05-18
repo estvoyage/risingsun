@@ -26,10 +26,14 @@ class datum
 				new length\recipient\functor(
 					function($datumLength) use ($length)
 					{
-						(new ointeger\comparison\binary\lessThanOrEqualTo($this->ok, $this->ko))
-							->referenceForComparisonWithOIntegerIs(
+						(new ointeger\comparison\binary\lessThanOrEqualTo)
+							->recipientOfOIntegerComparisonBetweenOperandAndReferenceIs(
 								$length,
-								$datumLength
+								$datumLength,
+								new risingsun\comparison\recipient\oboolean(
+									$this->ok,
+									$this->ko
+								)
 							)
 						;
 					}

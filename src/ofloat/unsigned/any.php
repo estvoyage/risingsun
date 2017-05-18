@@ -1,6 +1,6 @@
 <?php namespace estvoyage\risingsun\ofloat\unsigned;
 
-use estvoyage\risingsun\{ ofloat, datum, block };
+use estvoyage\risingsun\{ ofloat, datum, comparison };
 
 class any extends ofloat\any
 	implements
@@ -12,14 +12,12 @@ class any extends ofloat\any
 		{
 			parent::__construct($value);
 
-			(
-				new ofloat\comparison\unary\lessThan
-				(
-					new block\error(new \typeError)
-				)
-			)
-				->oFloatForComparisonIs(
-					$this
+			(new ofloat\comparison\unary\lessThan(new ofloat\any))
+				->recipientOfComparisonWithOFloatIs(
+					$this,
+					new comparison\recipient\error(
+						new \typeError
+					)
 				)
 			;
 		}
@@ -36,19 +34,15 @@ class any extends ofloat\any
 			new datum\recipient\functor(
 				function($ofloat) use ($recipient)
 				{
-					(
-						new ofloat\comparison\unary\greaterThanOrEqualTo
-						(
-							new block\functor(
+					(new ofloat\comparison\unary\greaterThanOrEqualTo(new ofloat\any))
+						->recipientOfComparisonWithOFloatIs(
+							$ofloat,
+							new comparison\recipient\functor\ok(
 								function() use ($ofloat, $recipient)
 								{
 									$recipient->datumIs($ofloat);
 								}
 							)
-						)
-					)
-						->oFloatForComparisonIs(
-							$ofloat
 						)
 					;
 				}
@@ -56,9 +50,5 @@ class any extends ofloat\any
 		);
 
 		return $this;
-	}
-
-	private function blockForOFloatIs(ofloat $ofloat, block $block)
-	{
 	}
 }

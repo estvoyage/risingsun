@@ -22,9 +22,10 @@ class right
 				new ninteger\recipient\functor(
 					function($length) use ($firstOperand, $secondOperand, $recipient)
 					{
-						(
-							new comparison\unary\not\blank(
-								new block\functor(
+						(new comparison\unary\not\blank)
+							->recipientOfComparisonWithOperandIs(
+								$secondOperand,
+								new comparison\recipient\functor\ok(
 									function() use ($recipient, $firstOperand, $length, $secondOperand)
 									{
 										$recipient->nstringIs(
@@ -37,8 +38,6 @@ class right
 									}
 								)
 							)
-						)
-							->operandForComparisonIs($secondOperand)
 						;
 					}
 				)

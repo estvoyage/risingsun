@@ -14,37 +14,38 @@ class any extends units\test
 		;
 	}
 
-	function testReferenceForComparisonWithOFloatIs()
+	function testRecipientOfOFloatComparisonBetweenOperandAndReferenceIs()
 	{
 		$this
 			->given(
 				$comparison = new mockOfComparison\binary,
-				$ofloat = new mockOfOFloat,
-				$reference = new mockOfOFloat
+				$operand = new mockOfOFloat,
+				$reference = new mockOfOFloat,
+				$recipient = new mockOfComparison\recipient
 			)
 			->if(
 				$this->newTestedInstance($comparison)
 			)
 			->then
-				->object($this->testedInstance->referenceForComparisonWithOFloatIs($ofloat, $reference))
+				->object($this->testedInstance->recipientOfOFloatComparisonBetweenOperandAndReferenceIs($operand, $reference, $recipient))
 					->isEqualTo($this->newTestedInstance($comparison))
 				->mock($comparison)
-					->receive('referenceForComparisonWithOperandIs')
+					->receive('recipientOfComparisonBetweenOperandAndReferenceIs')
 						->never
 
 			->given(
-				$ofloatValue = 1.2
+				$operandValue = 1.2
 			)
 			->if(
-				$this->calling($ofloat)->recipientOfNFloatIs = function($recipient) use ($ofloatValue) {
-					$recipient->nfloatIs($ofloatValue);
+				$this->calling($operand)->recipientOfNFloatIs = function($recipient) use ($operandValue) {
+					$recipient->nfloatIs($operandValue);
 				}
 			)
 			->then
-				->object($this->testedInstance->referenceForComparisonWithOFloatIs($ofloat, $reference))
+				->object($this->testedInstance->recipientOfOFloatComparisonBetweenOperandAndReferenceIs($operand, $reference, $recipient))
 					->isEqualTo($this->newTestedInstance($comparison))
 				->mock($comparison)
-					->receive('referenceForComparisonWithOperandIs')
+					->receive('recipientOfComparisonBetweenOperandAndReferenceIs')
 						->never
 
 			->given(
@@ -56,11 +57,11 @@ class any extends units\test
 				}
 			)
 			->then
-				->object($this->testedInstance->referenceForComparisonWithOFloatIs($ofloat, $reference))
+				->object($this->testedInstance->recipientOfOFloatComparisonBetweenOperandAndReferenceIs($operand, $reference, $recipient))
 					->isEqualTo($this->newTestedInstance($comparison))
 				->mock($comparison)
-					->receive('referenceForComparisonWithOperandIs')
-						->withArguments($ofloatValue, $referenceValue)
+					->receive('recipientOfComparisonBetweenOperandAndReferenceIs')
+						->withArguments($operandValue, $referenceValue, $recipient)
 							->once
 		;
 	}

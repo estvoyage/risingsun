@@ -209,7 +209,7 @@ class any extends units\test
 					->isEqualTo($this->newTestedInstance($value))
 				->mock($recipient)
 					->receive('datumLengthIs')
-						->withArguments(new datum\length(strlen($value)))
+						->withArguments(new datum\length(strlen((int) (string) $value)))
 							->once
 		;
 	}
@@ -266,6 +266,7 @@ class any extends units\test
 	{
 		return [
 			'0',
+			'1e9',
 			(string) PHP_INT_MIN,
 			(string) PHP_INT_MAX,
 			new objectWith__toStringAsInteger
@@ -276,7 +277,6 @@ class any extends units\test
 	{
 		return [
 			'',
-			'1e9',
 			(string) M_PI,
 			'foobar',
 			new objectWith__toStringAsNotInteger

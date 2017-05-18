@@ -2,8 +2,8 @@
 
 require __DIR__ . '/../../../../runner.php';
 
-use estvoyage\risingsun\{ tests\units, ointeger };
-use mock\estvoyage\risingsun\ointeger as mockOfOInteger;
+use estvoyage\risingsun\tests\units;
+use mock\estvoyage\risingsun\{ ointeger as mockOfOInteger, comparison as mockOfComparison };
 
 class any extends units\test
 {
@@ -14,37 +14,24 @@ class any extends units\test
 		;
 	}
 
-	function test__construct()
-	{
-		$this
-			->given(
-				$comparison = new mockOfOInteger\comparison\binary
-			)
-			->if(
-				$this->newTestedInstance($comparison)
-			)
-			->then
-				->object($this->testedInstance)->isEqualTo($this->newTestedInstance($comparison, new ointeger\any))
-		;
-	}
-
 	function testOIntegerForComparisonIs()
 	{
 		$this
 			->given(
 				$comparison = new mockOfOInteger\comparison\binary,
 				$reference = new mockOfOInteger,
-				$ointeger = new mockOfOInteger
+				$ointeger = new mockOfOInteger,
+				$recipient = new mockOfComparison\recipient
 			)
 			->if(
 				$this->newTestedInstance($comparison, $reference)
 			)
 			->then
-				->object($this->testedInstance->oIntegerForComparisonIs($ointeger))
+				->object($this->testedInstance->recipientOfComparisonWithOIntegerIs($ointeger, $recipient))
 					->isEqualTo($this->newTestedInstance($comparison, $reference))
 				->mock($comparison)
-					->receive('referenceForComparisonWithOIntegerIs')
-						->withArguments($ointeger, $reference)
+					->receive('recipientOfOIntegerComparisonBetweenOperandAndReferenceIs')
+						->withArguments($ointeger, $reference, $recipient)
 							->once
 		;
 	}

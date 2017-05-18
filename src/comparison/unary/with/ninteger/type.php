@@ -2,17 +2,12 @@
 
 use estvoyage\risingsun\{ comparison, block };
 
-class type extends comparison\unary\switcher\boolean
+class type
 	implements
 		comparison\unary
 {
-	function operandForComparisonIs($value)
+	function recipientOfComparisonWithOperandIs($operand, comparison\recipient $recipient)
 	{
-		return $this
-			->booleanForValueIs(
-				$value,
-				is_int($value)
-			)
-		;
+		$recipient->nbooleanIs(is_int($operand));
 	}
 }

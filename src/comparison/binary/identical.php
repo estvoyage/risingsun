@@ -1,9 +1,13 @@
 <?php namespace estvoyage\risingsun\comparison\binary;
 
-class identical extends equal
+use estvoyage\risingsun\comparison;
+
+class identical
+	implements
+		comparison\binary
 {
-	function referenceForComparisonWithOperandIs($operand, $reference)
+	function recipientOfComparisonBetweenOperandAndReferenceIs($operand, $reference, comparison\recipient $recipient)
 	{
-		return parent::referenceForComparisonWithOperandIs($operand === $reference, true);
+		$recipient->nbooleanIs($operand === $reference);
 	}
 }

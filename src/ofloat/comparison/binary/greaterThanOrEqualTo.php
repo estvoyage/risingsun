@@ -2,10 +2,10 @@
 
 use estvoyage\risingsun\{ ofloat, block, comparison };
 
-class greaterThanOrEqualTo extends lessThan
+class greaterThanOrEqualTo extends any
 {
-	function __construct(block $ok, block $ko = null)
+	function __construct()
 	{
-		parent::__construct($ko ?: new block\blackhole, $ok);
+		parent::__construct(new comparison\binary\greaterThanOrEqualTo);
 	}
 }

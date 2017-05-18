@@ -1,11 +1,11 @@
 <?php namespace estvoyage\risingsun\ointeger\comparison\unary;
 
-use estvoyage\risingsun\{ ointeger, block };
+use estvoyage\risingsun\ointeger;
 
 class equal extends any
 {
-	function __construct(block $ok, ointeger $reference = null, block $ko = null)
+	function __construct(ointeger $reference)
 	{
-		parent::__construct(new ointeger\comparison\binary\equal($ok, $ko), $reference);
+		parent::__construct(new ointeger\comparison\binary\equal, $reference);
 	}
 }

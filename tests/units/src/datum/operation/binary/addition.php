@@ -67,17 +67,17 @@ class addition extends units\test
 			)
 			->if(
 				$this->calling($firstDatum)->recipientOfDatumWithNStringIs = function($value, $recipient) use ($operation) {
-					(
-						new comparison\binary\equal(
-							new block\functor(
+					(new comparison\binary\equal)
+						->recipientOfComparisonBetweenOperandAndReferenceIs(
+							$value,
+							'foobar',
+							new comparison\recipient\functor\ok(
 								function() use ($recipient, $operation)
 								{
 									$recipient->datumis($operation);
 								}
 							)
 						)
-					)
-						->referenceForComparisonWithOperandIs($value, 'foobar')
 					;
 				}
 			)

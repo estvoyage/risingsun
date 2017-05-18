@@ -27,9 +27,10 @@ class first
 								new nstring\recipient\functor(
 									function($datumValue) use ($searchValue, $recipient)
 									{
-										(
-											new comparison\unary\with\numeric\type(
-												new block\functor(
+										(new comparison\unary\with\numeric\type)
+											->recipientOfComparisonWithOperandIs(
+												$position = strpos($datumValue, $searchValue),
+												new comparison\recipient\functor\ok(
 													function() use ($recipient, & $position)
 													{
 														$this->start
@@ -46,8 +47,6 @@ class first
 													}
 												)
 											)
-										)
-											->operandForComparisonIs($position = strpos($datumValue, $searchValue))
 										;
 									}
 								)

@@ -1,11 +1,11 @@
 <?php namespace estvoyage\risingsun\ointeger\comparison\unary;
 
-use estvoyage\risingsun\{ ointeger, block };
+use estvoyage\risingsun\ointeger;
 
 class lessThanOrEqualTo extends any
 {
-	function __construct(block $ok, ointeger $reference = null, block $ko = null)
+	function __construct(ointeger $reference)
 	{
-		parent::__construct(new ointeger\comparison\binary\lessThanOrEqualTo($ok, $ko), $reference);
+		parent::__construct(new ointeger\comparison\binary\lessThanOrEqualTo, $reference);
 	}
 }

@@ -1,11 +1,11 @@
 <?php namespace estvoyage\risingsun\comparison\unary\not;
 
-use estvoyage\risingsun\{ comparison, block };
+use estvoyage\risingsun\comparison;
 
-class blank extends comparison\unary\blank
+class blank extends comparison\unary\not
 {
-	function __construct(block $ok, block $ko = null)
+	function __construct()
 	{
-		parent::__construct($ko ?: new block\blackhole, $ok);
+		parent::__construct(new comparison\unary\blank);
 	}
 }

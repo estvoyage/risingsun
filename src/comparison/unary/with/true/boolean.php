@@ -2,21 +2,10 @@
 
 use estvoyage\risingsun\{ comparison, block };
 
-class boolean extends comparison\unary\switcher
-	implements
-		comparison\unary
+class boolean extends comparison\unary\identical
 {
-	function operandForComparisonIs($value)
+	function __construct()
 	{
-		return $this
-			->blockIs(
-				new block\functor(
-					function($ok, $ko) use ($value)
-					{
-						($value === true ? $ok : $ko)->blockArgumentsAre($value);
-					}
-				)
-			)
-		;
+		parent::__construct(true);
 	}
 }

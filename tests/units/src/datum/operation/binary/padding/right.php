@@ -61,17 +61,17 @@ class right extends units\test
 				$secondOperandValue = 'a',
 
 				$this->calling($firstOperand)->recipientOfDatumWithNStringIs = function($value, $recipient) use ($padded, $secondOperandValue) {
-					(
-						new comparison\binary\equal(
-							new block\functor(
+					(new comparison\binary\equal)
+						->recipientOfComparisonBetweenOperandAndReferenceIs(
+							$value,
+							$secondOperandValue,
+							new comparison\recipient\functor\ok(
 								function() use ($recipient, $padded)
 								{
 									$recipient->datumIs($padded);
 								}
 							)
 						)
-					)
-						->referenceForComparisonWithOperandIs($value, $secondOperandValue)
 					;
 				}
 			)
@@ -88,17 +88,17 @@ class right extends units\test
 				$lengthValue = 8,
 
 				$this->calling($firstOperand)->recipientOfDatumWithNStringIs = function($value, $recipient) use ($padded, $secondOperandValue) {
-					(
-						new comparison\binary\equal(
-							new block\functor(
+					(new comparison\binary\equal)
+						->recipientOfComparisonBetweenOperandAndReferenceIs(
+							$value,
+							'aaaaaaaa',
+							new comparison\recipient\functor\ok(
 								function() use ($recipient, $padded)
 								{
 									$recipient->datumIs($padded);
 								}
 							)
 						)
-					)
-						->referenceForComparisonWithOperandIs($value, 'aaaaaaaa')
 					;
 				}
 			)
@@ -114,17 +114,17 @@ class right extends units\test
 				$secondOperandValue = 'aaaaaaaa',
 
 				$this->calling($firstOperand)->recipientOfDatumWithNStringIs = function($value, $recipient) use ($padded, $secondOperandValue) {
-					(
-						new comparison\binary\equal(
-							new block\functor(
+					(new comparison\binary\equal)
+						->recipientOfComparisonBetweenOperandAndReferenceIs(
+							$value,
+							$secondOperandValue,
+							new comparison\recipient\functor\ok(
 								function() use ($recipient, $padded)
 								{
 									$recipient->datumIs($padded);
 								}
 							)
 						)
-					)
-						->referenceForComparisonWithOperandIs($value, $secondOperandValue)
 					;
 				}
 			)
@@ -140,17 +140,17 @@ class right extends units\test
 				$secondOperandValue = '0',
 
 				$this->calling($firstOperand)->recipientOfDatumWithNStringIs = function($value, $recipient) use ($padded, $secondOperandValue) {
-					(
-						new comparison\binary\equal(
-							new block\functor(
+					(new comparison\binary\equal)
+						->recipientOfComparisonBetweenOperandAndReferenceIs(
+							$value,
+							'00000000',
+							new comparison\recipient\functor\ok(
 								function() use ($recipient, $padded)
 								{
 									$recipient->datumIs($padded);
 								}
 							)
 						)
-					)
-						->referenceForComparisonWithOperandIs($value, '00000000')
 					;
 				}
 			)

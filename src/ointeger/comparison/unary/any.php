@@ -1,28 +1,29 @@
 <?php namespace estvoyage\risingsun\ointeger\comparison\unary;
 
-use estvoyage\risingsun\{ ointeger, ointeger\comparison };
+use estvoyage\risingsun\{ ointeger, comparison };
 
 class any
 	implements
-		comparison\unary
+		ointeger\comparison\unary
 {
 	private
 		$comparison,
 		$reference
 	;
 
-	function __construct(comparison\binary $comparison, ointeger $reference = null)
+	function __construct(ointeger\comparison\binary $comparison, ointeger $reference)
 	{
 		$this->comparison = $comparison;
-		$this->reference = $reference ?: new ointeger\any;
+		$this->reference = $reference;
 	}
 
-	function oIntegerForComparisonIs(ointeger $ointeger)
+	function recipientOfComparisonWithOIntegerIs(ointeger $ointeger, comparison\recipient $recipient)
 	{
 		$this->comparison
-			->referenceForComparisonWithOIntegerIs(
+			->recipientOfOIntegerComparisonBetweenOperandAndReferenceIs(
 				$ointeger,
-				$this->reference
+				$this->reference,
+				$recipient
 			)
 		;
 

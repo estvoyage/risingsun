@@ -1,8 +1,8 @@
 <?php namespace estvoyage\risingsun\ointeger\comparison;
 
-use estvoyage\risingsun\ointeger;
+use estvoyage\risingsun\{ ointeger, comparison };
 
 interface unary
 {
-	function oIntegerForComparisonIs(ointeger $ointeger);
+	function recipientOfComparisonWithOIntegerIs(ointeger $ointeger, comparison\recipient $recipient);
 }

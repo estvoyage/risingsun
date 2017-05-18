@@ -2,5 +2,5 @@
 
 interface unary
 {
-	function operandForComparisonIs($value);
+	function recipientOfComparisonWithOperandIs($operand, recipient $recipient);
 }

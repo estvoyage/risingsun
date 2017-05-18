@@ -1,8 +1,8 @@
-<?php namespace estvoyage\risingsun\comparison\unary;
+<?php namespace estvoyage\risingsun\block;
 
 use estvoyage\risingsun\block;
 
-class switcher
+class aggregator
 {
 	private
 		$ok,

@@ -63,17 +63,17 @@ class right extends units\test
 				$paddingValue = 'a',
 
 				$this->calling($datum)->recipientOfDatumWithNStringIs = function($value, $recipient) use ($padded, $paddingValue) {
-					(
-						new comparison\binary\equal(
-							new block\functor(
+					(new comparison\binary\equal)
+						->recipientOfComparisonBetweenOperandAndReferenceIs(
+							$value,
+							'a',
+							new comparison\recipient\functor\ok(
 								function() use ($recipient, $padded)
 								{
 									$recipient->datumIs($padded);
 								}
 							)
 						)
-					)
-						->referenceForComparisonWithOperandIs($value, 'a')
 					;
 				}
 			)
@@ -90,17 +90,17 @@ class right extends units\test
 				$lengthValue = 8,
 
 				$this->calling($datum)->recipientOfDatumWithNStringIs = function($value, $recipient) use ($padded) {
-					(
-						new comparison\binary\equal(
-							new block\functor(
+					(new comparison\binary\equal)
+						->recipientOfComparisonBetweenOperandAndReferenceIs(
+							$value,
+							'aaaaaaaa',
+							new comparison\recipient\functor\ok(
 								function() use ($recipient, $padded)
 								{
 									$recipient->datumIs($padded);
 								}
 							)
 						)
-					)
-						->referenceForComparisonWithOperandIs($value, 'aaaaaaaa')
 					;
 				}
 			)
@@ -127,17 +127,17 @@ class right extends units\test
 				$paddingValue = '0',
 
 				$this->calling($datum)->recipientOfDatumWithNStringIs = function($value, $recipient) use ($padded) {
-					(
-						new comparison\binary\equal(
-							new block\functor(
+					(new comparison\binary\equal)
+						->recipientOfComparisonBetweenOperandAndReferenceIs(
+							$value,
+							'00000000',
+							new comparison\recipient\functor\ok(
 								function() use ($recipient, $padded)
 								{
 									$recipient->datumIs($padded);
 								}
 							)
 						)
-					)
-						->referenceForComparisonWithOperandIs($value, '00000000')
 					;
 				}
 			)

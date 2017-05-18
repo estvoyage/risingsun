@@ -2,7 +2,7 @@
 
 require __DIR__ . '/../../../runner.php';
 
-use estvoyage\risingsun\{ tests\units, comparison, block, ostring };
+use estvoyage\risingsun\{ tests\units, comparison, ostring };
 use mock\estvoyage\risingsun\datum as mockOfDatum;
 
 class any extends units\test
@@ -57,20 +57,16 @@ class any extends units\test
 			)
 			->if(
 				$this->calling($template)->recipientOfDatumWithNStringIs = function($nstring, $recipient) use ($datumValue, $convertedDatum) {
-					(
-						new comparison\binary\equal
-						(
-							new block\functor(
+					(new comparison\binary\equal)
+						->recipientOfComparisonBetweenOperandAndReferenceIs(
+							$nstring,
+							$datumValue,
+							new comparison\recipient\functor\ok(
 								function() use ($recipient, $convertedDatum)
 								{
 									$recipient->datumIs($convertedDatum);
 								}
 							)
-						)
-					)
-						->referenceForComparisonWithOperandIs(
-							$nstring,
-							$datumValue
 						)
 					;
 				}

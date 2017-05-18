@@ -15,40 +15,43 @@ class overflow
 
 	function valueFromOperationWithNIntegerRecipientIs(ninteger\recipient $recipient, $value)
 	{
-		(
-			new comparison\unary\with\numeric\type(
-				new block\functor(
-					function() use ($value, $recipient)
-					{
-						(
-							new comparison\unary\with\ninteger\type(
-								new block\functor(
-									function() use ($value, $recipient)
-									{
-										$recipient->nintegerIs($value);
-									}
-								),
-								new block\functor(
-									function() use ($value, $recipient)
-									{
-										(
-											new comparison\unary\with\true\boolean(
-												$this->block
-											)
+		(new comparison\unary\with\numeric\type)
+			->recipientOfComparisonWithOperandIs(
+				$value,
+				new comparison\recipient\ok(
+					new block\functor(
+						function() use ($value, $recipient)
+						{
+							(new comparison\unary\with\ninteger\type)
+								->recipientOfComparisonWithOperandIs(
+									$value,
+									new comparison\recipient\oboolean(
+										new block\functor(
+											function() use ($value, $recipient)
+											{
+												$recipient->nintegerIs($value);
+											}
+										),
+										new block\functor(
+											function() use ($value, $recipient)
+											{
+												(new comparison\unary\with\true\boolean)
+													->recipientOfComparisonWithOperandIs(
+														(string) $value > PHP_INT_MAX || (string) $value < PHP_INT_MIN,
+														new comparison\recipient\ok(
+															$this->block
+														)
+													)
+												;
+											}
 										)
-											->operandForComparisonIs((string) $value > PHP_INT_MAX || (string) $value < PHP_INT_MIN)
-										;
-									}
+									)
 								)
-							)
-						)
-							->operandForComparisonIs($value)
-						;
-					}
+							;
+						}
+					)
 				)
 			)
-		)
-			->operandForComparisonIs($value)
 		;
 
 		return $this;

@@ -3,50 +3,33 @@
 require __DIR__ . '/../../../../../runner.php';
 
 use estvoyage\risingsun\tests\units;
-use mock\estvoyage\risingsun\block as mockOfBlock;
 
-class toString extends units\test
+class toString extends units\comparison\unary\with
 {
-	function testClass()
+	protected function okProvider()
 	{
-		$this->testedClass
-			->implements('estvoyage\risingsun\comparison\unary')
-		;
+		return [
+			new class
+			{
+				function __toString()
+				{
+					return '';
+				}
+			}
+		];
 	}
 
-	function testOperandForComparison()
+	protected function koProvider()
 	{
-		$this
-			->given(
-				$ok = new mockOfBlock,
-				$ko = new mockOfBlock,
-				$this->newTestedInstance($ok, $ko)
-			)
-			->if(
-				$operand = new class { function __toString() { return ''; } }
-			)
-			->then
-				->object($this->testedInstance->operandForComparisonIs($operand))
-					->isEqualTo($this->newTestedInstance($ok, $ko))
-				->mock($ok)
-					->receive('blockArgumentsAre')
-						->once
-				->mock($ko)
-					->receive('blockArgumentsAre')
-						->never
-
-				->if(
-					$operand = new \stdClass
-				)
-			->then
-				->object($this->testedInstance->operandForComparisonIs($operand))
-					->isEqualTo($this->newTestedInstance($ok, $ko))
-				->mock($ok)
-					->receive('blockArgumentsAre')
-						->once
-				->mock($ko)
-					->receive('blockArgumentsAre')
-						->once
-		;
+		return [
+			new \stdClass,
+			uniqid(),
+			rand(PHP_INT_MIN, PHP_INT_MAX),
+			M_PI,
+			[ [] ],
+			null,
+			true,
+			false
+		];
 	}
 }

@@ -2,77 +2,10 @@
 
 require __DIR__ . '/../../../../../runner.php';
 
-use estvoyage\risingsun\{ tests\units, block };
-use mock\estvoyage\risingsun\block as mockOfBlock;
+use estvoyage\risingsun\tests\units;
 
-class type extends units\test
+class type extends units\comparison\unary\with
 {
-	function testClass()
-	{
-		$this->testedClass
-			->implements('estvoyage\risingsun\comparison\unary')
-		;
-	}
-
-	function test__construct()
-	{
-		$this
-			->given(
-				$ok = new mockOfBlock
-			)
-			->if(
-				$this->newTestedInstance($ok)
-			)
-			->object($this->testedInstance)->isEqualTo($this->newTestedInstance($ok, new block\blackhole))
-		;
-	}
-
-	/**
-	 * @dataProvider okProvider
-	 */
-	function testOperandForComparisonIs_withNumeric($value)
-	{
-		$this
-			->given(
-				$ok = new mockOfBlock,
-				$ko = new mockOfBlock
-			)
-			->if(
-				$this->newTestedInstance($ok, $ko)
-			)
-			->then
-				->object($this->testedInstance->operandForComparisonIs($value))
-					->isEqualTo($this->newTestedInstance($ok, $ko))
-				->mock($ok)
-					->receive('blockArgumentsAre')
-						->withArguments($value)
-							->once
-		;
-	}
-
-	/**
-	 * @dataProvider koProvider
-	 */
-	function testRecipientOfComparisonWithValueIs_withNotNumeric($value)
-	{
-		$this
-			->given(
-				$ok = new mockOfBlock,
-				$ko = new mockOfBlock
-			)
-			->if(
-				$this->newTestedInstance($ok, $ko)
-			)
-			->then
-				->object($this->testedInstance->operandForComparisonIs($value))
-					->isEqualTo($this->newTestedInstance($ok, $ko))
-				->mock($ko)
-					->receive('blockArgumentsAre')
-						->withArguments($value)
-							->once
-		;
-	}
-
 	protected function okProvider()
 	{
 		return [

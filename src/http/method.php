@@ -1,8 +1,7 @@
 <?php namespace estvoyage\risingsun\http;
 
-use estvoyage\risingsun\nstring;
+use estvoyage\risingsun;
 
-interface method
+interface method extends risingsun\datum
 {
-	function recipientOfHttpMethodValueIs(nstring\recipient $recipient);
 }

@@ -44,52 +44,41 @@ class any extends units\test
 					$recipient->nintegerIs(2);
 				},
 				$this->calling($operation)->recipientOfOperationOnNIntegersIs = function($firstOperand, $secondOperand, $recipient) use ($result) {
-					(
-						new comparison\binary\equal
-						(
-							new block\functor(
+					(new comparison\binary\equal)
+						->recipientOfComparisonBetweenOperandAndReferenceIs(
+							$firstOperand,
+							1,
+							new comparison\recipient\functor\ok(
 								function() use ($secondOperand, $recipient, $result)
 								{
-									(
-										new comparison\binary\equal(
-											new block\functor(
+									(new comparison\binary\equal)
+										->recipientOfComparisonBetweenOperandAndReferenceIs(
+											$secondOperand,
+											2,
+											new comparison\recipient\functor\ok(
 												function() use ($recipient, $result)
 												{
 													$recipient->nintegerIs(3);
 												}
 											)
 										)
-									)
-										->referenceForComparisonWithOperandIs(
-											$secondOperand,
-											2
-										)
 									;
 								}
 							)
 						)
-					)
-						->referenceForComparisonWithOperandIs(
-							$firstOperand,
-							1
-						)
 					;
 				},
 				$this->calling($firstOperand)->recipientOfOIntegerWithNIntegerIs = function($ninteger, $recipient) use ($result) {
-					(
-						new comparison\binary\equal
-						(
-							new block\functor(
+					(new comparison\binary\equal)
+						->recipientOfComparisonBetweenOperandAndReferenceIs(
+							$ninteger,
+							3,
+							new comparison\recipient\functor\ok(
 								function() use ($recipient, $result)
 								{
 									$recipient->ointegerIs($result);
 								}
 							)
-						)
-					)
-						->referenceForComparisonWithOperandIs(
-							$ninteger,
-							3
 						)
 					;
 				}

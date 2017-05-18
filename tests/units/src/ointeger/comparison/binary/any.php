@@ -20,47 +20,37 @@ class any extends units\test
 			->given(
 				$comparison = new mockOfComparison\binary,
 				$ointeger = new mockOfOInteger,
-				$reference = new mockOfOInteger
+				$reference = new mockOfOInteger,
+				$recipient = new mockOfComparison\recipient
 			)
 			->if(
 				$this->newTestedInstance($comparison)
 			)
 			->then
-				->object($this->testedInstance->referenceForComparisonWithOIntegerIs($ointeger, $reference))
+				->object($this->testedInstance->recipientOfOIntegerComparisonBetweenOperandAndReferenceIs($ointeger, $reference, $recipient))
 					->isEqualTo($this->newTestedInstance($comparison))
 				->mock($comparison)
-					->receive('referenceForComparisonWithOperandIs')
+					->receive('recipientOfComparisonBetweenOperandAndReferenceIs')
 						->never
 
 			->given(
-				$ointegerValue = rand(PHP_INT_MIN, PHP_INT_MAX)
+				$ointegerValue = rand(PHP_INT_MIN, PHP_INT_MAX),
+				$referenceValue = rand(PHP_INT_MIN, PHP_INT_MAX)
 			)
 			->if(
 				$this->calling($ointeger)->recipientOfNIntegerIs = function($recipient) use ($ointegerValue) {
 					$recipient->nintegerIs($ointegerValue);
-				}
-			)
-			->then
-				->object($this->testedInstance->referenceForComparisonWithOIntegerIs($ointeger, $reference))
-					->isEqualTo($this->newTestedInstance($comparison))
-				->mock($comparison)
-					->receive('referenceForComparisonWithOperandIs')
-						->never
-
-			->given(
-				$referenceValue = rand(PHP_INT_MIN, PHP_INT_MAX)
-			)
-			->if(
+				},
 				$this->calling($reference)->recipientOfNIntegerIs = function($recipient) use ($referenceValue) {
 					$recipient->nintegerIs($referenceValue);
 				}
 			)
 			->then
-				->object($this->testedInstance->referenceForComparisonWithOIntegerIs($ointeger, $reference))
+				->object($this->testedInstance->recipientOfOIntegerComparisonBetweenOperandAndReferenceIs($ointeger, $reference, $recipient))
 					->isEqualTo($this->newTestedInstance($comparison))
 				->mock($comparison)
-					->receive('referenceForComparisonWithOperandIs')
-						->withArguments($ointegerValue, $referenceValue)
+					->receive('recipientOfComparisonBetweenOperandAndReferenceIs')
+						->withArguments($ointegerValue, $referenceValue, $recipient)
 							->once
 		;
 	}

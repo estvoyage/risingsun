@@ -3,66 +3,27 @@
 require __DIR__ . '/../../../runner.php';
 
 use estvoyage\risingsun\tests\units;
-use mock\estvoyage\risingsun\block as mockOfBlock;
 
-class greaterThan extends units\test
+class greaterThan extends units\comparison\binary
 {
-	function testClass()
+	protected function okProvider()
 	{
-		$this->testedClass
-			->implements('estvoyage\risingsun\comparison\binary')
-		;
+		return [
+			[ rand(1, PHP_INT_MAX), 0 ],
+			[ 'z', 'a' ],
+			[ rand(1, PHP_INT_MAX), null ]
+		];
 	}
 
-	function testReferenceForComparisonWithOperandIs()
+	protected function koProvider()
 	{
-		$this
-			->given(
-				$ok = new mockOfBlock,
-				$ko = new mockOfBlock,
-				$this->newTestedInstance($ok, $ko)
-			)
-			->if(
-				$operand = 0,
-				$reference = 0
-			)
-			->then
-				->object($this->testedInstance->referenceForComparisonWithOperandIs($operand, $reference))
-					->isEqualTo($this->newTestedInstance($ok, $ko))
-				->mock($ok)
-					->receive('blockArgumentsAre')
-						->never
-				->mock($ko)
-					->receive('blockArgumentsAre')
-						->once
-
-			->if(
-				$operand = 0,
-				$reference = M_PI
-			)
-			->then
-				->object($this->testedInstance->referenceForComparisonWithOperandIs($operand, $reference))
-					->isEqualTo($this->newTestedInstance($ok, $ko))
-				->mock($ok)
-					->receive('blockArgumentsAre')
-						->never
-				->mock($ko)
-					->receive('blockArgumentsAre')
-						->twice
-
-			->if(
-				$operand = M_PI,
-				$reference = 0
-			)
-			->then
-				->object($this->testedInstance->referenceForComparisonWithOperandIs($operand, $reference))
-					->isEqualTo($this->newTestedInstance($ok, $ko))
-				->mock($ok)
-					->receive('blockArgumentsAre')
-						->once
-				->mock($ko)
-					->receive('blockArgumentsAre')
-						->twice
-		;
+		return [
+			[ 0, rand(1, PHP_INT_MAX) ],
+			[ 0, 0 ],
+			[ 'a', 'a' ],
+			[ 'a', 'z' ],
+			[ null, null ],
+			[ null, rand(1, PHP_INT_MAX) ]
+		];
 	}
 }

@@ -11,21 +11,20 @@ class any
 		$comparison
 	;
 
-	function __construct($reference = 0, comparison\binary $comparison = null)
+	function __construct($reference, comparison\binary $comparison)
 	{
 		$this->reference = $reference;
 		$this->comparison = $comparison;
 	}
 
-	function operandForComparisonIs($value)
+	function recipientOfComparisonWithOperandIs($operand, comparison\recipient $recipient) :void
 	{
 		$this->comparison
-			->referenceForComparisonWithOperandIs(
-				$value,
-				$this->reference
+			->recipientOfComparisonBetweenOperandAndReferenceIs(
+				$operand,
+				$this->reference,
+				$recipient
 			)
 		;
-
-		return $this;
 	}
 }

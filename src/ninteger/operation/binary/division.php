@@ -17,20 +17,18 @@ class division
 
 	function recipientOfOperationOnNIntegersIs(int $firstOperand, int $secondOperand, recipient $recipient)
 	{
-		(
-			new comparison\unary\equal(
-				0,
-				$this->divisionByZero,
-				new block\functor(
-					function() use ($firstOperand, $secondOperand, $recipient)
-					{
-						$recipient->nintegerIs(intdiv($firstOperand, $secondOperand));
-					}
+		(new comparison\unary\equal(0))
+			->recipientOfComparisonWithOperandIs(
+				$secondOperand,
+				new comparison\recipient\oboolean(
+					$this->divisionByZero,
+					new block\functor(
+						function() use ($firstOperand, $secondOperand, $recipient)
+						{
+							$recipient->nintegerIs(intdiv($firstOperand, $secondOperand));
+						}
+					)
 				)
-			)
-		)
-			->operandForComparisonIs(
-				$secondOperand
 			)
 		;
 

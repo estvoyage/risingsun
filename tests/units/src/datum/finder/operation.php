@@ -39,28 +39,28 @@ class operation extends units\test
 			)
 			->if(
 				$this->calling($finder)->recipientOfSearchOfDatumInDatumIs = function($aSearch, $aDatum, $aRecipient) use ($search, $datum, $position) {
-					(
-						new comparison\binary\equal(
-							new block\functor(
+					(new comparison\binary\equal)
+						->recipientOfComparisonBetweenOperandAndReferenceIs(
+							$search,
+							$aSearch,
+							new comparison\recipient\functor\ok(
 								function() use ($aDatum, $aRecipient, $datum, $position)
 								{
-									(
-										new comparison\binary\equal(
-											new block\functor(
+									(new comparison\binary\equal)
+										->recipientOfComparisonBetweenOperandAndReferenceIs(
+											$datum,
+											$aDatum,
+											new comparison\recipient\functor\ok(
 												function() use ($aRecipient, $position)
 												{
 													$aRecipient->datumIsAtPosition($position);
 												}
 											)
 										)
-									)
-										->referenceForComparisonWithOperandIs($datum, $aDatum)
 									;
 								}
 							)
 						)
-					)
-						->referenceForComparisonWithOperandIs($search, $aSearch)
 					;
 				}
 			)
@@ -76,17 +76,17 @@ class operation extends units\test
 			)
 			->if(
 				$this->calling($operation)->recipientOfOperationWithOIntegerIs = function($anOInteger, $aRecipient) use ($position, $positionAfterOperation) {
-					(
-						new comparison\binary\identical(
-							new block\functor(
+					(new comparison\binary\identical)
+						->recipientOfComparisonBetweenOperandAndReferenceIs(
+							$anOInteger,
+							$position,
+							new comparison\recipient\functor\ok(
 								function() use ($aRecipient, $positionAfterOperation)
 								{
 									$aRecipient->ointegerIs($positionAfterOperation);
 								}
 							)
 						)
-					)
-						->referenceForComparisonWithOperandIs($anOInteger, $position)
 					;
 				}
 			)

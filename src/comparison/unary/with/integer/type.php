@@ -2,44 +2,34 @@
 
 use estvoyage\risingsun\{ comparison, block };
 
-class type extends comparison\unary\switcher
+class type
 	implements
 		comparison\unary
 {
-	function operandForComparisonIs($value)
+	function recipientOfComparisonWithOperandIs($operand, comparison\recipient $recipient) :void
 	{
-		return $this
-			->blockIs(
-				new block\functor(
-					function($ok, $ko) use ($value)
-					{
-						(
-							new comparison\unary\with\numeric\type
-							(
-								new block\functor(
-									function($value) use ($ok, $ko, $value)
-									{
-										(
-											new comparison\binary\equal(
-												$ok,
-												$ko
-											)
-										)
-											->referenceForComparisonWithOperandIs(
-												$value,
-												(int) $value
-											)
-										;
-									}
-								),
-								$ko
-							)
-						)
-							->operandForComparisonIs(
-								$value
-							)
-						;
-					}
+		(new comparison\unary\with\numeric\type)
+			->recipientOfComparisonWithOperandIs(
+				$operand,
+				new comparison\recipient\oboolean(
+					new block\functor(
+						function() use ($operand, $recipient)
+						{
+							(new comparison\binary\equal)
+								->recipientOfComparisonBetweenOperandAndReferenceIs(
+									$operand,
+									(int) $operand,
+									$recipient
+								)
+							;
+						}
+					),
+					new block\functor(
+						function() use ($recipient)
+						{
+							$recipient->nbooleanIs(false);
+						}
+					)
 				)
 			)
 		;

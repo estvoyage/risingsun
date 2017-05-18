@@ -56,20 +56,16 @@ class micro extends units\test
 					$recipient->nintegerIs(3);
 				},
 				$this->calling($stop)->recipientOfOIntegerWithNIntegerIs = function($ninteger, $recipient) use ($duration) {
-					(
-						new comparison\binary\equal
-						(
-							new block\functor(
+					(new comparison\binary\equal)
+						->recipientOfComparisonBetweenOperandAndReferenceIs(
+							$ninteger,
+							1,
+							new comparison\recipient\functor\ok(
 								function() use ($recipient, $duration)
 								{
 									$recipient->ointegerIs($duration);
 								}
 							)
-						)
-					)
-						->referenceForComparisonWithOperandIs(
-							$ninteger,
-							1
 						)
 					;
 				}

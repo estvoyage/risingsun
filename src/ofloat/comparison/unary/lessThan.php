@@ -1,11 +1,11 @@
 <?php namespace estvoyage\risingsun\ofloat\comparison\unary;
 
-use estvoyage\risingsun\{ ofloat, block };
+use estvoyage\risingsun\ofloat;
 
 class lessThan extends any
 {
-	function __construct(block $ok, ofloat $reference = null, block $ko = null)
+	function __construct(ofloat $reference)
 	{
-		parent::__construct(new ofloat\comparison\binary\lessThan($ok, $ko), $reference);
+		parent::__construct(new ofloat\comparison\binary\lessThan, $reference);
 	}
 }

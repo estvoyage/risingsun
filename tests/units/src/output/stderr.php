@@ -22,28 +22,28 @@ class stderr extends units\test
 			)
 			->if(
 				$this->function->file_put_contents = function($filename, $data, $flags = 0) {
-					(
-						new comparison\binary\equal(
-							new block\functor(
+					(new comparison\binary\equal)
+						->recipientOfComparisonBetweenOperandAndReferenceIs(
+							$filename,
+							'php://stderr',
+							new comparison\recipient\functor\ok(
 								function() use ($data, $flags)
 								{
-									(
-										new comparison\binary\equal(
-											new block\functor(
+									(new comparison\binary\equal)
+										->recipientOfComparisonBetweenOperandAndReferenceIs(
+											$flags,
+											FILE_APPEND|LOCK_EX,
+											new comparison\recipient\functor\ok(
 												function() use ($data)
 												{
 													echo $data;
 												}
 											)
 										)
-									)
-										->referenceForComparisonWithOperandIs($flags, FILE_APPEND|LOCK_EX)
 									;
 								}
 							)
 						)
-					)
-						->referenceForComparisonWithOperandIs($filename, 'php://stderr')
 					;
 				},
 				$this->newTestedInstance
@@ -83,28 +83,28 @@ class stderr extends units\test
 				$eol = new mockOfDatum,
 
 				$this->function->file_put_contents = function($filename, $data, $flags = 0) {
-					(
-						new comparison\binary\equal(
-							new block\functor(
+					(new comparison\binary\equal)
+						->recipientOfComparisonBetweenOperandAndReferenceIs(
+							$filename,
+							'php://stderr',
+							new comparison\recipient\functor\ok(
 								function() use ($data, $flags)
 								{
-									(
-										new comparison\binary\equal(
-											new block\functor(
+									(new comparison\binary\equal)
+										->recipientOfComparisonBetweenOperandAndReferenceIs(
+											$flags,
+											FILE_APPEND|LOCK_EX,
+											new comparison\recipient\functor\ok(
 												function() use ($data)
 												{
 													echo $data;
 												}
 											)
 										)
-									)
-										->referenceForComparisonWithOperandIs($flags, FILE_APPEND|LOCK_EX)
 									;
 								}
 							)
 						)
-					)
-						->referenceForComparisonWithOperandIs($filename, 'php://stderr')
 					;
 				}
 			)
@@ -148,28 +148,28 @@ class stderr extends units\test
 			)
 			->if(
 				$this->function->file_put_contents = function($filename, $data, $flags = 0) {
-					(
-						new comparison\binary\equal(
-							new block\functor(
+					(new comparison\binary\equal)
+						->recipientOfComparisonBetweenOperandAndReferenceIs(
+							$filename,
+							'php://stderr',
+							new comparison\recipient\functor\ok(
 								function() use ($data, $flags)
 								{
-									(
-										new comparison\binary\equal(
-											new block\functor(
+									(new comparison\binary\equal)
+										->recipientOfComparisonBetweenOperandAndReferenceIs(
+											$flags,
+											FILE_APPEND|LOCK_EX,
+											new comparison\recipient\functor\ok(
 												function() use ($data)
 												{
 													echo $data;
 												}
 											)
 										)
-									)
-										->referenceForComparisonWithOperandIs($flags, FILE_APPEND|LOCK_EX)
 									;
 								}
 							)
 						)
-					)
-						->referenceForComparisonWithOperandIs($filename, 'php://stderr')
 					;
 				},
 				$this->newTestedInstance($eol)
@@ -218,28 +218,28 @@ class stderr extends units\test
 			)
 			->if(
 				$this->function->file_put_contents = function($filename, $data, $flags = 0) {
-					(
-						new comparison\binary\equal(
-							new block\functor(
+					(new comparison\binary\equal)
+						->recipientOfComparisonBetweenOperandAndReferenceIs(
+							$filename,
+							'php://stderr',
+							new comparison\recipient\functor\ok(
 								function() use ($data, $flags)
 								{
-									(
-										new comparison\binary\equal(
-											new block\functor(
+									(new comparison\binary\equal)
+										->recipientOfComparisonBetweenOperandAndReferenceIs(
+											$flags,
+											FILE_APPEND|LOCK_EX,
+											new comparison\recipient\functor\ok(
 												function() use ($data)
 												{
 													echo $data;
 												}
 											)
 										)
-									)
-										->referenceForComparisonWithOperandIs($flags, FILE_APPEND|LOCK_EX)
 									;
 								}
 							)
 						)
-					)
-						->referenceForComparisonWithOperandIs($filename, 'php://stderr')
 					;
 				},
 				$this->newTestedInstance($eol)
@@ -268,28 +268,28 @@ class stderr extends units\test
 				},
 
 				$this->calling($operation)->recipientOfDatumOperationOnDataIs = function($aFirstDatum, $aSecondDatum, $recipient) use ($firstDatum, $secondDatum, $datum) {
-					(
-						new comparison\binary\equal(
-							new block\functor(
+					(new comparison\binary\equal)
+						->recipientOfComparisonBetweenOperandAndReferenceIs(
+							$aFirstDatum,
+							$firstDatum,
+							new comparison\recipient\functor\ok(
 								function() use ($aSecondDatum, $secondDatum, $recipient, $datum)
 								{
-									(
-										new comparison\binary\equal(
-											new block\functor(
+									(new comparison\binary\equal)
+										->recipientOfComparisonBetweenOperandAndReferenceIs(
+											$aSecondDatum,
+											$secondDatum,
+											new comparison\recipient\functor\ok(
 												function() use ($recipient, $datum)
 												{
 													$recipient->datumIs($datum);
 												}
 											)
 										)
-									)
-										->referenceForComparisonWithOperandIs($aSecondDatum, $secondDatum)
 									;
 								}
 							)
 						)
-					)
-						->referenceForComparisonWithOperandIs($aFirstDatum, $firstDatum)
 					;
 				}
 			)

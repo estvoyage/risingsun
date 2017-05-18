@@ -50,17 +50,17 @@ class slicer extends units\test
 					$recipient->nstringIs($datumValue);
 				},
 				$this->calling($datum)->recipientOfDatumWithNStringIs = function($value, $recipient) use ($datumValue, $slice) {
-					(
-						new comparison\binary\equal(
-							new block\functor(
+					(new comparison\binary\equal)
+						->recipientOfComparisonBetweenOperandAndReferenceIs(
+							$value,
+							$datumValue,
+							new comparison\recipient\functor\ok(
 								function() use ($recipient, $slice)
 								{
 									$recipient->datumIs($slice);
 								}
 							)
 						)
-					)
-						->referenceForComparisonWithOperandIs($value, $datumValue)
 					;
 				}
 			)
@@ -75,17 +75,17 @@ class slicer extends units\test
 			->if(
 				$positionValue = 2,
 				$this->calling($datum)->recipientOfDatumWithNStringIs = function($value, $recipient) use ($datumValue, $slice) {
-					(
-						new comparison\binary\equal(
-							new block\functor(
+					(new comparison\binary\equal)
+						->recipientOfComparisonBetweenOperandAndReferenceIs(
+							$value,
+							'cd',
+							new comparison\recipient\functor\ok(
 								function() use ($recipient, $slice)
 								{
 									$recipient->datumIs($slice);
 								}
 							)
 						)
-					)
-						->referenceForComparisonWithOperandIs($value, 'cd')
 					;
 				}
 			)
@@ -100,17 +100,17 @@ class slicer extends units\test
 			->if(
 				$positionValue = 4,
 				$this->calling($datum)->recipientOfDatumWithNStringIs = function($value, $recipient) use ($datumValue, $slice) {
-					(
-						new comparison\binary\equal(
-							new block\functor(
+					(new comparison\binary\equal)
+						->recipientOfComparisonBetweenOperandAndReferenceIs(
+							$value,
+							'',
+							new comparison\recipient\functor\ok(
 								function() use ($recipient, $slice)
 								{
 									$recipient->datumIs($slice);
 								}
 							)
 						)
-					)
-						->referenceForComparisonWithOperandIs($value, '')
 					;
 				}
 			)

@@ -17,25 +17,23 @@ class pow
 
 	function recipientOfOperationOnNIntegersIs(int $firstOperand, int $secondOperand, ninteger\recipient $recipient)
 	{
-		(
-			new comparison\unary\with\float\type
-			(
-				new functor(
-					function()
-					{
-						$this->overflow->blockArgumentsAre();
-					}
-				),
-				new functor(
-					function() use (& $pow, $recipient)
-					{
-						$recipient->nintegerIs($pow);
-					}
+		(new comparison\unary\with\float\type)
+			->recipientOfComparisonWithOperandIs(
+				$pow = pow($firstOperand, $secondOperand),
+				new comparison\recipient\oboolean(
+					new functor(
+						function()
+						{
+							$this->overflow->blockArgumentsAre();
+						}
+					),
+					new functor(
+						function() use (& $pow, $recipient)
+						{
+							$recipient->nintegerIs($pow);
+						}
+					)
 				)
-			)
-		)
-			->operandForComparisonIs(
-				$pow = pow($firstOperand, $secondOperand)
 			)
 		;
 

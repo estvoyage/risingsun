@@ -43,17 +43,17 @@ class pipe extends units\test
 				},
 
 				$this->calling($operation)->recipientOfDatumOperationWithDatumIs = function($aDatum, $recipient) use ($datum, $datumOfOperation) {
-					(
-						new comparison\binary\equal(
-							new block\functor(
+					(new comparison\binary\equal)
+						->recipientOfComparisonBetweenOperandAndReferenceIs(
+							$aDatum,
+							$datum,
+							new comparison\recipient\functor\ok(
 								function() use ($recipient, $datumOfOperation)
 								{
 									$recipient->datumIs($datumOfOperation);
 								}
 							)
 						)
-					)
-						->referenceForComparisonWithOperandIs($aDatum, $datum)
 					;
 				}
 			)
@@ -95,17 +95,17 @@ class pipe extends units\test
 				},
 
 				$this->calling($operation)->recipientOfDatumOperationWithDatumIs = function($aDatum, $recipient) use ($datumOfOperation) {
-					(
-						new comparison\binary\equal(
-							new block\functor(
+					(new comparison\binary\equal)
+						->recipientOfComparisonBetweenOperandAndReferenceIs(
+							$aDatum,
+							new ostring\any,
+							new comparison\recipient\functor\ok(
 								function() use ($recipient, $datumOfOperation)
 								{
 									$recipient->datumIs($datumOfOperation);
 								}
 							)
 						)
-					)
-						->referenceForComparisonWithOperandIs($aDatum, new ostring\any)
 					;
 				}
 			)

@@ -43,19 +43,16 @@ class substraction extends units\test
 					$recipient->nintegerIs(2);
 				},
 				$this->calling($firstOperand)->recipientOfOIntegerWithNIntegerIs = function($ninteger, $recipient) use ($microUnixTimestamp) {
-					(
-						new comparison\binary\equal(
-							new block\functor(
+					(new comparison\binary\equal)
+						->recipientOfComparisonBetweenOperandAndReferenceIs(
+							$ninteger,
+							1,
+							new comparison\recipient\functor\ok(
 								function() use ($recipient, $microUnixTimestamp)
 								{
 									$recipient->ointegerIs($microUnixTimestamp);
 								}
 							)
-						)
-					)
-						->referenceForComparisonWithOperandIs(
-							$ninteger,
-							1
 						)
 					;
 				}

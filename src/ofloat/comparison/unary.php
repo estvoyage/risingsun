@@ -1,8 +1,8 @@
 <?php namespace estvoyage\risingsun\ofloat\comparison;
 
-use estvoyage\risingsun\ofloat;
+use estvoyage\risingsun\{ ofloat, comparison };
 
 interface unary
 {
-	function oFloatForComparisonIs(ofloat $ofloat);
+	function recipientOfComparisonWithOFloatIs(ofloat $ofloat, comparison\recipient $recipient);
 }

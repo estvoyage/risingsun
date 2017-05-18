@@ -1,6 +1,6 @@
 <?php namespace estvoyage\risingsun\ointeger\comparison\binary;
 
-use estvoyage\risingsun\{ ointeger, comparison\binary as comparison, ninteger\recipient\functor };
+use estvoyage\risingsun\{ ointeger, comparison, ninteger\recipient\functor };
 
 class any
 	implements
@@ -10,27 +10,28 @@ class any
 		$comparison
 	;
 
-	function __construct(comparison $comparison)
+	function __construct(comparison\binary $comparison)
 	{
 		$this->comparison = $comparison;
 	}
 
-	function referenceForComparisonWithOIntegerIs(ointeger $ointeger, ointeger $reference)
+	function recipientOfOIntegerComparisonBetweenOperandAndReferenceIs(ointeger $ointeger, ointeger $reference, comparison\recipient $recipient)
 	{
 		$ointeger
 			->recipientOfNIntegerIs(
 				new functor(
-					function($ointegerValue) use ($reference)
+					function($ointegerValue) use ($reference, $recipient)
 					{
 						$reference
 							->recipientOfNIntegerIs(
 								new functor(
-									function($referenceValue) use ($ointegerValue)
+									function($referenceValue) use ($ointegerValue, $recipient)
 									{
 										$this->comparison
-											->referenceForComparisonWithOperandIs(
+											->recipientOfComparisonBetweenOperandAndReferenceIs(
 												$ointegerValue,
-												$referenceValue
+												$referenceValue,
+												$recipient
 											)
 										;
 									}

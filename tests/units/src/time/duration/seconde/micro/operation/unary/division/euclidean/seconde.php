@@ -38,17 +38,17 @@ class seconde extends units\test
 				$secondeInMicro = new mockOfTime\duration\seconde,
 
 				$this->calling($seconde)->recipientOfOIntegerWithNIntegerIs = function($ninteger, $recipient) use ($secondeInMicro, & $microValue) {
-					(
-						new comparison\binary\equal(
-							new block\functor(
+					(new comparison\binary\equal)
+						->recipientOfComparisonBetweenOperandAndReferenceIs(
+							$ninteger,
+							$microValue / 1000000,
+							new comparison\recipient\functor\ok(
 								function() use ($secondeInMicro, $recipient)
 								{
 									$recipient->ointegerIs($secondeInMicro);
 								}
 							)
 						)
-					)
-						->referenceForComparisonWithOperandIs($ninteger, $microValue / 1000000)
 					;
 				}
 			)

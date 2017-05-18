@@ -1,11 +1,9 @@
 <?php namespace estvoyage\risingsun\comparison\binary;
 
-use estvoyage\risingsun\block;
-
-class greaterThanOrEqualTo extends lessThan
+class greaterThanOrEqualTo extends not
 {
-	function __construct(block $ok, block $ko = null)
+	function __construct()
 	{
-		parent::__construct($ko ?: new block\blackhole, $ok);
+		parent::__construct(new lessThan);
 	}
 }

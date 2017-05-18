@@ -74,19 +74,16 @@ class any extends units\test
 			)
 			->if(
 				$this->calling($firstOperand)->recipientOfOIntegerWithNIntegerIs = function($ninteger, $recipient) use ($timestamp) {
-					(
-						new comparison\binary\equal(
-							new block\functor(
+					(new comparison\binary\equal)
+						->recipientOfComparisonBetweenOperandAndReferenceIs(
+							$ninteger,
+							3,
+							new comparison\recipient\functor\ok(
 								function() use ($recipient, $timestamp)
 								{
 									$recipient->ointegerIs($timestamp);
 								}
 							)
-						)
-					)
-						->referenceForComparisonWithOperandIs(
-							$ninteger,
-							3
 						)
 					;
 				}

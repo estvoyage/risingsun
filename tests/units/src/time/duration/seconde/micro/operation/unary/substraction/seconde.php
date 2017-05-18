@@ -47,17 +47,17 @@ class seconde extends units\test
 				$microFromOperation = new mockOfTime\duration\seconde\micro,
 
 				$this->calling($micro)->recipientOfMicroSecondeWithNIntegerIs = function($ninteger, $recipient) use ($microFromOperation, $substraction) {
-					(
-						new comparison\binary\equal(
-							new block\functor(
+					(new comparison\binary\equal)
+						->recipientOfComparisonBetweenOperandAndReferenceIs(
+							$ninteger,
+							$substraction,
+							new comparison\recipient\functor\ok(
 								function() use ($microFromOperation, $recipient)
 								{
 									$recipient->microSecondeIs($microFromOperation);
 								}
 							)
 						)
-					)
-						->referenceForComparisonWithOperandIs($ninteger, $substraction)
 					;
 				},
 

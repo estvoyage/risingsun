@@ -61,17 +61,19 @@ class pow extends units\test
 			)
 			->if(
 				$this->calling($ointeger)->recipientOfOIntegerWithNIntegerIs = function($value, $recipient) use ($operation) {
-					(
-						new comparison\binary\equal(
-							new block\functor(
-								function() use ($recipient, $operation)
-								{
-									$recipient->ointegerIs($operation);
-								}
+					(new comparison\binary\equal)
+						->recipientOfComparisonBetweenOperandAndReferenceIs(
+							$value,
+							9,
+							new comparison\recipient\ok(
+								new block\functor(
+									function() use ($recipient, $operation)
+									{
+										$recipient->ointegerIs($operation);
+									}
+								)
 							)
 						)
-					)
-						->referenceForComparisonWithOperandIs($value, 9)
 					;
 				}
 			)

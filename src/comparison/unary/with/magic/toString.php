@@ -2,10 +2,12 @@
 
 use estvoyage\risingsun\comparison;
 
-class toString extends comparison\unary\with\true\boolean
+class toString
+	implements
+		comparison\unary
 {
-	function operandForComparisonIs($operand)
+	function recipientOfComparisonWithOperandIs($operand, comparison\recipient $recipient)
 	{
-		return parent::operandForComparisonIs(is_object($operand) && method_exists($operand, '__toString'));
+		$recipient->nbooleanIs(is_object($operand) && method_exists($operand, '__toString'));
 	}
 }

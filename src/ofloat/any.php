@@ -13,13 +13,13 @@ class any
 
 	function __construct($value = 0.)
 	{
-		(
-			new comparison\unary\not\with\numeric\type
-			(
-				new block\error(new \typeError('Value should be a float'))
+		(new comparison\unary\not\with\numeric\type)
+			->recipientOfComparisonWithOperandIs(
+				$value,
+				new comparison\recipient\error(
+					new \typeError('Value should be a float')
+				)
 			)
-		)
-			->operandForComparisonIs($value)
 		;
 
 		$this->value = $value;
@@ -41,18 +41,16 @@ class any
 
 	function recipientOfDatumWithNStringIs(string $value, datum\recipient $recipient)
 	{
-		(
-			new comparison\unary\with\numeric\type
-			(
-				new block\functor(
+		(new comparison\unary\with\numeric\type)
+			->recipientOfComparisonWithOperandIs(
+				$value,
+				new comparison\recipient\functor\ok(
 					function() use ($recipient, $value)
 					{
 						$recipient->datumIs($this->cloneWithValue($value));
 					}
 				)
 			)
-		)
-			->operandForComparisonIs($value)
 		;
 
 		return $this;

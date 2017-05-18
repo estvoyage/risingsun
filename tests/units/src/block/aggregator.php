@@ -1,11 +1,11 @@
-<?php namespace estvoyage\risingsun\tests\units\comparison\unary;
+<?php namespace estvoyage\risingsun\tests\units\block;
 
-require __DIR__ . '/../../../runner.php';
+require __DIR__ . '/../../runner.php';
 
 use estvoyage\risingsun\{ tests\units, block };
 use mock\estvoyage\risingsun\block as mockOfBlock;
 
-class switcher extends units\test
+class aggregator extends units\test
 {
 	function test__construct()
 	{

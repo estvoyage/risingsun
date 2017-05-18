@@ -2,81 +2,28 @@
 
 require __DIR__ . '/../../../runner.php';
 
-use estvoyage\risingsun\{ tests\units, block };
-use mock\estvoyage\risingsun\block as mockOfBlock;
+use estvoyage\risingsun\tests\units;
 
-class lessThan extends units\test
+class lessThan extends units\comparison\binary
 {
-	function testClass()
+	protected function okProvider()
 	{
-		$this->testedClass
-			->implements('estvoyage\risingsun\comparison\binary')
-		;
+		return [
+			[ 0, rand(1, PHP_INT_MAX) ],
+			[ 'a', 'z' ],
+			[ null, rand(1, PHP_INT_MAX) ]
+		];
 	}
 
-	function test__construct()
+	protected function koProvider()
 	{
-		$this
-			->given(
-				$ok = new mockOfBlock
-			)
-			->if(
-				$this->newTestedInstance($ok)
-			)
-			->then
-				->object($this->testedInstance)->isEqualTo($this->newTestedInstance($ok, new block\blackhole))
-		;
-	}
-
-	function testReferenceForComparisonWithOperandIs()
-	{
-		$this
-			->given(
-				$ok = new mockOfBlock,
-				$ko = new mockOfBlock,
-				$this->newTestedInstance($ok, $ko)
-			)
-			->if(
-				$operand = 1,
-				$reference = 0
-			)
-			->then
-				->object($this->testedInstance->referenceForComparisonWithOperandIs($operand, $reference))
-					->isEqualTo($this->newTestedInstance($ok, $ko))
-				->mock($ok)
-					->receive('blockArgumentsAre')
-						->never
-				->mock($ko)
-					->receive('blockArgumentsAre')
-						->once
-
-			->if(
-				$operand = 0,
-				$reference = 0
-			)
-			->then
-				->object($this->testedInstance->referenceForComparisonWithOperandIs($operand, $reference))
-					->isEqualTo($this->newTestedInstance($ok, $ko))
-				->mock($ok)
-					->receive('blockArgumentsAre')
-						->never
-				->mock($ko)
-					->receive('blockArgumentsAre')
-						->twice
-
-			->if(
-				$operand = 0,
-				$reference = 1
-			)
-			->then
-				->object($this->testedInstance->referenceForComparisonWithOperandIs($operand, $reference))
-					->isEqualTo($this->newTestedInstance($ok, $ko))
-				->mock($ok)
-					->receive('blockArgumentsAre')
-						->once
-				->mock($ko)
-					->receive('blockArgumentsAre')
-						->twice
-		;
+		return [
+			[ rand(1, PHP_INT_MAX), 0 ],
+			[ 0, 0 ],
+			[ 'a', 'a' ],
+			[ 'z', 'a' ],
+			[ null, null ],
+			[ rand(1, PHP_INT_MAX), null ]
+		];
 	}
 }

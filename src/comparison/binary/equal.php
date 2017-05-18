@@ -1,35 +1,13 @@
 <?php namespace estvoyage\risingsun\comparison\binary;
 
-use estvoyage\risingsun\{ comparison, block };
+use estvoyage\risingsun\comparison;
 
 class equal
 	implements
 		comparison\binary
 {
-	private
-		$ok,
-		$ko
-	;
-
-	function __construct(block $ok, block $ko = null)
+	function recipientOfComparisonBetweenOperandAndReferenceIs($operand, $reference, comparison\recipient $recipient)
 	{
-		$this->ok = $ok;
-		$this->ko = $ko ?: new block\blackhole;
-	}
-
-	function referenceForComparisonWithOperandIs($operand, $reference)
-	{
-		(
-			new comparison\unary\with\true\boolean(
-				$this->ok,
-				$this->ko
-			)
-		)
-			->operandForComparisonIs(
-				$operand == $reference
-			)
-		;
-
-		return $this;
+		$recipient->nbooleanIs($operand == $reference);
 	}
 }

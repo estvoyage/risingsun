@@ -3,7 +3,7 @@
 require __DIR__ . '/../../../../runner.php';
 
 use estvoyage\risingsun\tests\units;
-use mock\estvoyage\risingsun\{ comparison\binary as mockOfComparison, container as mockOfContainer };
+use mock\estvoyage\risingsun\comparison\binary as mockOfComparison;
 
 class collection extends units\test
 {

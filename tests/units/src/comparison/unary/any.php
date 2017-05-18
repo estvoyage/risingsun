@@ -2,8 +2,8 @@
 
 require __DIR__ . '/../../../runner.php';
 
-use estvoyage\risingsun\{ tests\units, comparison };
-use mock\estvoyage\risingsun\{ comparison as mockOfComparison, oboolean as mockOfOBoolean };
+use estvoyage\risingsun\tests\units;
+use mock\estvoyage\risingsun\comparison as mockOfComparison;
 
 class any extends units\test
 {
@@ -14,23 +14,23 @@ class any extends units\test
 		;
 	}
 
-	function testOperandForComparisonIs()
+	function testRecipientOfComparisonWithOperandIs()
 	{
 		$this
 			->given(
-				$comparison = new mockOfComparison\binary,
-				$reference = uniqid(),
-				$value = uniqid()
+				$this->newTestedInstance($reference = uniqid(), $comparison = new mockOfComparison\binary),
+				$operand = uniqid(),
+				$recipient = new mockOfComparison\recipient
 			)
 			->if(
-				$this->newTestedInstance($reference, $comparison)
+				$this->testedInstance->recipientOfComparisonWithOperandIs($operand, $recipient)
 			)
 			->then
-				->object($this->testedInstance->operandForComparisonIs($value))
+				->object($this->testedInstance)
 					->isEqualTo($this->newTestedInstance($reference, $comparison))
 				->mock($comparison)
-					->receive('referenceForComparisonWithOperandIs')
-						->withArguments($value, $reference)
+					->receive('recipientOfComparisonBetweenOperandAndReferenceIs')
+						->withArguments($operand, $reference, $recipient)
 							->once
 		;
 	}

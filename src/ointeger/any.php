@@ -12,31 +12,33 @@ class any
 
 	function __construct($value = 0)
 	{
-		(
-			new comparison\unary\with\magic\toString(
-				new block\functor(
+		(new comparison\unary\with\magic\toString)
+			->recipientOfComparisonWithOperandIs(
+				$value,
+				new comparison\recipient\functor\ok(
 					function() use (& $value)
 					{
 						$value = (string) $value;
 					}
 				)
 			)
-		)
-			->operandForComparisonIs($value)
 		;
 
-		(
-			new comparison\unary\with\integer\type(
-				new block\functor(
-					function() use ($value)
-					{
-						$this->value = (int) (string) $value;
-					}
-				),
-				new block\error(new \typeError('Value should be an integer'))
+		(new comparison\unary\with\integer\type)
+			->recipientOfComparisonWithOperandIs(
+				$value,
+				new comparison\recipient\oboolean(
+					new block\functor(
+						function() use ($value)
+						{
+							$this->value = (int) $value;
+						}
+					),
+					new block\error(
+						new \typeError('Value should be an integer')
+					)
+				)
 			)
-		)
-			->operandForComparisonIs($value)
 		;
 	}
 
@@ -84,19 +86,15 @@ class any
 
 	function recipientOfDatumWithNStringIs(string $value, datum\recipient $recipient)
 	{
-		(
-			new comparison\unary\with\integer\type
-			(
-				new block\functor(
+		(new comparison\unary\with\integer\type)
+			->recipientOfComparisonWithOperandIs(
+				$value,
+				new comparison\recipient\functor\ok(
 					function() use ($value, $recipient)
 					{
 						$recipient->datumIs(self::cloneWithValue($value));
 					}
 				)
-			)
-		)
-			->operandForComparisonIs(
-				$value
 			)
 		;
 

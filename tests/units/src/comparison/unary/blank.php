@@ -2,8 +2,8 @@
 
 require __DIR__ . '/../../../runner.php';
 
-use estvoyage\risingsun\{ tests\units, block };
-use mock\estvoyage\risingsun\block as mockOfBlock;
+use estvoyage\risingsun\tests\units;
+use mock\estvoyage\risingsun\comparison as mockOfComparison;
 
 class blank extends units\test
 {
@@ -14,53 +14,53 @@ class blank extends units\test
 		;
 	}
 
-	function test__construct()
+	function testRecipientOfComparisonWithOperandIs()
 	{
 		$this
 			->given(
-				$ok = new mockOfBlock
+				$this->newTestedInstance,
+				$operand = uniqid(),
+				$recipient = new mockOfComparison\recipient
 			)
+
 			->if(
-				$this->newTestedInstance($ok)
+				$this->testedInstance->recipientOfComparisonWithOperandIs($operand, $recipient)
 			)
 			->then
-				->object($this->testedInstance)->isEqualTo($this->newTestedInstance($ok, new block\blackhole))
-		;
-	}
+				->object($this->testedInstance)
+					->isEqualTo($this->newTestedInstance)
+				->mock($recipient)
+					->receive('nbooleanIs')
+						->withArguments(false)
+							->once
 
-	function testOperandForComparison()
-	{
-		$this
 			->given(
-				$ok = new mockOfBlock,
-				$ko = new mockOfBlock,
-				$this->newTestedInstance($ok, $ko)
+				$operand = null
 			)
 			->if(
-				$operand = uniqid()
+				$this->testedInstance->recipientOfComparisonWithOperandIs($operand, $recipient)
 			)
 			->then
-				->object($this->testedInstance->operandForComparisonIs($operand))
-					->isEqualTo($this->newTestedInstance($ok, $ko))
-				->mock($ok)
-					->receive('blockArgumentsAre')
-						->never
-				->mock($ko)
-					->receive('blockArgumentsAre')
-						->once
+				->object($this->testedInstance)
+					->isEqualTo($this->newTestedInstance)
+				->mock($recipient)
+					->receive('nbooleanIs')
+						->withArguments(true)
+							->once
 
-			->if(
+			->given(
 				$operand = ''
 			)
+			->if(
+				$this->testedInstance->recipientOfComparisonWithOperandIs($operand, $recipient)
+			)
 			->then
-				->object($this->testedInstance->operandForComparisonIs($operand))
-					->isEqualTo($this->newTestedInstance($ok, $ko))
-				->mock($ok)
-					->receive('blockArgumentsAre')
-						->once
-				->mock($ko)
-					->receive('blockArgumentsAre')
-						->once
+				->object($this->testedInstance)
+					->isEqualTo($this->newTestedInstance)
+				->mock($recipient)
+					->receive('nbooleanIs')
+						->withArguments(true)
+							->twice
 		;
 	}
 }

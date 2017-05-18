@@ -52,33 +52,31 @@ class binary extends units\test
 
 			->if(
 				$this->calling($operation)->recipientOfOperationOnNIntegersIs = function($ninteger1, $ninteger2, $recipient) {
-					(
-						new comparison\binary\equal(
-							new block\functor(
-								function() use ($ninteger2, $recipient)
-								{
-									(
-										new comparison\binary\equal(
-											new block\functor(
-												function() use ($recipient)
-												{
-													$recipient->nintegerIs(3);
-												}
-											)
-										)
-									)
-										->referenceForComparisonWithOperandIs(
-											$ninteger2,
-											2
-										)
-									;
-								}
-							)
-						)
-					)
-						->referenceForComparisonWithOperandIs(
+					(new comparison\binary\equal)
+						->recipientOfComparisonBetweenOperandAndReferenceIs(
 							$ninteger1,
-							1
+							1,
+							new comparison\recipient\ok(
+								new block\functor(
+									function() use ($ninteger2, $recipient)
+									{
+										(new comparison\binary\equal)
+											->recipientOfComparisonBetweenOperandAndReferenceIs(
+												$ninteger2,
+												2,
+												new comparison\recipient\ok(
+													new block\functor(
+														function() use ($recipient)
+														{
+															$recipient->nintegerIs(3);
+														}
+													)
+												)
+											)
+										;
+									}
+								)
+							)
 						)
 					;
 				}

@@ -15,22 +15,23 @@ class any
 		$this->comparison = $comparison;
 	}
 
-	function referenceForComparisonWithOFloatIs(ofloat $ofloat, ofloat $reference)
+	function recipientOfOFloatComparisonBetweenOperandAndReferenceIs(ofloat $ofloat, ofloat $reference, comparison\recipient $recipient)
 	{
 		$ofloat
 			->recipientOfNFloatIs(
 				new nfloat\recipient\functor(
-					function($ofloatValue) use ($reference)
+					function($ofloatValue) use ($reference, $recipient)
 					{
 						$reference
 							->recipientOfNFloatIs(
 								new nfloat\recipient\functor(
-									function($referenceValue) use ($ofloatValue)
+									function($referenceValue) use ($ofloatValue, $recipient)
 									{
 										$this->comparison
-											->referenceForComparisonWithOperandIs(
+											->recipientOfComparisonBetweenOperandAndReferenceIs(
 												$ofloatValue,
-												$referenceValue
+												$referenceValue,
+												$recipient
 											)
 										;
 									}

@@ -2,91 +2,18 @@
 
 require __DIR__ . '/../../../../../runner.php';
 
-use estvoyage\risingsun\{ tests\units, block };
-use mock\estvoyage\risingsun\block as mockOfBlock;
+use estvoyage\risingsun\tests\units;
 
-class boolean extends units\test
+class boolean extends units\comparison\unary\with
 {
-	function testClass()
-	{
-		$this->testedClass
-			->implements('estvoyage\risingsun\comparison\unary')
-		;
-	}
-
-	function test__construct()
-	{
-		$this
-			->given(
-				$ok = new mockOfBlock
-			)
-			->if(
-				$this->newTestedInstance($ok)
-			)
-			->object($this->testedInstance)->isEqualTo($this->newTestedInstance($ok, new block\blackhole))
-		;
-	}
-
-	/**
-	 * @dataProvider invalidValueProvider
-	 */
-	function testOperandForComparisonIs_withInvalidValue($value)
-	{
-		$this
-			->given(
-				$ok = new mockOfBlock,
-				$ko = new mockOfBlock
-			)
-			->if(
-				$this->newTestedInstance($ok, $ko)
-			)
-			->then
-				->object($this->testedInstance->operandForComparisonIs($value))
-					->isEqualTo($this->newTestedInstance($ok, $ko))
-				->mock($ok)
-					->receive('blockArgumentsAre')
-						->never
-				->mock($ko)
-					->receive('blockArgumentsAre')
-						->withArguments($value)
-							->once
-		;
-	}
-
-	/**
-	 * @dataProvider validValueProvider
-	 */
-	function testOperandForComparisonIs_withValidValue($value)
-	{
-		$this
-			->given(
-				$ok = new mockOfBlock,
-				$ko = new mockOfBlock
-			)
-			->if(
-				$this->newTestedInstance($ok, $ko)
-			)
-			->then
-				->object($this->testedInstance->operandForComparisonIs($value))
-					->isEqualTo($this->newTestedInstance($ok, $ko))
-				->mock($ok)
-					->receive('blockArgumentsAre')
-						->withArguments($value)
-							->once
-				->mock($ko)
-					->receive('blockArgumentsAre')
-						->never
-		;
-	}
-
-	protected function validValueProvider()
+	protected function okProvider()
 	{
 		return [
 			true
 		];
 	}
 
-	protected function invalidValueProvider()
+	protected function koProvider()
 	{
 		return [
 			0.,
