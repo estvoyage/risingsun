@@ -52,23 +52,4 @@ class blackhole extends units\test
 						->never
 		;
 	}
-
-	function testRecipientOfDatumLengthIs()
-	{
-		$this
-			->given(
-				$this->newTestedInstance,
-				$recipient = new mockOfDatum\length\recipient
-			)
-			->if(
-				$this->newTestedInstance->recipientOfDatumLengthIs($recipient)
-			)
-			->then
-				->object($this->newTestedInstance)
-					->isEqualTo($this->newTestedInstance)
-				->mock($recipient)
-					->receive('datumLengthIs')
-						->never
-		;
-	}
 }

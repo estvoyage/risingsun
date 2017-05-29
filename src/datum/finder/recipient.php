@@ -1,8 +1,8 @@
 <?php namespace estvoyage\risingsun\datum\finder;
 
-use estvoyage\risingsun\datum;
+use estvoyage\risingsun\ointeger;
 
 interface recipient
 {
-	function datumIsAtPosition(datum\length $position);
+	function datumIsAtPosition(ointeger $position);
 }

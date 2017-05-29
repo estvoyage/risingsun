@@ -16,7 +16,7 @@ class first extends units\test
 
 	function test__construct()
 	{
-		$this->object($this->newTestedInstance)->isEqualTo($this->newTestedInstance(new datum\length));
+		$this->object($this->newTestedInstance)->isEqualTo($this->newTestedInstance(new ointeger\unsigned\any));
 	}
 
 	function testRecipientOfSearchOfDatumInDatumIs()
@@ -26,7 +26,7 @@ class first extends units\test
 				$search = new mockOfDatum,
 				$datum = new mockOfDatum,
 				$recipient = new mockOfDatum\finder\recipient,
-				$start = new datum\length
+				$start = new ointeger\unsigned\any
 			)
 			->if(
 				$this->newTestedInstance($start)
@@ -55,7 +55,7 @@ class first extends units\test
 					->isEqualTo($this->newTestedInstance($start))
 				->mock($recipient)
 					->receive('datumIsAtPosition')
-						->withArguments(new datum\length(2))
+						->withArguments(new ointeger\unsigned\any(2))
 							->once
 
 			->if(

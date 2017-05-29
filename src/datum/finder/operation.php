@@ -32,20 +32,15 @@ class operation
 								new ointeger\recipient\functor(
 									function($position) use ($datum, $recipient)
 									{
-										(
-											new datum\length\comparison\datum
-											(
-												new block\functor(
-													function() use ($position, $recipient)
+										(new datum\length\any)
+											->recipientOfLengthOfDatumIs(
+												$datum,
+												new ointeger\recipient\functor(
+													function($length) use ($position, $recipient)
 													{
 														$recipient->datumIsAtPosition($position);
 													}
-												),
-												$datum
-											)
-										)
-											->datumLengthForComparisonIs(
-												$position
+												)
 											)
 										;
 									}

@@ -1,7 +1,8 @@
 <?php namespace estvoyage\risingsun\datum;
 
-use estvoyage\risingsun\ointeger;
+use estvoyage\risingsun\{ datum, ointeger };
 
-final class length extends ointeger\unsigned\any
+interface length
 {
+	function recipientOfLengthOfDatumIs(datum $datum, ointeger\recipient $recipient) :void;
 }

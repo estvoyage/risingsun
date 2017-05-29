@@ -78,29 +78,6 @@ class any extends units\test
 		;
 	}
 
-	/**
-	 * @dataProvider validNStringProvider
-	 */
-	function testRecipientOfDatumLengthIs($value)
-	{
-		$this
-			->given(
-				$this->newTestedInstance($value),
-				$recipient = new mockOfDatum\length\recipient
-			)
-			->if(
-				$this->testedInstance->recipientOfDatumLengthIs($recipient)
-			)
-			->then
-				->object($this->testedInstance)
-					->isEqualTo($this->newTestedInstance($value))
-				->mock($recipient)
-					->receive('datumLengthIs')
-						->withArguments(new datum\length(strlen($value)))
-							->once
-		;
-	}
-
 	protected function validValueProvider()
 	{
 		return [

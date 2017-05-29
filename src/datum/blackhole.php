@@ -13,8 +13,4 @@ class blackhole
 	function recipientOfDatumWithNStringIs(string $value, datum\recipient $recipient) :void
 	{
 	}
-
-	function recipientOfDatumLengthIs(datum\length\recipient $recipient) :void
-	{
-	}
 }

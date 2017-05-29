@@ -52,24 +52,4 @@ class get extends units\test
 						->never
 		;
 	}
-
-	function testRecipientOfDatumLengthIs()
-	{
-		$this
-			->given(
-				$this->newTestedInstance,
-				$recipient = new mockOfDatum\Length\recipient
-			)
-			->if(
-				$this->testedInstance->recipientOfDatumLengthIs($recipient)
-			)
-			->then
-				->object($this->testedInstance)
-					->isEqualTo($this->newTestedInstance)
-				->mock($recipient)
-					->receive('datumLengthIs')
-						->withArguments(new datum\length(3))
-							->once
-		;
-	}
 }

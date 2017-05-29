@@ -54,11 +54,6 @@ class any
 		;
 	}
 
-	function recipientOfDatumLengthIs(datum\length\recipient $recipient) :void
-	{
-		$recipient->datumLengthIs(new datum\length(strlen($this->value)));
-	}
-
 	function recipientOfNStringIs(nstring\recipient $recipient) :void
 	{
 		$recipient->nstringIs((string) $this->value);

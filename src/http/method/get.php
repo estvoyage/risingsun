@@ -14,9 +14,4 @@ class get
 	function recipientOfDatumWithNStringIs(string $nstring, datum\recipient $recipient) :void
 	{
 	}
-
-	function recipientOfDatumLengthIs(datum\length\recipient $recipient) :void
-	{
-		$recipient->datumLengthIs(new datum\length(3));
-	}
 }

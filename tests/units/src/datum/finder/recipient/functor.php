@@ -2,7 +2,8 @@
 
 require __DIR__ . '/../../../../runner.php';
 
-use estvoyage\risingsun\{ tests\units, datum };
+use estvoyage\risingsun\tests\units;
+use mock\estvoyage\risingsun\ointeger as mockOfOInteger;
 
 class functor extends units\test
 {
@@ -17,7 +18,7 @@ class functor extends units\test
 	{
 		$this
 			->given(
-				$position = new datum\length,
+				$position = new mockOfOInteger,
 
 				$callable = function() use (& $arguments) {
 					$arguments = func_get_args();

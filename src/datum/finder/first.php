@@ -10,9 +10,9 @@ class first
 		$start
 	;
 
-	function __construct(datum\length $start = null)
+	function __construct(ointeger $start = null)
 	{
-		$this->start = $start ?: new datum\length;
+		$this->start = $start ?: new ointeger\unsigned\any;
 	}
 
 	function recipientOfSearchOfDatumInDatumIs(datum $search, datum $datum, recipient $recipient)
