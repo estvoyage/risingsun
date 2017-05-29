@@ -1,2 +1,0 @@
-- Rename `comparison\recipient\oboolean` to `comparison\recipient\block`;
-- Remove `ointeger\ninteger\operation\binary`?
