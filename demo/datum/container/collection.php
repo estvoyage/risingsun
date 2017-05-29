@@ -3,16 +3,13 @@
 use estvoyage\risingsun\
 	{
 		container\iterator,
-		container\iterator\controller\stopper,
 		block\functor,
 		ointeger,
 		datum,
 		ostring,
 		output,
 		datum\container\payload,
-		container\iterator\position,
-		container\iterator\lifo,
-		container\iterator\controller\blackhole
+		comparison
 	}
 ;
 
@@ -60,19 +57,18 @@ require __DIR__ . '/../../../vendor/autoload.php';
 				function($value, $position, $controller)
 				{
 					(
-						new ointeger\comparison\unary\equal
-						(
-							new functor(
+						new ointeger\comparison\unary\equal(
+							new ointeger\any(3)
+						)
+					)
+						->recipientOfComparisonWithOIntegerIs(
+							$position,
+							new comparison\recipient\functor\ok(
 								function() use ($controller)
 								{
 									$controller->remainingIterationsInContainerIteratorEngineAreUseless();
 								}
-							),
-							new ointeger\any(3)
-						)
-					)
-						->oIntegerForComparisonIs(
-							$position
+							)
 						)
 					;
 				}
