@@ -20,7 +20,7 @@ class pow
 		(new comparison\unary\with\float\type)
 			->recipientOfComparisonWithOperandIs(
 				$pow = pow($firstOperand, $secondOperand),
-				new comparison\recipient\oboolean(
+				new comparison\recipient\switcher(
 					new functor(
 						function()
 						{

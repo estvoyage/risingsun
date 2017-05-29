@@ -20,7 +20,7 @@ class division
 		(new comparison\unary\equal(0))
 			->recipientOfComparisonWithOperandIs(
 				$secondOperand,
-				new comparison\recipient\oboolean(
+				new comparison\recipient\switcher(
 					$this->divisionByZero,
 					new block\functor(
 						function() use ($firstOperand, $secondOperand, $recipient)

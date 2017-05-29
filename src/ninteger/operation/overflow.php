@@ -25,7 +25,7 @@ class overflow
 							(new comparison\unary\with\ninteger\type)
 								->recipientOfComparisonWithOperandIs(
 									$value,
-									new comparison\recipient\oboolean(
+									new comparison\recipient\switcher(
 										new block\functor(
 											function() use ($value, $recipient)
 											{

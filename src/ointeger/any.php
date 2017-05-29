@@ -27,7 +27,7 @@ class any
 		(new comparison\unary\with\integer\type)
 			->recipientOfComparisonWithOperandIs(
 				$value,
-				new comparison\recipient\oboolean(
+				new comparison\recipient\switcher(
 					new block\functor(
 						function() use ($value)
 						{

@@ -11,7 +11,7 @@ class type
 		(new comparison\unary\with\numeric\type)
 			->recipientOfComparisonWithOperandIs(
 				$operand,
-				new comparison\recipient\oboolean(
+				new comparison\recipient\switcher(
 					new block\functor(
 						function() use ($operand, $recipient)
 						{

@@ -2,7 +2,7 @@
 
 use estvoyage\risingsun\{ comparison, block };
 
-class oboolean
+class switcher
 	implements
 		comparison\recipient
 {

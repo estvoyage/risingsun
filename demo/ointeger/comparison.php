@@ -8,7 +8,7 @@ require __DIR__ . '/../../vendor/autoload.php';
 	->recipientOfOIntegerComparisonBetweenOperandAndReferenceIs(
 		new ointeger\any,
 		new ointeger\any,
-		new comparison\recipient\oboolean(
+		new comparison\recipient\switcher(
 			new block\output\line(new ostring\any('0 is greater than or equal to 0')),
 			new block\output\line(new ostring\any('Not greater than or equal to 0'))
 		)
@@ -16,7 +16,7 @@ require __DIR__ . '/../../vendor/autoload.php';
 	->recipientOfOIntegerComparisonBetweenOperandAndReferenceIs(
 		new ointeger\any,
 		new ointeger\any(rand(1, PHP_INT_MAX)),
-		new comparison\recipient\oboolean(
+		new comparison\recipient\switcher(
 			new block\output\line(new ostring\any('0 is greater than or equal to 0')),
 			new block\output\line(new ostring\any('Not greater than or equal to 0'))
 		)
