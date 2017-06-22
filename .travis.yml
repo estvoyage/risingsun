@@ -1,0 +1,13 @@
+language: php
+
+php:
+  - 7.1
+
+notifications:
+  irc: "irc.freenode.org##east"
+
+before_script:
+  - composer install
+
+script:
+  - php tests/units/runner.php
