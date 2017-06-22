@@ -18,8 +18,8 @@ class collection extends units\test
 	{
 		$this
 			->given(
-				$payload = new mockOfDatum\Container\payload,
-				$iterator = new mockOfDatum\Container\iterator
+				$payload = new mockOfDatum\container\payload,
+				$iterator = new mockOfDatum\container\iterator
 			)
 			->if(
 				$this->newTestedInstance
