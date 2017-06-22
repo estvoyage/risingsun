@@ -3,10 +3,12 @@
 require __DIR__ . '/../../../../runner.php';
 
 use estvoyage\risingsun\{ tests\units, comparison, block };
-use mock\estvoyage\risingsun\ointeger as mockOfOInteger;
+use mock\estvoyage\risingsun\{ ointeger as mockOfOInteger, block as mockOfBlock };
 
 class pow extends units\test
 {
+	use units\providers\ointeger\operation\pow;
+
 	function testClass()
 	{
 		$this->testedClass
@@ -14,57 +16,53 @@ class pow extends units\test
 		;
 	}
 
-	function testRecipientOfOperationWithOIntegerIs()
+	function testRecipientOfOperationWithOIntegerIs_withNoMessage()
 	{
 		$this
 			->given(
-				$pow = new mockOfOInteger,
+				$this->newTestedInstance($pow = new mockOfOInteger, $template = new mockOfOInteger, $overflow = new mockOfBlock),
 				$recipient = new mockOfOInteger\recipient,
 				$ointeger = new mockOfOInteger
 			)
 			->if(
-				$this->newTestedInstance($pow)
+				$this->testedInstance->recipientOfOperationWithOIntegerIs($ointeger, $recipient)
 			)
 			->then
-				->object($this->testedInstance->recipientOfOperationWithOIntegerIs($ointeger, $recipient))
-					->isEqualTo($this->newTestedInstance($pow))
+				->object($this->testedInstance)
+					->isEqualTo($this->newTestedInstance($pow, $template, $overflow))
 				->mock($recipient)
 					->receive('ointegerIs')
 						->never
-
-			->if(
-				$this->calling($pow)->recipientOfNIntegerIs = function($recipient) {
-					$recipient->nintegerIs(2);
-				}
-			)
-			->then
-				->object($this->testedInstance->recipientOfOperationWithOIntegerIs($ointeger, $recipient))
-					->isEqualTo($this->newTestedInstance($pow))
-				->mock($recipient)
-					->receive('ointegerIs')
+				->mock($overflow)
+					->receive('blockArgumentsAre')
 						->never
+		;
+	}
 
-			->if(
-				$this->calling($ointeger)->recipientOfNIntegerIs = function($recipient) {
-					$recipient->nintegerIs(3);
-				}
-			)
-			->then
-				->object($this->testedInstance->recipientOfOperationWithOIntegerIs($ointeger, $recipient))
-					->isEqualTo($this->newTestedInstance($pow))
-				->mock($recipient)
-					->receive('ointegerIs')
-						->never
-
+	/**
+	 * @dataProvider validOperandsProvider
+	 */
+	function testRecipientOfOperationWithOIntegerIs_withValidOperand($ointegerValue, $powValue, $operationValue)
+	{
+		$this
 			->given(
-				$operation = new mockOfOInteger
-			)
-			->if(
-				$this->calling($ointeger)->recipientOfOIntegerWithNIntegerIs = function($value, $recipient) use ($operation) {
-					(new comparison\binary\equal)
-						->recipientOfComparisonBetweenOperandAndReferenceIs(
+				$this->newTestedInstance($pow = new mockOfOInteger, $template = new mockOfOInteger, $overflow = new mockOfBlock),
+				$ointeger = new mockOfOInteger,
+				$recipient = new mockOfOInteger\recipient,
+
+				$this->calling($pow)->recipientOfNIntegerIs = function($recipient) use ($powValue) {
+					$recipient->nintegerIs($powValue);
+				},
+
+				$this->calling($ointeger)->recipientOfNIntegerIs = function($recipient) use ($ointegerValue) {
+					$recipient->nintegerIs($ointegerValue);
+				},
+
+				$operation = new mockOfOInteger,
+				$this->calling($template)->recipientOfOIntegerWithNIntegerIs = function($value, $recipient) use ($operation, $operationValue) {
+					(new comparison\unary\equal($operationValue))
+						->recipientOfComparisonWithOperandIs(
 							$value,
-							9,
 							new comparison\recipient\ok(
 								new block\functor(
 									function() use ($recipient, $operation)
@@ -77,13 +75,57 @@ class pow extends units\test
 					;
 				}
 			)
+			->if(
+				$this->testedInstance->recipientOfOperationWithOIntegerIs($ointeger, $recipient)
+			)
 			->then
-				->object($this->testedInstance->recipientOfOperationWithOIntegerIs($ointeger, $recipient))
-					->isEqualTo($this->newTestedInstance($pow))
+				->object($this->testedInstance)
+					->isEqualTo($this->newTestedInstance($pow, $template, $overflow))
 				->mock($recipient)
 					->receive('ointegerIs')
-						->withIdenticalArguments($operation)
+						->withArguments($operation)
 							->once
+				->mock($overflow)
+					->receive('blockArgumentsAre')
+						->never
+		;
+	}
+
+	/**
+	 * @dataProvider overflowProvider
+	 */
+	function testRecipientOfOperationWithOIntegerIs_withOverflow($powValue, $ointegerValue)
+	{
+		$this
+			->given(
+				$this->newTestedInstance($pow = new mockOfOInteger, $template = new mockOfOInteger, $overflow = new mockOfBlock),
+				$ointeger = new mockOfOInteger,
+				$recipient = new mockOfOInteger\recipient,
+
+				$this->calling($pow)->recipientOfNIntegerIs = function($recipient) use ($powValue) {
+					$recipient->nintegerIs($powValue);
+				},
+
+				$this->calling($ointeger)->recipientOfNIntegerIs = function($recipient) use ($ointegerValue) {
+					$recipient->nintegerIs($ointegerValue);
+				},
+
+				$this->calling($template)->recipientOfOIntegerWithNIntegerIs = function($value, $recipient) {
+					$recipient->ointegerIs(new mockOfOInteger);
+				}
+			)
+			->if(
+				$this->testedInstance->recipientOfOperationWithOIntegerIs($ointeger, $recipient)
+			)
+			->then
+				->object($this->testedInstance)
+					->isEqualTo($this->newTestedInstance($pow, $template, $overflow))
+				->mock($recipient)
+					->receive('ointegerIs')
+						->never
+				->mock($overflow)
+					->receive('blockArgumentsAre')
+						->once
 		;
 	}
 }

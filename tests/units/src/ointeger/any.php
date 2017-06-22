@@ -198,6 +198,67 @@ class any extends units\test
 		;
 	}
 
+	function testRecipientOfDatumFromDatum_withNoReplyFromDatum()
+	{
+		$this
+			->given(
+				$this->newTestedInstance,
+				$datum = new mockOfDatum,
+				$recipient = new mockOfDatum\recipient
+			)
+			->if(
+				$this->testedInstance->recipientOfDatumFromDatumIs($datum, $recipient)
+			)
+			->then
+				->mock($recipient)
+					->receive('datumIs')
+						->never
+		;
+	}
+
+	/**
+	 * @dataProvider validNStringProvider
+	 */
+	function testRecipientOfDatumFromDatumIs_withValidNString($nstring)
+	{
+		$this
+			->given(
+				$this->newTestedInstance,
+
+				$datum = new mockOfDatum,
+				$this->calling($datum)->recipientOfNStringIs = function($recipient) use ($nstring) {
+					$recipient->nstringIs($nstring);
+				},
+
+				$recipient = new mockOfDatum\recipient
+			)
+			->if(
+				$this->testedInstance->recipientOfDatumFromDatumIs($datum, $recipient)
+			)
+			->then
+				->object($this->testedInstance)
+					->isEqualTo($this->newTestedInstance)
+				->mock($recipient)
+					->receive('datumIs')
+						->withArguments($this->newTestedInstance($nstring))
+							->once
+
+			->given(
+				$testedInstance = $this->childOfTestedClass()
+			)
+			->if(
+				$testedInstance->recipientOfDatumFromDatumIs($datum, $recipient)
+			)
+			->then
+				->object($testedInstance)
+					->isEqualTo($this->childOfTestedClass())
+				->mock($recipient)
+					->receive('datumIs')
+						->withArguments($this->childOfTestedClass($nstring))
+							->once
+		;
+	}
+
 	/**
 	 * @dataProvider validValueProvider
 	 */

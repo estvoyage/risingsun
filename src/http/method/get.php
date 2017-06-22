@@ -14,4 +14,8 @@ class get
 	function recipientOfDatumWithNStringIs(string $nstring, datum\recipient $recipient) :void
 	{
 	}
+
+	function recipientOfDatumFromDatumIs(datum $datum, datum\recipient $recipient) :void
+	{
+	}
 }

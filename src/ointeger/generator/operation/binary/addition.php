@@ -4,8 +4,8 @@ use estvoyage\risingsun\{ ointeger, ointeger\generator\operation\binary, ointege
 
 class addition extends binary
 {
-	function __construct(ointeger $start = null, ointeger $increment = null, block $overflow = null)
+	function __construct(ointeger $start = null, ointeger $increment = null, ointeger $template = null, block $overflow = null)
 	{
-		parent::__construct($start ?: new ointeger\any, $increment ?: new ointeger\any(1), new operation\binary\addition($overflow ?: new block\blackhole));
+		parent::__construct($start ?: new ointeger\any, $increment ?: new ointeger\any(1), new operation\binary\addition($template ?: new ointeger\any, $overflow ?: new block\blackhole));
 	}
 }

@@ -54,6 +54,25 @@ class any
 		;
 	}
 
+	function recipientOfDatumFromDatumIs(datum $datum, datum\recipient $recipient) :void
+	{
+		$datum
+			->recipientOfNStringIs(
+				new nstring\recipient\functor(
+					function($nstring) use ($recipient)
+					{
+						$this
+							->recipientOfDatumWithNStringIs(
+								$nstring,
+								$recipient
+							)
+						;
+					}
+				)
+			)
+		;
+	}
+
 	function recipientOfNStringIs(nstring\recipient $recipient) :void
 	{
 		$recipient->nstringIs((string) $this->value);
@@ -70,7 +89,7 @@ class any
 						(
 							new datum\finder\operation(
 								new datum\finder\first,
-								new ointeger\operation\unary\addition(new ointeger\any(1))
+								new ointeger\operation\unary\addition(new ointeger\any(1), new ointeger\any)
 							)
 						)
 							->recipientOfSearchOfDatumInDatumIs(

@@ -1,9 +1,13 @@
 <?php namespace estvoyage\risingsun\time\duration\seconde;
 
-use estvoyage\risingsun\{ ointeger, ninteger, time\duration };
+use estvoyage\risingsun\{ ointeger, time\duration };
 
-class any extends duration\any
+class any extends ointeger\any
 	implements
 		duration\seconde
 {
+	function recipientOfNumberOfSecondeIs(duration\seconde\recipient $recipient)
+	{
+		$recipient->secondeIs($this);
+	}
 }

@@ -2,30 +2,10 @@
 
 use estvoyage\risingsun\{ ointeger, block };
 
-class addition
-	implements
-		ointeger\operation\unary
+class addition extends any
 {
-	private
-		$addend
-	;
-
-	function __construct(ointeger $addend, block $overflow = null)
+	function __construct(ointeger $addend, ointeger $template, block $overflow = null)
 	{
-		$this->addend = $addend;
-		$this->overflow = $overflow ?: new block\blackhole;
-	}
-
-	function recipientOfOperationWithOIntegerIs(ointeger $ointeger, ointeger\recipient $recipient)
-	{
-		(new ointeger\operation\binary\addition($this->overflow))
-			->recipientOfOperationOnOIntegersIs(
-				$ointeger,
-				$this->addend,
-				$recipient
-			)
-		;
-
-		return $this;
+		parent::__construct($addend, new ointeger\operation\binary\addition($template, $overflow));
 	}
 }

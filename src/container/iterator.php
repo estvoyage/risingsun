@@ -6,7 +6,6 @@ class iterator
 	implements
 		datum\container\iterator,
 		comparison\binary\container\iterator,
-		datum\operation\unary\container\iterator,
 		iterator\engine
 {
 	private
@@ -46,21 +45,6 @@ class iterator
 					}
 				),
 				... $comparisons
-			)
-		;
-	}
-
-	function unaryDatumOperationsForPayloadAre(datum\operation\unary\container\payload $payload, datum\operation\unary... $operations)
-	{
-		return $this
-			->valuesForContainerIteratorPayloadIs(
-				new iterator\payload\functor(
-					function($operation, $position, $controller) use ($payload)
-					{
-						$payload->containerIteratorEngineControllerForUnaryDatumOperationAtPositionIs($operation, $position, $controller);
-					}
-				),
-				... $operations
 			)
 		;
 	}

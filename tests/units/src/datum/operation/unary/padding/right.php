@@ -7,6 +7,8 @@ use mock\estvoyage\risingsun\{ ointeger as mockOfOInteger, datum as mockOfDatum 
 
 class right extends units\test
 {
+	use units\providers\datum\operation\padding;
+
 	function testClass()
 	{
 		$this->testedClass
@@ -14,59 +16,90 @@ class right extends units\test
 		;
 	}
 
-	function testRecipientOfDatumOperationWithDatumIs()
+	function testRecipientOfDatumOperationWithDatumIs_withNoMessage()
 	{
 		$this
 			->given(
-				$length = new mockOfOInteger\unsigned,
-				$padding = new mockOfDatum,
+				$this->newTestedInstance($template = new mockOfDatum, $length = new mockOfOInteger\unsigned, $padding = new mockOfDatum),
 				$datum = new mockOfDatum,
 				$recipient = new mockOfDatum\recipient
 			)
 			->if(
-				$this->newTestedInstance($length, $padding)
+				$this->testedInstance->recipientOfDatumOperationWithDatumIs($datum, $recipient)
 			)
 			->then
-				->object($this->testedInstance->recipientOfDatumOperationWithDatumIs($datum, $recipient))
-					->isEqualTo($this->newTestedInstance($length, $padding))
+				->object($this->testedInstance)
+					->isEqualTo($this->newTestedInstance($template, $length, $padding))
 				->mock($recipient)
 					->receive('datumIs')
 						->never
+		;
+	}
 
+	function testRecipientOfDatumOperationWithDatumIs_withEmptyNStrings()
+	{
+		$this
 			->given(
-				$datumValue = '',
-				$paddingValue = '',
-				$lengthValue = 1
+				$padding = new mockOfDatum,
+				$this->calling($padding)->recipientOfNStringIs = function($recipient) {
+					$recipient->nstringIs('');
+				},
+
+				$datum = new mockOfDatum,
+				$this->calling($datum)->recipientOfNStringIs = function($recipient) {
+					$recipient->nstringIs('');
+				},
+
+				$length = new mockOfOInteger\unsigned,
+				$this->calling($length)->recipientOfNIntegerIs = function($recipient) {
+					$recipient->nintegerIs(rand(1, PHP_INT_MAX));
+				},
+
+				$this->newTestedInstance($template = new mockOfDatum, $length, $padding),
+
+				$recipient = new mockOfDatum\recipient
 			)
 			->if(
-				$this->calling($datum)->recipientOfNStringIs = function($recipient) use (& $datumValue) {
-					$recipient->nstringIs($datumValue);
-				},
-				$this->calling($padding)->recipientOfNStringIs = function($recipient) use (& $paddingValue) {
+				$this->testedInstance->recipientOfDatumOperationWithDatumIs($datum, $recipient)
+			)
+			->then
+				->object($this->testedInstance)
+					->isEqualTo($this->newTestedInstance($template, $length, $padding))
+				->mock($recipient)
+					->receive('datumIs')
+						->never
+		;
+	}
+
+	/**
+	 * @dataProvider nstringProvider
+	 */
+	function testRecipientOfDatumOperationWithDatumIs_withStrings($datumValue, $paddingValue, $lengthValue, $paddedValue)
+	{
+		$this
+			->given(
+				$padding = new mockOfDatum,
+				$this->calling($padding)->recipientOfNStringIs = function($recipient) use ($paddingValue) {
 					$recipient->nstringIs($paddingValue);
 				},
-				$this->calling($length)->recipientOfNIntegerIs = function($recipient) use (& $lengthValue) {
+
+				$datum = new mockOfDatum,
+				$this->calling($datum)->recipientOfNStringIs = function($recipient) use ($datumValue) {
+					$recipient->nstringIs($datumValue);
+				},
+
+				$length = new mockOfOInteger\unsigned,
+				$this->calling($length)->recipientOfNIntegerIs = function($recipient) use ($lengthValue) {
 					$recipient->nintegerIs($lengthValue);
-				}
-			)
-			->then
-				->object($this->testedInstance->recipientOfDatumOperationWithDatumIs($datum, $recipient))
-					->isEqualTo($this->newTestedInstance($length, $padding))
-				->mock($recipient)
-					->receive('datumIs')
-						->never
+				},
 
-			->given(
-				$padded = new mockOfDatum
-			)
-			->if(
-				$paddingValue = 'a',
+				$padded = new mockOfDatum,
 
-				$this->calling($datum)->recipientOfDatumWithNStringIs = function($value, $recipient) use ($padded, $paddingValue) {
-					(new comparison\binary\equal)
-						->recipientOfComparisonBetweenOperandAndReferenceIs(
-							$value,
-							'a',
+				$template = new mockOfDatum,
+				$this->calling($template)->recipientOfDatumWithNStringIs = function($nstring, $recipient) use ($paddedValue, $padded) {
+					(new comparison\unary\equal($paddedValue))
+						->recipientOfComparisonWithOperandIs(
+							$nstring,
 							new comparison\recipient\functor\ok(
 								function() use ($recipient, $padded)
 								{
@@ -75,79 +108,22 @@ class right extends units\test
 							)
 						)
 					;
-				}
+				},
+
+				$this->newTestedInstance($template, $length, $padding),
+
+				$recipient = new mockOfDatum\recipient
+			)
+			->if(
+				$this->testedInstance->recipientOfDatumOperationWithDatumIs($datum, $recipient)
 			)
 			->then
-				->object($this->testedInstance->recipientOfDatumOperationWithDatumIs($datum, $recipient))
-					->isEqualTo($this->newTestedInstance($length, $padding))
+				->object($this->testedInstance)
+					->isEqualTo($this->newTestedInstance($template, $length, $padding))
 				->mock($recipient)
 					->receive('datumIs')
 						->withArguments($padded)
 							->once
-
-			->if(
-				$paddingValue = 'aaaa',
-				$lengthValue = 8,
-
-				$this->calling($datum)->recipientOfDatumWithNStringIs = function($value, $recipient) use ($padded) {
-					(new comparison\binary\equal)
-						->recipientOfComparisonBetweenOperandAndReferenceIs(
-							$value,
-							'aaaaaaaa',
-							new comparison\recipient\functor\ok(
-								function() use ($recipient, $padded)
-								{
-									$recipient->datumIs($padded);
-								}
-							)
-						)
-					;
-				}
-			)
-			->then
-				->object($this->testedInstance->recipientOfDatumOperationWithDatumIs($datum, $recipient))
-					->isEqualTo($this->newTestedInstance($length, $padding))
-				->mock($recipient)
-					->receive('datumIs')
-						->withArguments($padded)
-							->twice
-
-			->if(
-				$paddingValue = 'aaaaaaaa'
-			)
-			->then
-				->object($this->testedInstance->recipientOfDatumOperationWithDatumIs($datum, $recipient))
-					->isEqualTo($this->newTestedInstance($length, $padding))
-				->mock($recipient)
-					->receive('datumIs')
-						->withArguments($padded)
-							->thrice
-
-			->if(
-				$paddingValue = '0',
-
-				$this->calling($datum)->recipientOfDatumWithNStringIs = function($value, $recipient) use ($padded) {
-					(new comparison\binary\equal)
-						->recipientOfComparisonBetweenOperandAndReferenceIs(
-							$value,
-							'00000000',
-							new comparison\recipient\functor\ok(
-								function() use ($recipient, $padded)
-								{
-									$recipient->datumIs($padded);
-								}
-							)
-						)
-					;
-				}
-			)
-			->then
-				->object($this->testedInstance->recipientOfDatumOperationWithDatumIs($datum, $recipient))
-					->isEqualTo($this->newTestedInstance($length, $padding))
-				->mock($recipient)
-					->receive('datumIs')
-						->withArguments($padded)
-							->{4}
 		;
 	}
 }

@@ -7,11 +7,13 @@ class any
 		operation\binary
 {
 	private
+		$template,
 		$operation
 	;
 
-	function __construct(ninteger\operation\binary $operation)
+	function __construct(ointeger $template, ninteger\operation\binary $operation)
 	{
+		$this->template = $template;
 		$this->operation = $operation;
 	}
 
@@ -22,7 +24,7 @@ class any
 				new ninteger\recipient\functor(
 					function($ninteger) use ($firstOperand, $recipient)
 					{
-						$firstOperand->recipientOfOIntegerWithNIntegerIs(
+						$this->template->recipientOfOIntegerWithNIntegerIs(
 							$ninteger,
 							$recipient
 						);

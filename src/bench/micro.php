@@ -29,7 +29,7 @@ class micro
 								new timestamp\recipient\functor(
 									function($stop) use ($recipient, $start)
 									{
-										(new timestamp\operation\binary\substraction)
+										(new timestamp\operation\binary\substraction($stop))
 											->recipientOfOperationOnMicroUnixTimestampsIs(
 												$stop,
 												$start,

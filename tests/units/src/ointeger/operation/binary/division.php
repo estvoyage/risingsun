@@ -2,7 +2,7 @@
 
 require __DIR__ . '/../../../../runner.php';
 
-use estvoyage\risingsun\{ tests\units, block };
+use estvoyage\risingsun\{ tests\units, block, ointeger };
 use mock\estvoyage\risingsun\{ block as mockOfBlock, ointeger as mockOfOInteger };
 
 class division extends units\test
@@ -16,24 +16,34 @@ class division extends units\test
 
 	function test__construct()
 	{
-		$this->object($this->newTestedInstance)->isEqualTo($this->newTestedInstance(new block\blackhole));
+		$this
+			->given(
+				$template = new mockOfOInteger
+			)
+			->if(
+				$this->newTestedInstance($template)
+			)
+			->then
+				->object($this->testedInstance)
+					->isEqualTo($this->newTestedInstance($template, new block\blackhole))
+		;
 	}
 
 	function testRecipientOfOperationOnOIntegersIs()
 	{
 		$this
 			->given(
-				$divisionByZero = new mockOfBlock,
+				$this->newTestedInstance($template = new mockOfOInteger, $divisionByZero = new mockOfBlock),
 				$firstOperand = new mockOfOInteger,
 				$secondOperand = new mockOfOInteger,
 				$recipient = new mockOfOInteger\recipient
 			)
 			->if(
-				$this->newTestedInstance($divisionByZero)
+				$this->testedInstance->recipientOfOperationOnOIntegersIs($firstOperand, $secondOperand, $recipient)
 			)
 			->then
-				->object($this->testedInstance->recipientOfOperationOnOIntegersIs($firstOperand, $secondOperand, $recipient))
-					->isEqualTo($this->newTestedInstance($divisionByZero))
+				->object($this->testedInstance)
+					->isEqualTo($this->newTestedInstance($template, $divisionByZero))
 				->mock($recipient)
 					->receive('ointegerIs')
 						->never
@@ -43,7 +53,7 @@ class division extends units\test
 					$recipient->nintegerIs($firstOperandValue);
 				},
 
-				$this->calling($firstOperand)->recipientOfOIntegerWithNIntegerIs = function($ninteger, $recipient) use (& $ointegerWithNInteger) {
+				$this->calling($template)->recipientOfOIntegerWithNIntegerIs = function($ninteger, $recipient) use (& $ointegerWithNInteger) {
 					$recipient->ointegerIs($ointegerWithNInteger);
 				},
 
@@ -59,7 +69,7 @@ class division extends units\test
 			)
 			->then
 				->object($this->testedInstance->recipientOfOperationOnOIntegersIs($firstOperand, $secondOperand, $recipient))
-					->isEqualTo($this->newTestedInstance($divisionByZero))
+					->isEqualTo($this->newTestedInstance($template, $divisionByZero))
 				->mock($recipient)
 					->receive('ointegerIs')
 						->never
@@ -74,7 +84,7 @@ class division extends units\test
 			)
 			->then
 				->object($this->testedInstance->recipientOfOperationOnOIntegersIs($firstOperand, $secondOperand, $recipient))
-					->isEqualTo($this->newTestedInstance($divisionByZero))
+					->isEqualTo($this->newTestedInstance($template, $divisionByZero))
 				->mock($recipient)
 					->receive('ointegerIs')
 						->withArguments($ointegerWithNInteger)
@@ -82,7 +92,7 @@ class division extends units\test
 				->mock($divisionByZero)
 					->receive('blockArgumentsAre')
 						->once
-				->mock($firstOperand)
+				->mock($template)
 					->receive('recipientOfOIntegerWithNIntegerIs')
 						->withArguments(3)
 							->once

@@ -4,5 +4,5 @@ use estvoyage\risingsun\datum\operation\unary as operation;
 
 interface iterator
 {
-	function unaryDatumOperationsForPayloadAre(payload $payload, operation... $operations);
+	function unaryDatumOperationsForPayloadAre(payload $payload, operation... $operations) :void;
 }

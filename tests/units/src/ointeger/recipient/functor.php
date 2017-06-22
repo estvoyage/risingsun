@@ -34,5 +34,4 @@ class functor extends units\test
 					->isEqualTo([ $ointeger ])
 		;
 	}
-
 }

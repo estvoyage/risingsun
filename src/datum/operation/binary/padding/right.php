@@ -1,11 +1,11 @@
 <?php namespace estvoyage\risingsun\datum\operation\binary\padding;
 
-use estvoyage\risingsun\{ datum\operation, ointeger, nstring };
+use estvoyage\risingsun\{ datum, ointeger, nstring };
 
-class right extends operation\binary\any
+class right extends datum\operation\binary\any
 {
-	function __construct(ointeger\unsigned $length)
+	function __construct(datum $template, ointeger\unsigned $length)
 	{
-		parent::__construct(new nstring\operation\binary\padding\right($length));
+		parent::__construct($template, new nstring\operation\binary\padding\right($length));
 	}
 }

@@ -16,25 +16,34 @@ class substraction extends units\test
 
 	function test__construct()
 	{
-		$this->object($this->newTestedInstance)->isEqualTo($this->newTestedInstance(new block\blackhole));
+		$this
+			->given(
+				$template = new mockOfOInteger
+			)
+			->if(
+				$this->newTestedInstance($template)
+			)
+			->then
+				->object($this->testedInstance)
+					->isEqualTo($this->newTestedInstance($template, new block\blackhole))
+		;
 	}
 
 	function testRecipientOfOperationOnOIntegersAre()
 	{
 		$this
 			->given(
+				$this->newTestedInstance($template = new mockOfOInteger, $overflow = new mockOfBlock),
 				$firstOperand = new mockOfOInteger,
 				$secondOperand = new mockOfOInteger,
-				$recipient = new mockOfOInteger\recipient,
-				$overflow = new mockOfBlock
+				$recipient = new mockOfOInteger\recipient
 			)
-
 			->if(
-				$this->newTestedInstance($overflow)
+				$this->testedInstance->recipientOfOperationOnOIntegersIs($firstOperand, $secondOperand, $recipient)
 			)
 			->then
-				->object($this->testedInstance->recipientOfOperationOnOIntegersIs($firstOperand, $secondOperand, $recipient))
-					->isEqualTo($this->newTestedInstance($overflow))
+				->object($this->testedInstance)
+					->isEqualTo($this->newTestedInstance($template, $overflow))
 				->mock($recipient)
 					->receive('ointegerIs')
 						->never
@@ -48,18 +57,19 @@ class substraction extends units\test
 					$recipient->nintegerIs($secondOperandValue);
 				},
 
-				$this->calling($firstOperand)->recipientOfOIntegerWithNIntegerIs = function($ninteger, $recipient) use (& $firstOperandValue, & $secondOperandValue) {
+				$this->calling($template)->recipientOfOIntegerWithNIntegerIs = function($ninteger, $recipient) use (& $firstOperandValue, & $secondOperandValue) {
 					$recipient->ointegerIs(new ointeger\any($firstOperandValue - $secondOperandValue));
 				}
 			)
 
 			->if(
 				$firstOperandValue = PHP_INT_MIN,
-				$secondOperandValue = PHP_INT_MAX
+				$secondOperandValue = PHP_INT_MAX,
+				$this->testedInstance->recipientOfOperationOnOIntegersIs($firstOperand, $secondOperand, $recipient)
 			)
 			->then
-				->object($this->testedInstance->recipientOfOperationOnOIntegersIs($firstOperand, $secondOperand, $recipient))
-					->isEqualTo($this->newTestedInstance($overflow))
+				->object($this->testedInstance)
+					->isEqualTo($this->newTestedInstance($template, $overflow))
 				->mock($recipient)
 					->receive('ointegerIs')
 						->never
@@ -69,11 +79,12 @@ class substraction extends units\test
 
 			->if(
 				$firstOperandValue = PHP_INT_MAX,
-				$secondOperandValue = PHP_INT_MIN
+				$secondOperandValue = PHP_INT_MIN,
+				$this->testedInstance->recipientOfOperationOnOIntegersIs($firstOperand, $secondOperand, $recipient)
 			)
 			->then
-				->object($this->testedInstance->recipientOfOperationOnOIntegersIs($firstOperand, $secondOperand, $recipient))
-					->isEqualTo($this->newTestedInstance($overflow))
+				->object($this->testedInstance)
+					->isEqualTo($this->newTestedInstance($template, $overflow))
 				->mock($recipient)
 					->receive('ointegerIs')
 						->never
@@ -83,11 +94,12 @@ class substraction extends units\test
 
 			->if(
 				$firstOperandValue = 0,
-				$secondOperandValue = 0
+				$secondOperandValue = 0,
+				$this->testedInstance->recipientOfOperationOnOIntegersIs($firstOperand, $secondOperand, $recipient)
 			)
 			->then
-				->object($this->testedInstance->recipientOfOperationOnOIntegersIs($firstOperand, $secondOperand, $recipient))
-					->isEqualTo($this->newTestedInstance($overflow))
+				->object($this->testedInstance)
+					->isEqualTo($this->newTestedInstance($template, $overflow))
 				->mock($recipient)
 					->receive('ointegerIs')
 						->withArguments(new ointeger\any(0))
@@ -95,11 +107,12 @@ class substraction extends units\test
 
 			->if(
 				$firstOperandValue = 0,
-				$secondOperandValue = rand(1, PHP_INT_MAX)
+				$secondOperandValue = rand(1, PHP_INT_MAX),
+				$this->testedInstance->recipientOfOperationOnOIntegersIs($firstOperand, $secondOperand, $recipient)
 			)
 			->then
-				->object($this->testedInstance->recipientOfOperationOnOIntegersIs($firstOperand, $secondOperand, $recipient))
-					->isEqualTo($this->newTestedInstance($overflow))
+				->object($this->testedInstance)
+					->isEqualTo($this->newTestedInstance($template, $overflow))
 				->mock($recipient)
 					->receive('ointegerIs')
 						->withArguments(new ointeger\any(- $secondOperandValue))
@@ -107,11 +120,12 @@ class substraction extends units\test
 
 			->if(
 				$firstOperandValue = rand(1, PHP_INT_MAX),
-				$secondOperandValue = 0
+				$secondOperandValue = 0,
+				$this->testedInstance->recipientOfOperationOnOIntegersIs($firstOperand, $secondOperand, $recipient)
 			)
 			->then
-				->object($this->testedInstance->recipientOfOperationOnOIntegersIs($firstOperand, $secondOperand, $recipient))
-					->isEqualTo($this->newTestedInstance($overflow))
+				->object($this->testedInstance)
+					->isEqualTo($this->newTestedInstance($template, $overflow))
 				->mock($recipient)
 					->receive('ointegerIs')
 						->withArguments(new ointeger\any($firstOperandValue))
@@ -119,11 +133,12 @@ class substraction extends units\test
 
 			->if(
 				$firstOperandValue = 0,
-				$secondOperandValue = rand(PHP_INT_MIN, -1)
+				$secondOperandValue = rand(PHP_INT_MIN, -1),
+				$this->testedInstance->recipientOfOperationOnOIntegersIs($firstOperand, $secondOperand, $recipient)
 			)
 			->then
-				->object($this->testedInstance->recipientOfOperationOnOIntegersIs($firstOperand, $secondOperand, $recipient))
-					->isEqualTo($this->newTestedInstance($overflow))
+				->object($this->testedInstance)
+					->isEqualTo($this->newTestedInstance($template, $overflow))
 				->mock($recipient)
 					->receive('ointegerIs')
 						->withArguments(new ointeger\any(- $secondOperandValue))
@@ -131,11 +146,12 @@ class substraction extends units\test
 
 			->if(
 				$firstOperandValue = rand(PHP_INT_MIN, -1),
-				$secondOperandValue = 0
+				$secondOperandValue = 0,
+				$this->testedInstance->recipientOfOperationOnOIntegersIs($firstOperand, $secondOperand, $recipient)
 			)
 			->then
-				->object($this->testedInstance->recipientOfOperationOnOIntegersIs($firstOperand, $secondOperand, $recipient))
-					->isEqualTo($this->newTestedInstance($overflow))
+				->object($this->testedInstance)
+					->isEqualTo($this->newTestedInstance($template, $overflow))
 				->mock($recipient)
 					->receive('ointegerIs')
 						->withArguments(new ointeger\any($firstOperandValue))

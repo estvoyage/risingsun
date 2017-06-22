@@ -4,5 +4,5 @@ use estvoyage\risingsun\time\duration;
 
 interface recipient
 {
-	function secondeIs(duration\seconde $seconde);
+	function secondeIs(duration\seconde $seconde) :void;
 }

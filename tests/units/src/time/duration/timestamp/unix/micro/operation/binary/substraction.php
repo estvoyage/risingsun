@@ -18,31 +18,32 @@ class substraction extends units\test
 	{
 		$this
 			->given(
+				$this->newTestedInstance($template = new mockOfTimestamp),
 				$firstOperand = new mockOfTimestamp,
 				$secondOperand = new mockOfTimestamp,
 				$recipient = new mockOfTimestamp\recipient
 			)
 			->if(
-				$this->newTestedInstance
+				$this->testedInstance->recipientOfOperationOnMicroUnixTimestampsIs($firstOperand, $secondOperand, $recipient)
 			)
 			->then
-				->object($this->testedInstance->recipientOfOperationOnMicroUnixTimestampsIs($firstOperand, $secondOperand, $recipient))
-					->isEqualTo($this->newTestedInstance)
+				->object($this->testedInstance)
+					->isEqualTo($this->newTestedInstance($template))
 				->mock($recipient)
 					->receive('microUnixTimestampIs')
 						->never
 
 			->given(
-				$microUnixTimestamp = new mockOfTimestamp
-			)
-			->if(
 				$this->calling($firstOperand)->recipientOfNIntegerIs = function($recipient) {
 					$recipient->nintegerIs(3);
 				},
+
 				$this->calling($secondOperand)->recipientOfNIntegerIs = function($recipient) {
 					$recipient->nintegerIs(2);
 				},
-				$this->calling($firstOperand)->recipientOfOIntegerWithNIntegerIs = function($ninteger, $recipient) use ($microUnixTimestamp) {
+
+				$microUnixTimestamp = new mockOfTimestamp,
+				$this->calling($template)->recipientOfOIntegerWithNIntegerIs = function($ninteger, $recipient) use ($microUnixTimestamp) {
 					(new comparison\binary\equal)
 						->recipientOfComparisonBetweenOperandAndReferenceIs(
 							$ninteger,
@@ -57,9 +58,12 @@ class substraction extends units\test
 					;
 				}
 			)
+			->if(
+				$this->testedInstance->recipientOfOperationOnMicroUnixTimestampsIs($firstOperand, $secondOperand, $recipient)
+			)
 			->then
-				->object($this->testedInstance->recipientOfOperationOnMicroUnixTimestampsIs($firstOperand, $secondOperand, $recipient))
-					->isEqualTo($this->newTestedInstance)
+				->object($this->testedInstance)
+					->isEqualTo($this->newTestedInstance($template))
 				->mock($recipient)
 					->receive('microUnixTimestampIs')
 						->withArguments($microUnixTimestamp)

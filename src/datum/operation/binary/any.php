@@ -7,11 +7,13 @@ class any
 		operation\binary
 {
 	private
+		$template,
 		$operation
 	;
 
-	function __construct(nstring\operation\binary $operation)
+	function __construct(datum $template, nstring\operation\binary $operation)
 	{
+		$this->template = $template;
 		$this->operation = $operation;
 	}
 
@@ -34,7 +36,7 @@ class any
 												new functor(
 													function($operation) use ($firstOperand, $recipient)
 													{
-														$firstOperand
+														$this->template
 															->recipientOfDatumWithNStringIs(
 																$operation,
 																$recipient

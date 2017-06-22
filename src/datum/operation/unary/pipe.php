@@ -1,17 +1,21 @@
 <?php namespace estvoyage\risingsun\datum\operation\unary;
 
-use estvoyage\risingsun\{ datum, ostring, container\iterator, datum\operation\unary\container\payload };
+use estvoyage\risingsun\{ datum, ostring };
 
 class pipe
 	implements
 		datum\operation\unary
 {
 	private
+		$template,
+		$iterator,
 		$container
 	;
 
-	function __construct(datum\operation\unary\container $container)
+	function __construct(datum $template, datum\operation\unary\container\iterator $iterator, datum\operation\unary\container $container)
 	{
+		$this->template = $template;
+		$this->iterator = $iterator;
 		$this->container = $container;
 	}
 
@@ -21,34 +25,41 @@ class pipe
 
 		$this->container
 			->payloadForUnaryDatumOperationContainerIteratorIs(
-				new iterator,
-				new payload\functor(
+				$this->iterator,
+				new datum\operation\unary\container\payload\functor(
 					function($operation) use (& $currentDatum)
 					{
-						$operation->recipientOfDatumOperationWithDatumIs(
-							$currentDatum,
-							new datum\recipient\functor(
-								function($datum) use (& $currentDatum)
-								{
-									$currentDatum = $datum;
-								}
+						$operation
+							->recipientOfDatumOperationWithDatumIs(
+								$currentDatum,
+								new datum\recipient\functor(
+									function($datum) use (& $currentDatum)
+									{
+										$currentDatum = $datum;
+									}
+								)
 							)
-						);
+						;
 					}
 				)
 			)
 		;
 
-		$recipient->datumIs($currentDatum);
-
-		return $this;
+		$this->template
+			->recipientOfDatumFromDatumIs(
+				$currentDatum,
+				$recipient
+			)
+		;
 	}
 
 	function recipientOfDatumOperationIs(datum\recipient $recipient)
 	{
-		return $this->recipientOfDatumOperationWithDatumIs(
-			new ostring\any,
-			$recipient
-		);
+		$this
+			->recipientOfDatumOperationWithDatumIs(
+				new ostring\any,
+				$recipient
+			)
+		;
 	}
 }

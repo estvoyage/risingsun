@@ -7,17 +7,19 @@ class addition
 		operation\unary
 {
 	private
+		$template,
 		$suffix
 	;
 
-	function __construct(datum $suffix)
+	function __construct(datum $template, datum $suffix)
 	{
+		$this->template = $template;
 		$this->suffix = $suffix;
 	}
 
 	function recipientOfDatumOperationWithDatumIs(datum $datum, datum\recipient $recipient)
 	{
-		(new operation\binary\addition)
+		(new operation\binary\addition($this->template))
 			->recipientOfDatumOperationOnDataIs(
 				$datum,
 				$this->suffix,

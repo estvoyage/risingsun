@@ -2,7 +2,7 @@
 
 require __DIR__ . '/../../../../runner.php';
 
-use estvoyage\risingsun\tests\units;
+use estvoyage\risingsun\{ tests\units, comparison };
 use mock\estvoyage\risingsun\{ datum as mockOfDatum, nstring as mockOfNString };
 
 class any extends units\test
@@ -18,83 +18,75 @@ class any extends units\test
 	{
 		$this
 			->given(
-				$operation = new mockOfNString\operation\binary,
+				$this->newTestedInstance($template = new mockOfDatum, $operation = new mockOfNString\operation\binary),
 				$firstOperand = new mockOfDatum,
 				$secondOperand = new mockOfDatum,
 				$recipient = new mockOfDatum\recipient
 			)
 			->if(
-				$this->newTestedInstance($operation)
+				$this->testedInstance->recipientOfDatumOperationOnDataIs($firstOperand, $secondOperand, $recipient)
 			)
 			->then
-				->object($this->testedInstance->recipientOfDatumOperationOnDataIs($firstOperand, $secondOperand, $recipient))
-					->isEqualTo($this->newTestedInstance($operation))
+				->object($this->testedInstance)
+					->isEqualTo($this->newTestedInstance($template, $operation))
 				->mock($recipient)
 					->receive('datumIs')
 						->never
 
 			->given(
-				$firstOperandValue = 'foo'
-			)
-			->if(
-				$this->calling($firstOperand)->recipientOfNStringIs = function($recipient) use ($firstOperandValue) {
-					$recipient->nstringIs($firstOperandValue);
-				}
-			)
-			->then
-				->object($this->testedInstance->recipientOfDatumOperationOnDataIs($firstOperand, $secondOperand, $recipient))
-					->isEqualTo($this->newTestedInstance($operation))
-				->mock($recipient)
-					->receive('datumIs')
-						->never
+				$this->calling($firstOperand)->recipientOfNStringIs = function($recipient) {
+					$recipient->nstringIs('foo');
+				},
 
-			->given(
-				$secondOperandValue = 'bar'
-			)
-			->if(
-				$this->calling($secondOperand)->recipientOfNStringIs = function($recipient) use ($secondOperandValue) {
-					$recipient->nstringIs($secondOperandValue);
-				}
-			)
-			->then
-				->object($this->testedInstance->recipientOfDatumOperationOnDataIs($firstOperand, $secondOperand, $recipient))
-					->isEqualTo($this->newTestedInstance($operation))
-				->mock($recipient)
-					->receive('datumIs')
-						->never
+				$this->calling($secondOperand)->recipientOfNStringIs = function($recipient) {
+					$recipient->nstringIs('bar');
+				},
 
-			->given(
-				$operationValue = 'foobar'
-			)
-			->if(
-				$this->calling($operation)->recipientOfOperationOnNStringsIs = function($firstOperand, $secondOperand, $recipient) use ($firstOperandValue, $secondOperandValue, $operationValue) {
-					if ($firstOperandValue == $firstOperand && $secondOperandValue = $secondOperand)
-					{
-						$recipient->nstringIs($operationValue);
-					}
-				}
-			)
-			->then
-				->object($this->testedInstance->recipientOfDatumOperationOnDataIs($firstOperand, $secondOperand, $recipient))
-					->isEqualTo($this->newTestedInstance($operation))
-				->mock($recipient)
-					->receive('datumIs')
-						->never
+				$this->calling($operation)->recipientOfOperationOnNStringsIs = function($firstOperand, $secondOperand, $recipient) {
+					(new comparison\unary\equal('foo'))
+						->recipientOfComparisonWithOperandIs(
+							$firstOperand,
+							new comparison\recipient\functor\ok(
+								function() use ($secondOperand, $recipient)
+								{
+									(new comparison\unary\equal('bar'))
+										->recipientOfComparisonWithOperandIs(
+											$secondOperand,
+											new comparison\recipient\functor\ok(
+												function() use ($recipient)
+												{
+													$recipient->nstringIs('foobar');
+												}
+											)
+										)
+									;
+								}
+							)
+						)
+					;
+				},
 
-			->given(
-				$datum = new mockOfDatum
-			)
-			->if(
-				$this->calling($firstOperand)->recipientOfDatumWithNStringIs = function($nstring, $recipient) use ($operationValue, $datum) {
-					if ($nstring == $operationValue)
-					{
-						$recipient->datumIs($datum);
-					}
+				$datum = new mockOfDatum,
+				$this->calling($template)->recipientOfDatumWithNStringIs = function($nstring, $recipient) use ($datum) {
+					(new comparison\unary\equal('foobar'))
+						->recipientOfComparisonWithOperandIs(
+							$nstring,
+							new comparison\recipient\functor\ok(
+								function() use ($recipient, $datum)
+								{
+									$recipient->datumIs($datum);
+								}
+							)
+						)
+					;
 				}
 			)
+			->if(
+				$this->testedInstance->recipientOfDatumOperationOnDataIs($firstOperand, $secondOperand, $recipient)
+			)
 			->then
-				->object($this->testedInstance->recipientOfDatumOperationOnDataIs($firstOperand, $secondOperand, $recipient))
-					->isEqualTo($this->newTestedInstance($operation))
+				->object($this->testedInstance)
+					->isEqualTo($this->newTestedInstance($template, $operation))
 				->mock($recipient)
 					->receive('datumIs')
 						->withArguments($datum)

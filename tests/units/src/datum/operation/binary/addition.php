@@ -18,59 +18,35 @@ class addition extends units\test
 	{
 		$this
 			->given(
+				$this->newTestedInstance($template = new mockOfDatum),
 				$firstDatum = new mockOfDatum,
 				$secondDatum = new mockOfDatum,
 				$recipient = new mockOfDatum\recipient
 			)
 			->if(
-				$this->newTestedInstance
+				$this->testedInstance->recipientOfDatumOperationOnDataIs($firstDatum, $secondDatum, $recipient)
 			)
 			->then
-				->object($this->testedInstance->recipientOfDatumOperationOnDataIs($firstDatum, $secondDatum, $recipient))
-					->isEqualTo($this->newTestedInstance)
+				->object($this->testedInstance)
+					->isEqualTo($this->newTestedInstance($template))
 				->mock($recipient)
 					->receive('datumIs')
 						->never
 
 			->given(
-				$firstDatumValue = 'foo'
-			)
-			->if(
-				$this->calling($firstDatum)->recipientOfNStringIs = function($recipient) use ($firstDatumValue) {
-					$recipient->nstringIs($firstDatumValue);
-				}
-			)
-			->then
-				->object($this->testedInstance->recipientOfDatumOperationOnDataIs($firstDatum, $secondDatum, $recipient))
-					->isEqualTo($this->newTestedInstance)
-				->mock($recipient)
-					->receive('datumIs')
-						->never
+				$this->calling($firstDatum)->recipientOfNStringIs = function($recipient) {
+					$recipient->nstringIs('foo');
+				},
 
-			->given(
-				$secondDatumValue = 'bar'
-			)
-			->if(
-				$this->calling($secondDatum)->recipientOfNStringIs = function($recipient) use ($secondDatumValue) {
-					$recipient->nstringIs($secondDatumValue);
-				}
-			)
-			->then
-				->object($this->testedInstance->recipientOfDatumOperationOnDataIs($firstDatum, $secondDatum, $recipient))
-					->isEqualTo($this->newTestedInstance)
-				->mock($recipient)
-					->receive('datumIs')
-						->never
+				$this->calling($secondDatum)->recipientOfNStringIs = function($recipient) {
+					$recipient->nstringIs('bar');
+				},
 
-			->given(
-				$operation = new mockOfDatum
-			)
-			->if(
-				$this->calling($firstDatum)->recipientOfDatumWithNStringIs = function($value, $recipient) use ($operation) {
-					(new comparison\binary\equal)
-						->recipientOfComparisonBetweenOperandAndReferenceIs(
+				$operation = new mockOfDatum,
+				$this->calling($template)->recipientOfDatumWithNStringIs = function($value, $recipient) use ($operation) {
+					(new comparison\unary\equal('foobar'))
+						->recipientOfComparisonWithOperandIs(
 							$value,
-							'foobar',
 							new comparison\recipient\functor\ok(
 								function() use ($recipient, $operation)
 								{
@@ -81,12 +57,15 @@ class addition extends units\test
 					;
 				}
 			)
+			->if(
+				$this->testedInstance->recipientOfDatumOperationOnDataIs($firstDatum, $secondDatum, $recipient)
+			)
 			->then
-				->object($this->testedInstance->recipientOfDatumOperationOnDataIs($firstDatum, $secondDatum, $recipient))
-					->isEqualTo($this->newTestedInstance)
+				->object($this->testedInstance)
+					->isEqualTo($this->newTestedInstance($template))
 				->mock($recipient)
 					->receive('datumIs')
-						->withIdenticalArguments($operation)
+						->withArguments($operation)
 							->once
 		;
 	}

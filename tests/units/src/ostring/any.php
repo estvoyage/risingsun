@@ -10,7 +10,6 @@ class any extends units\test
 	function testClass()
 	{
 		$this->testedClass
-			->implements('estvoyage\risingsun\datum')
 			->implements('estvoyage\risingsun\ostring')
 		;
 	}
@@ -71,6 +70,69 @@ class any extends units\test
 			->then
 				->object($testedInstance)
 					->isEqualTo($testedInstance)
+				->mock($recipient)
+					->receive('datumIs')
+						->withArguments($this->childOfTestedClass($nstring))
+							->once
+		;
+	}
+
+	function testRecipientOfDatumFromDatum_withNoReplyFromDatum()
+	{
+		$this
+			->given(
+				$this->newTestedInstance,
+				$datum = new mockOfDatum,
+				$recipient = new mockOfDatum\recipient
+			)
+			->if(
+				$this->testedInstance->recipientOfDatumFromDatumIs($datum, $recipient)
+			)
+			->then
+				->object($this->testedInstance)
+					->isEqualTo($this->newTestedInstance)
+				->mock($recipient)
+					->receive('datumIs')
+						->never
+		;
+	}
+
+	/**
+	 * @dataProvider validNStringProvider
+	 */
+	function testRecipientOfDatumFromDatum_withValidNString($nstring)
+	{
+		$this
+			->given(
+				$this->newTestedInstance,
+
+				$datum = new mockOfDatum,
+				$this->calling($datum)->recipientOfNStringIs = function($recipient) use ($nstring) {
+					$recipient->nstringIs($nstring);
+				},
+
+				$recipient = new mockOfDatum\recipient
+			)
+			->if(
+				$this->testedInstance->recipientOfDatumFromDatumIs($datum, $recipient)
+			)
+			->then
+				->object($this->testedInstance)
+					->isEqualTo($this->newTestedInstance)
+				->mock($recipient)
+					->receive('datumIs')
+						->withArguments($this->newTestedInstance($nstring))
+							->once
+
+			->given(
+				$childOfTestedClass = $this->childOfTestedClass()
+			)
+			->if(
+				$childOfTestedClass->recipientOfDatumFromDatumIs($datum, $recipient)
+			)
+			->then
+				->object($childOfTestedClass)
+					->isEqualTo($this->childOfTestedClass())
 				->mock($recipient)
 					->receive('datumIs')
 						->withArguments($this->childOfTestedClass($nstring))

@@ -1,47 +1,13 @@
 <?php namespace estvoyage\risingsun\ointeger\operation\unary;
 
-use estvoyage\risingsun\{ ointeger\operation, ointeger, ninteger\recipient\functor };
+use estvoyage\risingsun\{ ointeger\operation, ointeger, block };
 
-class pow
+class pow extends any
 	implements
 		operation\unary
 {
-	private
-		$pow
-	;
-
-	function __construct(ointeger $pow)
+	function __construct(ointeger $pow, ointeger $template, block $overflow)
 	{
-		$this->pow = $pow;
-	}
-
-	function recipientOfOperationWithOIntegerIs(ointeger $ointeger, ointeger\recipient $recipient)
-	{
-		$this->pow
-			->recipientOfNIntegerIs(
-				new functor(
-					function($powValue)  use ($ointeger, $recipient)
-					{
-						$ointeger
-							->recipientOfNIntegerIs(
-								new functor(
-									function($ointegerValue) use ($ointeger, $recipient, $powValue)
-									{
-										$ointeger
-											->recipientOfOIntegerWithNIntegerIs(
-												pow($ointegerValue, $powValue),
-												$recipient
-											)
-										;
-									}
-								)
-							)
-						;
-					}
-				)
-			)
-		;
-
-		return $this;
+		parent::__construct($pow, new ointeger\operation\binary\pow($template, $overflow));
 	}
 }

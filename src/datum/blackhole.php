@@ -13,4 +13,8 @@ class blackhole
 	function recipientOfDatumWithNStringIs(string $value, datum\recipient $recipient) :void
 	{
 	}
+
+	function recipientOfDatumFromDatumIs(datum $datum, datum\recipient $recipient) :void
+	{
+	}
 }

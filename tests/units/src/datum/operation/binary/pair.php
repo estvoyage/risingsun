@@ -2,8 +2,8 @@
 
 require __DIR__ . '/../../../../runner.php';
 
-use estvoyage\risingsun\{ tests\units, oboolean, block\functor, ostring };
-use mock\estvoyage\risingsun\{ datum as mockOfDatum, nstring as mockOfNString };
+use estvoyage\risingsun\{ tests\units, ostring, comparison };
+use mock\estvoyage\risingsun\datum as mockOfDatum;
 
 class pair extends units\test
 {
@@ -16,30 +16,36 @@ class pair extends units\test
 
 	function test__construct()
 	{
-		$this->object($this->newTestedInstance)->isEqualTo($this->newTestedInstance(new ostring\any('('), new ostring\any(':'), new ostring\any(')')));
+		$this
+			->given(
+				$template = new mockOfDatum
+			)
+			->if(
+				$this->newTestedInstance($template)
+			)
+			->then
+				->object($this->testedInstance)
+					->isEqualTo($this->newTestedInstance($template, new ostring\any('('), new ostring\any(':'), new ostring\any(')')));
 	}
 
 	function testRecipientOfDatumOperationOnDataIs()
 	{
 		$this
 			->given(
-				$prefix = new mockOfDatum,
-				$separator = new mockOfDatum,
-				$suffix = new mockOfDatum,
+				$this->newTestedInstance($template = new mockOfDatum, $prefix = new mockOfDatum, $separator = new mockOfDatum, $suffix = new mockOfDatum),
 				$firstDatum = new mockOfDatum,
 				$secondDatum = new mockOfDatum,
 				$recipient = new mockOfDatum\recipient
 			)
 			->if(
-				$this->newTestedInstance($prefix, $separator, $suffix)
+				$this->testedInstance->recipientOfDatumOperationOnDataIs($firstDatum, $secondDatum, $recipient)
 			)
 			->then
-				->object($this->testedInstance->recipientOfDatumOperationOnDataIs($firstDatum, $secondDatum, $recipient))
-					->isEqualTo($this->newTestedInstance($prefix, $separator, $suffix))
+				->object($this->testedInstance)
+					->isEqualTo($this->newTestedInstance($template, $prefix, $separator, $suffix))
 				->mock($recipient)
 					->receive('datumIs')
-						->withArguments(new ostring\any)
-							->once
+						->never
 
 			->if(
 				$this->calling($prefix)->recipientOfNStringIs = function($recipient) {
@@ -57,15 +63,27 @@ class pair extends units\test
 				$this->calling($secondDatum)->recipientOfNStringIs = function($recipient) {
 					$recipient->nstringIs('bar');
 				},
-
-				$this->newTestedInstance($prefix, $separator, $suffix)
+				$operation = new mockOfDatum,
+				$this->calling($template)->recipientOfDatumFromDatumIs = function($datum, $recipient) use ($operation) {
+					(new comparison\unary\equal(new ostring\any('(foo:bar)')))
+						->recipientOfComparisonWithOperandIs(
+							$datum,
+							new comparison\recipient\functor\ok(
+								function() use ($recipient, $operation)
+								{
+									$recipient->datumIs($operation);
+								}
+							)
+						)
+					;
+				}
 			)
 			->then
 				->object($this->testedInstance->recipientOfDatumOperationOnDataIs($firstDatum, $secondDatum, $recipient))
-					->isEqualTo($this->newTestedInstance($prefix, $separator, $suffix))
+					->isEqualTo($this->newTestedInstance($template, $prefix, $separator, $suffix))
 				->mock($recipient)
 					->receive('datumIs')
-						->withArguments(new ostring\any('(foo:bar)'))
+						->withArguments($operation)
 							->once
 		;
 	}
