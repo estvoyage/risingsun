@@ -27,14 +27,14 @@ class any
 						$secondOperand
 							->recipientOfNStringIs(
 								new functor(
-									function($secondOperandValue) use ($firstOperandValue, $firstOperand, $recipient)
+									function($secondOperandValue) use ($firstOperandValue, $recipient)
 									{
 										$this->operation
 											->recipientOfOperationOnNStringsIs(
 												$firstOperandValue,
 												$secondOperandValue,
 												new functor(
-													function($operation) use ($firstOperand, $recipient)
+													function($operation) use ($recipient)
 													{
 														$this->template
 															->recipientOfDatumWithNStringIs(

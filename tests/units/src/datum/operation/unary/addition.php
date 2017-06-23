@@ -7,6 +7,8 @@ use mock\estvoyage\risingsun\datum as mockOfDatum;
 
 class addition extends units\test
 {
+	use units\providers\datum\operation\addition;
+
 	function testClass()
 	{
 		$this->testedClass
@@ -14,7 +16,7 @@ class addition extends units\test
 		;
 	}
 
-	function testRecipientOfDatumOperationWithDatumIs()
+	function testRecipientOfDatumOperationWithDatumIs_withDatumWithNoMessage()
 	{
 		$this
 			->given(
@@ -31,19 +33,21 @@ class addition extends units\test
 				->mock($recipient)
 					->receive('datumIs')
 						->never
+		;
+	}
 
+	/**
+	 * @dataProvider nStringProvider
+	 */
+	function testRecipientOfDatumOperationWithDatumIs_withDatumWithMessage($firstDatumValue, $secondDatumValue, $additionValue)
+	{
+		$this
 			->given(
-				$this->calling($suffix)->recipientOfNStringIs = function($recipient) {
-					$recipient->nstringIs('bar');
-				},
-
-				$this->calling($datum)->recipientOfNStringIs = function($recipient) {
-					$recipient->nstringIs('foo');
-				},
-
 				$addition = new mockOfDatum,
-				$this->calling($template)->recipientOfDatumWithNStringIs = function($value, $recipient) use ($addition) {
-					(new comparison\unary\equal('foobar'))
+
+				$template = new mockOfDatum,
+				$this->calling($template)->recipientOfDatumWithNStringIs = function($value, $recipient) use ($addition, $additionValue) {
+					(new comparison\unary\equal($additionValue))
 						->recipientOfComparisonWithOperandIs(
 							$value,
 							new comparison\recipient\functor\ok(
@@ -54,7 +58,21 @@ class addition extends units\test
 							)
 						)
 					;
-				}
+				},
+
+				$suffix = new mockOfDatum,
+				$this->calling($suffix)->recipientOfNStringIs = function($recipient) use ($secondDatumValue) {
+					$recipient->nstringIs($secondDatumValue);
+				},
+
+				$this->newTestedInstance($template, $suffix),
+
+				$datum = new mockOfDatum,
+				$this->calling($datum)->recipientOfNStringIs = function($recipient) use ($firstDatumValue) {
+					$recipient->nstringIs($firstDatumValue);
+				},
+
+				$recipient = new mockOfDatum\recipient
 			)
 			->if(
 				$this->testedInstance->recipientOfDatumOperationWithDatumIs($datum, $recipient)

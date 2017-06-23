@@ -37,37 +37,42 @@ class pair extends units\test
 				$secondDatum = new mockOfDatum,
 				$recipient = new mockOfDatum\recipient
 			)
-			->if(
-				$this->testedInstance->recipientOfDatumOperationOnDataIs($firstDatum, $secondDatum, $recipient)
-			)
-			->then
-				->object($this->testedInstance)
-					->isEqualTo($this->newTestedInstance($template, $prefix, $separator, $suffix))
-				->mock($recipient)
-					->receive('datumIs')
-						->never
-
-			->if(
+//			->if(
+//				$this->testedInstance->recipientOfDatumOperationOnDataIs($firstDatum, $secondDatum, $recipient)
+//			)
+//			->then
+//				->object($this->testedInstance)
+//					->isEqualTo($this->newTestedInstance($template, $prefix, $separator, $suffix))
+//				->mock($recipient)
+//					->receive('datumIs')
+//						->never
+//
+			->given(
 				$this->calling($prefix)->recipientOfNStringIs = function($recipient) {
 					$recipient->nstringIs('(');
 				},
+
 				$this->calling($separator)->recipientOfNStringIs = function($recipient) {
 					$recipient->nstringIs(':');
 				},
+
 				$this->calling($suffix)->recipientOfNStringIs = function($recipient) {
 					$recipient->nstringIs(')');
 				},
+
 				$this->calling($firstDatum)->recipientOfNStringIs = function($recipient) {
 					$recipient->nstringIs('foo');
 				},
+
 				$this->calling($secondDatum)->recipientOfNStringIs = function($recipient) {
 					$recipient->nstringIs('bar');
 				},
+
 				$operation = new mockOfDatum,
-				$this->calling($template)->recipientOfDatumFromDatumIs = function($datum, $recipient) use ($operation) {
-					(new comparison\unary\equal(new ostring\any('(foo:bar)')))
+				$this->calling($template)->recipientOfDatumWithNStringIs = function($nstring, $recipient) use ($operation) {
+					(new comparison\unary\equal('(foo:bar)'))
 						->recipientOfComparisonWithOperandIs(
-							$datum,
+							$nstring,
 							new comparison\recipient\functor\ok(
 								function() use ($recipient, $operation)
 								{
@@ -78,8 +83,11 @@ class pair extends units\test
 					;
 				}
 			)
+			->if(
+				$this->testedInstance->recipientOfDatumOperationOnDataIs($firstDatum, $secondDatum, $recipient)
+			)
 			->then
-				->object($this->testedInstance->recipientOfDatumOperationOnDataIs($firstDatum, $secondDatum, $recipient))
+				->object($this->testedInstance)
 					->isEqualTo($this->newTestedInstance($template, $prefix, $separator, $suffix))
 				->mock($recipient)
 					->receive('datumIs')

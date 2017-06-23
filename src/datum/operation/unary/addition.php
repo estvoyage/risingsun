@@ -2,31 +2,10 @@
 
 use estvoyage\risingsun\{ datum\operation, datum, block\functor };
 
-class addition
-	implements
-		operation\unary
+class addition extends operation\unary\any
 {
-	private
-		$template,
-		$suffix
-	;
-
 	function __construct(datum $template, datum $suffix)
 	{
-		$this->template = $template;
-		$this->suffix = $suffix;
-	}
-
-	function recipientOfDatumOperationWithDatumIs(datum $datum, datum\recipient $recipient)
-	{
-		(new operation\binary\addition($this->template))
-			->recipientOfDatumOperationOnDataIs(
-				$datum,
-				$this->suffix,
-				$recipient
-			)
-		;
-
-		return $this;
+		parent::__construct($suffix, new operation\binary\addition($template));
 	}
 }

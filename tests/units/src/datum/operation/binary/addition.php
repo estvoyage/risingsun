@@ -7,6 +7,8 @@ use mock\estvoyage\risingsun\datum as mockOfDatum;
 
 class addition extends units\test
 {
+	use units\providers\datum\operation\addition;
+
 	function testClass()
 	{
 		$this->testedClass
@@ -14,7 +16,7 @@ class addition extends units\test
 		;
 	}
 
-	function testRecipientOfDatumOperationOnDataIs()
+	function testRecipientOfDatumOperationOnDataIs_withDatumWithNoMessage()
 	{
 		$this
 			->given(
@@ -32,19 +34,21 @@ class addition extends units\test
 				->mock($recipient)
 					->receive('datumIs')
 						->never
+		;
+	}
 
+	/**
+	 * @dataProvider nStringProvider
+	 */
+	function testRecipientOfDatumOperationOnDataIs_withDatumWithMessages($firstDatumValue, $secondDatumValue, $operationValue)
+	{
+		$this
 			->given(
-				$this->calling($firstDatum)->recipientOfNStringIs = function($recipient) {
-					$recipient->nstringIs('foo');
-				},
-
-				$this->calling($secondDatum)->recipientOfNStringIs = function($recipient) {
-					$recipient->nstringIs('bar');
-				},
-
 				$operation = new mockOfDatum,
-				$this->calling($template)->recipientOfDatumWithNStringIs = function($value, $recipient) use ($operation) {
-					(new comparison\unary\equal('foobar'))
+
+				$template = new mockOfDatum,
+				$this->calling($template)->recipientOfDatumWithNStringIs = function($value, $recipient) use ($operation, $operationValue) {
+					(new comparison\unary\equal($operationValue))
 						->recipientOfComparisonWithOperandIs(
 							$value,
 							new comparison\recipient\functor\ok(
@@ -55,7 +59,21 @@ class addition extends units\test
 							)
 						)
 					;
-				}
+				},
+
+				$firstDatum = new mockOfDatum,
+				$this->calling($firstDatum)->recipientOfNStringIs = function($recipient) use ($firstDatumValue) {
+					$recipient->nstringIs($firstDatumValue);
+				},
+
+				$secondDatum = new mockOfDatum,
+				$this->calling($secondDatum)->recipientOfNStringIs = function($recipient) use ($secondDatumValue) {
+					$recipient->nstringIs($secondDatumValue);
+				},
+
+				$recipient = new mockOfDatum\recipient,
+
+				$this->newTestedInstance($template)
 			)
 			->if(
 				$this->testedInstance->recipientOfDatumOperationOnDataIs($firstDatum, $secondDatum, $recipient)
