@@ -22,16 +22,9 @@ class join
 		(new datum\operation\unary\addition(new ostring\any, $this->glue))
 			->recipientOfDatumOperationWithDatumIs(
 				$firstOperand,
-				new datum\recipient\functor(
-					function($firstOperand) use ($secondOperand, $recipient)
-					{
-						(new datum\operation\unary\addition($this->template, $secondOperand))
-							->recipientOfDatumOperationWithDatumIs(
-								$firstOperand,
-								$recipient
-							)
-						;
-					}
+				new datum\recipient\operation(
+					new datum\operation\unary\addition($this->template, $secondOperand),
+					$recipient
 				)
 			)
 		;

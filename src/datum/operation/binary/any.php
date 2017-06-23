@@ -33,17 +33,7 @@ class any
 											->recipientOfOperationOnNStringsIs(
 												$firstOperandValue,
 												$secondOperandValue,
-												new functor(
-													function($operation) use ($recipient)
-													{
-														$this->template
-															->recipientOfDatumWithNStringIs(
-																$operation,
-																$recipient
-															)
-														;
-													}
-												)
+												new nstring\recipient\datum($this->template, $recipient)
 											)
 										;
 									}

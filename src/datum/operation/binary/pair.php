@@ -23,20 +23,11 @@ class pair
 			->recipientOfDatumOperationOnDataIs(
 				$firstDatum,
 				$secondDatum,
-				new datum\recipient\functor(
-					function($datum) use ($recipient)
-					{
-						$this->surround
-							->recipientOfDatumOperationWithDatumIs(
-								$datum,
-								$recipient
-							)
-						;
-					}
+				new datum\recipient\operation(
+					$this->surround,
+					$recipient
 				)
 			)
 		;
-
-		return $this;
 	}
 }

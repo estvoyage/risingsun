@@ -24,21 +24,9 @@ class surround
 		(new datum\operation\unary\addition(new ostring\any, $datum))
 			->recipientOfDatumOperationWithDatumIs(
 				$this->leftSurrounder,
-				new datum\recipient\functor(
-					function($datum) use ($recipient)
-					{
-						(new datum\operation\unary\addition($this->template, $this->rightSurrounder))
-							->recipientOfDatumOperationWithDatumIs(
-								$datum,
-								new datum\recipient\functor(
-									function($datum) use ($recipient)
-									{
-										$recipient->datumIs($datum);
-									}
-								)
-							)
-						;
-					}
+				new datum\recipient\operation(
+					(new datum\operation\unary\addition($this->template, $this->rightSurrounder)),
+					$recipient
 				)
 			)
 		;
