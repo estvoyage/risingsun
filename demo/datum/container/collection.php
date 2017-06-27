@@ -32,14 +32,14 @@ require __DIR__ . '/../../../vendor/autoload.php';
 		new iterator,
 		new payload\output\line(
 			new output\stdout,
-			new datum\operation\binary\pair
+			new datum\operation\binary\pair(new ostring\any)
 		)
 	)
 	->payloadForDatumContainerIteratorIs(
 		new iterator(new iterator\engine\fifo(new ointeger\generator\operation\binary\addition(new ointeger\any(42), new ointeger\any(42)))),
 		new payload\output\line(
 			new output\stdout,
-			new datum\operation\binary\pair
+			new datum\operation\binary\pair(new ostring\any)
 		)
 	)
 	->payloadForDatumContainerIteratorIs(
@@ -48,6 +48,7 @@ require __DIR__ . '/../../../vendor/autoload.php';
 			new payload\output\line(
 				new output\stdout,
 				new datum\operation\binary\pair(
+					new ostring\any,
 					new ostring\any('[ \''),
 					new ostring\any('\' => \''),
 					new ostring\any('\' ]')
@@ -79,6 +80,7 @@ require __DIR__ . '/../../../vendor/autoload.php';
 		new iterator(
 			new iterator\engine\fifo(
 				new ointeger\generator\operation\binary\addition(
+					new ointeger\any,
 					new ointeger\any(PHP_INT_MAX),
 					new ointeger\any(1),
 					new functor(
@@ -96,7 +98,7 @@ require __DIR__ . '/../../../vendor/autoload.php';
 		),
 		new payload\output\line(
 			new output\stdout,
-			new datum\operation\binary\pair
+			new datum\operation\binary\pair(new ostring\any)
 		)
 	)
 ;
