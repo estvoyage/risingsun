@@ -2,41 +2,27 @@
 
 use estvoyage\risingsun\{ ninteger, comparison, block\functor, block };
 
-class pow
+class pow extends ninteger\filter\type
 	implements
 		ninteger\operation\binary
 {
-	private
-		$overflow
-	;
-
-	function __construct(block $overflow = null)
-	{
-		$this->overflow = $overflow ?: new block\blackhole;
-	}
-
 	function recipientOfOperationOnNIntegersIs(int $firstOperand, int $secondOperand, ninteger\recipient $recipient)
 	{
-		(new comparison\unary\with\float\type)
+		(new comparison\unary\greaterThanOrEqualTo(0))
 			->recipientOfComparisonWithOperandIs(
-				$pow = pow($firstOperand, $secondOperand),
-				new comparison\recipient\switcher(
-					new functor(
-						function()
-						{
-							$this->overflow->blockArgumentsAre();
-						}
-					),
-					new functor(
-						function() use (& $pow, $recipient)
-						{
-							$recipient->nintegerIs($pow);
-						}
-					)
+				$secondOperand,
+				new comparison\recipient\functor\ok(
+					function() use ($firstOperand, $secondOperand, $recipient)
+					{
+						$this
+							->nIntegerRecipientForValueIs(
+								pow($firstOperand, $secondOperand),
+								$recipient
+							)
+						;
+					}
 				)
 			)
 		;
-
-		return $this;
 	}
 }

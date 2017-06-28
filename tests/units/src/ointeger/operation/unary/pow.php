@@ -21,8 +21,8 @@ class pow extends units\test
 		$this
 			->given(
 				$this->newTestedInstance($pow = new mockOfOInteger, $template = new mockOfOInteger, $overflow = new mockOfBlock),
-				$recipient = new mockOfOInteger\recipient,
-				$ointeger = new mockOfOInteger
+				$ointeger = new mockOfOInteger,
+				$recipient = new mockOfOInteger\recipient
 			)
 			->if(
 				$this->testedInstance->recipientOfOperationWithOIntegerIs($ointeger, $recipient)
@@ -40,7 +40,7 @@ class pow extends units\test
 	}
 
 	/**
-	 * @dataProvider validOperandsProvider
+	 * @dataProvider nintegersProvider
 	 */
 	function testRecipientOfOperationWithOIntegerIs_withValidOperand($ointegerValue, $powValue, $operationValue)
 	{

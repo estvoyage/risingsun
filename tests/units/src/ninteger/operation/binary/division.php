@@ -7,6 +7,8 @@ use mock\estvoyage\risingsun\{ ninteger as mockOfNInteger, block as mockOfBlock 
 
 class division extends units\test
 {
+	use units\providers\ninteger\operation\division;
+
 	function testClass()
 	{
 		$this->testedClass
@@ -19,69 +21,48 @@ class division extends units\test
 		$this->object($this->newTestedInstance)->isEqualTo($this->newTestedInstance(new block\blackhole));
 	}
 
-	function testRecipientOfOperationOnNIntegerIs()
+	/**
+	 * @dataProvider operandsProvider
+	 */
+	function testRecipientOfOperationOnNIntegerIs_withOperands($firstOperand, $secondOperand, $division)
 	{
 		$this
 			->given(
-				$recipient = new mockOfNInteger\recipient,
-				$divisionByZero = new mockOfBlock,
-				$this->newTestedInstance($divisionByZero)
+				$this->newTestedInstance($divisionByZero = new mockOfBlock),
+				$recipient = new mockOfNInteger\recipient
 			)
 			->if(
-				$firstOperand = 0,
-				$secondOperand = 0
+				$this->testedInstance->recipientOfOperationOnNIntegersIs($firstOperand, $secondOperand, $recipient)
 			)
 			->then
-				->object($this->testedInstance->recipientOfOperationOnNIntegersIs($firstOperand, $secondOperand, $recipient))
+				->object($this->testedInstance)
+					->isEqualTo($this->newTestedInstance($divisionByZero))
+				->mock($recipient)
+					->receive('nintegerIs')
+						->withArguments($division)
+							->once
+				->mock($divisionByZero)
+					->receive('blockArgumentsAre')
+						->never
+		;
+	}
+
+	function testRecipientOfOperationOnNIntegerIs_withZeroAsDivisor()
+	{
+		$this
+			->given(
+				$this->newTestedInstance($divisionByZero = new mockOfBlock),
+				$recipient = new mockOfNInteger\recipient
+			)
+			->if(
+				$this->testedInstance->recipientOfOperationOnNIntegersIs(rand(PHP_INT_MIN, PHP_INT_MAX), 0, $recipient)
+			)
+			->then
+				->object($this->testedInstance)
 					->isEqualTo($this->newTestedInstance($divisionByZero))
 				->mock($recipient)
 					->receive('nintegerIs')
 						->never
-				->mock($divisionByZero)
-					->receive('blockArgumentsAre')
-						->once
-
-			->if(
-				$firstOperand = 2,
-				$secondOperand = 1
-			)
-			->then
-				->object($this->testedInstance->recipientOfOperationOnNIntegersIs($firstOperand, $secondOperand, $recipient))
-					->isEqualTo($this->newTestedInstance($divisionByZero))
-				->mock($recipient)
-					->receive('nintegerIs')
-						->withArguments(2)
-							->once
-				->mock($divisionByZero)
-					->receive('blockArgumentsAre')
-						->once
-
-			->if(
-				$firstOperand = 1,
-				$secondOperand = 2
-			)
-			->then
-				->object($this->testedInstance->recipientOfOperationOnNIntegersIs($firstOperand, $secondOperand, $recipient))
-					->isEqualTo($this->newTestedInstance($divisionByZero))
-				->mock($recipient)
-					->receive('nintegerIs')
-						->withArguments(0)
-							->once
-				->mock($divisionByZero)
-					->receive('blockArgumentsAre')
-						->once
-
-			->if(
-				$firstOperand = -2,
-				$secondOperand = -1
-			)
-			->then
-				->object($this->testedInstance->recipientOfOperationOnNIntegersIs($firstOperand, $secondOperand, $recipient))
-					->isEqualTo($this->newTestedInstance($divisionByZero))
-				->mock($recipient)
-					->receive('nintegerIs')
-						->withArguments(2)
-							->twice
 				->mock($divisionByZero)
 					->receive('blockArgumentsAre')
 						->once

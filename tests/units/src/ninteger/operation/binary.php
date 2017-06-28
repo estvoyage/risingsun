@@ -22,7 +22,7 @@ abstract class binary extends units\test
 	/**
 	 * @dataProvider operandsProvider
 	 */
-	function testRecipientOfOperationOnNIntegerIs_withOperands($firstOperand, $secondOperand, $substraction)
+	function testRecipientOfOperationOnNIntegerIs_withOperands($firstOperand, $secondOperand, $operation)
 	{
 		$this
 			->given(
@@ -39,7 +39,7 @@ abstract class binary extends units\test
 					->isEqualTo($this->newTestedInstance($overflow))
 				->mock($recipient)
 					->receive('nintegerIs')
-						->withArguments($substraction)
+						->withArguments($operation)
 							->once
 				->mock($overflow)
 					->receive('blockArgumentsAre')

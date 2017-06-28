@@ -3,7 +3,6 @@
 require __DIR__ . '/../../../runner.php';
 
 use estvoyage\risingsun\tests\units;
-use mock\estvoyage\risingsun\comparison as mockOfComparison;
 
 class equal extends units\comparison\unary
 {

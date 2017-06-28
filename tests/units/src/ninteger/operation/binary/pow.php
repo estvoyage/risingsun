@@ -2,60 +2,36 @@
 
 require __DIR__ . '/../../../../runner.php';
 
-use estvoyage\risingsun\{ tests\units, block };
+use estvoyage\risingsun\tests\units;
 use mock\estvoyage\risingsun\{ ninteger as mockOfNInteger, block as mockOfBlock };
 
-class pow extends units\test
+class pow extends units\ninteger\operation\binary
 {
-	function testClass()
-	{
-		$this->testedClass
-			->implements('estvoyage\risingsun\ninteger\operation\binary')
-		;
-	}
+	use units\providers\ninteger\operation\pow;
 
-	function test__construct()
-	{
-		$this->object($this->newTestedInstance)->isEqualTo($this->newTestedInstance(new block\blackhole));
-	}
-
-	function testRecipientOfOperationOnNIntegerIs()
+	/**
+	 * @dataProvider negativeExponentProvider
+	 */
+	function testRecipientOfOperationOnNIntegersIs_withNegativeExponent($firstOperand, $secondOperand)
 	{
 		$this
 			->given(
-				$recipient = new mockOfNInteger\recipient,
-				$this->newTestedInstance
-			)
-			->if(
-				$firstOperand = 2,
-				$secondOperand = 3
-			)
-			->then
-				->object($this->testedInstance->recipientOfOperationOnNIntegersIs($firstOperand, $secondOperand, $recipient))
-					->isEqualTo($this->newTestedInstance)
-				->mock($recipient)
-					->receive('nintegerIs')
-						->withArguments(8)
-							->once
+				$this->newTestedInstance($overflow = new mockOfBlock),
 
-			->given(
-				$recipient = new mockOfNInteger\recipient,
-				$overflow = new mockOfBlock,
-				$this->newTestedInstance($overflow)
+				$recipient = new mockOfNInteger\recipient
 			)
 			->if(
-				$firstOperand = PHP_INT_MAX,
-				$secondOperand = 2
+				$this->testedInstance->recipientOfOperationOnNIntegersIs($firstOperand, $secondOperand, $recipient)
 			)
 			->then
-				->object($this->testedInstance->recipientOfOperationOnNIntegersIs($firstOperand, $secondOperand, $recipient))
+				->object($this->testedInstance)
 					->isEqualTo($this->newTestedInstance($overflow))
 				->mock($recipient)
 					->receive('nintegerIs')
 						->never
 				->mock($overflow)
 					->receive('blockArgumentsAre')
-						->once
+						->never
 		;
 	}
 }

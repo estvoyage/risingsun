@@ -14,15 +14,39 @@ class blank extends units\test
 		;
 	}
 
-	function testRecipientOfComparisonWithOperandIs()
+	/**
+	 * @dataProvider okProvider
+	 */
+	function testRecipientOfComparisonWithOperandIs_withOkOperand($operand)
 	{
 		$this
 			->given(
 				$this->newTestedInstance,
-				$operand = uniqid(),
 				$recipient = new mockOfComparison\recipient
 			)
+			->if(
+				$this->testedInstance->recipientOfComparisonWithOperandIs($operand, $recipient)
+			)
+			->then
+				->object($this->testedInstance)
+					->isEqualTo($this->newTestedInstance)
+				->mock($recipient)
+					->receive('nbooleanIs')
+						->withArguments(true)
+							->once
+		;
+	}
 
+	/**
+	 * @dataProvider koProvider
+	 */
+	function testRecipientOfComparisonWithOperandIs_withKoOperand($operand)
+	{
+		$this
+			->given(
+				$this->newTestedInstance,
+				$recipient = new mockOfComparison\recipient
+			)
 			->if(
 				$this->testedInstance->recipientOfComparisonWithOperandIs($operand, $recipient)
 			)
@@ -33,34 +57,34 @@ class blank extends units\test
 					->receive('nbooleanIs')
 						->withArguments(false)
 							->once
-
-			->given(
-				$operand = null
-			)
-			->if(
-				$this->testedInstance->recipientOfComparisonWithOperandIs($operand, $recipient)
-			)
-			->then
-				->object($this->testedInstance)
-					->isEqualTo($this->newTestedInstance)
-				->mock($recipient)
-					->receive('nbooleanIs')
-						->withArguments(true)
-							->once
-
-			->given(
-				$operand = ''
-			)
-			->if(
-				$this->testedInstance->recipientOfComparisonWithOperandIs($operand, $recipient)
-			)
-			->then
-				->object($this->testedInstance)
-					->isEqualTo($this->newTestedInstance)
-				->mock($recipient)
-					->receive('nbooleanIs')
-						->withArguments(true)
-							->twice
 		;
+	}
+
+	protected function okProvider()
+	{
+		return [
+			'',
+			null,
+			false,
+			0,
+			0.
+		];
+	}
+
+	protected function koProvider()
+	{
+		return [
+			'foo',
+			[ uniqid() ],
+			true,
+			new \stdClass,
+			rand(1, PHP_INT_MAX),
+			rand(PHP_INT_MIN, -1),
+			- M_PI,
+			M_PI,
+			[ [] ],
+			'0',
+			'0.'
+		];
 	}
 }

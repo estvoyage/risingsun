@@ -35,9 +35,8 @@ class not extends units\test
 
 			->given(
 				$this->calling($comparison)->recipientOfComparisonWithOperandIs = function($anOperand, $recipient) use ($operand) {
-					(new comparison\binary\equal)
-						->recipientOfComparisonBetweenOperandAndReferenceIs(
-							$anOperand,
+					(new comparison\unary\equal($operand))
+						->recipientOfComparisonWithOperandIs(
 							$operand,
 							new comparison\recipient\functor\ok(
 								function() use ($recipient)
@@ -62,9 +61,8 @@ class not extends units\test
 
 			->given(
 				$this->calling($comparison)->recipientOfComparisonWithOperandIs = function($anOperand, $recipient) use ($operand) {
-					(new comparison\binary\equal)
-						->recipientOfComparisonBetweenOperandAndReferenceIs(
-							$anOperand,
+					(new comparison\unary\equal($operand))
+						->recipientOfComparisonWithOperandIs(
 							$operand,
 							new comparison\recipient\functor\ok(
 								function() use ($recipient)

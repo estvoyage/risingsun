@@ -2,7 +2,7 @@
 
 trait pow
 {
-	protected function validOperandsProvider()
+	protected function nintegersProvider()
 	{
 		return [
 			[ rand(PHP_INT_MIN, PHP_INT_MAX), 0, 1 ],
