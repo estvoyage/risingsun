@@ -1,17 +1,17 @@
 <?php namespace estvoyage\risingsun\ninteger\operation\binary;
 
-use estvoyage\risingsun\ninteger\{ recipient, operation };
+use estvoyage\risingsun\ninteger;
 
-class addition extends operation\overflow
+class addition extends ninteger\filter\type
 	implements
-		operation\binary
+		ninteger\operation\binary
 {
-	function recipientOfOperationOnNIntegersIs(int $firstOperand, int $secondOperand, recipient $recipient)
+	function recipientOfOperationOnNIntegersIs(int $firstOperand, int $secondOperand, ninteger\recipient $recipient)
 	{
-		return $this
-			->valueFromOperationWithNIntegerRecipientIs(
-				$recipient,
-				$firstOperand + $secondOperand
+		$this
+			->nIntegerRecipientForValueIs(
+				$firstOperand + $secondOperand,
+				$recipient
 			)
 		;
 	}
