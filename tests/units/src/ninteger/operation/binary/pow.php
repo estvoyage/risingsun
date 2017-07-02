@@ -17,7 +17,6 @@ class pow extends units\ninteger\operation\binary
 		$this
 			->given(
 				$this->newTestedInstance($overflow = new mockOfBlock),
-
 				$recipient = new mockOfNInteger\recipient
 			)
 			->if(

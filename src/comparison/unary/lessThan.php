@@ -2,10 +2,10 @@
 
 use estvoyage\risingsun\comparison;
 
-class greaterThanOrEqualTo extends not
+class lessThan extends any
 {
 	function __construct($reference)
 	{
-		parent::__construct(new comparison\unary\lessThan($reference));
+		parent::__construct($reference, new comparison\binary\lessThan);
 	}
 }
